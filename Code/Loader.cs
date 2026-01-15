@@ -1,7 +1,7 @@
 using System;
 using Godot;
 
-namespace EHE.Brobots
+namespace EHE.BoltBusters
 {
     public partial class Loader : Control { }
 }
