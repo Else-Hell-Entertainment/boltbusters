@@ -1,0 +1,54 @@
+# Root of editorconfig
+root = true
+
+################################################################################
+# Global Scope
+###############################################################################
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+###############################################################################
+# C# Project Files
+###############################################################################
+
+[*.csproj]
+insert_final_newline = false
+
+###############################################################################
+# C# Scope
+###############################################################################
+
+[*.cs]
+indent_style = space
+indent_size = 4
+max_line_length = 120
+
+# Syntax Style Rules
+###############################################################################
+
+# Namespace
+# file_scoped | block_scoped
+csharp_style_namespace_declarations = block_scoped:error
+dotnet_style_namespace_match_folder = false:none
+
+# Modifiers / accessibility order
+csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:suggestion
+
+# Naming Conventions
+###############################################################################
+
+
+
+# .NET Diagnostics
+###############################################################################
+
+
+
+# Rider-specific Settings
+###############################################################################
