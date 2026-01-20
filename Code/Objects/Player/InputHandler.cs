@@ -19,6 +19,7 @@ namespace EHE.BoltBusters
         {
             _commands.Clear();
             GetMovementInput();
+            GetRotationInput();
             return _commands;
         }
 
@@ -31,6 +32,11 @@ namespace EHE.BoltBusters
             }
             Vector3 moveVector = new Vector3(inputVector.X, 0, -inputVector.Y).Normalized();
             _commands.Add(new MoveToDirectionCommand(moveVector));
+        }
+
+        private void GetRotationInput()
+        {
+            _commands.Add(new RotateTowardsCommand(Vector3.Zero));
         }
     }
 }
