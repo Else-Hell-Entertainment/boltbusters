@@ -34,9 +34,10 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Decreases health by the specified amount. The amount should be
         /// positive. If a negative amount is provided, it will be
-        /// automatically converted to a positive value.
+        /// automatically converted to a positive value. If the health is less
+        /// than or equal to 0 afterward, execute the <see cref="Die"/> method.
         /// </summary>
-        /// <param name="amount"></param>
+        /// <param name="amount">The amount to decrease health by.</param>
         public virtual void DecreaseHealth(int amount)
         {
             if (amount < 0)
@@ -46,6 +47,20 @@ namespace EHE.BoltBusters
             }
 
             Health -= amount;
+
+            if (Health <= 0)
+            {
+                Die();
+            }
+        }
+
+        /// <summary>
+        /// Handles what happens when a damageable dies. By default, this only
+        /// prints a debug message to console.
+        /// </summary>
+        public virtual void Die()
+        {
+            GD.Print("I died.");
         }
     }
 }
