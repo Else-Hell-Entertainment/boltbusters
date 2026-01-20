@@ -21,5 +21,7 @@ namespace EHE.BoltBusters
             _characterBody3D.Velocity = dirVector * MovementSpeed;
             _characterBody3D.MoveAndSlide();
         }
+
+        public void RotateTowards(Vector3 point) { }
     }
 }
