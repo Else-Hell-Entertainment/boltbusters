@@ -55,6 +55,8 @@ namespace EHE.BoltBusters
         /// </summary>
         private bool _hasRotateCommand = false;
 
+        private ChainGun _chainGun;
+
 
         public override void _Ready()
         {
@@ -62,6 +64,7 @@ namespace EHE.BoltBusters
             _playerBodyMover = new CB3DMover(_playerBody);
             _bodyNodeMover = new NodeMover(_bodyNode);
             _turretMover = new NodeMover(_turretNode);
+            _chainGun = new ChainGun();
 
             // TODO: Remove from here if different input management system gets implemented.
             _inputHandler.SetEntityController(this);
@@ -127,6 +130,14 @@ namespace EHE.BoltBusters
                     // Assign rotation to the turret node
                     return rotateTowardsCommand.AssignCommand(_turretMover);
                 }
+                case AttackCommand attackCommand :
+                    if (attackCommand.WeaponType == "Chaingun")
+                    {
+                        return attackCommand.AssignCommand(_chainGun);
+                    }
+
+                    return false;
+
                 default: // Command not recognized.
                     return false;
             }

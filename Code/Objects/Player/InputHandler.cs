@@ -37,6 +37,7 @@ namespace EHE.BoltBusters
         {
             GetMovementInput();
             GetRotationInput();
+            GetAttackInput();
         }
 
         /// <summary>
@@ -94,6 +95,14 @@ namespace EHE.BoltBusters
             hitPoint.Y = 0;
             RotateTowardsCommand cmd = new RotateTowardsCommand(hitPoint);
             _entityController.AddCommand(cmd);
+        }
+
+        private void GetAttackInput()
+        {
+            if (Input.IsActionPressed(FIRECHAINGUN))
+            {
+                _entityController.AddCommand(new AttackCommand("Chaingun"));
+            }
         }
     }
 }
