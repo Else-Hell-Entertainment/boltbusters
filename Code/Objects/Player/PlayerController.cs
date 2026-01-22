@@ -1,71 +1,80 @@
-using System.Collections.Generic;
 using Godot;
 
 namespace EHE.BoltBusters
 {
-    public partial class PlayerController : CharacterBody3D
+    public partial class PlayerController : EntityController
     {
-        [Export]
-        private CharacterBody3D _turretBody;
-        private CB3DMover _bodyMover;
-        private CB3DMover _turretMover;
-        private InputHandler _inputHandler;
+        [Export] private CharacterBody3D _playerBody;
+        [Export] private Node3D _bodyNode;
+        [Export] private Node3D _turretNode;
 
-        private MoveToDirectionCommand _moveCommand = null;
-        private RotateTowardsCommand _rotateTowardsCommand = null;
+        private CB3DMover _playerBodyMover;
+        private NodeMover _turretMover;
+        private NodeMover _bodyNodeMover;
+        [Export] private InputHandler _inputHandler;
+
+        private bool _hasMoveCommand = false;
+        private bool _hasRotateCommand = false;
+
+
 
         public override void _Ready()
         {
-            _turretBody = GetNode<CharacterBody3D>("TurretBody");
-            if (_turretBody == null)
-            {
-                GD.PrintErr("TurretBody3D not assigned to PlayerController.");
-            }
+            _playerBodyMover = new CB3DMover(_playerBody);
+            _bodyNodeMover = new NodeMover(_bodyNode);
+            _turretMover = new NodeMover(_turretNode);
 
-            _turretMover = new CB3DMover(_turretBody);
-            _bodyMover = new CB3DMover(this);
-            _inputHandler = new InputHandler();
+            // TODO: Remove from here if different input management system gets implemented.
+            //_inputHandler = new InputHandler();
+            _inputHandler.SetEntityController(this);
         }
 
-        public override void _Process(double delta)
-        {
-            HandleInput();
-        }
-
-        private void HandleInput()
-        {
-            List<ICommand> commandList = _inputHandler.GetInputCommands();
-            foreach (ICommand command in commandList)
-            {
-                switch (command)
-                {
-                    case MoveToDirectionCommand moveToDirectionCommand when _moveCommand == null:
-                        _moveCommand = moveToDirectionCommand;
-                        break;
-                    case RotateTowardsCommand rotateTowardsCommand when _rotateTowardsCommand == null:
-                        _rotateTowardsCommand = rotateTowardsCommand;
-                        break;
-                }
-            }
-        }
 
         public override void _PhysicsProcess(double delta)
         {
-            ExecuteCommands();
+            ExecuteCommandStack();
+            ResetCommandState();
         }
 
-        private void ExecuteCommands()
+        private void ResetCommandState()
         {
-            if (_moveCommand != null)
-            {
-                _moveCommand.Execute(_bodyMover);
-                _moveCommand = null;
-            }
+            _hasMoveCommand = false;
+            _hasRotateCommand = false;
+        }
 
-            if (_rotateTowardsCommand != null)
+        protected override bool ValidateCommand(ICommand command)
+        {
+            switch (command)
             {
-                _rotateTowardsCommand.Execute(_turretMover);
-                _rotateTowardsCommand = null;
+                case MoveToDirectionCommand moveToDirectionCommand: // Moving the entire player character.
+                {
+                    if (_hasMoveCommand) // Player can only have one active move command.
+                    {
+                        return false;
+                    }
+                    bool success = moveToDirectionCommand.AssignCommand(_playerBodyMover);
+                    if (success)
+                    {
+                        _hasMoveCommand = true;
+                        // Player body needs to rotate to the direction of movement independently of turret.
+                        Vector3 point = _playerBody.GlobalPosition + moveToDirectionCommand.Direction * 10;
+                        RotateTowardsCommand cmd = new RotateTowardsCommand(point);
+                        cmd.AssignCommand(_bodyNodeMover);
+                        AddValidatedCommand(cmd);
+                    }
+                    return success;
+                }
+                case RotateTowardsCommand rotateTowardsCommand: // Rotating the turret.
+                {
+                    if (_hasRotateCommand) // Player can only have one active rotation command.
+                    {
+                        return false;
+                    }
+                    _hasRotateCommand = true;
+                    return rotateTowardsCommand.AssignCommand(_turretMover);
+                }
+                default: // Command not recognized.
+                    return false;
             }
         }
     }
