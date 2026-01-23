@@ -18,6 +18,7 @@ namespace EHE.BoltBusters
         {
             _cooldownTimer.WaitTime = _cooldown;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
+            _cooldownTimer.OneShot = true;
 
             _effectTimer.WaitTime = _effectTime;
             _effectTimer.Timeout += ResetEffect;
