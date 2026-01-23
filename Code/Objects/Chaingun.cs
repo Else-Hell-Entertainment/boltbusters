@@ -2,7 +2,7 @@
 
 namespace EHE.BoltBusters
 {
-    public class Chaingun : IAttacker
+    public partial class Chaingun : Node3D, IAttacker
     {
         public void Attack()
         {
