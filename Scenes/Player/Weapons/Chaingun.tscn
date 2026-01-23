@@ -1,9 +1,34 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbokno8n21haj"]
+[gd_scene load_steps=5 format=3 uid="uid://dbokno8n21haj"]
 
 [ext_resource type="Script" uid="uid://co4if3wvhh2jx" path="res://Code/Objects/Chaingun.cs" id="1_gvsop"]
 
-[node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer")]
+[sub_resource type="CylinderMesh" id="CylinderMesh_gvsop"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gvsop"]
+albedo_color = Color(1, 1, 0.13725491, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_p72gw"]
+material = SubResource("StandardMaterial3D_gvsop")
+radius = 0.01
+height = 5.0
+
+[node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer", "_effect", "_effectTimer")]
 script = ExtResource("1_gvsop")
 _cooldownTimer = NodePath("CooldownTimer")
+_effect = NodePath("TempEffect")
+_effectTimer = NodePath("TempTimer")
 
 [node name="CooldownTimer" type="Timer" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_gvsop")
+
+[node name="TempEffect" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -2.678144)
+mesh = SubResource("CapsuleMesh_p72gw")
+
+[node name="TempTimer" type="Timer" parent="."]

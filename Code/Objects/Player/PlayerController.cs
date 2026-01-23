@@ -55,7 +55,7 @@ namespace EHE.BoltBusters
         /// </summary>
         private bool _hasRotateCommand = false;
 
-        private Chaingun _chaingun;
+        [Export] private PlayerChaingunController _chaingunController;
         private Railgun _railgun;
         private RocketLauncher _rocketLauncher;
 
@@ -66,7 +66,6 @@ namespace EHE.BoltBusters
             _playerBodyMover = new CB3DMover(_playerBody);
             _bodyNodeMover = new NodeMover(_bodyNode);
             _turretMover = new NodeMover(_turretNode);
-            _chaingun = new Chaingun();
             _railgun = new  Railgun();
             _rocketLauncher = new  RocketLauncher();
 
@@ -140,7 +139,7 @@ namespace EHE.BoltBusters
                     switch (attackCommand.WeaponType)
                     {
                         case "Chaingun":
-                            return attackCommand.AssignCommand(_chaingun);
+                            return attackCommand.AssignCommand(_chaingunController);
                         case "Railgun":
                             return attackCommand.AssignCommand(_railgun);
                         case "Rocket":
