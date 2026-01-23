@@ -20,6 +20,12 @@ namespace EHE.BoltBusters
         public abstract int CurrentHealth { get; set; }
 
         /// <summary>
+        /// Tells if the damageable object is currently alive or not.
+        /// By default, returns <c>true</c> if <see cref="CurrentHealth"/> is
+        /// greater than 0.
+        /// </summary>
+        public virtual bool IsAlive => CurrentHealth > 0;
+
         /// Increases health by the specified amount. The amount should be
         /// positive. If a negative amount is provided, it will be
         /// automatically converted to a positive value. By default, the health
@@ -41,7 +47,7 @@ namespace EHE.BoltBusters
         /// Decreases health by the specified amount. The amount should be
         /// positive. If a negative amount is provided, it will be
         /// automatically converted to a positive value. If the health is less
-        /// than or equal to 0 afterward, execute the <see cref="Die"/> method.
+        /// than or equal to 0 afterward, execute the <see cref="HandleDeath"/> method.
         /// </summary>
         /// <param name="amount">The amount to decrease health by.</param>
         public virtual void TakeDamage(int amount)
@@ -54,7 +60,7 @@ namespace EHE.BoltBusters
 
             CurrentHealth -= amount;
 
-            if (CurrentHealth <= 0)
+            if (!IsAlive)
             {
                 HandleDeath();
             }
