@@ -12,7 +12,7 @@ namespace EHE.BoltBusters
         /// Current health of the object. Override setter to implement health
         /// clamping.
         /// </summary>
-        public abstract int Health { get; set; }
+        public abstract int CurrentHealth { get; set; }
 
         /// <summary>
         /// Increases health by the specified amount. The amount should be
@@ -20,7 +20,7 @@ namespace EHE.BoltBusters
         /// automatically converted to a positive value.
         /// </summary>
         /// <param name="amount">The amount to increase health by.</param>
-        public virtual void IncreaseHealth(int amount)
+        public virtual void Heal(int amount)
         {
             if (amount < 0)
             {
@@ -28,7 +28,7 @@ namespace EHE.BoltBusters
                 amount *= -1;
             }
 
-            Health += amount;
+            CurrentHealth += amount;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace EHE.BoltBusters
         /// than or equal to 0 afterward, execute the <see cref="Die"/> method.
         /// </summary>
         /// <param name="amount">The amount to decrease health by.</param>
-        public virtual void DecreaseHealth(int amount)
+        public virtual void TakeDamage(int amount)
         {
             if (amount < 0)
             {
@@ -46,11 +46,11 @@ namespace EHE.BoltBusters
                 amount *= -1;
             }
 
-            Health -= amount;
+            CurrentHealth -= amount;
 
-            if (Health <= 0)
+            if (CurrentHealth <= 0)
             {
-                Die();
+                HandleDeath();
             }
         }
 
@@ -58,7 +58,7 @@ namespace EHE.BoltBusters
         /// Handles what happens when a damageable dies. By default, this only
         /// prints a debug message to console.
         /// </summary>
-        public virtual void Die()
+        public virtual void HandleDeath()
         {
             GD.Print("I died.");
         }
