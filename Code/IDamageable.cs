@@ -9,6 +9,11 @@ namespace EHE.BoltBusters
     public interface IDamageable
     {
         /// <summary>
+        /// Maximum health the damageable object can have.
+        /// </summary>
+        public int MaxHealth { get; set; }
+
+        /// <summary>
         /// Current health of the object. Override setter to implement health
         /// clamping.
         /// </summary>
@@ -17,7 +22,8 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Increases health by the specified amount. The amount should be
         /// positive. If a negative amount is provided, it will be
-        /// automatically converted to a positive value.
+        /// automatically converted to a positive value. By default, the health
+        /// is capped to <see cref="MaxHealth"/>.
         /// </summary>
         /// <param name="amount">The amount to increase health by.</param>
         public virtual void Heal(int amount)
@@ -28,7 +34,7 @@ namespace EHE.BoltBusters
                 amount *= -1;
             }
 
-            CurrentHealth += amount;
+            CurrentHealth = Math.Clamp(CurrentHealth + amount, min: 0, max: MaxHealth);
         }
 
         /// <summary>
