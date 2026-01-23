@@ -55,7 +55,9 @@ namespace EHE.BoltBusters
         /// </summary>
         private bool _hasRotateCommand = false;
 
-        private ChainGun _chainGun;
+        private Chaingun _chaingun;
+        private Railgun _railgun;
+        private RocketLauncher _rocketLauncher;
 
 
         public override void _Ready()
@@ -64,7 +66,9 @@ namespace EHE.BoltBusters
             _playerBodyMover = new CB3DMover(_playerBody);
             _bodyNodeMover = new NodeMover(_bodyNode);
             _turretMover = new NodeMover(_turretNode);
-            _chainGun = new ChainGun();
+            _chaingun = new Chaingun();
+            _railgun = new  Railgun();
+            _rocketLauncher = new  RocketLauncher();
 
             // TODO: Remove from here if different input management system gets implemented.
             _inputHandler.SetEntityController(this);
@@ -116,6 +120,7 @@ namespace EHE.BoltBusters
                         cmd.AssignCommand(_bodyNodeMover);
                         AddValidatedCommand(cmd);
                     }
+
                     return success;
                 }
                 case RotateTowardsCommand rotateTowardsCommand: // Rotating the turret.
@@ -125,17 +130,22 @@ namespace EHE.BoltBusters
                     {
                         return false;
                     }
+
                     _hasRotateCommand = true;
 
                     // Assign rotation to the turret node
                     return rotateTowardsCommand.AssignCommand(_turretMover);
                 }
-                case AttackCommand attackCommand :
-                    if (attackCommand.WeaponType == "Chaingun")
+                case AttackCommand attackCommand:
+                    switch (attackCommand.WeaponType)
                     {
-                        return attackCommand.AssignCommand(_chainGun);
+                        case "Chaingun":
+                            return attackCommand.AssignCommand(_chaingun);
+                        case "Railgun":
+                            return attackCommand.AssignCommand(_railgun);
+                        case "Rocket":
+                            return attackCommand.AssignCommand(_rocketLauncher);
                     }
-
                     return false;
 
                 default: // Command not recognized.

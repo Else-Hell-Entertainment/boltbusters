@@ -2,7 +2,7 @@
 
 namespace EHE.BoltBusters
 {
-    public class ChainGun : IAttacker
+    public class Chaingun : IAttacker
     {
         public void Attack()
         {

@@ -103,6 +103,16 @@ namespace EHE.BoltBusters
             {
                 _entityController.AddCommand(new AttackCommand("Chaingun"));
             }
+
+            if (Input.IsActionPressed(FIRERAILGUN))
+            {
+                _entityController.AddCommand((new AttackCommand("Railgun")));
+            }
+
+            if (Input.IsActionPressed(FIREROCKET))
+            {
+                _entityController.AddCommand(new AttackCommand("Rocket"));
+            }
         }
     }
 }
