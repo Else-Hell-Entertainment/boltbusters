@@ -26,6 +26,13 @@ namespace EHE.BoltBusters
         /// </summary>
         public virtual bool IsAlive => CurrentHealth > 0;
 
+        /// <summary>
+        /// Prevents the damageable from taking damage when set to <c>true</c>.
+        /// By default, returns <c>false</c>. Override to change this behavior.
+        /// </summary>
+        public virtual bool IsImmortal => false;
+
+        /// <summary>
         /// Increases health by the specified amount. The amount should be
         /// positive. If a negative amount is provided, it will be
         /// automatically converted to a positive value. By default, the health
@@ -44,14 +51,22 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Decreases health by the specified amount. The amount should be
-        /// positive. If a negative amount is provided, it will be
-        /// automatically converted to a positive value. If the health is less
-        /// than or equal to 0 afterward, execute the <see cref="HandleDeath"/> method.
+        /// Decreases health by the specified amount if the damageable does not
+        /// have the <see cref="IsImmortal"/> property enabled.
+        /// The amount should be positive. If a negative amount is provided, it
+        /// will be automatically converted to a positive value.
+        /// If the damageable is not alive after taking damage, executes the
+        /// <see cref="HandleDeath"/> method.
         /// </summary>
         /// <param name="amount">The amount to decrease health by.</param>
+        /// <seealso cref="IsAlive"/>
         public virtual void TakeDamage(int amount)
         {
+            if (IsImmortal)
+            {
+                return;
+            }
+
             if (amount < 0)
             {
                 GD.PrintErr("Cannot decrease health by negative amount, converting to positive.");
