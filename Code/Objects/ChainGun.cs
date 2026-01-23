@@ -7,6 +7,7 @@ namespace EHE.BoltBusters
         public void Attack()
         {
             GD.Print("ChainGun goes PewPewPew");
+            GD.Print("More pew.");
         }
     }
 }
