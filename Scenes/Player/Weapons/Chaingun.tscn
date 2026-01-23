@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbokno8n21haj"]
+
+[ext_resource type="Script" uid="uid://co4if3wvhh2jx" path="res://Code/Objects/Chaingun.cs" id="1_gvsop"]
+
+[node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer")]
+script = ExtResource("1_gvsop")
+_cooldownTimer = NodePath("CooldownTimer")
+
+[node name="CooldownTimer" type="Timer" parent="."]
