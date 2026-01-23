@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://c1rblmwfal2st"]
+
+[ext_resource type="Script" uid="uid://be4qkv6x76unn" path="res://Code/EnemyAI.cs" id="1_vxt56"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sfbq4"]
+size = Vector3(1, 1.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tpn5u"]
+albedo_color = Color(0.04407399, 0.06501149, 0.12191684, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sfbq4"]
+material = SubResource("StandardMaterial3D_tpn5u")
+size = Vector3(1, 1.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vxt56"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_sfbq4"]
+material = SubResource("StandardMaterial3D_vxt56")
+top_radius = 0.6
+bottom_radius = 0.6
+height = 0.1
+
+[node name="ProtoEnemy" type="CharacterBody3D"]
+script = ExtResource("1_vxt56")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("BoxShape3D_sfbq4")
+
+[node name="MeshInstanceBody" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+mesh = SubResource("BoxMesh_sfbq4")
+
+[node name="MeshInstanceBlade" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -0.5)
+mesh = SubResource("CylinderMesh_sfbq4")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
