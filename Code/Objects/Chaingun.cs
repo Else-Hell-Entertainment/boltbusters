@@ -85,7 +85,77 @@ namespace EHE.BoltBusters
             _cooldownTimer.Start();
 
             _effectTimer.Start();
-            _effect.Visible = true;
+            DoRayCast();
+            //_effect.Visible = true;
+        }
+
+        private void DrawBulletTrail(Vector3 start, Vector3 direction, Vector3 end)
+        {
+            var lineMesh = new MeshInstance3D();
+            var cylinderMesh = new CylinderMesh();
+            var lineMaterial = new OrmMaterial3D();
+            var lineTransform = Transform3D.Identity;
+            var lineLength = 200;
+
+            lineMesh.Mesh = cylinderMesh;
+            lineMesh.Position = start + direction * lineLength / 2;
+            lineMesh.MaterialOverride = lineMaterial;
+
+            cylinderMesh.Rings = 0;
+            cylinderMesh.RadialSegments = 6;
+            cylinderMesh.Height = lineLength;
+            cylinderMesh.TopRadius = 0.004f;
+            cylinderMesh.BottomRadius = 0.004f;
+
+            lineMaterial.ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded;
+            lineMaterial.AlbedoColor = Colors.Gold;
+
+            lineTransform.Basis.Y = direction;
+            lineTransform.Basis.X = Vector3.Up.Cross(direction).Normalized();
+            lineTransform.Basis.Z = lineTransform.Basis.X.Cross(direction).Normalized();
+            lineMesh.Basis = lineTransform.Basis;
+
+            Tween lineTween = CreateTween();
+            Vector3 lineEndPos = end - direction * lineLength / 2;
+            lineTween.TweenProperty(lineMesh, "position", lineEndPos, 10.0f);
+            GetTree().GetRoot().AddChild(lineMesh);
+        }
+
+        private void DoRayCast()
+        {
+            float vertDeviation = (float)GD.RandRange(-_accuracy, _accuracy);
+            float horizontalDeviation = (float)GD.RandRange(-_accuracy, _accuracy);
+            Vector3 deviation = new Vector3(horizontalDeviation, vertDeviation, 0);
+
+            var spaceState = GetWorld3D().DirectSpaceState;
+            Vector3 start = _muzzle.GlobalPosition;
+            Vector3 direction = -_muzzle.GlobalBasis.Z;
+            direction += deviation;
+            Vector3 end = start + direction.Normalized() * 1000f;
+
+            var query = PhysicsRayQueryParameters3D.Create(start, end);
+            query.CollideWithAreas = true;
+            var result = spaceState.IntersectRay(query);
+            GD.Print(result);
+            DrawBulletTrail(start, direction, end);
+            if (result.ContainsKey("position"))
+            {
+                GD.Print("Hit: " + result["position"]);
+                var collider = result["collider"];
+
+                Node targ = (Node)collider;
+                Vector3 point = (Vector3)result["position"];
+                _hitParticles.GlobalPosition = point;
+                _hitParticles.Emitting = true;
+                /*
+                if (targ.IsInGroup("Enemy"))
+                {
+                    Vector3 point = (Vector3)result["position"];
+                    _hitParticles.GlobalPosition = point;
+                    _hitParticles.Emitting = true;
+                }
+                */
+            }
         }
 
         private void Shoot() { }
