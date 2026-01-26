@@ -14,7 +14,7 @@ namespace EHE.BoltBusters
         private float _accuracy = 0.05f;
 
         [Export]
-        private float _range = 10f;
+        private float _range = 7f;
 
         private bool _canFire = true;
 
@@ -37,8 +37,8 @@ namespace EHE.BoltBusters
             _muzzle = GetNode<Node3D>("Muzzle");
             _hitParticles = GetNode<GpuParticles3D>("HitParticles");
             _reticle = GetNode<MeshInstance3D>("Reticle");
-            Vector3 retPos = _muzzle.Position + new Vector3(0, 0, -_range);
-            _reticle.Position = retPos;
+            //Vector3 retPos = _muzzle.Position + new Vector3(0, 0, -_range);
+            //_reticle.Position = retPos;
 
             _cooldownTimer.WaitTime = _cooldown;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
@@ -47,6 +47,18 @@ namespace EHE.BoltBusters
             _effectTimer.WaitTime = _effectTime;
             _effectTimer.Timeout += ResetEffect;
             _effect.Visible = false;
+
+            SetTarget();
+        }
+
+        private void SetTarget()
+        {
+            Vector3 targetPos = _muzzle.GlobalPosition;
+            targetPos.Z = _muzzle.Position.Z - _range;
+            targetPos.Y = 0.2f;
+            //Vector3 dir = _muzzle.ToGlobal(targetPos);
+            _muzzle.LookAt(targetPos);
+            _reticle.GlobalPosition = targetPos;
         }
 
         private void ResetEffect()

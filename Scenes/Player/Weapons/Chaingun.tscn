@@ -13,7 +13,7 @@ albedo_color = Color(1, 1, 0.13725491, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_p72gw"]
 material = SubResource("StandardMaterial3D_gvsop")
 radius = 0.01
-height = 5.0
+height = 12.377
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gvsop"]
 direction = Vector3(0, 0, -1)
@@ -40,7 +40,8 @@ height = 0.001
 [node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer", "_effect", "_effectTimer")]
 script = ExtResource("1_gvsop")
 _cooldownTimer = NodePath("CooldownTimer")
-_effect = NodePath("TempEffect")
+_range = 9.0
+_effect = NodePath("Muzzle/TempEffect")
 _effectTimer = NodePath("TempTimer")
 
 [node name="CooldownTimer" type="Timer" parent="."]
@@ -49,14 +50,15 @@ _effectTimer = NodePath("TempTimer")
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_gvsop")
 
-[node name="TempEffect" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -2.678144)
-mesh = SubResource("CapsuleMesh_p72gw")
-
 [node name="TempTimer" type="Timer" parent="."]
 
 [node name="Muzzle" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.30262926)
+
+[node name="TempEffect" type="MeshInstance3D" parent="Muzzle"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -6.210596)
+mesh = SubResource("CapsuleMesh_p72gw")
+skeleton = NodePath("../..")
 
 [node name="HitParticles" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.343589)
@@ -70,4 +72,5 @@ draw_pass_1 = SubResource("SphereMesh_i8k86")
 
 [node name="Reticle" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3234599)
+cast_shadow = 0
 mesh = SubResource("SphereMesh_r70u3")
