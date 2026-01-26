@@ -3,6 +3,7 @@ using Godot;
 
 namespace EHE.BoltBusters
 {
+    [GlobalClass]
     public abstract partial class HealthComponent : Node
     {
         /// <summary>
