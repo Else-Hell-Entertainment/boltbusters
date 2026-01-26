@@ -2,17 +2,25 @@
 
 namespace EHE.BoltBusters
 {
-    public partial class Chaingun : Node3D, IAttacker
+    public partial class Chaingun : BaseWeapon
     {
-        [Export] private Timer _cooldownTimer;
-        [Export] private float _cooldown = 0.5f;
+        [Export]
+        private Timer _cooldownTimer;
+
+        [Export]
+        private float _cooldown = 0.5f;
 
         public bool _canFire = true;
 
         // TODO: HACK: HORRIBLE: TESTING ONLY: TEMPORARY!!!!
-        [Export] private MeshInstance3D _effect;
-        [Export] private Timer _effectTimer;
-        [Export] private float _effectTime = 0.05f;
+        [Export]
+        private MeshInstance3D _effect;
+
+        [Export]
+        private Timer _effectTimer;
+
+        [Export]
+        private float _effectTime = 0.05f;
 
         public override void _Ready()
         {
@@ -36,7 +44,12 @@ namespace EHE.BoltBusters
             _canFire = true;
         }
 
-        public void Attack()
+        public override bool CanAttack()
+        {
+            return _canFire;
+        }
+
+        public override void Attack()
         {
             GD.Print("ChainGun goes PewPewPew");
             GD.Print("More pew.");
