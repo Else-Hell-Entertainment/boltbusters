@@ -5,6 +5,17 @@ namespace EHE.BoltBusters
 {
     public abstract partial class HealthComponent : Node
     {
+        /// <summary>
+        /// Emitted when <see cref="CurrentHealth"/> changes.
+        /// </summary>
+        ///
+        /// <param name="newHealth">
+        /// The new value of <see cref="HealthComponent.CurrentHealth"/> after
+        /// the change.
+        /// </param>
+        [Signal]
+        public delegate void CurrentHealthChangedEventHandler(int newHealth);
+
         [Export]
         private int _maxHealth = 100;
 
@@ -26,6 +37,7 @@ namespace EHE.BoltBusters
             protected set
             {
                 _currentHealth = Math.Clamp(value, min: 0, max: _maxHealth);
+                EmitSignal(SignalName.CurrentHealthChanged, _currentHealth);
             }
         }
 
