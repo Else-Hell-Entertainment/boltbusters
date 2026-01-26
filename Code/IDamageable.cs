@@ -8,78 +8,11 @@ namespace EHE.BoltBusters
     /// </summary>
     public interface IDamageable
     {
-        /// <summary>
-        /// Maximum health the damageable object can have.
-        /// </summary>
-        public int MaxHealth { get; set; }
+        // TODO: Docs.
+        public void Heal(int amount);
 
-        /// <summary>
-        /// Current health of the object. Override setter to implement health
-        /// clamping.
-        /// </summary>
-        public abstract int CurrentHealth { get; set; }
-
-        /// <summary>
-        /// Tells if the damageable object is currently alive or not.
-        /// By default, returns <c>true</c> if <see cref="CurrentHealth"/> is
-        /// greater than 0.
-        /// </summary>
-        public virtual bool IsAlive => CurrentHealth > 0;
-
-        /// <summary>
-        /// Prevents the damageable from taking damage when set to <c>true</c>.
-        /// By default, returns <c>false</c>. Override to change this behavior.
-        /// </summary>
-        public virtual bool IsImmortal => false;
-
-        /// <summary>
-        /// Increases health by the specified amount. The amount should be
-        /// positive. If a negative amount is provided, it will be
-        /// automatically converted to a positive value. By default, the health
-        /// is capped to <see cref="MaxHealth"/>.
-        /// </summary>
-        /// <param name="amount">The amount to increase health by.</param>
-        public virtual void Heal(int amount)
-        {
-            if (amount < 0)
-            {
-                GD.PrintErr("Cannot increase health by negative amount, converting to positive.");
-                amount *= -1;
-            }
-
-            CurrentHealth = Math.Clamp(CurrentHealth + amount, min: 0, max: MaxHealth);
-        }
-
-        /// <summary>
-        /// Decreases health by the specified amount if the damageable does not
-        /// have the <see cref="IsImmortal"/> property enabled.
-        /// The amount should be positive. If a negative amount is provided, it
-        /// will be automatically converted to a positive value.
-        /// If the damageable is not alive after taking damage, executes the
-        /// <see cref="HandleDeath"/> method.
-        /// </summary>
-        /// <param name="amount">The amount to decrease health by.</param>
-        /// <seealso cref="IsAlive"/>
-        public virtual void TakeDamage(int amount)
-        {
-            if (IsImmortal)
-            {
-                return;
-            }
-
-            if (amount < 0)
-            {
-                GD.PrintErr("Cannot decrease health by negative amount, converting to positive.");
-                amount *= -1;
-            }
-
-            CurrentHealth -= amount;
-
-            if (!IsAlive)
-            {
-                HandleDeath();
-            }
-        }
+        // TODO: Docs.
+        public void TakeDamage(int amount);
 
         /// <summary>
         /// Handles what happens when a damageable dies. By default, this only
