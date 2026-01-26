@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbokno8n21haj"]
+[gd_scene load_steps=10 format=3 uid="uid://dbokno8n21haj"]
 
 [ext_resource type="Script" uid="uid://co4if3wvhh2jx" path="res://Code/Objects/Chaingun.cs" id="1_gvsop"]
 
@@ -14,6 +14,28 @@ albedo_color = Color(1, 1, 0.13725491, 1)
 material = SubResource("StandardMaterial3D_gvsop")
 radius = 0.01
 height = 5.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gvsop"]
+direction = Vector3(0, 0, -1)
+initial_velocity_max = 20.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p72gw"]
+albedo_color = Color(1, 1, 0.11764706, 1)
+emission_enabled = true
+emission = Color(1, 0.44705883, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_i8k86"]
+material = SubResource("StandardMaterial3D_p72gw")
+radius = 0.01
+height = 0.01
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i8k86"]
+albedo_color = Color(0.003921569, 1, 0, 0.3019608)
+
+[sub_resource type="SphereMesh" id="SphereMesh_r70u3"]
+material = SubResource("StandardMaterial3D_i8k86")
+radius = 0.05
+height = 0.001
 
 [node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer", "_effect", "_effectTimer")]
 script = ExtResource("1_gvsop")
@@ -32,3 +54,20 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0
 mesh = SubResource("CapsuleMesh_p72gw")
 
 [node name="TempTimer" type="Timer" parent="."]
+
+[node name="Muzzle" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.30262926)
+
+[node name="HitParticles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.343589)
+emitting = false
+amount = 16
+lifetime = 0.01
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_gvsop")
+draw_pass_1 = SubResource("SphereMesh_i8k86")
+
+[node name="Reticle" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3234599)
+mesh = SubResource("SphereMesh_r70u3")

@@ -10,7 +10,17 @@ namespace EHE.BoltBusters
         [Export]
         private float _cooldown = 0.5f;
 
-        public bool _canFire = true;
+        [Export]
+        private float _accuracy = 0.05f;
+
+        [Export]
+        private float _range = 10f;
+
+        private bool _canFire = true;
+
+        private GpuParticles3D _hitParticles;
+        private Node3D _muzzle;
+        private MeshInstance3D _reticle;
 
         // TODO: HACK: HORRIBLE: TESTING ONLY: TEMPORARY!!!!
         [Export]
@@ -24,6 +34,12 @@ namespace EHE.BoltBusters
 
         public override void _Ready()
         {
+            _muzzle = GetNode<Node3D>("Muzzle");
+            _hitParticles = GetNode<GpuParticles3D>("HitParticles");
+            _reticle = GetNode<MeshInstance3D>("Reticle");
+            Vector3 retPos = _muzzle.Position + new Vector3(0, 0, -_range);
+            _reticle.Position = retPos;
+
             _cooldownTimer.WaitTime = _cooldown;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
             _cooldownTimer.OneShot = true;
@@ -59,5 +75,7 @@ namespace EHE.BoltBusters
             _effectTimer.Start();
             _effect.Visible = true;
         }
+
+        private void Shoot() { }
     }
 }
