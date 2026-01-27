@@ -64,7 +64,7 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Increases the health by the given amount.
+        /// Increases <see cref="CurrentHealth"/> by the given amount.
         /// </summary>
         ///
         /// <param name="amount">
@@ -73,22 +73,22 @@ namespace EHE.BoltBusters
         ///
         /// <remarks>
         /// The amount must be a positive integer. If a negative value is
-        /// provided, it is automatically converted to a positive value.
+        /// provided, prints an error message and returns.
         /// </remarks>
         public virtual void Increase(int amount)
         {
             if (amount < 0)
             {
-                GD.PrintErr("Cannot increase health by negative amount, converting to positive.");
-                amount *= -1;
+                GD.PrintErr($"Cannot increase health by negative amount ({amount}).");
+                return;
             }
 
             CurrentHealth = Math.Clamp(CurrentHealth + amount, min: 0, max: MaxHealth);
         }
 
         /// <summary>
-        /// Decreases the health by the given amount if <see cref="IsImmortal"/>
-        /// is <b>not</b> set to <c>true</c>.
+        /// Decreases <see cref="CurrentHealth"/> by the given amount if
+        /// <see cref="IsImmortal"/> is <c>false</c>.
         /// </summary>
         ///
         /// <param name="amount">
@@ -102,16 +102,18 @@ namespace EHE.BoltBusters
         ///
         /// <remarks>
         /// The amount must be a positive integer. If a negative value is
-        /// provided, it is automatically converted to a positive value.
+        /// provided, prints an error message and returns.
         /// </remarks>
+        ///
+        /// <seealso cref="IsAlive"/>
         public virtual bool Decrease(int amount)
         {
             if (!IsImmortal)
             {
                 if (amount < 0)
                 {
-                    GD.PrintErr("Cannot decrease health by negative amount, converting to positive.");
-                    amount *= -1;
+                    GD.PrintErr($"Cannot decrease health by negative amount ({amount}).");
+                    return IsAlive;
                 }
 
                 CurrentHealth -= amount;
