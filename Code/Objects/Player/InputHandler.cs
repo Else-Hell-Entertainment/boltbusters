@@ -9,13 +9,13 @@ namespace EHE.BoltBusters
     public partial class InputHandler : Node3D
     {
         // Input action names
-        private const string MOVELEFT = "MoveLeft";
-        private const string MOVERIGHT = "MoveRight";
-        private const string MOVEUP = "MoveUp";
-        private const string MOVEDOWN = "MoveDown";
-        private const string FIRECHAINGUN = "FireChaingun";
-        private const string FIRERAILGUN = "FireRailgun";
-        private const string FIREROCKET = "FireRocket";
+        private const string MOVE_LEFT = "MoveLeft";
+        private const string MOVE_RIGHT = "MoveRight";
+        private const string MOVE_UP = "MoveUp";
+        private const string MOVE_DOWN = "MoveDown";
+        private const string FIRE_CHAINGUN = "FireChaingun";
+        private const string FIRE_RAILGUN = "FireRailgun";
+        private const string FIRE_ROCKET = "FireRocket";
 
         /// <summary>
         /// The entity controller that receives and executes the generated commands.
@@ -26,7 +26,6 @@ namespace EHE.BoltBusters
         /// Reference to the active camera used for mouse position calculations.
         /// </summary>
         private Camera3D _camera;
-
 
         public override void _Ready()
         {
@@ -55,7 +54,7 @@ namespace EHE.BoltBusters
         /// </summary>
         private void GetMovementInput()
         {
-            Vector2 inputVector = Input.GetVector(MOVELEFT, MOVERIGHT, MOVEDOWN, MOVEUP);
+            Vector2 inputVector = Input.GetVector(MOVE_LEFT, MOVE_RIGHT, MOVE_DOWN, MOVE_UP);
             if (inputVector == Vector2.Zero)
             {
                 return;
@@ -76,6 +75,7 @@ namespace EHE.BoltBusters
                 _camera = GetViewport().GetCamera3D();
                 if (_camera == null)
                 {
+                    GD.PrintErr("Attempting to Raycast from camera but no camera defined.");
                     return;
                 }
             }
@@ -88,7 +88,8 @@ namespace EHE.BoltBusters
             // Find intersection with ground plane at entity's height
             Plane groundPlane = new Plane(Vector3.Up, GlobalPosition.Y);
             Vector3? hit = groundPlane.IntersectsRay(rayStart, rayDirection);
-            if (hit == null)return;
+            if (hit == null)
+                return;
 
             // Create rotation command to face the hit point
             Vector3 hitPoint = hit.Value;
@@ -99,7 +100,7 @@ namespace EHE.BoltBusters
 
         private void GetAttackInput()
         {
-            if (Input.IsActionPressed(FIRECHAINGUN))
+            if (Input.IsActionPressed(FIRE_CHAINGUN))
             {
                 _entityController.AddCommand(new AttackCommand("Chaingun"));
             }
