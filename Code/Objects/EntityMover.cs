@@ -13,29 +13,20 @@ namespace EHE.BoltBusters
         /// Override this method to implement directional movement logic.
         /// </summary>
         /// <param name="direction">The normalized direction vector to move towards.</param>
-        public virtual void MoveToDirection(Vector3 direction)
-        {
-
-        }
+        public virtual void MoveToDirection(Vector3 direction) { }
 
         /// <summary>
         /// Moves the entity to a specific position in 3D space.
         /// Override this method to implement position-based movement logic.
         /// </summary>
         /// <param name="position">The target position to move to.</param>
-        public virtual void MoveToPosition(Vector3 position)
-        {
-
-        }
+        public virtual void MoveToPosition(Vector3 position) { }
 
         /// <summary>
         /// Rotates the entity to face a specific point in global 3D space.
         /// Override this method to implement rotation logic.
         /// </summary>
         /// <param name="point">The point in global 3D space to rotate towards.</param>
-        public virtual void RotateTowards(Vector3 point)
-        {
-
-        }
+        public virtual void RotateTowards(Vector3 point) { }
     }
 }

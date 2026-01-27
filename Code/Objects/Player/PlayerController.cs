@@ -11,17 +11,20 @@ namespace EHE.BoltBusters
         /// <summary>
         /// The CharacterBody3D component used for physics-based player movement.
         /// </summary>
-        [Export] private CharacterBody3D _playerBody;
+        [Export]
+        private CharacterBody3D _playerBody;
 
         /// <summary>
         /// The visual body node that rotates independently to face the movement direction.
         /// </summary>
-        [Export] private Node3D _bodyNode;
+        [Export]
+        private Node3D _bodyNode;
 
         /// <summary>
         /// The turret node that rotates independently to face the mouse cursor.
         /// </summary>
-        [Export] private Node3D _turretNode;
+        [Export]
+        private Node3D _turretNode;
 
         /// <summary>
         /// Mover component that handles physics-based movement of the player body.
@@ -31,17 +34,18 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Mover component that handles rotation of the turret towards the mouse position.
         /// </summary>
-        private NodeMover _turretMover;
+        private Node3DMover _turret3DMover;
 
         /// <summary>
         /// Mover component that handles rotation of the body node towards the movement direction.
         /// </summary>
-        private NodeMover _bodyNodeMover;
+        private Node3DMover _bodyNode3DMover;
 
         /// <summary>
         /// Input handler that translates player input into commands.
         /// </summary>
-        [Export] private InputHandler _inputHandler;
+        [Export]
+        private InputHandler _inputHandler;
 
         /// <summary>
         /// Flag indicating whether a move command has been processed this frame.
@@ -58,7 +62,6 @@ namespace EHE.BoltBusters
         [Export] private PlayerChaingunController _chaingunController;
         private Railgun _railgun;
         private RocketLauncher _rocketLauncher;
-
 
         public override void _Ready()
         {
@@ -108,15 +111,17 @@ namespace EHE.BoltBusters
                     }
 
                     // Assign movement to the physics body
-                    bool success = moveToDirectionCommand.AssignCommand(_playerBodyMover);
+                    bool success = moveToDirectionCommand.AssignReceiver(_playerBodyMover);
                     if (success)
                     {
                         _hasMoveCommand = true;
 
-                        // Automatically rotate the body node to face the movement direction
+                        // Automatically rotate the body node to face the movement direction. Direction multiplied by
+                        // factor of 10 to smooth out the motion, sometimes if the point is too close the rotation
+                        // is jittery.
                         Vector3 point = _playerBody.GlobalPosition + moveToDirectionCommand.Direction * 10;
                         RotateTowardsCommand cmd = new RotateTowardsCommand(point);
-                        cmd.AssignCommand(_bodyNodeMover);
+                        cmd.AssignReceiver(_bodyNode3DMover);
                         AddValidatedCommand(cmd);
                     }
 
@@ -133,7 +138,7 @@ namespace EHE.BoltBusters
                     _hasRotateCommand = true;
 
                     // Assign rotation to the turret node
-                    return rotateTowardsCommand.AssignCommand(_turretMover);
+                    return rotateTowardsCommand.AssignReceiver(_turret3DMover);
                 }
                 case AttackCommand attackCommand:
                     switch (attackCommand.WeaponType)

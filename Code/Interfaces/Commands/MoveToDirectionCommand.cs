@@ -24,9 +24,10 @@ namespace EHE.BoltBusters
         /// </summary>
         /// <param name="target">The target object, must be of type EntityMover.</param>
         /// <returns>True if the target is a valid EntityMover; otherwise, false.</returns>
-        public bool AssignCommand(object target)
+        public bool AssignReceiver(object target)
         {
-            if (target is not EntityMover mover) return false;
+            if (target is not EntityMover mover)
+                return false;
             _mover = mover;
             return true;
         }
