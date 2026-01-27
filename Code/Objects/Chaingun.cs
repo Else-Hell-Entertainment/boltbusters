@@ -32,6 +32,8 @@ namespace EHE.BoltBusters
         private Node3D _muzzle;
         private MeshInstance3D _reticle;
 
+        private DamageData _damageData;
+
         // TODO: HACK: HORRIBLE: TESTING ONLY: TEMPORARY!!!!
         [Export]
         private MeshInstance3D _effect;
@@ -44,6 +46,9 @@ namespace EHE.BoltBusters
 
         public override void _Ready()
         {
+            // TODO: Placeholder implementation - refactor.
+            _damageData = new DamageData(100, DamageType.Chaingun);
+
             _muzzle = GetNode<Node3D>("Muzzle");
             _hitParticles = GetNode<GpuParticles3D>("HitParticles");
             _reticle = GetNode<MeshInstance3D>("Reticle");
@@ -90,6 +95,12 @@ namespace EHE.BoltBusters
 
             _effectTimer.Start();
             DoRayCast();
+        }
+
+        private void ApplyDamage(IDamageable target)
+        {
+            target.TakeDamage(_damageData);
+            GD.Print("Chaingun did damage!");
         }
 
         private void DrawBulletTrail(Vector3 start, Vector3 direction, Vector3 end)
@@ -150,14 +161,10 @@ namespace EHE.BoltBusters
                 Vector3 point = (Vector3)result["position"];
                 _hitParticles.GlobalPosition = point;
                 _hitParticles.Emitting = true;
-                /*
-                if (targ.IsInGroup("Enemy"))
+                if (target is IDamageable damageable)
                 {
-                    Vector3 point = (Vector3)result["position"];
-                    _hitParticles.GlobalPosition = point;
-                    _hitParticles.Emitting = true;
+                    ApplyDamage(damageable);
                 }
-                */
             }
         }
     }
