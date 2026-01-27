@@ -15,7 +15,7 @@ namespace EHE.BoltBusters
         /// the change.
         /// </param>
         [Signal]
-        public delegate void CurrentHealthChangedEventHandler(int newHealth);
+        public delegate void CurrentHealthChangedEventHandler(int oldHealth, int newHealth);
 
         [Export]
         private int _maxHealth = 100;
@@ -37,8 +37,9 @@ namespace EHE.BoltBusters
             get => _currentHealth;
             protected set
             {
+                int oldHealth = _currentHealth;
                 _currentHealth = Math.Clamp(value, min: 0, max: _maxHealth);
-                EmitSignal(SignalName.CurrentHealthChanged, _currentHealth);
+                EmitSignal(SignalName.CurrentHealthChanged, oldHealth, _currentHealth);
             }
         }
 
