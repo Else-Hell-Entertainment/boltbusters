@@ -14,5 +14,5 @@ public interface ICommand
     /// </summary>
     /// <param name="target">The object on which the command will operate.</param>
     /// <returns>True if the target was successfully assigned; otherwise, false.</returns>
-    public bool AssignCommand(object target);
+    public bool AssignReceiver(object target);
 }
