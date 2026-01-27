@@ -31,6 +31,8 @@ namespace EHE.BoltBusters
         /// <summary>
         /// The current health of the entity.
         /// Clamped between 0 and <see cref="MaxHealth"/>.
+        /// Emits the <see cref="CurrentHealthChanged"/> signal when the value
+        /// changes.
         /// </summary>
         public int CurrentHealth
         {
@@ -39,7 +41,11 @@ namespace EHE.BoltBusters
             {
                 int oldHealth = _currentHealth;
                 _currentHealth = Math.Clamp(value, min: 0, max: _maxHealth);
-                EmitSignal(SignalName.CurrentHealthChanged, oldHealth, _currentHealth);
+
+                if (_currentHealth != oldHealth)
+                {
+                    EmitSignal(SignalName.CurrentHealthChanged, oldHealth, _currentHealth);
+                }
             }
         }
 
