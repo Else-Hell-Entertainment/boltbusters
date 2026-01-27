@@ -4,6 +4,10 @@ namespace EHE.BoltBusters
 {
     public partial class PlayerChaingunController : PlayerWeaponGroupController
     {
+        private float _attackTimer;
+        private float _attackInterval = 0.5f;
+        private float _lagCorrection;
+
         public override void _Ready()
         {
             base._Ready();
@@ -11,6 +15,57 @@ namespace EHE.BoltBusters
             AddWeapon();
             AddWeapon();
             AddWeapon();
+            AddWeapon();
+            AddWeapon();
+            AddWeapon();
+            AddWeapon();
+        }
+
+        public override void AddWeapon()
+        {
+            base.AddWeapon();
+            SetAttackInterval();
+        }
+
+        public override void Attack()
+        {
+            if (_attackTimer < _attackInterval)
+                return;
+            foreach (BaseWeapon weapon in _weapons)
+            {
+                if (weapon.CanAttack())
+                {
+                    weapon.Attack();
+                    _attackTimer = 0;
+                    return;
+                }
+            }
+        }
+
+        public override void _PhysicsProcess(double delta)
+        {
+            float deltaTime = (float)delta;
+            if (_attackTimer < _attackInterval)
+            {
+                _attackTimer += deltaTime;
+            }
+        }
+
+        /// <summary>
+        /// Sets the attack interval based on number of guns and the individual gun's cooldown to create a continuous
+        /// firing effect while making sure the individual ROF is still accounted for. Example: if gun's cooldown is
+        /// 0.5 seconds and there are 5 guns, interval will be 0.1 seconds so that every gun still fires when ready,
+        /// but they don't all fire at once.
+        /// </summary>
+        private void SetAttackInterval()
+        {
+            float numberOfGuns = _weapons.Count;
+
+            if (_weapons.Count > 0 && _weapons[0] is Chaingun chaingun)
+            {
+                float gunCooldown = chaingun.Cooldown;
+                _attackInterval = gunCooldown / numberOfGuns; // Denominator is confirmed to be > 0.
+            }
         }
     }
 }

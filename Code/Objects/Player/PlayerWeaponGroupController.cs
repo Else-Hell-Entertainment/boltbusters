@@ -9,7 +9,7 @@ namespace EHE.BoltBusters
         private string _weaponScenePath = "res://Scenes/Player/Weapons/Chaingun.tscn";
 
         private List<Node3D> _weaponSlots = new List<Node3D>();
-        private List<BaseWeapon> _weapons = new List<BaseWeapon>();
+        protected List<BaseWeapon> _weapons = new List<BaseWeapon>();
 
         public override void _Ready()
         {
@@ -25,19 +25,22 @@ namespace EHE.BoltBusters
             }
         }
 
-        public void Attack()
+        /// <summary>
+        /// Base implementation will attack with every weapon that is capable of attacking during the frame.
+        /// Override this for more sophisticated attack patterns.
+        /// </summary>
+        public virtual void Attack()
         {
             foreach (BaseWeapon weapon in _weapons)
             {
                 if (weapon.CanAttack())
                 {
                     weapon.Attack();
-                    return;
                 }
             }
         }
 
-        public void AddWeapon()
+        public virtual void AddWeapon()
         {
             if (_weapons.Count >= _weaponSlots.Count)
             {
@@ -55,6 +58,13 @@ namespace EHE.BoltBusters
             }
         }
 
-        public void RemoveWeapon() { }
+        public void RemoveWeapon()
+        {
+            if (_weapons.Count > 0)
+            {
+                int lastIndex = _weapons.Count - 1;
+                _weapons.RemoveAt(lastIndex);
+            }
+        }
     }
 }

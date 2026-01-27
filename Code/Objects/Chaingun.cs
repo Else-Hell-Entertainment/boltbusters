@@ -16,6 +16,16 @@ namespace EHE.BoltBusters
         [Export]
         private float _range = 7f;
 
+        /// <summary>
+        /// Cooldown for a single chaingun can never be faster than one physics frame at 30 fps = 0.033 seconds.
+        /// For a node with 8 guns (game default) working at 30 fps = minimum cooldown of 0.267 seconds is recommended.
+        /// </summary>
+        public float Cooldown
+        {
+            get => _cooldown;
+            set => _cooldown = Mathf.Clamp(value, 0.034f, _cooldown);
+        }
+
         private bool _canFire = true;
 
         private GpuParticles3D _hitParticles;
@@ -37,8 +47,6 @@ namespace EHE.BoltBusters
             _muzzle = GetNode<Node3D>("Muzzle");
             _hitParticles = GetNode<GpuParticles3D>("HitParticles");
             _reticle = GetNode<MeshInstance3D>("Reticle");
-            //Vector3 retPos = _muzzle.Position + new Vector3(0, 0, -_range);
-            //_reticle.Position = retPos;
 
             _cooldownTimer.WaitTime = _cooldown;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
@@ -56,7 +64,6 @@ namespace EHE.BoltBusters
             Vector3 targetPos = _muzzle.GlobalPosition;
             targetPos.Z = _muzzle.Position.Z - _range;
             targetPos.Y = 0.2f;
-            //Vector3 dir = _muzzle.ToGlobal(targetPos);
             _muzzle.LookAt(targetPos);
             _reticle.GlobalPosition = targetPos;
         }
@@ -68,7 +75,6 @@ namespace EHE.BoltBusters
 
         private void OnCooldownTimerTimeout()
         {
-            GD.Print("Chaingun ready to fire.");
             _canFire = true;
         }
 
@@ -79,14 +85,11 @@ namespace EHE.BoltBusters
 
         public override void Attack()
         {
-            GD.Print("ChainGun goes PewPewPew");
-            GD.Print("More pew.");
             _canFire = false;
             _cooldownTimer.Start();
 
             _effectTimer.Start();
             DoRayCast();
-            //_effect.Visible = true;
         }
 
         private void DrawBulletTrail(Vector3 start, Vector3 direction, Vector3 end)
@@ -136,14 +139,14 @@ namespace EHE.BoltBusters
             var query = PhysicsRayQueryParameters3D.Create(start, end);
             query.CollideWithAreas = true;
             var result = spaceState.IntersectRay(query);
-            GD.Print(result);
+            //GD.Print(result);
             DrawBulletTrail(start, direction, end);
             if (result.ContainsKey("position"))
             {
-                GD.Print("Hit: " + result["position"]);
+                //GD.Print("Hit: " + result["position"]);
                 var collider = result["collider"];
 
-                Node targ = (Node)collider;
+                Node target = (Node)collider;
                 Vector3 point = (Vector3)result["position"];
                 _hitParticles.GlobalPosition = point;
                 _hitParticles.Emitting = true;
@@ -157,7 +160,5 @@ namespace EHE.BoltBusters
                 */
             }
         }
-
-        private void Shoot() { }
     }
 }
