@@ -8,18 +8,18 @@ namespace EHE.BoltBusters
         Missile,
     }
 
-    public class Damage
+    public class DamageData
     {
         public int Amount { get; private set; }
         public DamageType Type { get; private set; }
 
-        public Damage()
+        public DamageData()
         {
             Amount = 0;
             Type = DamageType.None;
         }
 
-        public Damage(int amount, DamageType damageType)
+        public DamageData(int amount, DamageType damageType)
         {
             Amount = amount;
             Type = damageType;

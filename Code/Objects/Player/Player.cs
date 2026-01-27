@@ -7,9 +7,9 @@ namespace EHE.BoltBusters
     {
         public override void _EnterTree() { }
 
-        public override void TakeDamage(Damage damageObj)
+        public override void TakeDamage(DamageData damageData)
         {
-            base.TakeDamage(damageObj);
+            base.TakeDamage(damageData);
             GD.Print("Aaaa I'm taking damage!");
         }
     }

@@ -12,9 +12,9 @@ namespace EHE.BoltBusters
             _healthComponent.Increase(amount);
         }
 
-        public virtual void TakeDamage(Damage damageObj)
+        public virtual void TakeDamage(DamageData damageData)
         {
-            _healthComponent.Decrease(damageObj.Amount);
+            _healthComponent.Decrease(damageData.Amount);
         }
     }
 }
