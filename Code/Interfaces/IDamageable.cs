@@ -12,7 +12,7 @@ namespace EHE.BoltBusters
         public void Heal(int amount);
 
         // TODO: Docs.
-        public void TakeDamage(Damage damageObj);
+        public void TakeDamage(DamageData damageData);
 
         /// <summary>
         /// Handles what happens when a damageable dies. By default, this only
