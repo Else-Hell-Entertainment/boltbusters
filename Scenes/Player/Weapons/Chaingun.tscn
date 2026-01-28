@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://dbokno8n21haj"]
+[gd_scene load_steps=11 format=3 uid="uid://dbokno8n21haj"]
 
 [ext_resource type="Script" uid="uid://co4if3wvhh2jx" path="res://Code/Objects/Chaingun.cs" id="1_gvsop"]
+[ext_resource type="AudioStream" uid="uid://d2mqs1diw8k3m" path="res://Assets/SFX/PROTOChaingunShoot.mp3" id="2_p72gw"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_gvsop"]
 top_radius = 0.1
@@ -42,10 +43,11 @@ material = SubResource("StandardMaterial3D_i8k86")
 radius = 0.05
 height = 0.001
 
-[node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer", "_effect", "_effectTimer")]
+[node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer", "_audioStreamPlayer", "_effect", "_effectTimer")]
 script = ExtResource("1_gvsop")
 _cooldownTimer = NodePath("CooldownTimer")
 _accuracy = 0.01
+_audioStreamPlayer = NodePath("AudioStreamPlayer3D")
 _effect = NodePath("Muzzle/TempEffect")
 _effectTimer = NodePath("TempTimer")
 
@@ -80,3 +82,6 @@ draw_pass_1 = SubResource("SphereMesh_i8k86")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3234599)
 cast_shadow = 0
 mesh = SubResource("SphereMesh_r70u3")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_p72gw")
