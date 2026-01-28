@@ -27,14 +27,16 @@ script = ExtResource("1_am5q4")
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.48225397)
 shape = SubResource("ConvexPolygonShape3D_am5q4")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="RocketBodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.48225397)
 mesh = SubResource("CapsuleMesh_p46dw")
 
-[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
+[node name="ExplosionCast" type="ShapeCast3D" parent="."]
+enabled = false
 shape = SubResource("SphereShape3D_am5q4")
 target_position = Vector3(0, 0, 0)
 
 [node name="ExplosionMesh" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("SphereMesh_am5q4")
 skeleton = NodePath("")
