@@ -40,9 +40,9 @@ namespace EHE.BoltBusters
 
         public override void Attack()
         {
-            GD.Print("Railgun goes WHUMP");
             _canFire = false;
             _cooldownTimer.Start();
+            DoRayCast();
             DrawBulletEffect();
         }
 
@@ -58,7 +58,7 @@ namespace EHE.BoltBusters
 
             if (result.ContainsKey("position"))
             {
-                //GD.Print("Hit: " + result["position"]);
+                GD.Print("Hit: " + result["position"]);
                 var collider = result["collider"];
 
                 Node target = (Node)collider;
@@ -94,7 +94,7 @@ namespace EHE.BoltBusters
             railgunTween.TweenProperty(material, "emission_energy_multiplier", 32f, 0.05f);
             railgunTween.Parallel().TweenProperty(mesh, "bottom_radius", 0.01f, 0.05f);
             railgunTween.Parallel().TweenProperty(mesh, "top_radius", 0.01f, 0.05f);
-            railgunTween.Parallel().TweenProperty(_bulletTravel, "position", endPosition, 0.5f);
+            railgunTween.Parallel().TweenProperty(_bulletTravel, "position", endPosition, 0.1f);
             railgunTween.TweenProperty(mesh, "bottom_radius", 0.05f, 0.15f);
             railgunTween.Parallel().TweenProperty(mesh, "top_radius", 0.05f, 0.15f);
             railgunTween.Parallel().TweenProperty(material, "emission_energy_multiplier", 0f, 0.15f);

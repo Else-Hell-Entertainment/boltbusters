@@ -45,7 +45,7 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0
 mesh = SubResource("CylinderMesh_kbhkp")
 
 [node name="BulletTravel" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -1.8404505)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -1.8524731)
 cast_shadow = 0
 mesh = SubResource("CapsuleMesh_5iajx")
 
@@ -65,5 +65,6 @@ mesh = SubResource("BoxMesh_5iajx")
 [node name="CooldownTimer" type="Timer" parent="."]
 
 [node name="Muzzle" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.8062217)
 
 [node name="HitParticles" type="GPUParticles3D" parent="."]
