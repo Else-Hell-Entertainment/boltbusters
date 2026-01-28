@@ -45,7 +45,7 @@ namespace EHE.BoltBusters
 
         private void Explode()
         {
-            CheckExplosionDamage();
+            CallDeferred(MethodName.CheckExplosionDamage);
             _isActive = false;
             HideRocketBody();
             _explosionMeshInstance.Visible = true;

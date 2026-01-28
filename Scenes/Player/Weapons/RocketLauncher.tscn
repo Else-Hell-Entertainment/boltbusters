@@ -1,9 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://bweyw22j1yyt8"]
+[gd_scene load_steps=5 format=3 uid="uid://bweyw22j1yyt8"]
 
 [ext_resource type="Script" uid="uid://cudatx3chwyeu" path="res://Code/Objects/RocketLauncher.cs" id="1_g72lr"]
 [ext_resource type="PackedScene" uid="uid://bjnc7ni0pla1w" path="res://Scenes/Player/Weapons/Rocket.tscn" id="2_prav5"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_s270b"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_g72lr"]
+top_radius = 0.01
+bottom_radius = 0.01
 
 [node name="RocketLauncher" type="Node3D"]
 script = ExtResource("1_g72lr")
@@ -14,4 +18,9 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0
 mesh = SubResource("CylinderMesh_s270b")
 
 [node name="LaunchPoint" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.9848077, -0.17364818, 0, 0.17364818, 0.9848077, 0, 0, -1.4333318)
+transform = Transform3D(1, 0, 0, 0, 0.96758586, 0.25254223, 0, -0.25254223, 0.96758586, 0, 0, -1.4333318)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LaunchPoint"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.049355865)
+visible = false
+mesh = SubResource("CylinderMesh_g72lr")

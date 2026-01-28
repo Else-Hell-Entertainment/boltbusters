@@ -17,9 +17,10 @@ namespace EHE.BoltBusters
         public override void Attack()
         {
             Rocket rocket = _rocketScene.Instantiate<Rocket>();
-            rocket.Position = _launchPoint.GlobalPosition;
-            rocket.Rotation = _launchPoint.GlobalRotation;
-            AddChild(rocket);
+            GetTree().GetRoot().AddChild(rocket);
+            rocket.GlobalPosition = _launchPoint.GlobalPosition;
+            rocket.GlobalRotation = _launchPoint.GlobalRotation;
+
             GD.Print("Rocket launcher goes SKÄBÄDÄBÄDÄÄ");
         }
     }
