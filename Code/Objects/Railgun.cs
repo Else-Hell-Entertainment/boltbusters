@@ -62,7 +62,6 @@ namespace EHE.BoltBusters
 
             if (result.ContainsKey("position"))
             {
-                GD.Print("Hit: " + result["position"]);
                 var collider = result["collider"];
 
                 Node target = (Node)collider;
