@@ -3,7 +3,7 @@ using EHE.BoltBusters;
 using Godot;
 using Godot.Collections;
 
-namespace EHE.EHE.BoltBusters
+namespace EHE.BoltBusters
 {
     public partial class Rocket : CharacterBody3D
     {
@@ -47,7 +47,6 @@ namespace EHE.EHE.BoltBusters
         {
             CheckExplosionDamage();
             _isActive = false;
-            GD.Print("BOOM");
             HideRocketBody();
             _explosionMeshInstance.Visible = true;
             Tween _explosionTween = CreateTween();
@@ -86,6 +85,7 @@ namespace EHE.EHE.BoltBusters
             _explosionMesh.Height = 0;
             _explosionMeshInstance.Visible = false;
             _rocketBodyMeshInstance.Visible = true;
+            QueueFree();
         }
     }
 }
