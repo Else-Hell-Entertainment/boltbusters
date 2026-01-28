@@ -40,6 +40,10 @@ namespace EHE.BoltBusters
 
         public override void Attack()
         {
+            if (!_canFire)
+            {
+                return;
+            }
             _canFire = false;
             _cooldownTimer.Start();
             DoRayCast();

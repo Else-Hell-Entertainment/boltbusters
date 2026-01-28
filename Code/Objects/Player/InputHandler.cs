@@ -105,7 +105,7 @@ namespace EHE.BoltBusters
                 _entityController.AddCommand(new AttackCommand("Chaingun"));
             }
 
-            if (Input.IsActionPressed(FIRE_RAILGUN))
+            if (Input.IsActionJustPressed(FIRE_RAILGUN))
             {
                 _entityController.AddCommand((new AttackCommand("Railgun")));
             }
