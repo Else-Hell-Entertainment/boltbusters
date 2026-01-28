@@ -64,6 +64,8 @@ namespace EHE.BoltBusters
 
         [Export]
         private Railgun _railgun;
+
+        [Export]
         private RocketLauncher _rocketLauncher;
 
         public override void _Ready()
@@ -72,8 +74,6 @@ namespace EHE.BoltBusters
             _playerBodyMover = new CB3DMover(_playerBody);
             _bodyNode3DMover = new Node3DMover(_bodyNode);
             _turret3DMover = new Node3DMover(_turretNode);
-            //_railgun = new Railgun();
-            _rocketLauncher = new RocketLauncher();
 
             // TODO: Remove from here if different input management system gets implemented.
             _inputHandler.SetEntityController(this);
