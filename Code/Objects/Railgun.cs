@@ -2,6 +2,9 @@
 
 namespace EHE.BoltBusters
 {
+    /// <summary>
+    /// Prototype Railgun. WIP.
+    /// </summary>
     public partial class Railgun : BaseWeapon
     {
         [Export]

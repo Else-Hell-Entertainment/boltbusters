@@ -2,6 +2,9 @@
 
 namespace EHE.BoltBusters
 {
+    /// <summary>
+    /// Prototype Rocket Launcher. WIP.
+    /// </summary>
     public partial class RocketLauncher : BaseWeapon
     {
         [Export]

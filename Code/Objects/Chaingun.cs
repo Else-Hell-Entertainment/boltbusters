@@ -2,6 +2,11 @@
 
 namespace EHE.BoltBusters
 {
+    /// <summary>
+    /// Controls a single chaingun. The player will have multiple of these under a chaingun controller class. Allows
+    /// for the chaingun to be used as independent weapon or as a part of controlled group (implementation still WIP).
+    /// Implementation of this feature is still WIP.
+    /// </summary>
     public partial class Chaingun : BaseWeapon
     {
         [Export]
@@ -30,22 +35,10 @@ namespace EHE.BoltBusters
         }
 
         private bool _canFire = true;
-
         private GpuParticles3D _hitParticles;
         private Node3D _muzzle;
         private MeshInstance3D _reticle;
-
         private DamageData _damageData;
-
-        // TODO: HACK: HORRIBLE: TESTING ONLY: TEMPORARY!!!!
-        [Export]
-        private MeshInstance3D _effect;
-
-        [Export]
-        private Timer _effectTimer;
-
-        [Export]
-        private float _effectTime = 0.05f;
 
         public override void _Ready()
         {
@@ -59,11 +52,6 @@ namespace EHE.BoltBusters
             _cooldownTimer.WaitTime = _cooldown;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
             _cooldownTimer.OneShot = true;
-
-            _effectTimer.WaitTime = _effectTime;
-            _effectTimer.Timeout += ResetEffect;
-            _effect.Visible = false;
-
             SetTarget();
         }
 
@@ -74,11 +62,6 @@ namespace EHE.BoltBusters
             targetPos.Y = 0.2f;
             _muzzle.LookAt(targetPos);
             _reticle.GlobalPosition = targetPos;
-        }
-
-        private void ResetEffect()
-        {
-            _effect.Visible = false;
         }
 
         private void OnCooldownTimerTimeout()
@@ -95,18 +78,25 @@ namespace EHE.BoltBusters
         {
             _canFire = false;
             _cooldownTimer.Start();
-
-            _effectTimer.Start();
             DoRayCast();
-            //_audioStreamPlayer.Play();
         }
 
+        /// <summary>
+        /// Passes a reference to the DamageData object to the receiving IDamageable.
+        /// </summary>
+        /// <param name="target"></param>
         private void ApplyDamage(IDamageable target)
         {
             target.TakeDamage(_damageData);
             GD.Print("Chaingun did damage!");
         }
 
+        /// <summary>
+        /// Draws a bullet trail. Placeholder implementation.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="direction"></param>
+        /// <param name="end"></param>
         private void DrawBulletTrail(Vector3 start, Vector3 direction, Vector3 end)
         {
             var lineMesh = new MeshInstance3D();
@@ -139,6 +129,11 @@ namespace EHE.BoltBusters
             GetTree().GetRoot().AddChild(lineMesh);
         }
 
+        /// <summary>
+        /// Will raycast towards a preset target. Applies a small inaccuracy. If the raycast hits an IDamageable target,
+        /// it will call ApplyDamage().
+        /// Implementation still WIP.
+        /// </summary>
         private void DoRayCast()
         {
             float vertDeviation = (float)GD.RandRange(-_accuracy, _accuracy);
@@ -154,11 +149,9 @@ namespace EHE.BoltBusters
             var query = PhysicsRayQueryParameters3D.Create(start, end);
             query.CollideWithAreas = true;
             var result = spaceState.IntersectRay(query);
-            //GD.Print(result);
             DrawBulletTrail(start, direction, end);
             if (result.ContainsKey("position"))
             {
-                //GD.Print("Hit: " + result["position"]);
                 var collider = result["collider"];
 
                 Node target = (Node)collider;

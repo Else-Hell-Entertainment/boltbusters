@@ -1,10 +1,11 @@
-using System;
-using EHE.BoltBusters;
 using Godot;
 using Godot.Collections;
 
 namespace EHE.BoltBusters
 {
+    /// <summary>
+    /// Prototype rocket. WIP.
+    /// </summary>
     public partial class Rocket : CharacterBody3D
     {
         [Export]

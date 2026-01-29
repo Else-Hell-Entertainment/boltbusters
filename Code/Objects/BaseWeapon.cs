@@ -2,10 +2,11 @@
 
 namespace EHE.BoltBusters
 {
+    /// <summary>
+    /// Base class for any kind of weapon in the game, mainly used for type checking.
+    /// </summary>
     public abstract partial class BaseWeapon : Node3D, IAttacker
     {
-        private float _attackInterval;
-
         public virtual bool CanAttack()
         {
             return true;

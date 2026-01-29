@@ -1,7 +1,8 @@
-﻿using Godot;
-
-namespace EHE.BoltBusters
+﻿namespace EHE.BoltBusters
 {
+    /// <summary>
+    /// Controls a group of chainguns. Implemenation still WIP.
+    /// </summary>
     public partial class PlayerChaingunController : PlayerWeaponGroupController
     {
         private float _attackTimer;

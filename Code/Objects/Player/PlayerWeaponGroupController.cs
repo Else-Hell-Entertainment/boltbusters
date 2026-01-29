@@ -3,6 +3,10 @@ using Godot;
 
 namespace EHE.BoltBusters
 {
+    /// <summary>
+    /// Base class for a weapon group controller. Can accept a single type of weapon. The base class works by itself
+    /// but it's suggested to inherit from this class for a more sophisticated weapon control scheme.
+    /// </summary>
     public partial class PlayerWeaponGroupController : Node3D, IAttacker
     {
         [Export]
@@ -40,6 +44,9 @@ namespace EHE.BoltBusters
             }
         }
 
+        /// <summary>
+        /// Adds a new weapon for the controller.
+        /// </summary>
         public virtual void AddWeapon()
         {
             if (_weapons.Count >= _weaponSlots.Count)
@@ -58,6 +65,9 @@ namespace EHE.BoltBusters
             }
         }
 
+        /// <summary>
+        /// Removes a weapon from the controller.
+        /// </summary>
         public void RemoveWeapon()
         {
             if (_weapons.Count > 0)
