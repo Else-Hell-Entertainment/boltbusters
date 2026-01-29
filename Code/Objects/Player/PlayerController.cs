@@ -59,7 +59,14 @@ namespace EHE.BoltBusters
         /// </summary>
         private bool _hasRotateCommand = false;
 
-        private ChainGun _chainGun;
+        [Export]
+        private PlayerChaingunController _chaingunController;
+
+        [Export]
+        private Railgun _railgun;
+
+        [Export]
+        private RocketLauncher _rocketLauncher;
 
         public override void _Ready()
         {
@@ -67,7 +74,6 @@ namespace EHE.BoltBusters
             _playerBodyMover = new CB3DMover(_playerBody);
             _bodyNode3DMover = new Node3DMover(_bodyNode);
             _turret3DMover = new Node3DMover(_turretNode);
-            _chainGun = new ChainGun();
 
             // TODO: Remove from here if different input management system gets implemented.
             _inputHandler.SetEntityController(this);
@@ -121,6 +127,7 @@ namespace EHE.BoltBusters
                         cmd.AssignReceiver(_bodyNode3DMover);
                         AddValidatedCommand(cmd);
                     }
+
                     return success;
                 }
                 case RotateTowardsCommand rotateTowardsCommand: // Rotating the turret.
@@ -130,17 +137,22 @@ namespace EHE.BoltBusters
                     {
                         return false;
                     }
+
                     _hasRotateCommand = true;
 
                     // Assign rotation to the turret node
                     return rotateTowardsCommand.AssignReceiver(_turret3DMover);
                 }
                 case AttackCommand attackCommand:
-                    if (attackCommand.WeaponType == "Chaingun")
+                    switch (attackCommand.WeaponType)
                     {
-                        return attackCommand.AssignReceiver(_chainGun);
+                        case "Chaingun":
+                            return attackCommand.AssignReceiver(_chaingunController);
+                        case "Railgun":
+                            return attackCommand.AssignReceiver(_railgun);
+                        case "Rocket":
+                            return attackCommand.AssignReceiver(_rocketLauncher);
                     }
-
                     return false;
 
                 default: // Command not recognized.
