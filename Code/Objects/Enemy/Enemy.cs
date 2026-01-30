@@ -30,38 +30,39 @@ namespace EHE.BoltBusters
         // -------------------------
         [ExportGroup("Movement")]
         [Export]
-        public float MoveSpeed = 4.0f;
+        private float _moveSpeed = 4.0f;
 
         [Export]
-        public float Acceleration = 18.0f;
+        private float _acceleration = 18.0f;
 
         [Export]
-        public float RepathInterval = 0.20f;
+        private float _repathInterval = 0.20f;
 
         [Export]
-        public float StopDistance = 1.4f;
+        private float _stopDistance = 1.4f;
 
         // --------------------------
         // Inspector: Avoidance
         // --------------------------
         [ExportGroup("Avoidance")]
         [Export]
-        public bool UseAvoidance = true;
+        private bool _useAvoidance = true;
 
         [Export]
-        public float AvoidanceRadius = 1.2f;
+        private float _avoidanceRadius = 1.2f;
 
         [Export]
-        public float NeighborDistance = 5f;
+        private float _neighborDistance = 5f;
 
         [Export]
-        public int MaxNeighbors = 12;
+        private int _maxNeighbors = 12;
 
         [Export]
-        public float TimeHorizonAgents = 1.2f;
+        private float _timeHorizonAgents = 1.2f;
 
         [Export]
-        public float AvoidancePriority = 1.0f;
+        private float _avoidancePriority = 1.0f;
+
 
         // -------------------------
         // Inspector: Facing
@@ -69,16 +70,16 @@ namespace EHE.BoltBusters
         [ExportGroup("Facing")]
         // If true, rotate to face movement direction.
         [Export]
-        public bool FaceMovement = true;
+        private bool _faceMovement = true;
 
         // Maximum yaw rotation speed (degrees per second).
         [Export]
-        public float TurnSpeedDegreesPerSec = 540f;
+        private float _turnSpeedDegreesPerSec = 540f;
 
         // Minimum horizontal speed required to rotate.
         // Prevents jitter when almost stopped.
         [Export]
-        public float RotateMinSpeed = 0.25f;
+        private float _rotateMinSpeed = 0.25f;
 
         // --------------------
         // Runtime state
@@ -93,6 +94,98 @@ namespace EHE.BoltBusters
         // Cached yaw for smooth angular turning
         private float _currentYaw;
 
+        // Properties
+        ///////////////////////////////////////////////////////////////////////
+
+        #region Movement
+
+        public float MoveSpeed
+        {
+            get => _moveSpeed;
+            protected set => _moveSpeed = value;
+        }
+
+        public float Acceleration
+        {
+            get => _acceleration;
+            protected set => _acceleration = value;
+        }
+
+        public float RepathInterval
+        {
+            get => _repathInterval;
+            protected set => _repathInterval = value;
+        }
+
+        public float StopDistance
+        {
+            get => _stopDistance;
+            protected set => _stopDistance = value;
+        }
+
+        #endregion Movement
+
+        #region Avoidance
+
+        public bool UseAvoidance
+        {
+            get => _useAvoidance;
+            protected set => _useAvoidance = value;
+        }
+
+        public float AvoidanceRadius
+        {
+            get => _avoidanceRadius;
+            protected set => _avoidanceRadius = value;
+        }
+
+        public float NeighborDistance
+        {
+            get => _neighborDistance;
+            protected set => _neighborDistance = value;
+        }
+
+        public int MaxNeighbors
+        {
+            get => _maxNeighbors;
+            protected set => _maxNeighbors = value;
+        }
+
+        public float TimeHorizonAgents
+        {
+            get => _timeHorizonAgents;
+            protected set => _timeHorizonAgents = value;
+        }
+
+        public float AvoidancePriority
+        {
+            get => _avoidancePriority;
+            protected set => _avoidancePriority = value;
+        }
+
+        #endregion Avoidance
+
+        #region Facing
+
+        public bool FaceMovement
+        {
+            get => _faceMovement;
+            protected set => _faceMovement = value;
+        }
+
+        public float TurnSpeedDegreesPerSec
+        {
+            get => _turnSpeedDegreesPerSec;
+            protected set => _turnSpeedDegreesPerSec = value;
+        }
+
+        public float RotateMinSpeed
+        {
+            get => _rotateMinSpeed;
+            protected set => _rotateMinSpeed = value;
+        }
+
+        #endregion Facing
         /// <summary>
         /// Called when the node enters the scene tree and is ready.
         /// Initializes navigation, avoidance, and target subscriptions.
