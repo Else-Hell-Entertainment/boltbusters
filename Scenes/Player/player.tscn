@@ -1,0 +1,99 @@
+[gd_scene load_steps=12 format=3 uid="uid://b3mpjexxg5mnt"]
+
+[ext_resource type="Script" uid="uid://do4klngwttl5f" path="res://Code/Objects/PlayerChaingunController.cs" id="1_htcer"]
+[ext_resource type="PackedScene" uid="uid://bweyw22j1yyt8" path="res://Scenes/Player/Weapons/RocketLauncher.tscn" id="2_dd0ac"]
+[ext_resource type="PackedScene" uid="uid://b2qo60rl84pvj" path="res://Scenes/Player/Weapons/railgun.tscn" id="3_0u5uq"]
+[ext_resource type="Script" uid="uid://nv0ew2bqkcqb" path="res://Code/Objects/Player/InputHandler.cs" id="4_jlvik"]
+[ext_resource type="Script" uid="uid://cbgtfntk84sv1" path="res://Code/Objects/Player/PlayerController.cs" id="5_gk6dx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_152yx"]
+albedo_color = Color(0.13333334, 0.1254902, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jhyir"]
+material = SubResource("StandardMaterial3D_152yx")
+
+[sub_resource type="BoxMesh" id="BoxMesh_74mp2"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_oikmp"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_06tpx"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7g0yx"]
+points = PackedVector3Array(-0.12520654, -0.532801, -0.4805069, 0.022783129, 0.4760704, 0.49888408, 0.16971254, 0.5591441, 0.46417162, 0.23105091, -0.8035912, 0.32045516, 0.40741014, 0.651043, -0.24352328, -0.4827893, 0.59484255, 0.082213186, -0.3628679, -0.68231165, 0.2896967, 0.46904355, -0.65452886, -0.06627126, -0.12744367, 0.8427015, -0.33810276, -0.39343542, -0.6839421, -0.24471663, 0.43825462, 0.62330925, 0.20084947, 0.0841477, 0.977454, 0.11479468, -0.06820232, -0.9764576, -0.12927033, 0.20054972, -0.56312895, -0.4514544, -0.18552664, 0.59545326, -0.4534751, -0.27336287, 0.59226835, 0.40775412, -0.0069364863, -0.47682306, 0.49966025, 0.37582088, -0.5886136, 0.31695515, 0.111579016, 0.5630594, -0.48117727, -0.41725034, 0.5278656, -0.27049688, -0.48454633, -0.59697217, -0.06650971, -0.27974695, 0.90856135, 0.05333608, -0.25019687, -0.8807117, 0.20531891, 0.263647, -0.90277094, -0.1273943, 0.29336792, 0.8715263, -0.15719566, 0.3734115, -0.5263189, -0.32824618, 0.4996626, 0.47664148, -0.0068885577, 0.053105574, 0.8750009, 0.32470253, -0.15454252, -0.5908538, 0.4658794, -0.09727988, -0.7823577, -0.39818847, -0.3876489, -0.49817133, 0.31564978, -0.30067965, -0.58799505, -0.38890144)
+
+[node name="Player" type="CharacterBody3D"]
+
+[node name="PlayerBody" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0703006, 0)
+mesh = SubResource("CapsuleMesh_jhyir")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="PlayerBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1313066, -0.5738831)
+mesh = SubResource("BoxMesh_74mp2")
+skeleton = NodePath("../..")
+
+[node name="Turret" type="Node3D" parent="."]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Turret"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6071472, -0.5451883)
+mesh = SubResource("SphereMesh_oikmp")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Turret"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6071472, 0)
+mesh = SubResource("BoxMesh_06tpx")
+skeleton = NodePath("")
+
+[node name="ChaingunController" type="Node3D" parent="Turret"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8783723, 1.8937905, -0.88686013)
+script = ExtResource("1_htcer")
+
+[node name="Slot1" type="Node3D" parent="Turret/ChaingunController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2838955, 0)
+
+[node name="Slot2" type="Node3D" parent="Turret/ChaingunController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.26883745, 0, 0)
+
+[node name="Slot3" type="Node3D" parent="Turret/ChaingunController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.27487326, 0)
+
+[node name="Slot4" type="Node3D" parent="Turret/ChaingunController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2838955, 0.6024069)
+
+[node name="Slot5" type="Node3D" parent="Turret/ChaingunController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2838955, 0.13091636)
+
+[node name="Slot6" type="Node3D" parent="Turret/ChaingunController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2838955, 0.42394456)
+
+[node name="Slot7" type="Node3D" parent="Turret/ChaingunController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0014252663, 0)
+
+[node name="Slot8" type="Node3D" parent="Turret/ChaingunController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2838955, 0.45368177)
+
+[node name="RocketLauncher" parent="Turret" instance=ExtResource("2_dd0ac")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4609203, 3.5459228, 0.09393144)
+
+[node name="Railgun" parent="Turret" instance=ExtResource("3_0u5uq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.289839, 2.3477874, -0.01763916)
+
+[node name="InputHandler" type="Node3D" parent="."]
+script = ExtResource("4_jlvik")
+
+[node name="Node3D" type="Node3D" parent="." node_paths=PackedStringArray("_playerBody", "_bodyNode", "_turretNode", "_inputHandler", "_chaingunController", "_railgun", "_rocketLauncher")]
+script = ExtResource("5_gk6dx")
+_playerBody = NodePath("..")
+_bodyNode = NodePath("../PlayerBody")
+_turretNode = NodePath("../Turret")
+_inputHandler = NodePath("../InputHandler")
+_chaingunController = NodePath("../Turret/ChaingunController")
+_railgun = NodePath("../Turret/Railgun")
+_rocketLauncher = NodePath("../Turret/RocketLauncher")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0703006, 0)
+shape = SubResource("ConvexPolygonShape3D_7g0yx")

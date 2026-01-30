@@ -43,13 +43,11 @@ material = SubResource("StandardMaterial3D_i8k86")
 radius = 0.05
 height = 0.001
 
-[node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer", "_audioStreamPlayer", "_effect", "_effectTimer")]
+[node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer", "_audioStreamPlayer")]
 script = ExtResource("1_gvsop")
 _cooldownTimer = NodePath("CooldownTimer")
 _accuracy = 0.01
 _audioStreamPlayer = NodePath("AudioStreamPlayer3D")
-_effect = NodePath("Muzzle/TempEffect")
-_effectTimer = NodePath("TempTimer")
 
 [node name="CooldownTimer" type="Timer" parent="."]
 
@@ -64,6 +62,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.30262926)
 
 [node name="TempEffect" type="MeshInstance3D" parent="Muzzle"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -6.210596)
+visible = false
 mesh = SubResource("CapsuleMesh_p72gw")
 skeleton = NodePath("../..")
 
