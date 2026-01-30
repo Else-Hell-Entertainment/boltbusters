@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://c1rblmwfal2st"]
+[gd_scene load_steps=8 format=3 uid="uid://c1rblmwfal2st"]
 
 [ext_resource type="Script" uid="uid://be4qkv6x76unn" path="res://Code/EnemyAI.cs" id="1_vxt56"]
+[ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="2_qq7ql"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sfbq4"]
 size = Vector3(1, 1.5, 1)
@@ -21,8 +22,9 @@ top_radius = 0.6
 bottom_radius = 0.6
 height = 0.1
 
-[node name="ProtoEnemy" type="CharacterBody3D"]
+[node name="ProtoEnemy" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent")]
 script = ExtResource("1_vxt56")
+_healthComponent = NodePath("EnemyHealthComponent")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
@@ -37,3 +39,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -0.5)
 mesh = SubResource("CylinderMesh_sfbq4")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="EnemyHealthComponent" type="Node" parent="."]
+script = ExtResource("2_qq7ql")
+metadata/_custom_type_script = "uid://b620lyqticbmf"
