@@ -33,7 +33,7 @@ namespace EHE.BoltBusters
     ///  </list>
     /// </para>
     /// </summary>
-    public partial class Enemy : CharacterBody3D
+    public partial class Enemy : Character
     {
         // Exports
         ///////////////////////////////////////////////////////////////////////
