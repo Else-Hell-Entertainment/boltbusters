@@ -15,12 +15,8 @@ namespace EHE.BoltBusters
         public void TakeDamage(DamageData damageData);
 
         /// <summary>
-        /// Handles what happens when a damageable dies. By default, this only
-        /// prints a debug message to console.
+        /// Handles what happens when a damageable dies.
         /// </summary>
-        public virtual void HandleDeath()
-        {
-            GD.Print("I died.");
-        }
+        public void HandleDeath();
     }
 }
