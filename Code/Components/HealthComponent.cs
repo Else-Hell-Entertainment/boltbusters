@@ -17,8 +17,13 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void CurrentHealthChangedEventHandler(int oldHealth, int newHealth);
 
-        [Export]
+        // Maximum allowed health.
+        [Export(PropertyHint.Range, "0,100,or_greater")]
         private int _maxHealth = 100;
+
+        // Initial health when the scene is loaded.
+        [Export(PropertyHint.Range, "0,100,or_greater")]
+        private int _initialHealth = 100;
 
         private int _currentHealth;
         private bool _isImmortal = false;
@@ -27,6 +32,12 @@ namespace EHE.BoltBusters
         /// The maximum health the entity can have.
         /// </summary>
         public int MaxHealth => _maxHealth;
+
+        /// <summary>
+        /// The amount of health the entity had when it was added to the node
+        /// scene.
+        /// </summary>
+        public int InitialHealth => _initialHealth;
 
         /// <summary>
         /// The current health of the entity.
@@ -61,6 +72,16 @@ namespace EHE.BoltBusters
         {
             get => _isImmortal;
             protected set => _isImmortal = value;
+        }
+
+        /// <summary>
+        /// Initializes <see cref="CurrentHealth"/> with the initial value set
+        /// in inspector.
+        /// </summary>
+        public override void _Ready()
+        {
+            CurrentHealth = _initialHealth;
+            GD.Print($"CurrentHealth initialized to {CurrentHealth}.");
         }
 
         /// <summary>
