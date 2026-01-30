@@ -7,6 +7,10 @@ namespace EHE.BoltBusters
         [Export]
         private HealthComponent _healthComponent = null;
 
+        /// <summary>
+        /// Increases the character's health by the given <paramref name="amount"/>.
+        /// </summary>
+        /// <param name="amount"></param>
         public virtual void Heal(int amount)
         {
             _healthComponent.Increase(amount);
