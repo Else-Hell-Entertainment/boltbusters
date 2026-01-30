@@ -3,20 +3,35 @@ using Godot;
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// Enemy AI that pursues the player using NavigationAgent3D.
+    /// <para>Enemy that pursues the player using <see cref="NavigationAgent3D"/>.</para>
     ///
-    /// Responsibilities:
-    /// - Periodically updates navigation target (player position)
-    /// - Computes desired velocity along navigation path
-    /// - Optionally applies avoidance to get a safe velocity (avoiding other enemies / _navAgent's)
-    /// - Smoothly accelerates movement using CharacterBody3D
-    /// - Smoothly rotates to face movement direction (XZ only)
+    /// <para>
+    ///  Responsibilities:
+    ///  <list type="bullet">
+    ///   <item>Periodically updates navigation target (player position)</item>
+    ///   <item>Computes desired velocity along navigation path</item>
+    ///   <item>
+    ///    Optionally applies avoidance to get a safe velocity (avoiding other
+    ///    enemies / _navAgent's)
+    ///   </item>
+    ///   <item>Smoothly accelerates movement using CharacterBody3D</item>
+    ///   <item>Smoothly rotates to face movement direction (XZ only)</item>
+    ///  </list>
+    /// </para>
     ///
-    /// NOTE:
-    /// - Facing is smoothed by interpolating the Y-rotation (angle),
-    ///   NOT by smoothing vectors (prevents flipping/jitter).
-    /// - Many of the exported fields can be tuned for different enemy behaviors and are there for later use cases
-    ///   through code.
+    /// <para>
+    ///  NOTE:
+    ///  <list type="bullet">
+    ///   <item>
+    ///    Facing is smoothed by interpolating the Y-rotation (angle), NOT
+    ///    by smoothing vectors (prevents flipping/jitter).
+    ///   </item>
+    ///  <item>
+    ///    Many of the exported fields can be tuned for different enemy
+    ///    behaviors and are there for later use cases through code.
+    ///   </item>
+    ///  </list>
+    /// </para>
     /// </summary>
     public partial class Enemy : Character
     {
