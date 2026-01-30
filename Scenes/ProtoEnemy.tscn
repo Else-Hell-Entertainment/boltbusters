@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://c1rblmwfal2st"]
 
-[ext_resource type="Script" uid="uid://be4qkv6x76unn" path="res://Code/EnemyAI.cs" id="1_vxt56"]
+[ext_resource type="Script" uid="uid://be4qkv6x76unn" path="res://Code/Objects/Enemy/Enemy.cs" id="1_vxt56"]
 [ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="2_qq7ql"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sfbq4"]

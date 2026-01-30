@@ -18,7 +18,7 @@ namespace EHE.BoltBusters
     /// - Many of the exported fields can be tuned for different enemy behaviors and are there for later use cases
     ///   through code.
     /// </summary>
-    public partial class EnemyAI : Character
+    public partial class Enemy : Character
     {
         // ---------------------
         // Navigation
