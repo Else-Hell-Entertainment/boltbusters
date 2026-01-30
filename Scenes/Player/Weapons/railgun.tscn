@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://b2qo60rl84pvj"]
 
-[ext_resource type="Script" uid="uid://b6ocj3yeeqgl" path="res://Code/Objects/Railgun.cs" id="1_kbhkp"]
+[ext_resource type="Script" uid="uid://b6ocj3yeeqgl" path="res://Code/Objects/Railgun.cs" id="1_57whb"]
 
 [sub_resource type="ORMMaterial3D" id="ORMMaterial3D_cbb7d"]
 transparency = 1
@@ -35,17 +35,18 @@ radius = 0.05
 height = 0.5
 
 [sub_resource type="BoxMesh" id="BoxMesh_5iajx"]
+size = Vector3(0.5, 0.5, 1.4)
 
 [node name="Railgun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer")]
-script = ExtResource("1_kbhkp")
+script = ExtResource("1_57whb")
 _cooldownTimer = NodePath("CooldownTimer")
 
 [node name="BulletEffect" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -10.835465)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -10.634451)
 mesh = SubResource("CylinderMesh_kbhkp")
 
 [node name="BulletTravel" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -1.8524731)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -1.6476581)
 cast_shadow = 0
 mesh = SubResource("CapsuleMesh_5iajx")
 
@@ -65,6 +66,6 @@ mesh = SubResource("BoxMesh_5iajx")
 [node name="CooldownTimer" type="Timer" parent="."]
 
 [node name="Muzzle" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.8062217)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.69716346)
 
 [node name="HitParticles" type="GPUParticles3D" parent="."]
