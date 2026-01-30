@@ -6,6 +6,10 @@ namespace EHE.BoltBusters
     [GlobalClass]
     public abstract partial class HealthComponent : Node
     {
+        ///////////////////////////////////////////////////////////////////////
+        // Signals
+        ///////////////////////////////////////////////////////////////////////
+
         /// <summary>
         /// Emitted when <see cref="CurrentHealth"/> changes.
         /// </summary>
@@ -17,6 +21,10 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void CurrentHealthChangedEventHandler(int oldHealth, int newHealth);
 
+        ///////////////////////////////////////////////////////////////////////
+        // Exports
+        ///////////////////////////////////////////////////////////////////////
+
         // Maximum allowed health.
         [Export(PropertyHint.Range, "0,100,or_greater")]
         private int _maxHealth = 100;
@@ -25,8 +33,16 @@ namespace EHE.BoltBusters
         [Export(PropertyHint.Range, "0,100,or_greater")]
         private int _initialHealth = 100;
 
+        ///////////////////////////////////////////////////////////////////////
+        // Fields
+        ///////////////////////////////////////////////////////////////////////
+
         private int _currentHealth;
-        private bool _isImmortal = false;
+        private bool _isImmortal;
+
+        ///////////////////////////////////////////////////////////////////////
+        // Properties
+        ///////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// The maximum health the entity can have.
@@ -61,7 +77,7 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Is <see cref="CurrentHealth"/> greater than 0.
+        /// Equivalent to <c><see cref="CurrentHealth"/> > 0</c>.
         /// </summary>
         public bool IsAlive => CurrentHealth > 0;
 
@@ -73,6 +89,12 @@ namespace EHE.BoltBusters
             get => _isImmortal;
             protected set => _isImmortal = value;
         }
+
+        ///////////////////////////////////////////////////////////////////////
+        // Methods
+        ///////////////////////////////////////////////////////////////////////
+
+        #region Public Methods
 
         /// <summary>
         /// Initializes <see cref="CurrentHealth"/> with the initial value set
@@ -88,9 +110,7 @@ namespace EHE.BoltBusters
         /// Increases <see cref="CurrentHealth"/> by the given amount.
         /// </summary>
         ///
-        /// <param name="amount">
-        /// The amount to increase health by.
-        /// </param>
+        /// <param name="amount">The amount to increase health by.</param>
         ///
         /// <remarks>
         /// The amount must be a positive integer. If a negative value is
@@ -104,7 +124,7 @@ namespace EHE.BoltBusters
                 return;
             }
 
-            CurrentHealth = Math.Clamp(CurrentHealth + amount, min: 0, max: MaxHealth);
+            CurrentHealth += amount;
         }
 
         /// <summary>
@@ -112,9 +132,7 @@ namespace EHE.BoltBusters
         /// <see cref="IsImmortal"/> is <c>false</c>.
         /// </summary>
         ///
-        /// <param name="amount">
-        /// The amount to decrease health by.
-        /// </param>
+        /// <param name="amount">The amount to decrease health by.</param>
         ///
         /// <returns>
         /// <c>true</c> if the entity is still alive after taking damage,
@@ -142,5 +160,7 @@ namespace EHE.BoltBusters
 
             return IsAlive;
         }
+
+        #endregion Public Methods
     }
 }
