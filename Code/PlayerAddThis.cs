@@ -4,6 +4,7 @@ namespace EHE.BoltBuster
 {
     public partial class PlayerAddThis : CharacterBody3D
     {
+        /*
         /// <summary>
         /// (Parent) _EnterTree runs first and is good for registering and subscribing to services.
         /// </summary>
@@ -24,5 +25,6 @@ namespace EHE.BoltBuster
         {
             TargetProvider.Instance?.UnregisterPlayer(this);
         }
+        */
     }
 }
