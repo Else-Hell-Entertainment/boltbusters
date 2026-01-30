@@ -20,14 +20,11 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class Enemy : CharacterBody3D
     {
-        // ---------------------
-        // Navigation
-        // ---------------------
-        private NavigationAgent3D _agent;
+        // Exports
+        ///////////////////////////////////////////////////////////////////////
 
-        // -------------------------
-        // Inspector: Movement
-        // -------------------------
+        #region Movement
+
         [ExportGroup("Movement")]
         [Export]
         private float _moveSpeed = 4.0f;
@@ -41,9 +38,10 @@ namespace EHE.BoltBusters
         [Export]
         private float _stopDistance = 1.4f;
 
-        // --------------------------
-        // Inspector: Avoidance
-        // --------------------------
+        #endregion Movement
+
+        #region Avoidance
+
         [ExportGroup("Avoidance")]
         [Export]
         private bool _useAvoidance = true;
@@ -63,10 +61,10 @@ namespace EHE.BoltBusters
         [Export]
         private float _avoidancePriority = 1.0f;
 
+        #endregion Avoidance
 
-        // -------------------------
-        // Inspector: Facing
-        // -------------------------
+        #region Facing
+
         [ExportGroup("Facing")]
         // If true, rotate to face movement direction.
         [Export]
@@ -81,9 +79,15 @@ namespace EHE.BoltBusters
         [Export]
         private float _rotateMinSpeed = 0.25f;
 
-        // --------------------
-        // Runtime state
-        // --------------------
+        #endregion Facing
+
+        // Fields
+        ///////////////////////////////////////////////////////////////////////
+
+        private NavigationAgent3D _agent;
+
+        #region Runtime State
+
         private CharacterBody3D _player;
         private double _repathTimer;
 
@@ -93,6 +97,8 @@ namespace EHE.BoltBusters
 
         // Cached yaw for smooth angular turning
         private float _currentYaw;
+
+        #endregion Runtime State
 
         // Properties
         ///////////////////////////////////////////////////////////////////////
@@ -186,6 +192,12 @@ namespace EHE.BoltBusters
         }
 
         #endregion Facing
+
+        // Methods
+        ///////////////////////////////////////////////////////////////////////
+
+        #region Public Methods
+
         /// <summary>
         /// Called when the node enters the scene tree and is ready.
         /// Initializes navigation, avoidance, and target subscriptions.
@@ -230,47 +242,6 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Called whenever the player reference changes.
-        /// Player may be null during scene transitions.
-        /// </summary>
-        private void OnPlayerChanged(CharacterBody3D player)
-        {
-            _player = player;
-            _repathTimer = 0;
-            _hasSafeVelocity = false;
-            _safeVelocity = Vector3.Zero;
-
-            if (_agent != null && _player != null)
-                _agent.TargetPosition = _player.GlobalPosition;
-        }
-
-        /// <summary>
-        /// Applies exported avoidance and movement settings
-        /// to the NavigationAgent3D.
-        /// </summary>
-        private void ConfigureAvoidance()
-        {
-            _agent.AvoidanceEnabled = UseAvoidance;
-            _agent.Radius = AvoidanceRadius;
-            _agent.NeighborDistance = NeighborDistance;
-            _agent.MaxNeighbors = MaxNeighbors;
-            _agent.TimeHorizonAgents = TimeHorizonAgents;
-            _agent.AvoidancePriority = AvoidancePriority;
-
-            _agent.MaxSpeed = MoveSpeed;
-            _agent.TargetDesiredDistance = StopDistance;
-        }
-
-        /// <summary>
-        /// Receives the safe velocity computed by the avoidance system.
-        /// </summary>
-        private void OnVelocityComputed(Vector3 safeVelocity)
-        {
-            _safeVelocity = safeVelocity;
-            _hasSafeVelocity = true;
-        }
-
-        /// <summary>
         /// Main physics update loop.
         /// Handles navigation, movement, avoidance, and facing.
         /// </summary>
@@ -311,6 +282,52 @@ namespace EHE.BoltBusters
             // Facing
             if (FaceMovement)
                 FaceInMovementDirectionSmooth(Velocity, delta);
+        }
+
+        #endregion Public Methods
+
+
+        #region Private Methods
+
+        /// <summary>
+        /// Called whenever the player reference changes.
+        /// Player may be null during scene transitions.
+        /// </summary>
+        private void OnPlayerChanged(CharacterBody3D player)
+        {
+            _player = player;
+            _repathTimer = 0;
+            _hasSafeVelocity = false;
+            _safeVelocity = Vector3.Zero;
+
+            if (_agent != null && _player != null)
+                _agent.TargetPosition = _player.GlobalPosition;
+        }
+
+        /// <summary>
+        /// Applies exported avoidance and movement settings
+        /// to the NavigationAgent3D.
+        /// </summary>
+        private void ConfigureAvoidance()
+        {
+            _agent.AvoidanceEnabled = UseAvoidance;
+            _agent.Radius = AvoidanceRadius;
+            _agent.NeighborDistance = NeighborDistance;
+            _agent.MaxNeighbors = MaxNeighbors;
+            _agent.TimeHorizonAgents = TimeHorizonAgents;
+            _agent.AvoidancePriority = AvoidancePriority;
+
+            _agent.MaxSpeed = MoveSpeed;
+            _agent.TargetDesiredDistance = StopDistance;
+        }
+
+        /// <summary>
+        /// Receives the safe velocity computed by the avoidance system.
+        /// </summary>
+        private void OnVelocityComputed(Vector3 safeVelocity)
+        {
+            _safeVelocity = safeVelocity;
+            _hasSafeVelocity = true;
         }
 
         /// <summary>
@@ -374,5 +391,7 @@ namespace EHE.BoltBusters
 
             return current + Mathf.Sign(diff) * maxDelta;
         }
+
+        #endregion Private Methods
     }
 }
