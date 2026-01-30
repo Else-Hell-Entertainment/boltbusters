@@ -1,9 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://tb0fhj8w73mc"]
+[gd_scene load_steps=3 format=3 uid="uid://tb0fhj8w73mc"]
 
 [ext_resource type="Script" uid="uid://bv1mdgnq8curu" path="res://Code/EnemySpawner.cs" id="1_4b1db"]
+[ext_resource type="PackedScene" uid="uid://c1rblmwfal2st" path="res://Scenes/ProtoEnemy.tscn" id="2_4l853"]
 
 [node name="EnemySpawner" type="Node3D" node_paths=PackedStringArray("_spawnAreasRoot", "_enemiesRoot", "_spawnTimer")]
 script = ExtResource("1_4b1db")
+_enemyScene = ExtResource("2_4l853")
 _spawnAreasRoot = NodePath("SpawnAreas")
 _enemiesRoot = NodePath("Enemies")
 _spawnTimer = NodePath("SpawnTimer")
