@@ -52,7 +52,6 @@ namespace EHE.BoltBusters
         private void SetTarget()
         {
             Vector3 targetPos = _muzzle.GlobalPosition;
-            //targetPos.Z = _muzzle.Position.Z - _range;
             targetPos.Z -= _range;
             targetPos.Y = 0;
             _muzzle.LookAt(targetPos);
