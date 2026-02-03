@@ -68,7 +68,7 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Removes a weapon from the controller.
         /// </summary>
-        public void RemoveWeapon()
+        public virtual void RemoveWeapon()
         {
             if (_weapons.Count > 0)
             {
