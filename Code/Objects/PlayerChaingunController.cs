@@ -1,4 +1,6 @@
-﻿namespace EHE.BoltBusters
+﻿using Godot;
+
+namespace EHE.BoltBusters
 {
     /// <summary>
     /// Controls a group of chainguns. Implemenation still WIP.
@@ -7,7 +9,9 @@
     {
         private float _attackTimer;
         private float _attackInterval = 0.5f;
-        private float _lagCorrection;
+
+        [Export]
+        private float _range = 10f;
 
         public override void _Ready()
         {

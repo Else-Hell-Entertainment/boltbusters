@@ -1,20 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://dbokno8n21haj"]
+[gd_scene load_steps=6 format=3 uid="uid://dbokno8n21haj"]
 
 [ext_resource type="Script" uid="uid://co4if3wvhh2jx" path="res://Code/Objects/Chaingun.cs" id="1_gvsop"]
-[ext_resource type="AudioStream" uid="uid://d2mqs1diw8k3m" path="res://Assets/SFX/PROTOChaingunShoot.mp3" id="2_p72gw"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_gvsop"]
 top_radius = 0.1
 bottom_radius = 0.1
 height = 0.5
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gvsop"]
-albedo_color = Color(1, 1, 0.13725491, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_p72gw"]
-material = SubResource("StandardMaterial3D_gvsop")
-radius = 0.01
-height = 12.377
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gvsop"]
 direction = Vector3(0, 0, -1)
@@ -35,19 +26,10 @@ material = SubResource("StandardMaterial3D_p72gw")
 radius = 0.05
 height = 0.05
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i8k86"]
-albedo_color = Color(0.003921569, 1, 0, 0.3019608)
-
-[sub_resource type="SphereMesh" id="SphereMesh_r70u3"]
-material = SubResource("StandardMaterial3D_i8k86")
-radius = 0.05
-height = 0.001
-
-[node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer", "_audioStreamPlayer")]
+[node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer")]
 script = ExtResource("1_gvsop")
 _cooldownTimer = NodePath("CooldownTimer")
 _accuracy = 0.01
-_audioStreamPlayer = NodePath("AudioStreamPlayer3D")
 
 [node name="CooldownTimer" type="Timer" parent="."]
 
@@ -55,16 +37,8 @@ _audioStreamPlayer = NodePath("AudioStreamPlayer3D")
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_gvsop")
 
-[node name="TempTimer" type="Timer" parent="."]
-
 [node name="Muzzle" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.30262926)
-
-[node name="TempEffect" type="MeshInstance3D" parent="Muzzle"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -6.210596)
-visible = false
-mesh = SubResource("CapsuleMesh_p72gw")
-skeleton = NodePath("../..")
 
 [node name="HitParticles" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.343589)
@@ -76,11 +50,3 @@ explosiveness = 1.0
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_gvsop")
 draw_pass_1 = SubResource("SphereMesh_i8k86")
-
-[node name="Reticle" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3234599)
-cast_shadow = 0
-mesh = SubResource("SphereMesh_r70u3")
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_p72gw")
