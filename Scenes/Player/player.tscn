@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://c4h2yy8w0gt3l"]
+[gd_scene load_steps=13 format=3 uid="uid://c4h2yy8w0gt3l"]
 
 [ext_resource type="Script" uid="uid://d1dql4pbawoly" path="res://Code/Objects/Player/Player.cs" id="1_4wape"]
 [ext_resource type="PackedScene" uid="uid://4x3awqn6r5eh" path="res://Scenes/Player/Weapons/ChaingunController.tscn" id="2_0u5uq"]
 [ext_resource type="PackedScene" uid="uid://bweyw22j1yyt8" path="res://Scenes/Player/Weapons/RocketLauncher.tscn" id="2_dd0ac"]
 [ext_resource type="PackedScene" uid="uid://b2qo60rl84pvj" path="res://Scenes/Player/Weapons/railgun.tscn" id="3_0u5uq"]
+[ext_resource type="PackedScene" uid="uid://dbokno8n21haj" path="res://Scenes/Player/Weapons/Chaingun.tscn" id="3_jlvik"]
 [ext_resource type="Script" uid="uid://nv0ew2bqkcqb" path="res://Code/Objects/Player/InputHandler.cs" id="4_jlvik"]
 [ext_resource type="Script" uid="uid://cbgtfntk84sv1" path="res://Code/Objects/Player/PlayerController.cs" id="5_gk6dx"]
 [ext_resource type="Script" uid="uid://d2knauna4hn3f" path="res://Code/Objects/Player/PlayerHealthComponent.cs" id="7_0u5uq"]
@@ -40,6 +41,7 @@ skeleton = NodePath("../..")
 
 [node name="ChaingunController" parent="Turret" instance=ExtResource("2_0u5uq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.2, -0.5)
+_weaponScene = ExtResource("3_jlvik")
 
 [node name="RocketLauncher" parent="Turret" instance=ExtResource("2_dd0ac")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0032143593, 2.097845, 0.09393144)
