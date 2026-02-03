@@ -13,7 +13,7 @@ namespace EHE.BoltBusters
     public partial class WaveData : Resource
     {
         [Export(PropertyHint.None, "suffix:seconds")]
-        private int _startTime = -1;
+        private double _startTime = -1;
 
         [Export]
         private Dictionary<EnemyType, int> _enemies = null;
@@ -24,7 +24,7 @@ namespace EHE.BoltBusters
         /// round should start.
         /// </summary>
         [Obsolete("This is not implemented yet.")]
-        public int StartTimeSinceRoundStart => _startTime;
+        public double StartTimeSinceRoundStart => _startTime;
 
         /// <summary>
         /// A <see cref="Dictionary"/> that contains enemies and their max
