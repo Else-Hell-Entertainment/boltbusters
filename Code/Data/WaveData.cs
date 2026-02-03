@@ -1,36 +1,48 @@
-using System;
 using Godot;
 using Godot.Collections;
 
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// Defines a single wave in a round including its start time and the types
-    /// and numbers of enemies to spawn.
+    /// Defines a single wave in a round. Contains the start time, enemy types,
+    /// and the number of each enemy type.
     /// </summary>
     /// <seealso cref="RoundData"/>
     [GlobalClass]
+    [Tool]
     public partial class WaveData : Resource
     {
-        [Export(PropertyHint.None, "suffix:seconds")]
-        private double _startTime = -1;
+        // For resetting the exported dictionary.
+        private static readonly Dictionary<EnemyType, int> s_defaultEnemies = new()
+        {
+            { EnemyType.Melee, 0 },
+            { EnemyType.Ranged, 0 },
+            { EnemyType.Shielded, 0 },
+        };
 
+        private double _spawnTimeAfterStart = 0;
+        private Dictionary<EnemyType, int> _enemies = s_defaultEnemies;
+
+        /// <summary>
+        /// Tells how many seconds should be passed since the beginning of the
+        /// round before this wave should be spawned.
+        /// </summary>
+        [Export(PropertyHint.Range, "0,60,1,or_greater,suffix:s")]
+        public double SpawnTimeAfterStart
+        {
+            get => _spawnTimeAfterStart;
+            private set => _spawnTimeAfterStart = Mathf.Clamp(value, 0, double.MaxValue);
+        }
+
+        /// <summary>
+        /// Tells what enemy types to spawn and how many.
+        /// </summary>
         [Export]
-        private Dictionary<EnemyType, int> _enemies = null;
-
-        /// <summary>
-        /// The start time of the wave in seconds since the beginning of a
-        /// round. Leave this to <c>-1</c> for automatically deciding when the
-        /// round should start.
-        /// </summary>
-        [Obsolete("This is not implemented yet.")]
-        public double StartTimeSinceRoundStart => _startTime;
-
-        /// <summary>
-        /// A <see cref="Dictionary"/> that contains enemies and their max
-        /// spawn number in the wave. For example, <c>frog: 10</c> means 10
-        /// frogs will spawn during the wave.
-        /// </summary>
-        public Dictionary<EnemyType, int> Enemies => _enemies;
+        public Dictionary<EnemyType, int> Enemies
+        {
+            get => _enemies;
+            // Prevent setting to empty dictionary.
+            private set => _enemies = value.Count == 0 ? s_defaultEnemies : value;
+        }
     }
 }
