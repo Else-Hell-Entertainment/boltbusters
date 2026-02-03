@@ -16,7 +16,7 @@ namespace EHE.BoltBusters
         private float _cooldown = 0.5f;
 
         [Export]
-        private float _accuracy = 0.05f;
+        private float _accuracy = 0.0f;
 
         [Export]
         private float _range = 7f;
@@ -53,8 +53,9 @@ namespace EHE.BoltBusters
         private void SetTarget()
         {
             Vector3 targetPos = _muzzle.GlobalPosition;
-            targetPos.Z = _muzzle.Position.Z - _range;
-            targetPos.Y = 0.2f;
+            //targetPos.Z = _muzzle.Position.Z - _range;
+            targetPos.Z -= _range;
+            targetPos.Y = 0;
             _muzzle.LookAt(targetPos);
         }
 
@@ -102,6 +103,7 @@ namespace EHE.BoltBusters
             lineMesh.Mesh = cylinderMesh;
             lineMesh.Position = start + direction * lineLength / 2;
             lineMesh.MaterialOverride = lineMaterial;
+            lineMesh.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
 
             cylinderMesh.Rings = 0;
             cylinderMesh.RadialSegments = 6;

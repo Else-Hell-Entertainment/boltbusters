@@ -104,8 +104,8 @@ process_material = SubResource("ParticleProcessMaterial_tlj4s")
 draw_pass_1 = SubResource("SphereMesh_5ym2k")
 
 [node name="Reticle" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -4.7851105)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 transparency = 0.2
 cast_shadow = 0
-billboard = 1
+double_sided = false
 texture = ExtResource("3_5ym2k")
