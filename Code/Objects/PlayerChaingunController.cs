@@ -47,7 +47,7 @@ namespace EHE.BoltBusters
         {
             if (_attackTimer < _attackInterval)
                 return;
-            foreach (BaseWeapon weapon in _weapons)
+            foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon.CanAttack)
                 {
@@ -75,9 +75,9 @@ namespace EHE.BoltBusters
         /// </summary>
         private void SetAttackInterval()
         {
-            float numberOfGuns = _weapons.Count;
+            float numberOfGuns = Weapons.Count;
 
-            if (_weapons.Count > 0 && _weapons[0] is Chaingun chaingun)
+            if (Weapons.Count > 0 && Weapons[0] is Chaingun chaingun)
             {
                 float gunCooldown = chaingun.Cooldown;
                 _attackInterval = gunCooldown / numberOfGuns; // Denominator is confirmed to be > 0.

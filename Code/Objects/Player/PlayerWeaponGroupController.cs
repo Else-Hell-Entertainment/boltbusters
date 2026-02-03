@@ -9,11 +9,12 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class PlayerWeaponGroupController : Node3D, IAttacker
     {
-        [Export]
-        private string _weaponScenePath = "res://Scenes/Player/Weapons/Chaingun.tscn";
-
         private List<Node3D> _weaponSlots = new List<Node3D>();
-        protected List<BaseWeapon> _weapons = new List<BaseWeapon>();
+
+        [Export]
+        private PackedScene _weaponScene;
+
+        protected List<BaseWeapon> Weapons = new List<BaseWeapon>();
 
         public override void _Ready()
         {
@@ -35,7 +36,7 @@ namespace EHE.BoltBusters
         /// </summary>
         public virtual void Attack()
         {
-            foreach (BaseWeapon weapon in _weapons)
+            foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon.CanAttack)
                 {
@@ -45,20 +46,19 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Adds a new weapon for the controller.
+        /// Add a new weapon of type BaseWeapon to the controller. Set the appropriate weapon scene in editor.
         /// </summary>
         public virtual void AddWeapon()
         {
-            if (_weapons.Count >= _weaponSlots.Count)
+            if (Weapons.Count >= _weaponSlots.Count)
             {
-                GD.Print("Not enough slots");
+                GD.Print("Not enough slots!");
             }
             else
             {
-                var scene = GD.Load<PackedScene>(_weaponScenePath);
-                BaseWeapon weapon = scene.Instantiate<BaseWeapon>();
-                _weapons.Add(weapon);
-                int newIndex = _weapons.Count - 1;
+                var weapon = _weaponScene.Instantiate<BaseWeapon>();
+                Weapons.Add(weapon);
+                int newIndex = Weapons.Count - 1;
                 Node3D node = _weaponSlots[newIndex];
                 weapon.Position = node.GetPosition();
                 AddChild(weapon);
@@ -70,10 +70,12 @@ namespace EHE.BoltBusters
         /// </summary>
         public virtual void RemoveWeapon()
         {
-            if (_weapons.Count > 0)
+            if (Weapons.Count > 0)
             {
-                int lastIndex = _weapons.Count - 1;
-                _weapons.RemoveAt(lastIndex);
+                int lastIndex = Weapons.Count - 1;
+                BaseWeapon weapon = Weapons[lastIndex];
+                Weapons.RemoveAt(lastIndex);
+                weapon.QueueFree();
             }
         }
     }
