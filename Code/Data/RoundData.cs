@@ -10,8 +10,8 @@ namespace EHE.BoltBusters
     [GlobalClass]
     public partial class RoundData : Resource
     {
-        [Export(PropertyHint.Range, "0,120,1,or_grater,suffix:seconds")]
-        private int _roundLength = 10;
+        [Export(PropertyHint.Range, "0,120,1,or_greater,suffix:seconds")]
+        private double _roundLength = 10.0;
 
         [Export]
         private WaveData[] _waves = null;
@@ -19,7 +19,7 @@ namespace EHE.BoltBusters
         /// <summary>
         /// The total length of the round in seconds.
         /// </summary>
-        public int RoundLength => _roundLength;
+        public double RoundLength => _roundLength;
 
         /// <summary>
         /// Array of waves in the round.
