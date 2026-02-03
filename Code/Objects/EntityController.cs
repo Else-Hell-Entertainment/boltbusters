@@ -52,7 +52,6 @@ namespace EHE.BoltBusters
             _commands.Clear();
         }
 
-
         protected ICommand GetNextCommand()
         {
             return _commands.TryPop(out ICommand cmd) ? cmd : null;

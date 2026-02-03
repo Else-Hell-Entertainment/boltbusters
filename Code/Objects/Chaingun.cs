@@ -21,9 +21,6 @@ namespace EHE.BoltBusters
         [Export]
         private float _range = 7f;
 
-        [Export]
-        private AudioStreamPlayer3D _audioStreamPlayer;
-
         /// <summary>
         /// Cooldown for a single chaingun can never be faster than one physics frame at 30 fps = 0.033 seconds.
         /// For a node with 8 guns (game default) working at 30 fps = minimum cooldown of 0.267 seconds is recommended.
@@ -36,7 +33,6 @@ namespace EHE.BoltBusters
 
         private GpuParticles3D _hitParticles;
         private Node3D _muzzle;
-        private MeshInstance3D _reticle;
         private DamageData _damageData;
 
         public override void _Ready()
@@ -46,7 +42,6 @@ namespace EHE.BoltBusters
 
             _muzzle = GetNode<Node3D>("Muzzle");
             _hitParticles = GetNode<GpuParticles3D>("HitParticles");
-            _reticle = GetNode<MeshInstance3D>("Reticle");
 
             _cooldownTimer.WaitTime = _cooldown;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
@@ -60,7 +55,6 @@ namespace EHE.BoltBusters
             targetPos.Z = _muzzle.Position.Z - _range;
             targetPos.Y = 0.2f;
             _muzzle.LookAt(targetPos);
-            _reticle.GlobalPosition = targetPos;
         }
 
         private void OnCooldownTimerTimeout()
