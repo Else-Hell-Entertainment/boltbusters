@@ -88,6 +88,8 @@ _data = {
 }
 
 [sub_resource type="SphereMesh" id="SphereMesh_redfc"]
+radius = 1.0
+height = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_redfc"]
 render_priority = -1
