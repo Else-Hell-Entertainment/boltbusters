@@ -11,7 +11,7 @@ namespace EHE.BoltBusters
         private float _attackInterval = 0.5f;
 
         [Export]
-        private float _range = 6f;
+        private float _range = 7f;
 
         private Sprite3D _reticle;
 
@@ -28,7 +28,7 @@ namespace EHE.BoltBusters
             AddWeapon();
 
             _reticle = GetNode<Sprite3D>("Reticle");
-            _reticle.Position -= new Vector3(0, 0, _range);
+            _reticle.Position -= new Vector3(0, _reticle.GlobalPosition.Y - 0.2f, _range);
         }
 
         public override void AddWeapon()
