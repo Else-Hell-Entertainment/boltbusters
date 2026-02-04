@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b4w446hov1iq4"]
+[gd_scene load_steps=6 format=3 uid="uid://b4w446hov1iq4"]
 
-[ext_resource type="Script" uid="uid://dikmgdnrop6xx" path="res://Code/Objects/Player/PlayerWeaponGroupController.cs" id="1_5tm5u"]
+[ext_resource type="Script" uid="uid://csfsxcmayp2td" path="res://Code/Objects/PlayerRocketLauncherController.cs" id="1_qfr55"]
 [ext_resource type="PackedScene" uid="uid://bweyw22j1yyt8" path="res://Scenes/Player/Weapons/RocketLauncher.tscn" id="2_qfr55"]
+[ext_resource type="Texture2D" uid="uid://ceqe6b24k56lo" path="res://Assets/Sprites/BombSight.png" id="3_qfr55"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_e0onp"]
 top_radius = 0.05
@@ -14,7 +15,7 @@ bottom_radius = 0.1
 height = 0.2
 
 [node name="RocketLauncherController" type="Node3D"]
-script = ExtResource("1_5tm5u")
+script = ExtResource("1_qfr55")
 _weaponScene = ExtResource("2_qfr55")
 
 [node name="WeaponSlots" type="Node3D" parent="."]
@@ -23,30 +24,35 @@ _weaponScene = ExtResource("2_qfr55")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07443732, 0.098289706, -0.09521111)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot1"]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_e0onp")
 
 [node name="Slot2" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07443732, 0.098289706, 0.07670633)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.035277955, 0.098289706, -0.08571892)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot2"]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_e0onp")
 
 [node name="Slot3" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07443732, -0.077280305, 0.07670633)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07443732, -0.077280305, -0.102480695)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot3"]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_e0onp")
 
 [node name="Slot4" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07443732, -0.077280305, -0.10143403)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03184074, -0.077280305, -0.10143403)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot4"]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_e0onp")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_nfrcb")
+
+[node name="Reticle" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+double_sided = false
+texture = ExtResource("3_qfr55")
