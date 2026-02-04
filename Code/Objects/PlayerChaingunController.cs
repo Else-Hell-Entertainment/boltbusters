@@ -11,6 +11,7 @@ namespace EHE.BoltBusters
         private float _attackTimer;
         private float _attackInterval = 0.5f;
 
+        // TODO: Implement chainguns automatically adjusting to target. Currently hardcoded!
         [Export]
         private float _range = 7f;
 
