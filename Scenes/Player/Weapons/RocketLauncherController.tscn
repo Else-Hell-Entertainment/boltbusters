@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4w446hov1iq4"]
+
+[ext_resource type="Script" uid="uid://dikmgdnrop6xx" path="res://Code/Objects/Player/PlayerWeaponGroupController.cs" id="1_5tm5u"]
+[ext_resource type="PackedScene" uid="uid://bweyw22j1yyt8" path="res://Scenes/Player/Weapons/RocketLauncher.tscn" id="2_qfr55"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_e0onp"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_nfrcb"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.2
+
+[node name="RocketLauncherController" type="Node3D"]
+script = ExtResource("1_5tm5u")
+_weaponScene = ExtResource("2_qfr55")
+
+[node name="WeaponSlots" type="Node3D" parent="."]
+
+[node name="Slot1" type="Node3D" parent="WeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07443732, 0.098289706, -0.09521111)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot1"]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_e0onp")
+
+[node name="Slot2" type="Node3D" parent="WeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07443732, 0.098289706, 0.07670633)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot2"]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_e0onp")
+
+[node name="Slot3" type="Node3D" parent="WeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07443732, -0.077280305, 0.07670633)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot3"]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_e0onp")
+
+[node name="Slot4" type="Node3D" parent="WeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07443732, -0.077280305, -0.10143403)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot4"]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_e0onp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_nfrcb")
