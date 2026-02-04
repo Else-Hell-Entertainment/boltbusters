@@ -4,6 +4,7 @@ namespace EHE.BoltBusters
 {
     public partial class PlayerRocketLauncherController : PlayerWeaponGroupController
     {
+        // TODO: Implement rocket launchers adjusting to range setting. Currently not implemented!
         [Export]
         private float _range = 12f;
 
@@ -22,7 +23,14 @@ namespace EHE.BoltBusters
 
         public override void Attack()
         {
-            base.Attack();
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon.CanAttack())
+                {
+                    weapon.Attack();
+                    return;
+                }
+            }
         }
     }
 }
