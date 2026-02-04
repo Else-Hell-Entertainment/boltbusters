@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bweyw22j1yyt8"]
+[gd_scene load_steps=4 format=3 uid="uid://bweyw22j1yyt8"]
 
 [ext_resource type="Script" uid="uid://cudatx3chwyeu" path="res://Code/Objects/RocketLauncher.cs" id="1_g72lr"]
 [ext_resource type="PackedScene" uid="uid://bjnc7ni0pla1w" path="res://Scenes/Player/Weapons/Rocket.tscn" id="2_prav5"]
@@ -7,22 +7,29 @@
 top_radius = 0.25
 bottom_radius = 0.25
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_g72lr"]
-top_radius = 0.01
-bottom_radius = 0.01
-
 [node name="RocketLauncher" type="Node3D"]
 script = ExtResource("1_g72lr")
 _rocketScene = ExtResource("2_prav5")
 
+[node name="CooldownTimer" type="Timer" parent="."]
+
+[node name="IntervalTimer" type="Timer" parent="."]
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0.10514128)
 mesh = SubResource("CylinderMesh_s270b")
 
-[node name="LaunchPoint" type="Node3D" parent="."]
+[node name="LaunchPoints" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.96758586, 0.25254223, 0, -0.25254223, 0.96758586, 0, 0, -0.9297668)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="LaunchPoint"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.049355865)
-visible = false
-mesh = SubResource("CylinderMesh_g72lr")
+[node name="Point1" type="Node3D" parent="LaunchPoints"]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0.22808146, 0.05952978)
+
+[node name="Point2" type="Node3D" parent="LaunchPoints"]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, -0.19870533, -0.051862538)
+
+[node name="Point3" type="Node3D" parent="LaunchPoints"]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0.22612163, 0, 0)
+
+[node name="Point4" type="Node3D" parent="LaunchPoints"]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, -0.23409456, 0, 0)

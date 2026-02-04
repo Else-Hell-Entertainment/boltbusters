@@ -16,6 +16,7 @@ rings = 4
 radius = 2.0
 
 [node name="Rocket" type="CharacterBody3D" node_paths=PackedStringArray("_VFXanimationPlayer")]
+collision_layer = 0
 script = ExtResource("1_am5q4")
 _VFXanimationPlayer = NodePath("VFX/Explosion/AnimationPlayer")
 

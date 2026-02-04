@@ -20,12 +20,12 @@ texture = SubResource("NoiseTexture2D_sr5io")
 texture_type = 1
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_aywj4"]
-size = Vector2(734, 767)
+size = Vector2(706.25, 222)
 title = "DarkArea"
 attached_nodes = PackedInt32Array(2, 3)
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_b0d3k"]
-size = Vector2(1206.25, 1226.9999)
+size = Vector2(1206.25, 921.99994)
 title = "ExplosionColor"
 attached_nodes = PackedInt32Array(4, 11, 9, 20, 8, 6, 5)
 
@@ -48,7 +48,7 @@ texture_type = 1
 linked_parent_graph_frame = 18
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_4t1sr"]
-size = Vector2(786.25, 851.00006)
+size = Vector2(786.25, 462)
 title = "CloudDissolver"
 attached_nodes = PackedInt32Array(16, 14, 19)
 
