@@ -41,6 +41,11 @@ namespace EHE.BoltBusters
                 }
             }
 
+            if (_launchPoints.Count == 0)
+            {
+                GD.PrintErr("Rocket launcher missing launch points!");
+            }
+
             _intervalTimer = GetNode<Timer>("IntervalTimer");
             _intervalTimer.WaitTime = _launchInterval;
             _intervalTimer.OneShot = true;
@@ -55,8 +60,6 @@ namespace EHE.BoltBusters
         public override void Attack()
         {
             LaunchRockets();
-            //rocket.GlobalPosition = _launchPoint.GlobalPosition;
-            //rocket.GlobalRotation = _launchPoint.GlobalRotation;
         }
 
         public override bool CanAttack()
@@ -66,19 +69,18 @@ namespace EHE.BoltBusters
 
         private async Task LaunchRockets()
         {
-            GD.Print("Launching Rockets");
             int shotCounter = 0;
+            int launchPointIndex = 0;
             _isFiring = true;
             while (shotCounter < _salvoSize)
             {
                 Rocket rocket = _rocketScene.Instantiate<Rocket>();
                 _levelRootNode.AddChild(rocket);
-                Node3D point = _launchPoints[0];
+                Node3D point = _launchPoints[launchPointIndex];
+                launchPointIndex = (launchPointIndex + 1) % _launchPoints.Count;
                 rocket.GlobalPosition = point.GlobalPosition;
                 rocket.GlobalRotation = point.GlobalRotation;
-                GD.Print("ROCKET GOES SKÄBÄDÄBÄDÄBÄDÄÄÄ!");
                 shotCounter++;
-                GD.Print("Shots fired: " + shotCounter);
                 _intervalTimer.Start();
                 await (ToSignal(_intervalTimer, "timeout"));
             }
