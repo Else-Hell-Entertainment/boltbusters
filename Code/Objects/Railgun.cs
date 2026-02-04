@@ -11,7 +11,7 @@ namespace EHE.BoltBusters
         private Timer _cooldownTimer;
 
         [Export]
-        private float _cooldown = 1f;
+        private float _cooldown = 5f;
 
         private bool _canFire = true;
         private MeshInstance3D _laserSight;
@@ -51,6 +51,11 @@ namespace EHE.BoltBusters
             _cooldownTimer.Start();
             DoRayCast();
             DrawBulletEffect();
+        }
+
+        public override bool CanAttack()
+        {
+            return _canFire;
         }
 
         private void DoRayCast()

@@ -63,7 +63,7 @@ namespace EHE.BoltBusters
         private PlayerChaingunController _chaingunController;
 
         [Export]
-        private Railgun _railgun;
+        private PlayerRailgunController _railgunController;
 
         [Export]
         private PlayerRocketLauncherController _rocketLauncherController;
@@ -149,7 +149,7 @@ namespace EHE.BoltBusters
                         case "Chaingun":
                             return attackCommand.AssignReceiver(_chaingunController);
                         case "Railgun":
-                            return attackCommand.AssignReceiver(_railgun);
+                            return attackCommand.AssignReceiver(_railgunController);
                         case "Rocket":
                             return attackCommand.AssignReceiver(_rocketLauncherController);
                     }

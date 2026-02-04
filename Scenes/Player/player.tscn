@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://d1dql4pbawoly" path="res://Code/Objects/Player/Player.cs" id="1_4wape"]
 [ext_resource type="PackedScene" uid="uid://4x3awqn6r5eh" path="res://Scenes/Player/Weapons/ChaingunController.tscn" id="2_0u5uq"]
-[ext_resource type="PackedScene" uid="uid://b2qo60rl84pvj" path="res://Scenes/Player/Weapons/railgun.tscn" id="3_0u5uq"]
 [ext_resource type="PackedScene" uid="uid://b4w446hov1iq4" path="res://Scenes/Player/Weapons/RocketLauncherController.tscn" id="3_jlvik"]
+[ext_resource type="PackedScene" uid="uid://bfp2kgi6a16wi" path="res://Scenes/Player/Weapons/RailgunController.tscn" id="4_0u5uq"]
 [ext_resource type="Script" uid="uid://nv0ew2bqkcqb" path="res://Code/Objects/Player/InputHandler.cs" id="4_jlvik"]
 [ext_resource type="Script" uid="uid://cbgtfntk84sv1" path="res://Code/Objects/Player/PlayerController.cs" id="5_gk6dx"]
 [ext_resource type="Script" uid="uid://d2knauna4hn3f" path="res://Code/Objects/Player/PlayerHealthComponent.cs" id="7_0u5uq"]
@@ -44,20 +44,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.2, -0.5)
 [node name="RocketLauncherController" parent="Turret" instance=ExtResource("3_jlvik")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47038412, 2.1164837, -0.030256808)
 
-[node name="Railgun" parent="Turret" instance=ExtResource("3_0u5uq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 1.2, 0)
+[node name="RailgunController" parent="Turret" instance=ExtResource("4_0u5uq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8875356, 1.3303387, -0.5440887)
 
 [node name="InputHandler" type="Node3D" parent="."]
 script = ExtResource("4_jlvik")
 
-[node name="PlayerController" type="Node3D" parent="." node_paths=PackedStringArray("_playerBody", "_bodyNode", "_turretNode", "_inputHandler", "_chaingunController", "_railgun", "_rocketLauncherController")]
+[node name="PlayerController" type="Node3D" parent="." node_paths=PackedStringArray("_playerBody", "_bodyNode", "_turretNode", "_inputHandler", "_chaingunController", "_railgunController", "_rocketLauncherController")]
 script = ExtResource("5_gk6dx")
 _playerBody = NodePath("..")
 _bodyNode = NodePath("../PlayerBody")
 _turretNode = NodePath("../Turret")
 _inputHandler = NodePath("../InputHandler")
 _chaingunController = NodePath("../Turret/ChaingunController")
-_railgun = NodePath("../Turret/Railgun")
+_railgunController = NodePath("../Turret/RailgunController")
 _rocketLauncherController = NodePath("../Turret/RocketLauncherController")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
