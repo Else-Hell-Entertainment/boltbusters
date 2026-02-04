@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://4x3awqn6r5eh"]
+[gd_scene load_steps=10 format=3 uid="uid://4x3awqn6r5eh"]
 
 [ext_resource type="Script" uid="uid://do4klngwttl5f" path="res://Code/Objects/PlayerChaingunController.cs" id="1_tlj4s"]
 [ext_resource type="AudioStream" uid="uid://d2mqs1diw8k3m" path="res://Assets/SFX/PROTOChaingunShoot.mp3" id="2_bb0os"]
+[ext_resource type="PackedScene" uid="uid://dbokno8n21haj" path="res://Scenes/Player/Weapons/Chaingun.tscn" id="2_qirdc"]
 [ext_resource type="Texture2D" uid="uid://dtblk75g7f1k5" path="res://Assets/Sprites/Reticle.png" id="3_5ym2k"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_tlj4s"]
@@ -28,60 +29,63 @@ height = 0.1
 
 [node name="ChaingunController" type="Node3D"]
 script = ExtResource("1_tlj4s")
+_weaponScene = ExtResource("2_qirdc")
 
-[node name="Slot1" type="Node3D" parent="."]
+[node name="WeaponSlots" type="Node3D" parent="."]
+
+[node name="Slot1" type="Node3D" parent="WeaponSlots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -0.1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Slot1"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot1"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_tlj4s")
 
-[node name="Slot2" type="Node3D" parent="."]
+[node name="Slot2" type="Node3D" parent="WeaponSlots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.28, 0.25, -0.1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Slot2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot2"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_tlj4s")
 
-[node name="Slot3" type="Node3D" parent="."]
+[node name="Slot3" type="Node3D" parent="WeaponSlots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0, -0.1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Slot3"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot3"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_tlj4s")
 
-[node name="Slot4" type="Node3D" parent="."]
+[node name="Slot4" type="Node3D" parent="WeaponSlots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.28, -0.25, -0.1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Slot4"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot4"]
 transform = Transform3D(0.99999785, -0.0020769404, -9.078595e-11, 0, -4.371139e-08, 1, -0.0020769404, -0.99999785, -4.3711296e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_tlj4s")
 
-[node name="Slot5" type="Node3D" parent="."]
+[node name="Slot5" type="Node3D" parent="WeaponSlots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, -0.1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Slot5"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot5"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_tlj4s")
 
-[node name="Slot6" type="Node3D" parent="."]
+[node name="Slot6" type="Node3D" parent="WeaponSlots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, -0.25, -0.1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Slot6"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot6"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_tlj4s")
 
-[node name="Slot7" type="Node3D" parent="."]
+[node name="Slot7" type="Node3D" parent="WeaponSlots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0, -0.1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Slot7"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot7"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_tlj4s")
 
-[node name="Slot8" type="Node3D" parent="."]
+[node name="Slot8" type="Node3D" parent="WeaponSlots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, 0.25, -0.1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Slot8"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot8"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_tlj4s")
 
