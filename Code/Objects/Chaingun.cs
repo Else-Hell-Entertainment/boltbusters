@@ -3,9 +3,9 @@
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// Controls a single chaingun. The player will have multiple of these under a chaingun controller class. Allows
-    /// for the chaingun to be used as independent weapon or as a part of controlled group (implementation still WIP).
-    /// Implementation of this feature is still WIP.
+    /// Controls a single chaingun. The player will have multiple of these under a chaingun controller class. Because
+    /// of rapid fire rate and multiple chainguns, the controller manages the SFX and individual firing sequences of
+    /// a group of chainguns.
     /// </summary>
     public partial class Chaingun : BaseWeapon
     {

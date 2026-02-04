@@ -3,7 +3,8 @@
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// Controls a group of chainguns. Implemenation still WIP.
+    /// Controls a group of player controlled chainguns of base type BaseWeapon. This controller is used to manage the
+    /// chaingun's SFX.
     /// </summary>
     public partial class PlayerChaingunController : PlayerWeaponGroupController
     {

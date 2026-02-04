@@ -4,8 +4,9 @@ using Godot;
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// Base class for a weapon group controller. Can accept a single type of weapon. The base class works by itself
-    /// but it's suggested to inherit from this class for a more sophisticated weapon control scheme.
+    /// Base class for a weapon group controller. Can accept a single type of weapon. IMPORTANT: for weapon slots to
+    /// work, add any number of Node3D nodes as children of the WeaponSlots node in the editor. Weapons will be spawned
+    /// to these points.
     /// </summary>
     public partial class PlayerWeaponGroupController : Node3D, IAttacker
     {
@@ -18,12 +19,10 @@ namespace EHE.BoltBusters
 
         public override void _Ready()
         {
-            var nodes = GetChildren();
-            foreach (var node in nodes)
+            Node3D weaponSlots = GetNode<Node3D>("WeaponSlots");
+            foreach (var node in weaponSlots.GetChildren())
             {
-                string name = node.Name;
-                name = name.ToLower();
-                if (node is Node3D node3D && name.Contains("slot"))
+                if (node is Node3D node3D)
                 {
                     _weaponSlots.Add(node3D);
                 }
@@ -46,7 +45,7 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Add a new weapon of type BaseWeapon to the controller. Set the appropriate weapon scene in editor.
+        /// Add a new weapon of type BaseWeapon to the controller. Set the appropriate weapon scene in the editor.
         /// </summary>
         public virtual void AddWeapon()
         {
@@ -66,7 +65,7 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Removes a weapon from the controller.
+        /// Removes a weapon from the last index of the controller's list (LIFO) and calls QueueFree on it.
         /// </summary>
         public virtual void RemoveWeapon()
         {
