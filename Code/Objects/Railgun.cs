@@ -8,7 +8,7 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class Railgun : BaseWeapon
     {
-        public bool IsActive { get; private set; } = true;
+        public bool IsActive { get; set; }
 
         [Export]
         private Timer _cooldownTimer;
@@ -28,6 +28,9 @@ namespace EHE.BoltBusters
         private GpuParticles3D _hitParticles;
 
         private Dictionary _lastRaycastResult = new Dictionary();
+
+        [Signal]
+        public delegate void RailgunReloadReadyEventHandler(Railgun railgun);
 
         public override void _Ready()
         {
@@ -68,15 +71,12 @@ namespace EHE.BoltBusters
                 _laserSightInstance.GlobalPosition = midpoint;
                 _laserSightInstance.Show();
             }
-            else
-            {
-                _laserSightInstance.Hide();
-            }
         }
 
         private void OnCooldownTimerTimeout()
         {
             _canFire = true;
+            EmitSignal(SignalName.RailgunReloadReady, this);
         }
 
         public override void Attack()
@@ -87,6 +87,7 @@ namespace EHE.BoltBusters
             }
             _canFire = false;
             _cooldownTimer.Start();
+            _laserSightInstance.Hide();
             DoRayCast();
             DrawBulletEffect();
         }
