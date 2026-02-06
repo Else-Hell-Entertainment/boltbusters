@@ -30,7 +30,6 @@ namespace EHE.BoltBusters
 
         // Rockets will be reparented under this node.
         private Node _levelRootNode;
-        private bool _canFire = true;
 
         public override void _Ready()
         {
@@ -61,17 +60,12 @@ namespace EHE.BoltBusters
 
         public override void Attack()
         {
-            if (CanAttack())
+            if (CanAttack)
             {
-                _canFire = false;
+                CanAttack = false;
                 // Not awaiting for async completion on purpose.
                 LaunchRockets();
             }
-        }
-
-        public override bool CanAttack()
-        {
-            return _canFire;
         }
 
         private async Task LaunchRockets()
@@ -95,7 +89,7 @@ namespace EHE.BoltBusters
 
         private void OnCooldownTimerTimeout()
         {
-            _canFire = true;
+            CanAttack = true;
         }
     }
 }

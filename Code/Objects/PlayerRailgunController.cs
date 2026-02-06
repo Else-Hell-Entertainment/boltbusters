@@ -87,7 +87,7 @@ namespace EHE.BoltBusters
         {
             foreach (BaseWeapon weapon in Weapons)
             {
-                if (_activeRailgun == null && weapon.CanAttack() && weapon is Railgun railgun)
+                if (_activeRailgun == null && weapon.CanAttack && weapon is Railgun railgun)
                 {
                     railgun.IsActive = true;
                     _activeRailgun = railgun;

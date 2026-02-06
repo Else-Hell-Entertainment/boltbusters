@@ -69,6 +69,7 @@ skeleton = NodePath("../..")
 [node name="AttackParalysisTimer" type="Timer" parent="MeleeWeapon"]
 
 [node name="AttackArea" type="Area3D" parent="MeleeWeapon"]
+collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeleeWeapon/AttackArea"]
 shape = SubResource("CylinderShape3D_6yhfl")

@@ -150,6 +150,7 @@ namespace EHE.BoltBusters
                 if (target is IDamageable damageable)
                 {
                     ApplyDamage(damageable);
+                    GD.Print("Chaingun did damage");
                 }
             }
         }

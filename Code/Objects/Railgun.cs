@@ -16,8 +16,6 @@ namespace EHE.BoltBusters
         [Export]
         private float _cooldown = 5f;
 
-        private bool _canFire = true;
-
         private MeshInstance3D _laserSightInstance;
         private CylinderMesh _laserSightMesh;
 
@@ -75,26 +73,21 @@ namespace EHE.BoltBusters
 
         private void OnCooldownTimerTimeout()
         {
-            _canFire = true;
+            CanAttack = true;
             EmitSignal(SignalName.RailgunReloadReady, this);
         }
 
         public override void Attack()
         {
-            if (!_canFire)
+            if (!CanAttack)
             {
                 return;
             }
-            _canFire = false;
+            CanAttack = false;
             _cooldownTimer.Start();
             _laserSightInstance.Hide();
             DoRayCast();
             DrawBulletEffect();
-        }
-
-        public override bool CanAttack()
-        {
-            return _canFire;
         }
 
         private Dictionary RayCastForward()
