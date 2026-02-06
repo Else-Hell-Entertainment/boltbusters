@@ -31,7 +31,6 @@ namespace EHE.BoltBusters
             set => _cooldown = Mathf.Clamp(value, 0.034f, _cooldown);
         }
 
-        private bool _canFire = true;
         private GpuParticles3D _hitParticles;
         private Node3D _muzzle;
         private DamageData _damageData;
@@ -60,17 +59,12 @@ namespace EHE.BoltBusters
 
         private void OnCooldownTimerTimeout()
         {
-            _canFire = true;
-        }
-
-        public override bool CanAttack()
-        {
-            return _canFire;
+            CanAttack = true;
         }
 
         public override void Attack()
         {
-            _canFire = false;
+            CanAttack = false;
             _cooldownTimer.Start();
             DoRayCast();
         }

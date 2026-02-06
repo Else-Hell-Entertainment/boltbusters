@@ -37,7 +37,7 @@ namespace EHE.BoltBusters
         {
             foreach (BaseWeapon weapon in Weapons)
             {
-                if (weapon.CanAttack())
+                if (weapon.CanAttack)
                 {
                     weapon.Attack();
                 }
