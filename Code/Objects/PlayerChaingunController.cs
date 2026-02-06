@@ -34,7 +34,7 @@
                 return;
             foreach (BaseWeapon weapon in _weapons)
             {
-                if (weapon.CanAttack())
+                if (weapon.CanAttack)
                 {
                     weapon.Attack();
                     _attackTimer = 0;
