@@ -7,5 +7,4 @@ script = ExtResource("1_u8wcp")
 CameraNode = NodePath("Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-projection = 1
 size = 10.0
