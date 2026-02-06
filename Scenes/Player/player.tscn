@@ -45,7 +45,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.2, -0.5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47038412, 2.1164837, -0.030256808)
 
 [node name="RailgunController" parent="Turret" instance=ExtResource("4_0u5uq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8875356, 1.3303387, -0.5440887)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8875356, 0.7505859, -0.5440887)
 
 [node name="InputHandler" type="Node3D" parent="."]
 script = ExtResource("4_jlvik")
