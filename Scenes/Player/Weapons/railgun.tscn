@@ -3,15 +3,19 @@
 [ext_resource type="Script" uid="uid://b6ocj3yeeqgl" path="res://Code/Objects/Railgun.cs" id="1_57whb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1qj1a"]
+resource_local_to_scene = true
 transparency = 1
 albedo_color = Color(0.95748645, 0.012920001, 0.17923622, 0.29900002)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_yj31p"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_57whb"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_1qj1a")
 top_radius = 0.02
 bottom_radius = 0.02
-height = 6.151
+height = 0.001
 radial_segments = 6
+cap_top = false
+cap_bottom = false
 
 [sub_resource type="ORMMaterial3D" id="ORMMaterial3D_cbb7d"]
 transparency = 1
@@ -53,8 +57,8 @@ script = ExtResource("1_57whb")
 _cooldownTimer = NodePath("CooldownTimer")
 
 [node name="LaserSight" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -3.6809754)
-mesh = SubResource("CylinderMesh_yj31p")
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_57whb")
 
 [node name="BulletEffect" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -10.634451)
@@ -83,6 +87,6 @@ mesh = SubResource("BoxMesh_5iajx")
 [node name="CooldownTimer" type="Timer" parent="."]
 
 [node name="Muzzle" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.69716346)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.79105234)
 
 [node name="HitParticles" type="GPUParticles3D" parent="."]

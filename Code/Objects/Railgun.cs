@@ -1,4 +1,5 @@
 ﻿using Godot;
+using Godot.Collections;
 
 namespace EHE.BoltBusters
 {
@@ -7,6 +8,8 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class Railgun : BaseWeapon
     {
+        public bool IsActive { get; private set; } = true;
+
         [Export]
         private Timer _cooldownTimer;
 
@@ -14,12 +17,17 @@ namespace EHE.BoltBusters
         private float _cooldown = 5f;
 
         private bool _canFire = true;
-        private MeshInstance3D _laserSight;
+
+        private MeshInstance3D _laserSightInstance;
+        private CylinderMesh _laserSightMesh;
+
         private MeshInstance3D _bulletEffect;
         private MeshInstance3D _bulletTravel;
         private Node3D _muzzle;
         private DamageData _damageData;
         private GpuParticles3D _hitParticles;
+
+        private Dictionary _lastRaycastResult = new Dictionary();
 
         public override void _Ready()
         {
@@ -34,6 +42,36 @@ namespace EHE.BoltBusters
             _bulletTravel = GetNode<MeshInstance3D>("BulletTravel");
             _bulletEffect.Visible = false;
             _bulletTravel.Visible = false;
+
+            _laserSightInstance = GetNode<MeshInstance3D>("LaserSight");
+            _laserSightMesh = (CylinderMesh)_laserSightInstance.Mesh;
+        }
+
+        public override void _PhysicsProcess(double delta)
+        {
+            if (IsActive)
+            {
+                _lastRaycastResult = RayCastForward();
+                UpdateLaserSight();
+            }
+        }
+
+        private void UpdateLaserSight()
+        {
+            if (_lastRaycastResult.ContainsKey("position"))
+            {
+                Vector3 point = (Vector3)_lastRaycastResult["position"];
+                Vector3 direction = point - _muzzle.GlobalPosition;
+                float distance = direction.Length();
+                _laserSightMesh.Height = distance;
+                Vector3 midpoint = _muzzle.GlobalPosition + direction * 0.5f;
+                _laserSightInstance.GlobalPosition = midpoint;
+                _laserSightInstance.Show();
+            }
+            else
+            {
+                _laserSightInstance.Hide();
+            }
         }
 
         private void OnCooldownTimerTimeout()
@@ -56,6 +94,18 @@ namespace EHE.BoltBusters
         public override bool CanAttack()
         {
             return _canFire;
+        }
+
+        private Dictionary RayCastForward()
+        {
+            var spaceState = GetWorld3D().DirectSpaceState;
+            Vector3 start = _muzzle.GlobalPosition;
+            Vector3 direction = -_muzzle.GlobalBasis.Z;
+            Vector3 end = start + direction.Normalized() * 1000f;
+            var query = PhysicsRayQueryParameters3D.Create(start, end);
+            query.CollideWithAreas = true;
+            var result = spaceState.IntersectRay(query);
+            return result;
         }
 
         private void DoRayCast()
