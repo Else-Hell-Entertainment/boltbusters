@@ -86,8 +86,58 @@ namespace EHE.BoltBusters
             CanAttack = false;
             _cooldownTimer.Start();
             _laserSightInstance.Hide();
-            DoRayCast();
+            ResolveAttack();
+            //DoRayCast();
             DrawBulletEffect();
+        }
+
+        private void ResolveAttack()
+        {
+            Vector3 origin = _muzzle.GlobalPosition;
+            Vector3 direction = -_muzzle.GlobalBasis.Z;
+            int maxPierceCount = 5;
+
+            for (int i = 0; i < maxPierceCount; i++)
+            {
+                var result = Raycast(origin, direction);
+                if (result.ContainsKey("position"))
+                {
+                    var collider = result["collider"];
+                    Node target = (Node)collider;
+                    Vector3 hit = (Vector3)result["position"];
+                    _hitParticles.GlobalPosition = hit;
+                    _hitParticles.Emitting = true;
+                    if (target is IDamageable damageable)
+                    {
+                        ApplyDamage(damageable);
+                    }
+                    GD.Print("Hit target " + target.Name);
+                    origin = hit + direction * 0.1f;
+                }
+            }
+
+            if (_lastRaycastResult.ContainsKey("position"))
+            {
+                var collider = _lastRaycastResult["collider"];
+                Node target = (Node)collider;
+                Vector3 point = (Vector3)_lastRaycastResult["position"];
+                _hitParticles.GlobalPosition = point;
+                _hitParticles.Emitting = true;
+                if (target is IDamageable damageable)
+                {
+                    ApplyDamage(damageable);
+                }
+            }
+        }
+
+        private Dictionary Raycast(Vector3 start, Vector3 direction)
+        {
+            var spaceState = GetWorld3D().DirectSpaceState;
+            Vector3 end = start + direction.Normalized() * 1000f;
+            var query = PhysicsRayQueryParameters3D.Create(start, end);
+            query.CollideWithAreas = true;
+            var result = spaceState.IntersectRay(query);
+            return result;
         }
 
         private Dictionary RayCastForward()
