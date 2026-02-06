@@ -4,8 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://bjnc7ni0pla1w" path="res://Scenes/Player/Weapons/Rocket.tscn" id="2_prav5"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_s270b"]
-top_radius = 0.25
-bottom_radius = 0.25
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.5
 
 [node name="RocketLauncher" type="Node3D"]
 script = ExtResource("1_g72lr")

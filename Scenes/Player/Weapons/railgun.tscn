@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://douqouf6cs574"]
+[gd_scene load_steps=11 format=3 uid="uid://cf5vqiflfwdvt"]
 
 [ext_resource type="Script" uid="uid://b6ocj3yeeqgl" path="res://Code/Objects/Railgun.cs" id="1_57whb"]
 
@@ -50,7 +50,7 @@ radius = 0.05
 height = 0.5
 
 [sub_resource type="BoxMesh" id="BoxMesh_5iajx"]
-size = Vector3(0.5, 0.5, 1.4)
+size = Vector3(0.2, 0.2, 0.5)
 
 [node name="Railgun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer")]
 script = ExtResource("1_57whb")
