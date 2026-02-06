@@ -5,7 +5,7 @@ namespace EHE.BoltBusters
 {
     public partial class PlayerRailgunController : PlayerWeaponGroupController
     {
-        private Railgun activeRailgun;
+        private Railgun _activeRailgun;
 
         private List<Railgun> _connectedRailguns = new List<Railgun>();
 
@@ -25,15 +25,22 @@ namespace EHE.BoltBusters
             SetNextActive();
         }
 
+        public override void RemoveWeapon()
+        {
+            base.RemoveWeapon();
+            RefreshConnectedRailguns();
+            SetNextActive();
+        }
+
         public override void Attack()
         {
-            if (activeRailgun == null)
+            if (_activeRailgun == null)
             {
                 return;
             }
-            activeRailgun.Attack();
-            activeRailgun.IsActive = false;
-            activeRailgun = null;
+            _activeRailgun.Attack();
+            _activeRailgun.IsActive = false;
+            _activeRailgun = null;
             SetNextActive();
         }
 
@@ -51,22 +58,28 @@ namespace EHE.BoltBusters
                 }
             }
 
+            List<Railgun> removeList = new List<Railgun>();
             foreach (Railgun railgun in _connectedRailguns)
             {
                 if (!Weapons.Contains(railgun))
                 {
                     railgun.RailgunReloadReady -= OnRailgunReloadReady;
-                    _connectedRailguns.Remove(railgun);
+                    removeList.Add(railgun);
                 }
+            }
+
+            foreach (Railgun railgun in removeList)
+            {
+                _connectedRailguns.Remove(railgun);
             }
         }
 
         private void OnRailgunReloadReady(Railgun railgun)
         {
-            if (activeRailgun == null)
+            if (_activeRailgun == null)
             {
-                activeRailgun = railgun;
-                activeRailgun.IsActive = true;
+                _activeRailgun = railgun;
+                _activeRailgun.IsActive = true;
             }
         }
 
@@ -74,10 +87,10 @@ namespace EHE.BoltBusters
         {
             foreach (BaseWeapon weapon in Weapons)
             {
-                if (activeRailgun == null && weapon.CanAttack() && weapon is Railgun railgun)
+                if (_activeRailgun == null && weapon.CanAttack() && weapon is Railgun railgun)
                 {
                     railgun.IsActive = true;
-                    activeRailgun = railgun;
+                    _activeRailgun = railgun;
                     return;
                 }
             }

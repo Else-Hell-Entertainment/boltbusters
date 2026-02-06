@@ -167,7 +167,6 @@ namespace EHE.BoltBusters
         private void ApplyDamage(IDamageable damageable)
         {
             damageable.TakeDamage(_damageData);
-            GD.Print("Railgun damaged something!");
         }
     }
 }
