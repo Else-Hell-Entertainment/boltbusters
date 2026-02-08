@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Bolt Busters"
 config/version="a1.0.0"
-run/main_scene="uid://b35amjbo2hqe5"
+run/main_scene="uid://cneglc8s4irky"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
