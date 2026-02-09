@@ -1,0 +1,112 @@
+[gd_scene load_steps=14 format=3 uid="uid://cf5vqiflfwdvt"]
+
+[ext_resource type="Script" uid="uid://b6ocj3yeeqgl" path="res://Code/Objects/Railgun.cs" id="1_57whb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1qj1a"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(0.95748645, 0.012920001, 0.17923622, 0.29900002)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_57whb"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_1qj1a")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.001
+radial_segments = 6
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_cbb7d"]
+transparency = 1
+albedo_color = Color(0.6901961, 0.8117647, 1, 0.39215687)
+emission_enabled = true
+emission = Color(0.003921569, 0.11764706, 0.89411765, 1)
+emission_energy_multiplier = 16.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_kbhkp"]
+material = SubResource("ORMMaterial3D_cbb7d")
+top_radius = 0.01
+bottom_radius = 0.01
+height = 20.0
+radial_segments = 16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kbhkp"]
+albedo_color = Color(0.6574346, 0.6548174, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5iajx"]
+material = SubResource("StandardMaterial3D_kbhkp")
+radius = 0.015
+radial_segments = 6
+rings = 4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5iajx"]
+transparency = 1
+albedo_color = Color(1, 0.5892184, 0.26131096, 0.30980393)
+
+[sub_resource type="SphereMesh" id="SphereMesh_8voy1"]
+material = SubResource("StandardMaterial3D_5iajx")
+radius = 0.05
+height = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_5iajx"]
+size = Vector3(0.2, 0.2, 0.5)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kbhkp"]
+direction = Vector3(1, 1, 0)
+initial_velocity_min = 6.0
+initial_velocity_max = 9.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8voy1"]
+albedo_color = Color(1, 0.51584375, 0.07016479, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_5iajx"]
+material = SubResource("StandardMaterial3D_8voy1")
+radius = 0.1
+height = 0.2
+
+[node name="Railgun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer")]
+script = ExtResource("1_57whb")
+_cooldownTimer = NodePath("CooldownTimer")
+
+[node name="LaserSight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_57whb")
+
+[node name="BulletEffect" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -10.634451)
+visible = false
+mesh = SubResource("CylinderMesh_kbhkp")
+
+[node name="BulletTravel" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -1.6476581)
+visible = false
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_5iajx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BulletTravel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4776945, 2.088067e-08)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_8voy1")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="BulletTravel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8795364, 3.8445755e-08)
+light_color = Color(1, 1, 0.3529412, 1)
+omni_range = 0.166
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_5iajx")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+
+[node name="Muzzle" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.79105234)
+
+[node name="HitParticles" type="GPUParticles3D" parent="."]
+emitting = false
+lifetime = 0.2
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_kbhkp")
+draw_pass_1 = SubResource("SphereMesh_5iajx")
