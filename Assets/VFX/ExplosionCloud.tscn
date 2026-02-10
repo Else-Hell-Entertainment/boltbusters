@@ -1,0 +1,220 @@
+[gd_scene load_steps=25 format=3 uid="uid://dc6fhhvhsqt4c"]
+
+[ext_resource type="Material" uid="uid://c7dapgjbib86q" path="res://Assets/VFX/Materials/ExplosionCloud.tres" id="1_url8p"]
+[ext_resource type="Shader" uid="uid://nl36gsr8w5l6" path="res://ExplosionStreakShader.tres" id="2_2te1i"]
+
+[sub_resource type="Animation" id="Animation_2te1i"]
+resource_name = "Explode"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ExplosionCloudParticles:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ExplosionStreakParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.06666667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OmniLight3D:light_energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [20.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_redfc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("ExplosionCloudParticles:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/path = NodePath("ExplosionStreakParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/path = NodePath("OmniLight3D:light_energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [20.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ge5ce"]
+_data = {
+&"Explode": SubResource("Animation_2te1i"),
+&"RESET": SubResource("Animation_redfc")
+}
+
+[sub_resource type="SphereMesh" id="SphereMesh_redfc"]
+radius = 1.0
+height = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_redfc"]
+render_priority = -1
+shader = ExtResource("2_2te1i")
+shader_parameter/StreakColor = Color(1, 0.6553385, 0, 1)
+
+[sub_resource type="Curve" id="Curve_6k7se"]
+_data = [Vector2(0, 0), 0.0, 1.9714882, 0, 0, Vector2(0.19, 0.60934174), 0.0, 0.0, 0, 0, Vector2(0.4766667, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_6p2hs"]
+texture_mode = 1
+curve = SubResource("Curve_6k7se")
+
+[sub_resource type="Curve" id="Curve_ge5ce"]
+_data = [Vector2(0, 0.44798297), 0.0, 4.2750726, 0, 0, Vector2(0.24111113, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_6k7se"]
+curve = SubResource("Curve_ge5ce")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6p2hs"]
+particle_flag_align_y = true
+direction = Vector3(0, 1, 0)
+spread = 90.0
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+scale_min = 5.0
+scale_max = 7.0
+scale_curve = SubResource("CurveTexture_6k7se")
+alpha_curve = SubResource("CurveTexture_6p2hs")
+hue_variation_min = -1.0
+hue_variation_max = 0.99999994
+
+[sub_resource type="QuadMesh" id="QuadMesh_pugig"]
+size = Vector2(0.25, 1)
+center_offset = Vector3(0, 0.4, 0)
+
+[sub_resource type="Curve" id="Curve_2te1i"]
+_data = [Vector2(0.3388889, 0), 0.0, -0.038996764, 0, 0, Vector2(0.9055556, 0.9999999), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_redfc"]
+texture_mode = 1
+curve = SubResource("Curve_2te1i")
+
+[sub_resource type="Gradient" id="Gradient_ge5ce"]
+offsets = PackedFloat32Array(0.18705036, 0.6378897)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6k7se"]
+gradient = SubResource("Gradient_ge5ce")
+
+[sub_resource type="Curve" id="Curve_url8p"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.18555556, 0.49893838), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2te1i"]
+curve = SubResource("Curve_url8p")
+
+[sub_resource type="Curve" id="Curve_redfc"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.24555555, 0.9999999), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ge5ce"]
+curve = SubResource("Curve_redfc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6k7se"]
+emission_shape = 1
+emission_sphere_radius = 0.2
+radial_velocity_min = 4.9999776
+radial_velocity_max = 6.9999776
+radial_velocity_curve = SubResource("CurveTexture_2te1i")
+gravity = Vector3(0, 0, 0)
+scale_min = 1.5
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_ge5ce")
+color_ramp = SubResource("GradientTexture1D_6k7se")
+alpha_curve = SubResource("CurveTexture_redfc")
+
+[sub_resource type="SphereMesh" id="SphereMesh_6p2hs"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_url8p"]
+size = Vector2(20, 20)
+
+[node name="Explosion" type="Node3D"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../VFXExplosion")
+libraries = {
+&"": SubResource("AnimationLibrary_ge5ce")
+}
+
+[node name="ExplosionCloud" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11.788017)
+material_override = ExtResource("1_url8p")
+mesh = SubResource("SphereMesh_redfc")
+
+[node name="VFXExplosion" type="Node3D" parent="."]
+
+[node name="ExplosionStreakParticles" type="GPUParticles3D" parent="VFXExplosion"]
+material_override = SubResource("ShaderMaterial_redfc")
+emitting = false
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.9
+randomness = 1.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_6p2hs")
+draw_pass_1 = SubResource("QuadMesh_pugig")
+
+[node name="ExplosionCloudParticles" type="GPUParticles3D" parent="VFXExplosion"]
+material_override = ExtResource("1_url8p")
+emitting = false
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.8
+process_material = SubResource("ParticleProcessMaterial_6k7se")
+draw_pass_1 = SubResource("SphereMesh_6p2hs")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="VFXExplosion"]
+light_color = Color(1, 0.6350498, 0, 1)
+light_energy = 0.0
+omni_range = 10.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5967877, 0)
+mesh = SubResource("PlaneMesh_url8p")

@@ -1,13 +1,21 @@
-﻿namespace EHE.BoltBusters
+﻿using Godot;
+
+namespace EHE.BoltBusters
 {
     /// <summary>
-    /// Controls a group of chainguns. Implemenation still WIP.
+    /// Controls a group of player controlled chainguns of base type BaseWeapon. This controller is used to manage the
+    /// chaingun's SFX.
     /// </summary>
     public partial class PlayerChaingunController : PlayerWeaponGroupController
     {
         private float _attackTimer;
         private float _attackInterval = 0.5f;
-        private float _lagCorrection;
+
+        // TODO: Implement chainguns automatically adjusting to target. Currently hardcoded!
+        [Export]
+        private float _range = 7f;
+
+        private Sprite3D _reticle;
 
         public override void _Ready()
         {
@@ -20,6 +28,9 @@
             AddWeapon();
             AddWeapon();
             AddWeapon();
+
+            _reticle = GetNode<Sprite3D>("Reticle");
+            _reticle.Position -= new Vector3(0, _reticle.GlobalPosition.Y - 0.2f, _range);
         }
 
         public override void AddWeapon()
@@ -28,13 +39,19 @@
             SetAttackInterval();
         }
 
+        public override void RemoveWeapon()
+        {
+            base.RemoveWeapon();
+            SetAttackInterval();
+        }
+
         public override void Attack()
         {
             if (_attackTimer < _attackInterval)
                 return;
-            foreach (BaseWeapon weapon in _weapons)
+            foreach (BaseWeapon weapon in Weapons)
             {
-                if (weapon.CanAttack())
+                if (weapon.CanAttack)
                 {
                     weapon.Attack();
                     _attackTimer = 0;
@@ -60,9 +77,9 @@
         /// </summary>
         private void SetAttackInterval()
         {
-            float numberOfGuns = _weapons.Count;
+            float numberOfGuns = Weapons.Count;
 
-            if (_weapons.Count > 0 && _weapons[0] is Chaingun chaingun)
+            if (Weapons.Count > 0 && Weapons[0] is Chaingun chaingun)
             {
                 float gunCooldown = chaingun.Cooldown;
                 _attackInterval = gunCooldown / numberOfGuns; // Denominator is confirmed to be > 0.
