@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=4 uid="uid://dleoqwseq5x4p"]
+[gd_scene load_steps=14 format=4 uid="uid://dleoqwseq5x4p"]
 
 [ext_resource type="Script" uid="uid://yb7yelbnmfj5" path="res://Code/Objects/Enemy/EnemyCannon.cs" id="1_k6seb"]
 [ext_resource type="PackedScene" uid="uid://t3nx0bltkocl" path="res://Scenes/Enemies/CannonBall.tscn" id="1_mqbn8"]
+[ext_resource type="Script" uid="uid://ce6qc6u3q0hiv" path="res://Code/Objects/Enemy/EnemyCannonController.cs" id="3_oyasw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rqpuh"]
 
@@ -109,9 +110,16 @@ shadow_mesh = SubResource("ArrayMesh_p28l2")
 radius = 0.9
 height = 2.367
 
-[node name="EnemyCannon" type="CharacterBody3D"]
+[node name="EnemyCannon" type="CharacterBody3D" node_paths=PackedStringArray("Controller")]
 script = ExtResource("1_k6seb")
 _cannonBallScene = ExtResource("1_mqbn8")
+Controller = NodePath("Controller")
+
+[node name="Controller" type="Node3D" parent="." node_paths=PackedStringArray("_enemyBody", "_bodyNode", "_turretNode")]
+script = ExtResource("3_oyasw")
+_enemyBody = NodePath("..")
+_bodyNode = NodePath("../Body")
+_turretNode = NodePath("../Turret")
 
 [node name="Body" type="Node3D" parent="."]
 

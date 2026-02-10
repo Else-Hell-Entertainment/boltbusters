@@ -12,6 +12,9 @@ namespace EHE.BoltBusters
 
         [Export]
         private float _reloadTime = 5;
+
+        [Export]
+        public EntityController Controller { get; private set; }
         private CharacterBody3D _player;
         private Timer _reloadTimer;
         private bool _canFire = true;
