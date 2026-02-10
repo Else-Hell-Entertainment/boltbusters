@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=4 uid="uid://dleoqwseq5x4p"]
+[gd_scene load_steps=15 format=4 uid="uid://dleoqwseq5x4p"]
 
 [ext_resource type="Script" uid="uid://yb7yelbnmfj5" path="res://Code/Objects/Enemy/EnemyCannon.cs" id="1_k6seb"]
 [ext_resource type="PackedScene" uid="uid://t3nx0bltkocl" path="res://Scenes/Enemies/CannonBall.tscn" id="1_mqbn8"]
 [ext_resource type="Script" uid="uid://ce6qc6u3q0hiv" path="res://Code/Objects/Enemy/EnemyCannonController.cs" id="3_oyasw"]
+[ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="4_vqqcb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rqpuh"]
 
@@ -110,10 +111,11 @@ shadow_mesh = SubResource("ArrayMesh_p28l2")
 radius = 0.9
 height = 2.367
 
-[node name="EnemyCannon" type="CharacterBody3D" node_paths=PackedStringArray("Controller")]
+[node name="EnemyCannon" type="CharacterBody3D" node_paths=PackedStringArray("Controller", "_healthComponent")]
 script = ExtResource("1_k6seb")
 _cannonBallScene = ExtResource("1_mqbn8")
 Controller = NodePath("Controller")
+_healthComponent = NodePath("EnemyHealthComponent")
 
 [node name="Controller" type="Node3D" parent="." node_paths=PackedStringArray("_enemyBody", "_bodyNode", "_turretNode")]
 script = ExtResource("3_oyasw")
@@ -152,3 +154,9 @@ shape = SubResource("CapsuleShape3D_mqbn8")
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
 radius = 5.0
+
+[node name="EnemyHealthComponent" type="Node" parent="."]
+script = ExtResource("4_vqqcb")
+_maxHealth = 10000
+_initialHealth = 10000
+metadata/_custom_type_script = "uid://b620lyqticbmf"

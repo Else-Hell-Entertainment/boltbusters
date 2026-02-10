@@ -50,14 +50,26 @@ metadata/_editor_floor_ = Vector3(0, 2, 0)
 
 [node name="CameraRig" parent="." instance=ExtResource("4_4f205")]
 UseSmoothFollow = false
-HeightAboveGround = 10.0
+HeightAboveGround = 15.0
 
 [node name="Player" parent="." instance=ExtResource("4_x00a1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 28)
 
-[node name="CannonBotAI" type="Node3D" parent="." node_paths=PackedStringArray("_bot")]
+[node name="CannonBotAI" type="Node3D" parent="." node_paths=PackedStringArray("_bot1", "_bot2", "_bot3", "_bot4")]
 script = ExtResource("5_dpcf1")
-_bot = NodePath("EnemyCannon")
+_bot1 = NodePath("EnemyCannon")
+_bot2 = NodePath("EnemyCannon2")
+_bot3 = NodePath("EnemyCannon3")
+_bot4 = NodePath("EnemyCannon4")
 
 [node name="EnemyCannon" parent="CannonBotAI" instance=ExtResource("5_4f205")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.092068, 0.0008630399, 37.214252)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.092068, 0.0008630399, 35.69667)
+
+[node name="EnemyCannon2" parent="CannonBotAI" instance=ExtResource("5_4f205")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.201954, 0.0008629925, 35.90596)
+
+[node name="EnemyCannon3" parent="CannonBotAI" instance=ExtResource("5_4f205")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.065468, 0.0008629925, 30.67551)
+
+[node name="EnemyCannon4" parent="CannonBotAI" instance=ExtResource("5_4f205")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.481407, 0.0008629925, 34.31565)

@@ -31,7 +31,7 @@ namespace EHE.BoltBusters
 
         public override void _PhysicsProcess(double delta)
         {
-            FacePlayer();
+            //FacePlayer();
             Attack();
         }
 
