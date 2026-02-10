@@ -8,7 +8,7 @@ namespace EHE.BoltBusters
         private PackedScene _cannonBallScene;
 
         [Export]
-        private float _range = 20;
+        private float _range = 16f;
 
         [Export]
         private float _reloadTime = 5;
@@ -31,27 +31,37 @@ namespace EHE.BoltBusters
 
         public override void _PhysicsProcess(double delta)
         {
-            Attack();
+            if (IsPlayerInAttackCone() && _canFire)
+            {
+                Attack();
+            }
         }
 
         private void Attack()
         {
-            if (_canFire)
-            {
-                _canFire = false;
-                _reloadTimer.Start();
-                CannonBall ball = _cannonBallScene.Instantiate<CannonBall>();
-                GetTree().GetRoot().AddChild(ball);
-                ball.GlobalPosition = _muzzle.GlobalPosition;
-                ball.GlobalRotation = _muzzle.GlobalRotation;
-            }
+            _canFire = false;
+            _reloadTimer.Start();
+            CannonBall ball = _cannonBallScene.Instantiate<CannonBall>();
+            GetTree().GetRoot().AddChild(ball);
+            ball.GlobalPosition = _muzzle.GlobalPosition;
+            ball.GlobalRotation = _muzzle.GlobalRotation;
         }
 
-        private void FacePlayer()
+        /// <summary>
+        /// Checks if the player is within the accepted attack range and directly in front of the cannon. Method allows
+        /// for 0.02 rad (a little over 1 degree) deviation in angle to account for minor errors.
+        /// </summary>
+        /// <returns></returns>
+        private bool IsPlayerInAttackCone()
         {
-            if (_player == null)
-                return;
-            LookAt(_player.GlobalPosition);
+            float angleTolerance = 0.02f;
+            Vector3 direction = _player.GlobalPosition - _muzzle.GlobalPosition;
+            direction.Y = 0;
+            Vector3 origin = -_muzzle.GlobalBasis.Z;
+            origin.Y = 0;
+            float angle = origin.AngleTo(direction);
+
+            return angle < angleTolerance && direction.Length() < _range;
         }
 
         private void OnReloadTimerTimeout()
