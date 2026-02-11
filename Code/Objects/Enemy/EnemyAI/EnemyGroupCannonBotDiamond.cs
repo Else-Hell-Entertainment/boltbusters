@@ -35,6 +35,11 @@ namespace EHE.BoltBusters
             }
         }
 
+        public void UnRegisterBot(EnemyCannonBot bot)
+        {
+            _botGroup.Remove(bot);
+        }
+
         public void ExecuteInternal()
         {
             int pointCounter = 1;
@@ -61,11 +66,11 @@ namespace EHE.BoltBusters
                 case 1:
                     return point1;
                 case 2:
-                    return point1 + new Vector3(0, 0, -DistanceToPlayer * 2);
+                    return point1 + new Vector3(0, 0, -DistanceToPlayer);
                 case 3:
-                    return point1 + new Vector3(-DistanceToPlayer, 0, -DistanceToPlayer);
+                    return point1 + new Vector3(-DistanceToPlayer / 2, 0, -DistanceToPlayer / 2);
                 case 4:
-                    return point1 + new Vector3(DistanceToPlayer, 0, -DistanceToPlayer);
+                    return point1 + new Vector3(DistanceToPlayer / 2, 0, -DistanceToPlayer / 2);
                 default:
                     return Vector3.Zero;
             }

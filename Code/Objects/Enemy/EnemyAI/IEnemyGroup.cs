@@ -13,6 +13,6 @@
             ExecuteInternal();
         }
 
-        protected abstract void ExecuteInternal();
+        protected void ExecuteInternal();
     }
 }

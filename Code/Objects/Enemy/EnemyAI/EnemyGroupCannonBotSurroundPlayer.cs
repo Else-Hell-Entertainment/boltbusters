@@ -31,7 +31,7 @@ namespace EHE.BoltBusters
             }
             else
             {
-                GD.PrintErr("Invalid attempt to register CannonBot to Diamond Group");
+                GD.PrintErr("Invalid attempt to register CannonBot to SurroundPlayer Group");
             }
         }
 
