@@ -2,7 +2,7 @@ using Godot;
 
 namespace EHE.BoltBusters
 {
-    public partial class EnemyCannon : Character
+    public partial class EnemyCannonBot : Character
     {
         [Export]
         private PackedScene _cannonBallScene;
