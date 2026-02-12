@@ -1,4 +1,5 @@
 using EHE.BoltBusters.States;
+using EHE.BoltBusters.Systems;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -16,6 +17,7 @@ namespace EHE.BoltBusters
         public override void _Ready()
         {
             Instance = this;
+            StateMachine = new GameloopStateMachine(new GameStateMenuMain(), new GameStateMenuSettings());
         }
 
         public SceneTree SceneTree
@@ -30,5 +32,7 @@ namespace EHE.BoltBusters
                 return _sceneTree;
             }
         }
+
+        public GameloopStateMachine StateMachine { get; private set; }
     }
 }
