@@ -193,7 +193,7 @@ namespace EHE.BoltBusters.States
             }
 
             // TODO: Threaded level loading: https://docs.godotengine.org/en/latest/tutorials/io/background_loading.html
-            GameManager.Instance.SceneTree.CallDeferred(Node.MethodName.AddChild, _scene);
+            GameManager.Instance.SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _scene);
             OnEntered();
             return true;
         }
