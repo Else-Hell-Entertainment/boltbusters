@@ -42,9 +42,9 @@ namespace EHE.BoltBusters.States
     /// </summary>
     public abstract class GameState
     {
-        private List<StateType> _targetStates = [];
-        private PackedScene _packedScene = null;
-        private Node _scene = null;
+        private readonly List<StateType> _targetStates = [];
+        private readonly PackedScene _packedScene;
+        private Node _scene;
 
         /// <summary>
         /// The <see cref="StateType"/> of this state. Used for transition
