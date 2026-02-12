@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-namespace EHE.BoltBusters
+namespace EHE.BoltBusters.States
 {
     /// <summary>
     /// Enumeration of all possible game state types. Used for checking possible
