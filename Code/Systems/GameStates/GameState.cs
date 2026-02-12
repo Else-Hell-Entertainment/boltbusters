@@ -228,12 +228,22 @@ namespace EHE.BoltBusters.States
         /// Custom state activation logic. Executed at the end of the
         /// <see cref="Enter"/> method.
         /// </summary>
-        protected virtual void OnEntered() { }
+        protected virtual void OnEntered()
+        {
+#if DEBUG
+            GD.Print($"Entered state '{StateType}'.");
+#endif
+        }
 
         /// <summary>
         /// Custom state deactivation logic. Executed at the end of the
         /// <see cref="Exit"/> method.
         /// </summary>
-        protected virtual void OnExited() { }
+        protected virtual void OnExited()
+        {
+#if DEBUG
+            GD.Print($"Exited state '{StateType}'.");
+#endif
+        }
     }
 }
