@@ -181,7 +181,7 @@ namespace EHE.BoltBusters.States
             }
 
             // If scene is not loaded, try to load it.
-            if (_scene == null)
+            if (forceLoad || _scene == null)
             {
                 if (_packedScene == null)
                 {
@@ -190,11 +190,11 @@ namespace EHE.BoltBusters.States
                 }
 
                 _scene = _packedScene.Instantiate();
+                // TODO: Threaded level loading: https://docs.godotengine.org/en/latest/tutorials/io/background_loading.html
+                GameManager.Instance.SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _scene);
+                OnEntered();
             }
 
-            // TODO: Threaded level loading: https://docs.godotengine.org/en/latest/tutorials/io/background_loading.html
-            GameManager.Instance.SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _scene);
-            OnEntered();
             return true;
         }
 
