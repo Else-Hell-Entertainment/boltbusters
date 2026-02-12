@@ -14,12 +14,6 @@ namespace EHE.BoltBusters
 
         public static GameManager Instance = null;
 
-        public override void _Ready()
-        {
-            Instance = this;
-            StateMachine = new GameloopStateMachine(new GameStateMenuMain(), new GameStateMenuSettings());
-        }
-
         public SceneTree SceneTree
         {
             get
@@ -34,5 +28,11 @@ namespace EHE.BoltBusters
         }
 
         public GameloopStateMachine StateMachine { get; private set; }
+
+        public override void _Ready()
+        {
+            Instance = this;
+            StateMachine = new GameloopStateMachine(new GameStateMenuMain(), new GameStateMenuSettings());
+        }
     }
 }
