@@ -81,7 +81,7 @@ namespace EHE.BoltBusters.States
 
             if (_packedScene == null)
             {
-                throw new InvalidOperationException($"No scene was found at '{ScenePath}'");
+                throw new InvalidOperationException($"No scene found at '{ScenePath}'!");
             }
         }
 
@@ -103,7 +103,7 @@ namespace EHE.BoltBusters.States
         {
             if (_targetStates.Contains(targetStateType))
             {
-                GD.PushError($"Cannot add '{targetStateType}' to legal targets for '{StateType}', already added.");
+                GD.PushError($"Cannot add target state to '{StateType}': '{targetStateType}' already added!");
                 return false;
             }
 
@@ -129,7 +129,7 @@ namespace EHE.BoltBusters.States
         {
             if (!_targetStates.Contains(targetStateType))
             {
-                GD.PushError($"Cannot remove '{targetStateType}' from legal targets for '{StateType}', not found.");
+                GD.PushError($"Cannot remove target state from '{StateType}': '{targetStateType}' not found!");
                 return false;
             }
 
@@ -185,7 +185,7 @@ namespace EHE.BoltBusters.States
             {
                 if (_packedScene == null)
                 {
-                    GD.PushError($"Failed enter state '{StateType}': failed to load '{ScenePath}'");
+                    GD.PushError($"Cannot enter state '{StateType}': no scene found at '{ScenePath}'!");
                     return;
                 }
 
