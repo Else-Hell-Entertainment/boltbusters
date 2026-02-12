@@ -171,7 +171,7 @@ namespace EHE.BoltBusters.States
         ///  If the scene should be loaded from the file instead of using the
         ///  cached data.
         /// </param>
-        public void Enter(bool forceLoad = false)
+        public bool Enter(bool forceLoad = false)
         {
             // If force load is triggered and scene exists, clear scene.
             if (forceLoad && _scene != null)
@@ -186,7 +186,7 @@ namespace EHE.BoltBusters.States
                 if (_packedScene == null)
                 {
                     GD.PushError($"Cannot enter state '{StateType}': no scene found at '{ScenePath}'!");
-                    return;
+                    return false;
                 }
 
                 _scene = _packedScene.Instantiate();
@@ -195,6 +195,7 @@ namespace EHE.BoltBusters.States
             // TODO: Threaded level loading: https://docs.godotengine.org/en/latest/tutorials/io/background_loading.html
             GameManager.Instance.SceneTree.CallDeferred(Node.MethodName.AddChild, _scene);
             OnEntered();
+            return true;
         }
 
         /// <summary>
