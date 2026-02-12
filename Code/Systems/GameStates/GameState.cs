@@ -1,4 +1,4 @@
-// (c) 2025 Else Hell Entertainment
+// (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 //
