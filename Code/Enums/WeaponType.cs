@@ -1,6 +1,6 @@
 ﻿namespace EHE.BoltBusters
 {
-    public enum PlayerWeaponType
+    public enum WeaponType
     {
         None = 0,
         Chaingun,

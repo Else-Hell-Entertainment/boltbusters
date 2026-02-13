@@ -4,7 +4,7 @@
     /// Command that triggers the Attack() method of a target IAttacker object.
     /// Implements the Command pattern to encapsulate command logic.
     /// </summary>
-    public class AttackCommand(string weaponType) : ICommand
+    public class AttackCommand(WeaponType weaponType) : ICommand
     {
         /// <summary>
         /// The IAttacker target that will execute the command.
@@ -14,7 +14,7 @@
         /// <summary>
         /// Type of the weapon where this attack command originated from.
         /// </summary>
-        public string WeaponType { get; } = weaponType;
+        public WeaponType WeaponType { get; } = weaponType;
 
         /// <summary>
         /// Executes the attack command. If mover is not assigned correctly, nothing happens.
