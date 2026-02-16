@@ -28,5 +28,7 @@ namespace EHE.BoltBusters
         /// </summary>
         /// <param name="point">The point in global 3D space to rotate towards.</param>
         public virtual void RotateTowards(Vector3 point) { }
+
+        public virtual void RotateToDirection(Vector3 direction) { }
     }
 }

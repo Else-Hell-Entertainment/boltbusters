@@ -16,6 +16,10 @@ namespace EHE.BoltBusters
         private const string FIRE_CHAINGUN = "FireChaingun";
         private const string FIRE_RAILGUN = "FireRailgun";
         private const string FIRE_ROCKET = "FireRocket";
+        private const string ROTATE_LEFT = "RotateLeft";
+        private const string ROTATE_RIGHT = "RotateRight";
+        private const string ROTATE_UP = "RotateUp";
+        private const string ROTATE_DOWN = "RotateDown";
 
         /// <summary>
         /// The entity controller that receives and executes the generated commands.
@@ -65,6 +69,15 @@ namespace EHE.BoltBusters
         /// </summary>
         private void GetRotationInput()
         {
+            Vector2 rotation = Input.GetVector(ROTATE_LEFT, ROTATE_RIGHT, ROTATE_UP, ROTATE_DOWN);
+            if (!rotation.IsZeroApprox())
+            {
+                Vector3 rot = new Vector3(rotation.X, 0, rotation.Y);
+                RotateToDirectionCommand command = new RotateToDirectionCommand(rot);
+                _entityController.AddCommand(command);
+                return;
+            }
+
             // Ensure camera reference is valid
             if (_camera == null)
             {
@@ -94,6 +107,9 @@ namespace EHE.BoltBusters
             _entityController.AddCommand(cmd);
         }
 
+        /// <summary>
+        /// Process attack commands from player.
+        /// </summary>
         private void GetAttackInput()
         {
             if (Input.IsActionPressed(FIRE_CHAINGUN))

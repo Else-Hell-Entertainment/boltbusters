@@ -136,6 +136,9 @@ namespace EHE.BoltBusters
                 case RotateTowardsCommand rotateTowardsCommand:
                     return HandleRotateCommand(rotateTowardsCommand);
 
+                case RotateToDirectionCommand rotateToDirectionCommand:
+                    return HandleRotateCommand(rotateToDirectionCommand);
+
                 case AttackCommand attackCommand:
                     return HandleAttackCommand(attackCommand);
 
@@ -174,7 +177,7 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Handles rotation commands by assigning them to the turret node.
         /// </summary>
-        private bool HandleRotateCommand(RotateTowardsCommand command)
+        private bool HandleRotateCommand(ICommand command)
         {
             // Only allow one rotation command per frame
             if (_hasRotateCommand)
