@@ -44,8 +44,13 @@ namespace EHE.BoltBusters
             }
             // Create normalized direction vector on XZ plane
             direction.Y = 0;
+            float controllerSpeedAdjust = 1f;
+            if (direction.Length() < 1.0)
+            {
+                controllerSpeedAdjust = direction.Length();
+            }
             direction = direction.Normalized();
-            Vector3 desiredVelocity = direction * MovementSpeed;
+            Vector3 desiredVelocity = direction * MovementSpeed * controllerSpeedAdjust;
             float dt = (float)_body.GetPhysicsProcessDeltaTime();
             _body.Velocity = _body.Velocity.MoveToward(desiredVelocity, Acceleration * dt);
             _body.MoveAndSlide();
