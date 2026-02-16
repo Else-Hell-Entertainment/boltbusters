@@ -67,5 +67,11 @@ namespace EHE.BoltBusters
             // Apply rotation around the up axis
             _body.Rotate(Vector3.Up, rotationDelta);
         }
+
+        public override void RotateToDirection(Vector3 direction)
+        {
+            Vector3 point = _body.GlobalPosition + direction;
+            RotateTowards(point);
+        }
     }
 }
