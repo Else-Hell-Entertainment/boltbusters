@@ -160,10 +160,13 @@ namespace EHE.BoltBusters
             _hasMoveCommand = true;
 
             // Automatically rotate the body node to face the movement direction
-            Vector3 smoothedPoint = _playerBody.GlobalPosition + command.Direction * BodyRotationSmoothingFactor;
-            RotateTowardsCommand rotateCommand = new RotateTowardsCommand(smoothedPoint);
-            rotateCommand.AssignReceiver(_bodyNode3DMover);
-            AddValidatedCommand(rotateCommand);
+            if (command.Direction != Vector3.Zero)
+            {
+                Vector3 smoothedPoint = _playerBody.GlobalPosition + command.Direction * BodyRotationSmoothingFactor;
+                RotateTowardsCommand rotateCommand = new RotateTowardsCommand(smoothedPoint);
+                rotateCommand.AssignReceiver(_bodyNode3DMover);
+                AddValidatedCommand(rotateCommand);
+            }
 
             return true;
         }

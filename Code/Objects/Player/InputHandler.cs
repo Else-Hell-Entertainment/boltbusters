@@ -55,10 +55,6 @@ namespace EHE.BoltBusters
         private void GetMovementInput()
         {
             Vector2 inputVector = Input.GetVector(MOVE_LEFT, MOVE_RIGHT, MOVE_DOWN, MOVE_UP);
-            if (inputVector == Vector2.Zero)
-            {
-                return;
-            }
             Vector3 moveVector = new Vector3(inputVector.X, 0, -inputVector.Y).Normalized();
             _entityController.AddCommand(new MoveToDirectionCommand(moveVector));
         }
