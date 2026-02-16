@@ -31,6 +31,8 @@ namespace EHE.BoltBusters
         /// </summary>
         private Camera3D _camera;
 
+        private bool _isMouseActive;
+
         public override void _Ready()
         {
             _camera = GetViewport().GetCamera3D();
@@ -39,15 +41,30 @@ namespace EHE.BoltBusters
         public override void _PhysicsProcess(double delta)
         {
             GetMovementInput();
-            GetRotationInput();
+            if (_isMouseActive)
+            {
+                GetMouseRotationInput();
+            }
+            GetControllerRotationInput();
+
             GetAttackInput();
         }
 
         public override void _UnhandledInput(InputEvent @event)
         {
-            if (@event is InputEventMouseMotion)
+            switch (@event)
             {
-                GetMouseRotationInput();
+                case InputEventMouseMotion:
+                    _isMouseActive = true;
+                    Input.SetMouseMode(Input.MouseModeEnum.Visible);
+                    break;
+                case InputEventJoypadMotion joypadMotion:
+                    if (joypadMotion.Axis == JoyAxis.RightX || joypadMotion.Axis == JoyAxis.LeftX)
+                    {
+                        _isMouseActive = false;
+                        Input.SetMouseMode(Input.MouseModeEnum.Hidden);
+                    }
+                    break;
             }
         }
 
@@ -106,7 +123,7 @@ namespace EHE.BoltBusters
             _entityController.AddCommand(cmd);
         }
 
-        private void GetRotationInput()
+        private void GetControllerRotationInput()
         {
             Vector2 rotation = Input.GetVector(ROTATE_LEFT, ROTATE_RIGHT, ROTATE_UP, ROTATE_DOWN);
             if (!rotation.IsZeroApprox())
