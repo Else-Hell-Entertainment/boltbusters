@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://c1rblmwfal2st"]
+[gd_scene load_steps=12 format=3 uid="uid://c1rblmwfal2st"]
 
 [ext_resource type="Script" uid="uid://be4qkv6x76unn" path="res://Code/Objects/Enemy/Enemy.cs" id="1_vxt56"]
 [ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="2_qq7ql"]
+[ext_resource type="Script" uid="uid://tk4ek7denot" path="res://Code/Objects/Enemy/EnemyMeleeWeapon.cs" id="3_6yhfl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sfbq4"]
 size = Vector3(1, 1.5, 1)
@@ -22,6 +23,21 @@ top_radius = 0.6
 bottom_radius = 0.6
 height = 0.1
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6yhfl"]
+radius = 0.706
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6yhfl"]
+angle_min = -44.99999
+angle_max = 45.00001
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 3.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="SphereMesh" id="SphereMesh_v51bg"]
+radius = 0.1
+height = 0.2
+
 [node name="ProtoEnemy" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent")]
 script = ExtResource("1_vxt56")
 _healthComponent = NodePath("EnemyHealthComponent")
@@ -34,12 +50,35 @@ shape = SubResource("BoxShape3D_sfbq4")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 mesh = SubResource("BoxMesh_sfbq4")
 
-[node name="MeshInstanceBlade" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -0.5)
-mesh = SubResource("CylinderMesh_sfbq4")
-
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 
 [node name="EnemyHealthComponent" type="Node" parent="."]
 script = ExtResource("2_qq7ql")
 metadata/_custom_type_script = "uid://b620lyqticbmf"
+
+[node name="MeleeWeapon" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.87726426, -0.61224896)
+script = ExtResource("3_6yhfl")
+
+[node name="MeshInstanceBlade" type="MeshInstance3D" parent="MeleeWeapon"]
+mesh = SubResource("CylinderMesh_sfbq4")
+skeleton = NodePath("../..")
+
+[node name="CooldownTimer" type="Timer" parent="MeleeWeapon"]
+
+[node name="AttackParalysisTimer" type="Timer" parent="MeleeWeapon"]
+
+[node name="AttackArea" type="Area3D" parent="MeleeWeapon"]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeleeWeapon/AttackArea"]
+shape = SubResource("CylinderShape3D_6yhfl")
+
+[node name="HitParticles" type="GPUParticles3D" parent="MeleeWeapon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5275442)
+emitting = false
+lifetime = 0.3
+one_shot = true
+explosiveness = 0.39
+process_material = SubResource("ParticleProcessMaterial_6yhfl")
+draw_pass_1 = SubResource("SphereMesh_v51bg")

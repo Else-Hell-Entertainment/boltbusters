@@ -12,22 +12,20 @@ namespace EHE.BoltBusters
         private float _speed = 20.0f;
 
         private bool _isActive = true;
-        private MeshInstance3D _explosionMeshInstance;
         private SphereMesh _explosionMesh;
         private ShapeCast3D _explosionCast;
         private MeshInstance3D _rocketBodyMeshInstance;
         private DamageData _damageData;
 
+        [Export]
+        private AnimationPlayer _VFXanimationPlayer;
+
         public override void _Ready()
         {
-            _explosionMeshInstance = GetNode<MeshInstance3D>("ExplosionMesh");
-            _explosionMesh = (SphereMesh)_explosionMeshInstance.Mesh;
-            _explosionMesh.Radius = 0;
-            _explosionMesh.Height = 0;
-            _explosionMeshInstance.Visible = false;
             _explosionCast = GetNode<ShapeCast3D>("ExplosionCast");
             _rocketBodyMeshInstance = GetNode<MeshInstance3D>("RocketBodyMesh");
             _damageData = new DamageData(50, DamageType.Missile);
+            _VFXanimationPlayer = GetNode<AnimationPlayer>("VFX/Explosion/AnimationPlayer");
         }
 
         public override void _PhysicsProcess(double delta)
@@ -47,13 +45,9 @@ namespace EHE.BoltBusters
         private void Explode()
         {
             CallDeferred(MethodName.CheckExplosionDamage);
+            _VFXanimationPlayer.Play("Explode");
             _isActive = false;
             HideRocketBody();
-            _explosionMeshInstance.Visible = true;
-            Tween _explosionTween = CreateTween();
-            _explosionTween.TweenProperty(_explosionMesh, "radius", 2.8, 0.05);
-            _explosionTween.Parallel().TweenProperty(_explosionMesh, "height", 5.6, 0.05);
-            _explosionTween.TweenCallback(Callable.From(Reset));
         }
 
         private void CheckExplosionDamage()
@@ -82,11 +76,7 @@ namespace EHE.BoltBusters
 
         private void Reset()
         {
-            _explosionMesh.Radius = 0;
-            _explosionMesh.Height = 0;
-            _explosionMeshInstance.Visible = false;
             _rocketBodyMeshInstance.Visible = true;
-            QueueFree();
         }
     }
 }

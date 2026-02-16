@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 TargetProvider="*res://Code/TargetProvider.cs"
+GameManager="*res://Code/Systems/GameManager.cs"
 
 [dotnet]
 

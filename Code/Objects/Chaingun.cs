@@ -3,9 +3,9 @@
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// Controls a single chaingun. The player will have multiple of these under a chaingun controller class. Allows
-    /// for the chaingun to be used as independent weapon or as a part of controlled group (implementation still WIP).
-    /// Implementation of this feature is still WIP.
+    /// Controls a single chaingun. The player will have multiple of these under a chaingun controller class. Because
+    /// of rapid fire rate and multiple chainguns, the controller manages the SFX and individual firing sequences of
+    /// a group of chainguns.
     /// </summary>
     public partial class Chaingun : BaseWeapon
     {
@@ -16,13 +16,10 @@ namespace EHE.BoltBusters
         private float _cooldown = 0.5f;
 
         [Export]
-        private float _accuracy = 0.05f;
+        private float _accuracy = 0.0f;
 
         [Export]
         private float _range = 7f;
-
-        [Export]
-        private AudioStreamPlayer3D _audioStreamPlayer;
 
         /// <summary>
         /// Cooldown for a single chaingun can never be faster than one physics frame at 30 fps = 0.033 seconds.
@@ -34,10 +31,8 @@ namespace EHE.BoltBusters
             set => _cooldown = Mathf.Clamp(value, 0.034f, _cooldown);
         }
 
-        private bool _canFire = true;
         private GpuParticles3D _hitParticles;
         private Node3D _muzzle;
-        private MeshInstance3D _reticle;
         private DamageData _damageData;
 
         public override void _Ready()
@@ -47,7 +42,6 @@ namespace EHE.BoltBusters
 
             _muzzle = GetNode<Node3D>("Muzzle");
             _hitParticles = GetNode<GpuParticles3D>("HitParticles");
-            _reticle = GetNode<MeshInstance3D>("Reticle");
 
             _cooldownTimer.WaitTime = _cooldown;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
@@ -58,25 +52,19 @@ namespace EHE.BoltBusters
         private void SetTarget()
         {
             Vector3 targetPos = _muzzle.GlobalPosition;
-            targetPos.Z = _muzzle.Position.Z - _range;
-            targetPos.Y = 0.2f;
+            targetPos.Z -= _range;
+            targetPos.Y = 0;
             _muzzle.LookAt(targetPos);
-            _reticle.GlobalPosition = targetPos;
         }
 
         private void OnCooldownTimerTimeout()
         {
-            _canFire = true;
-        }
-
-        public override bool CanAttack()
-        {
-            return _canFire;
+            CanAttack = true;
         }
 
         public override void Attack()
         {
-            _canFire = false;
+            CanAttack = false;
             _cooldownTimer.Start();
             DoRayCast();
         }
@@ -108,6 +96,7 @@ namespace EHE.BoltBusters
             lineMesh.Mesh = cylinderMesh;
             lineMesh.Position = start + direction * lineLength / 2;
             lineMesh.MaterialOverride = lineMaterial;
+            lineMesh.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
 
             cylinderMesh.Rings = 0;
             cylinderMesh.RadialSegments = 6;
@@ -161,6 +150,7 @@ namespace EHE.BoltBusters
                 if (target is IDamageable damageable)
                 {
                     ApplyDamage(damageable);
+                    GD.Print("Chaingun did damage");
                 }
             }
         }

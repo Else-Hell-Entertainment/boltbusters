@@ -29,7 +29,7 @@ namespace EHE.BoltBusters
         public override void TakeDamage(DamageData damageData)
         {
             base.TakeDamage(damageData);
-            GD.Print("Aaaa I'm taking damage!");
+            GD.Print("Aaaa I'm taking damage! ");
         }
     }
 }

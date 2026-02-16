@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://jc4duvher2m5"]
+
+[ext_resource type="Script" uid="uid://diei7osygcrvy" path="res://Code/UI/MenuMain.cs" id="1_1k747"]
+
+[node name="MenuMain" type="Control" node_paths=PackedStringArray("_btnNewGame", "_btnSettings", "_btnQuit")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1k747")
+_btnNewGame = NodePath("ButtonNewGame")
+_btnSettings = NodePath("ButtonSettings")
+_btnQuit = NodePath("ButtonQuit")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Main Menu"
+
+[node name="ButtonNewGame" type="Button" parent="."]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 39.0
+offset_right = 106.0
+offset_bottom = 70.0
+text = "New Game"
+
+[node name="ButtonSettings" type="Button" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 89.0
+offset_right = 94.0
+offset_bottom = 120.0
+text = "Settings"
+
+[node name="ButtonQuit" type="Button" parent="."]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 141.0
+offset_right = 76.0
+offset_bottom = 172.0
+text = "Quit"

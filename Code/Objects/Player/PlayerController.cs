@@ -63,10 +63,10 @@ namespace EHE.BoltBusters
         private PlayerChaingunController _chaingunController;
 
         [Export]
-        private Railgun _railgun;
+        private PlayerRailgunController _railgunController;
 
         [Export]
-        private RocketLauncher _rocketLauncher;
+        private PlayerRocketLauncherController _rocketLauncherController;
 
         public override void _Ready()
         {
@@ -149,9 +149,9 @@ namespace EHE.BoltBusters
                         case "Chaingun":
                             return attackCommand.AssignReceiver(_chaingunController);
                         case "Railgun":
-                            return attackCommand.AssignReceiver(_railgun);
+                            return attackCommand.AssignReceiver(_railgunController);
                         case "Rocket":
-                            return attackCommand.AssignReceiver(_rocketLauncher);
+                            return attackCommand.AssignReceiver(_rocketLauncherController);
                     }
                     return false;
 
