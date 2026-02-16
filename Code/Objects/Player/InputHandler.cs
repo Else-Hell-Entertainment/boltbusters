@@ -43,6 +43,14 @@ namespace EHE.BoltBusters
             GetAttackInput();
         }
 
+        public override void _UnhandledInput(InputEvent @event)
+        {
+            if (@event is InputEventMouseMotion)
+            {
+                GetMouseRotationInput();
+            }
+        }
+
         /// <summary>
         /// Assigns the entity controller that will receive commands from this input handler.
         /// </summary>
@@ -59,7 +67,7 @@ namespace EHE.BoltBusters
         private void GetMovementInput()
         {
             Vector2 inputVector = Input.GetVector(MOVE_LEFT, MOVE_RIGHT, MOVE_DOWN, MOVE_UP);
-            Vector3 moveVector = new Vector3(inputVector.X, 0, -inputVector.Y).Normalized();
+            Vector3 moveVector = new Vector3(inputVector.X, 0, -inputVector.Y);
             _entityController.AddCommand(new MoveToDirectionCommand(moveVector));
         }
 
@@ -67,17 +75,8 @@ namespace EHE.BoltBusters
         /// Reads mouse position and generates rotation commands to face the cursor.
         /// Performs raycasting from the camera to find the intersection point on the ground plane.
         /// </summary>
-        private void GetRotationInput()
+        private void GetMouseRotationInput()
         {
-            Vector2 rotation = Input.GetVector(ROTATE_LEFT, ROTATE_RIGHT, ROTATE_UP, ROTATE_DOWN);
-            if (!rotation.IsZeroApprox())
-            {
-                Vector3 rot = new Vector3(rotation.X, 0, rotation.Y);
-                RotateToDirectionCommand command = new RotateToDirectionCommand(rot);
-                _entityController.AddCommand(command);
-                return;
-            }
-
             // Ensure camera reference is valid
             if (_camera == null)
             {
@@ -105,6 +104,17 @@ namespace EHE.BoltBusters
             hitPoint.Y = 0;
             RotateTowardsCommand cmd = new RotateTowardsCommand(hitPoint);
             _entityController.AddCommand(cmd);
+        }
+
+        private void GetRotationInput()
+        {
+            Vector2 rotation = Input.GetVector(ROTATE_LEFT, ROTATE_RIGHT, ROTATE_UP, ROTATE_DOWN);
+            if (!rotation.IsZeroApprox())
+            {
+                Vector3 rot = new Vector3(rotation.X, 0, rotation.Y);
+                RotateToDirectionCommand command = new RotateToDirectionCommand(rot);
+                _entityController.AddCommand(command);
+            }
         }
 
         /// <summary>
