@@ -37,6 +37,36 @@ namespace EHE.BoltBusters
         {
             Instance = this;
             StateMachine = new GameloopStateMachine(new GameStateMenuMain(), new GameStateMenuSettings());
+            ProcessMode = ProcessModeEnum.Always;
+        }
+
+        /// <summary>
+        /// Pauses the game.
+        /// </summary>
+        public void Pause()
+        {
+            SceneTree.Paused = true;
+        }
+
+        /// <summary>
+        /// Unpauses the game.
+        /// </summary>
+        public void Resume()
+        {
+            SceneTree.Paused = false;
+        }
+
+        /// <summary>
+        /// Toggles the pause state of the game.
+        /// </summary>
+        /// <returns>
+        ///  <c>true</c> if the game is currently paused,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        public bool TogglePaused()
+        {
+            SceneTree.Paused = SceneTree.Paused;
+            return SceneTree.Paused;
         }
     }
 }
