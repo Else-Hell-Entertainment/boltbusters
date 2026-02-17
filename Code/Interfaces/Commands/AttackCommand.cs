@@ -1,4 +1,8 @@
-﻿namespace EHE.BoltBusters
+﻿// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
+
+namespace EHE.BoltBusters
 {
     /// <summary>
     /// Command that triggers the Attack() method of a target IAttacker object.
