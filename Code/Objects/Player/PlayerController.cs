@@ -14,6 +14,18 @@ namespace EHE.BoltBusters
         /// </summary>
         private const float BodyRotationSmoothingFactor = 10f;
 
+        [Export]
+        private float _movementSpeed = 10f;
+
+        [Export]
+        private float _acceleration = 40f;
+
+        [Export]
+        private float _bodyRotationSpeed = 8f;
+
+        [Export]
+        private float _turretRotationSpeed = 8f;
+
         #region Exported Nodes
         /// <summary>
         /// The CharacterBody3D component used for physics-based player movement.
@@ -89,8 +101,15 @@ namespace EHE.BoltBusters
         {
             // Initialize mover components for each controllable part
             _playerBodyMover = new CB3DMover(_playerBody);
+            _playerBodyMover.MovementSpeed = _movementSpeed;
+            _playerBodyMover.RotationSpeed = _bodyRotationSpeed;
+            _playerBodyMover.Acceleration = _acceleration;
+
             _bodyNode3DMover = new Node3DMover(_bodyNode);
+            _bodyNode3DMover.RotationSpeed = _turretRotationSpeed;
+
             _turret3DMover = new Node3DMover(_turretNode);
+            _turret3DMover.RotationSpeed = _turretRotationSpeed;
 
             // Initialize weapon controller mapping
             _weaponControllers = new Dictionary<WeaponType, IAttacker>

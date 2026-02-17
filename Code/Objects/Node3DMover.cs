@@ -18,13 +18,13 @@ namespace EHE.BoltBusters
         /// The speed at which the entity moves, measured in units per second.
         /// </summary>
         [Export]
-        private float _movementSpeed = 10f;
+        public float MovementSpeed = 10f;
 
         /// <summary>
         /// The speed at which the entity rotates, measured in radians per second.
         /// </summary>
         [Export]
-        private float _rotationSpeed = 8.0f;
+        public float RotationSpeed = 8.0f;
 
         /// <summary>
         /// Moves the entity in the specified direction.
@@ -54,15 +54,31 @@ namespace EHE.BoltBusters
             Vector3 toTarget = point - _body.GlobalPosition;
             toTarget.Y = 0.0f;
 
+            // Adjustment when using controller and keeping joystick near the center.
+            float controllerAdjust = toTarget.Length();
+            controllerAdjust = Mathf.Clamp(controllerAdjust, 0, 1);
+
+            // Bezier adjustment
+            controllerAdjust = controllerAdjust * controllerAdjust * (3f - 2f * controllerAdjust);
+
+            // Cubic
+            //controllerAdjust = controllerAdjust * controllerAdjust * controllerAdjust;
+
             // Get the entity's current forward direction
             Vector3 forward = -_body.GlobalTransform.Basis.Z;
 
             // Calculate signed angle between forward and target direction
             float angleTo = forward.SignedAngleTo(toTarget, Vector3.Up);
 
+            // Smoothing for small angles, applies to both mouse and controller.
+            float angleSmoothing = Mathf.Abs(angleTo * 2);
+            angleSmoothing = Mathf.Clamp(angleSmoothing, 0, 1);
+
             // Clamp rotation to maximum rotation speed
-            float maxRotationDelta = _rotationSpeed * dt;
+            float maxRotationDelta = RotationSpeed * dt;
+            //angleTo *= angleSmoothing;
             float rotationDelta = Mathf.Clamp(angleTo, -maxRotationDelta, maxRotationDelta);
+            rotationDelta *= controllerAdjust * angleSmoothing;
 
             // Apply rotation around the up axis
             _body.Rotate(Vector3.Up, rotationDelta);

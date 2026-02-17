@@ -8,19 +8,6 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class InputHandler : Node3D
     {
-        // Input action names
-        private const string MOVE_LEFT = "MoveLeft";
-        private const string MOVE_RIGHT = "MoveRight";
-        private const string MOVE_UP = "MoveUp";
-        private const string MOVE_DOWN = "MoveDown";
-        private const string FIRE_CHAINGUN = "FireChaingun";
-        private const string FIRE_RAILGUN = "FireRailgun";
-        private const string FIRE_ROCKET = "FireRocket";
-        private const string ROTATE_LEFT = "RotateLeft";
-        private const string ROTATE_RIGHT = "RotateRight";
-        private const string ROTATE_UP = "RotateUp";
-        private const string ROTATE_DOWN = "RotateDown";
-
         /// <summary>
         /// The entity controller that receives and executes the generated commands.
         /// </summary>
@@ -50,6 +37,10 @@ namespace EHE.BoltBusters
             GetAttackInput();
         }
 
+        /// <summary>
+        /// Used to switch between mouse and controller.
+        /// </summary>
+        /// <param name="event"></param>
         public override void _UnhandledInput(InputEvent @event)
         {
             switch (@event)
@@ -59,10 +50,13 @@ namespace EHE.BoltBusters
                     Input.SetMouseMode(Input.MouseModeEnum.Visible);
                     break;
                 case InputEventJoypadMotion joypadMotion:
-                    if (joypadMotion.Axis == JoyAxis.RightX || joypadMotion.Axis == JoyAxis.LeftX)
+                    if (joypadMotion.Axis == JoyAxis.RightX || joypadMotion.Axis == JoyAxis.RightY)
                     {
-                        _isMouseActive = false;
-                        Input.SetMouseMode(Input.MouseModeEnum.Hidden);
+                        if (joypadMotion.AxisValue > 0.1f)
+                        {
+                            _isMouseActive = false;
+                            Input.SetMouseMode(Input.MouseModeEnum.Hidden);
+                        }
                     }
                     break;
             }
@@ -83,7 +77,12 @@ namespace EHE.BoltBusters
         /// </summary>
         private void GetMovementInput()
         {
-            Vector2 inputVector = Input.GetVector(MOVE_LEFT, MOVE_RIGHT, MOVE_DOWN, MOVE_UP);
+            Vector2 inputVector = Input.GetVector(
+                ControlConfig.MOVE_LEFT,
+                ControlConfig.MOVE_RIGHT,
+                ControlConfig.MOVE_DOWN,
+                ControlConfig.MOVE_UP
+            );
             Vector3 moveVector = new Vector3(inputVector.X, 0, -inputVector.Y);
             _entityController.AddCommand(new MoveToDirectionCommand(moveVector));
         }
@@ -123,9 +122,17 @@ namespace EHE.BoltBusters
             _entityController.AddCommand(cmd);
         }
 
+        /// <summary>
+        /// When controller is active, motion is taken from controller joystick.
+        /// </summary>
         private void GetControllerRotationInput()
         {
-            Vector2 rotation = Input.GetVector(ROTATE_LEFT, ROTATE_RIGHT, ROTATE_UP, ROTATE_DOWN);
+            Vector2 rotation = Input.GetVector(
+                ControlConfig.ROTATE_LEFT,
+                ControlConfig.ROTATE_RIGHT,
+                ControlConfig.ROTATE_UP,
+                ControlConfig.ROTATE_DOWN
+            );
             if (!rotation.IsZeroApprox())
             {
                 Vector3 rot = new Vector3(rotation.X, 0, rotation.Y);
@@ -139,17 +146,17 @@ namespace EHE.BoltBusters
         /// </summary>
         private void GetAttackInput()
         {
-            if (Input.IsActionPressed(FIRE_CHAINGUN))
+            if (Input.IsActionPressed(ControlConfig.FIRE_CHAINGUN))
             {
                 _entityController.AddCommand(new AttackCommand(WeaponType.Chaingun));
             }
 
-            if (Input.IsActionJustPressed(FIRE_RAILGUN))
+            if (Input.IsActionJustPressed(ControlConfig.FIRE_RAILGUN))
             {
                 _entityController.AddCommand((new AttackCommand(WeaponType.Railgun)));
             }
 
-            if (Input.IsActionJustPressed(FIRE_ROCKET))
+            if (Input.IsActionJustPressed(ControlConfig.FIRE_ROCKET))
             {
                 _entityController.AddCommand(new AttackCommand(WeaponType.Rocket));
             }
