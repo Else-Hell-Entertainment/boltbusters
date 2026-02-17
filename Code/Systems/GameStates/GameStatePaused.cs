@@ -26,10 +26,10 @@ namespace EHE.BoltBusters.States
             GameManager.Instance.Pause();
         }
 
-        protected override void OnExited()
+        protected override void OnExited(bool keepLoaded = false)
         {
             // TODO: Make sure this works when going from pause menu to settings menu!
-            base.OnExited();
+            base.OnExited(keepLoaded);
             GameManager.Instance.Resume();
         }
     }

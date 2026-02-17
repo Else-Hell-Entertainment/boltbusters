@@ -22,9 +22,9 @@ namespace EHE.BoltBusters.States
             base.OnEntered();
         }
 
-        protected override void OnExited()
+        protected override void OnExited(bool keepLoaded = false)
         {
-            base.OnExited();
+            base.OnExited(keepLoaded);
         }
     }
 }
