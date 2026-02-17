@@ -3,7 +3,7 @@ using Godot;
 
 namespace EHE.BoltBusters.Ui
 {
-    public partial class MenuMain : Control
+    public partial class MenuMain : Menu
     {
         [Export]
         private Button _btnNewGame;
