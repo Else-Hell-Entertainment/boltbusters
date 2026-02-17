@@ -37,8 +37,8 @@ namespace EHE.BoltBusters
         {
             Instance = this;
             StateMachine = new GameloopStateMachine(
-                new GameStateMenuMain(),
-                new GameStateMenuSettings(),
+                new GameStateMainMenu(),
+                new GameStateSettingsMenu(),
                 new GameStateRound(),
                 new GameStatePaused()
             );

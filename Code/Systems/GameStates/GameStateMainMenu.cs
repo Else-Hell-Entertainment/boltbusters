@@ -6,12 +6,12 @@ using Godot;
 
 namespace EHE.BoltBusters.States
 {
-    public class GameStateMenuMain : GameState
+    public class GameStateMainMenu : GameState
     {
         public override StateType StateType => StateType.MainMenu;
         public override StringName ScenePath => "res://Scenes/UI/MenuMain.tscn";
 
-        public GameStateMenuMain()
+        public GameStateMainMenu()
         {
             AddTargetState(StateType.SettingsMenu);
             AddTargetState(StateType.Round);
