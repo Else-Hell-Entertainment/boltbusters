@@ -99,6 +99,17 @@ namespace EHE.BoltBusters
 
         public override void _Ready()
         {
+            Initialize();
+        }
+
+        public override void _PhysicsProcess(double delta)
+        {
+            ExecuteCommandStack();
+            ResetCommandState();
+        }
+
+        private void Initialize()
+        {
             // Initialize mover components for each controllable part
             _playerBodyMover = new CB3DMover(_playerBody);
             _playerBodyMover.MovementSpeed = _movementSpeed;
@@ -121,12 +132,6 @@ namespace EHE.BoltBusters
 
             // TODO: Remove from here if different input management system gets implemented.
             _inputHandler.SetEntityController(this);
-        }
-
-        public override void _PhysicsProcess(double delta)
-        {
-            ExecuteCommandStack();
-            ResetCommandState();
         }
 
         /// <summary>

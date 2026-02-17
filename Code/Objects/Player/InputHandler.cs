@@ -94,10 +94,10 @@ namespace EHE.BoltBusters
         private void GetMouseRotationInput()
         {
             // Ensure camera reference is valid
-            if (_camera == null)
+            if (!IsInstanceValid(_camera))
             {
                 _camera = GetViewport().GetCamera3D();
-                if (_camera == null)
+                if (!IsInstanceValid(_camera))
                 {
                     GD.PrintErr("Attempting to Raycast from camera but no camera defined.");
                     return;
