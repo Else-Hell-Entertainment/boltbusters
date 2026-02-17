@@ -221,7 +221,7 @@ namespace EHE.BoltBusters.States
                 _scene = null;
             }
 
-            OnExited();
+            OnExited(keepLoaded);
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace EHE.BoltBusters.States
         /// Custom state deactivation logic. Executed at the end of the
         /// <see cref="Exit"/> method.
         /// </summary>
-        protected virtual void OnExited()
+        protected virtual void OnExited(bool keepLoaded = false)
         {
 #if DEBUG
             GD.Print($"Exited state '{StateType}'.");
