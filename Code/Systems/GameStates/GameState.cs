@@ -192,6 +192,7 @@ namespace EHE.BoltBusters.States
                 _scene = _packedScene.Instantiate();
                 // TODO: Threaded level loading: https://docs.godotengine.org/en/latest/tutorials/io/background_loading.html
                 GameManager.Instance.SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _scene);
+                // TODO: Separate logic that is run each time the node is added vs each time the state is entered.
                 OnEntered();
             }
 
@@ -248,7 +249,7 @@ namespace EHE.BoltBusters.States
         protected virtual void OnExited(bool keepLoaded = false)
         {
 #if DEBUG
-            GD.Print($"Exited state '{StateType}'.");
+            GD.Print($"Exited state '{StateType}' (keepLoaded={keepLoaded}).");
 #endif
         }
     }
