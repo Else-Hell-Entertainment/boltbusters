@@ -44,6 +44,8 @@ namespace EHE.BoltBusters
             }
             // Create normalized direction vector on XZ plane
             direction.Y = 0;
+
+            // If using controller, adjust based on how far the joystick is pressed.
             float controllerSpeedAdjust = 1f;
             if (direction.Length() < 1.0)
             {

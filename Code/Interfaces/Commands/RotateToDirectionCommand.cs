@@ -3,13 +3,13 @@
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// Command that rotates an entity to face a specified point in 3D space.
+    /// Command that rotates an entity to face a specified direction in global 3D space.
     /// Implements the Command pattern to encapsulate rotation logic.
     /// </summary>
     public class RotateToDirectionCommand(Vector3 point) : ICommand
     {
         /// <summary>
-        /// Gets the target point in 3D space that the entity should rotate towards.
+        /// Gets the target direction in 3D space that the entity should rotate towards.
         /// </summary>
         public Vector3 Point { get; } = point;
 
