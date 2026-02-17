@@ -8,12 +8,12 @@ namespace EHE.BoltBusters.States
 {
     public class GameStateMenuMain : GameState
     {
-        public override StateType StateType => StateType.MenuMain;
+        public override StateType StateType => StateType.MainMenu;
         public override StringName ScenePath => "res://Scenes/UI/MenuMain.tscn";
 
         public GameStateMenuMain()
         {
-            AddTargetState(StateType.MenuSettings);
+            AddTargetState(StateType.SettingsMenu);
             AddTargetState(StateType.Round);
         }
 

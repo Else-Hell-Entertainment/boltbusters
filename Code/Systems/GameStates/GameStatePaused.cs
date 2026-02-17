@@ -8,7 +8,7 @@ namespace EHE.BoltBusters.States
 {
     public class GameStatePaused : GameState
     {
-        public override StateType StateType => StateType.MenuPause;
+        public override StateType StateType => StateType.Paused;
         public override StringName ScenePath => "res://Scenes/UI/MenuPause.tscn";
         public override bool IsAdditive => true;
 
@@ -16,8 +16,8 @@ namespace EHE.BoltBusters.States
         {
             AddTargetState(StateType.Round);
             AddTargetState(StateType.Shop);
-            AddTargetState(StateType.MenuSettings);
-            AddTargetState(StateType.MenuMain);
+            AddTargetState(StateType.SettingsMenu);
+            AddTargetState(StateType.MainMenu);
         }
 
         protected override void OnEntered()

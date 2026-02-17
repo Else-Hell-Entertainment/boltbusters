@@ -10,7 +10,7 @@ namespace EHE.BoltBusters
             // TODO: Move the key name to a config file.
             if (inputEvent.IsActionPressed("Pause"))
             {
-                GameManager.Instance.StateMachine.TransitionTo(StateType.MenuPause);
+                GameManager.Instance.StateMachine.TransitionTo(StateType.Paused);
             }
         }
     }

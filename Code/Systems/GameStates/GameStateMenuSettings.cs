@@ -8,13 +8,13 @@ namespace EHE.BoltBusters.States
 {
     public class GameStateMenuSettings : GameState
     {
-        public override StateType StateType => StateType.MenuSettings;
+        public override StateType StateType => StateType.SettingsMenu;
         public override StringName ScenePath => "res://Scenes/UI/MenuSettings.tscn";
         public override bool IsAdditive => true;
 
         public GameStateMenuSettings()
         {
-            AddTargetState(StateType.MenuMain);
+            AddTargetState(StateType.MainMenu);
         }
 
         protected override void OnEntered()

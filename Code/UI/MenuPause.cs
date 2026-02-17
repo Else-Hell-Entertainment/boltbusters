@@ -40,12 +40,12 @@ namespace EHE.BoltBusters.Ui
 
         private void OnBtnSettingsPressed()
         {
-            GameManager.Instance.StateMachine.TransitionTo(StateType.MenuSettings);
+            GameManager.Instance.StateMachine.TransitionTo(StateType.SettingsMenu);
         }
 
         private void OnBtnMainMenuPressed()
         {
-            GameManager.Instance.StateMachine.TransitionTo(StateType.MenuMain);
+            GameManager.Instance.StateMachine.TransitionTo(StateType.MainMenu);
         }
 
         private void OnBtnQuitPressed()

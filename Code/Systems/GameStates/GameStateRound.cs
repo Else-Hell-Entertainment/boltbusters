@@ -13,9 +13,9 @@ namespace EHE.BoltBusters.States
 
         public GameStateRound()
         {
-            AddTargetState(StateType.MenuPause);
+            AddTargetState(StateType.Paused);
             AddTargetState(StateType.Shop);
-            AddTargetState(StateType.MenuGameOver);
+            AddTargetState(StateType.GameOver);
         }
 
         protected override void OnEntered()

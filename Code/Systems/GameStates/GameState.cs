@@ -19,10 +19,10 @@ namespace EHE.BoltBusters.States
     public enum StateType
     {
         None = 0,
-        MenuMain,
-        MenuPause,
-        MenuSettings,
-        MenuGameOver,
+        MainMenu,
+        Paused,
+        SettingsMenu,
+        GameOver,
         Round,
         Shop,
     }
