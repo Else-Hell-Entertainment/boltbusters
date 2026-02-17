@@ -30,7 +30,11 @@ namespace EHE.BoltBusters.States
         {
             // TODO: Make sure this works when going from pause menu to settings menu!
             base.OnExited(keepLoaded);
-            GameManager.Instance.Resume();
+
+            if (!keepLoaded)
+            {
+                GameManager.Instance.Resume();
+            }
         }
     }
 }
