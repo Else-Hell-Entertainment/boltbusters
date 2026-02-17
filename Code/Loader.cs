@@ -19,6 +19,7 @@ namespace EHE.BoltBusters
         public override void _Ready()
         {
             GameManager.Instance.StateMachine.TransitionTo(_initialState);
+            QueueFree();
         }
     }
 }
