@@ -36,7 +36,7 @@ namespace EHE.BoltBusters
         public override void _Ready()
         {
             Instance = this;
-            StateMachine = new GameloopStateMachine(new GameStateMenuMain(), new GameStateMenuSettings());
+            StateMachine = new GameloopStateMachine(new GameStateMenuMain(), new GameStateMenuSettings(), new GameStatePaused());
             ProcessMode = ProcessModeEnum.Always;
         }
 
