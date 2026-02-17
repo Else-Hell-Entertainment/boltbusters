@@ -239,6 +239,12 @@ namespace EHE.BoltBusters.States
         /// Custom state deactivation logic. Executed at the end of the
         /// <see cref="Exit"/> method.
         /// </summary>
+        ///
+        /// <param name="keepLoaded">
+        ///  Tells if the next state is marked as additive.
+        /// </param>
+        ///
+        /// <seealso cref="GameState.IsAdditive"/>
         protected virtual void OnExited(bool keepLoaded = false)
         {
 #if DEBUG
