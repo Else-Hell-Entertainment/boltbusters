@@ -2,7 +2,7 @@ using Godot;
 
 namespace EHE.BoltBusters.Ui
 {
-    public partial class MenuSettings : Control
+    public partial class MenuSettings : Menu
     {
         [Export]
         private Button _btnBack;
