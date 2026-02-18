@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbokno8n21haj"]
+[gd_scene load_steps=12 format=3 uid="uid://dbokno8n21haj"]
 
 [ext_resource type="Script" uid="uid://co4if3wvhh2jx" path="res://Code/Objects/Chaingun.cs" id="1_gvsop"]
 
@@ -7,24 +7,40 @@ top_radius = 0.1
 bottom_radius = 0.1
 height = 0.5
 
+[sub_resource type="Gradient" id="Gradient_gvsop"]
+colors = PackedColorArray(1, 0.9048281, 0.2374612, 1, 0.9929336, 0.3944329, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_p72gw"]
+gradient = SubResource("Gradient_gvsop")
+
+[sub_resource type="Curve" id="Curve_gvsop"]
+_data = [Vector2(0.02010724, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_p72gw"]
+curve = SubResource("Curve_gvsop")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gvsop"]
+lifetime_randomness = 0.33
+particle_flag_align_y = true
 direction = Vector3(0, 0, -1)
-spread = 180.0
+spread = 30.0
 initial_velocity_min = 10.0
 initial_velocity_max = 20.0
 gravity = Vector3(0, 0, 0)
-turbulence_enabled = true
+color_ramp = SubResource("GradientTexture1D_p72gw")
+emission_curve = SubResource("CurveTexture_p72gw")
 turbulence_noise_strength = 13.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p72gw"]
-albedo_color = Color(1, 1, 0.11764706, 1)
-emission_enabled = true
-emission = Color(1, 0.44705883, 0, 1)
+vertex_color_use_as_albedo = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_i8k86"]
 material = SubResource("StandardMaterial3D_p72gw")
 radius = 0.05
-height = 0.05
+height = 0.1
+radial_segments = 4
+rings = 2
 
 [sub_resource type="ORMMaterial3D" id="ORMMaterial3D_gvsop"]
 albedo_color = Color(1, 0.9063318, 0, 1)
@@ -57,8 +73,8 @@ mesh = SubResource("CylinderMesh_gvsop")
 [node name="HitParticles" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.343589)
 emitting = false
-amount = 16
-lifetime = 0.06999999999999999
+amount = 12
+lifetime = 0.15000000000000002
 one_shot = true
 explosiveness = 1.0
 randomness = 1.0
