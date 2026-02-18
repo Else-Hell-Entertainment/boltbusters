@@ -88,7 +88,6 @@ namespace EHE.BoltBusters
         private void ApplyDamage(IDamageable target)
         {
             target.TakeDamage(_damageData);
-            GD.Print("Chaingun did damage!");
         }
 
         /// <summary>
@@ -141,18 +140,18 @@ namespace EHE.BoltBusters
                 if (target is IDamageable damageable)
                 {
                     ApplyDamage(damageable);
-                    GD.Print("Chaingun did damage");
                 }
             }
         }
 
+        /// <summary>
+        /// Emits hit particles from the hit point bounced from the surface normal.
+        /// </summary>
+        /// <param name="point">Point in global space where hit occurs.</param>
+        /// <param name="normal">Normal of the surface.</param>
         private void PlayHitParticles(Vector3 point, Vector3 normal)
         {
             _hitParticles.GlobalPosition = point;
-
-            // Align the particle emitter to face along the normal
-            _hitParticles.LookAt(point + normal);
-
             ParticleProcessMaterial material = (ParticleProcessMaterial)_hitParticles.ProcessMaterial;
             Vector3 direction = (point - _muzzle.GlobalPosition).Normalized();
             Vector3 reflection = direction.Bounce(normal);
