@@ -95,7 +95,6 @@ namespace EHE.BoltBusters
         /// Draws a bullet trail effect (a cylinder mesh defined in editor) from the start to end position.
         /// </summary>
         /// <param name="start">Point in global space where the trail starts from.</param>
-        /// <param name="direction"></param>
         /// <param name="end">Point in global space where the trail ends.</param>
         private void DrawBulletTrailEffect(Vector3 start, Vector3 end)
         {
@@ -136,8 +135,8 @@ namespace EHE.BoltBusters
 
                 Node target = (Node)collider;
                 Vector3 point = (Vector3)result["position"];
-                _hitParticles.GlobalPosition = point;
-                _hitParticles.Emitting = true;
+                Vector3 normal = (Vector3)result["normal"];
+                PlayHitParticles(point, normal);
                 DrawBulletTrailEffect(start, point);
                 if (target is IDamageable damageable)
                 {
@@ -145,6 +144,24 @@ namespace EHE.BoltBusters
                     GD.Print("Chaingun did damage");
                 }
             }
+        }
+
+        private void PlayHitParticles(Vector3 point, Vector3 normal)
+        {
+            _hitParticles.GlobalPosition = point;
+
+            // Align the particle emitter to face along the normal
+            _hitParticles.LookAt(point + normal);
+
+            ParticleProcessMaterial material = (ParticleProcessMaterial)_hitParticles.ProcessMaterial;
+            Vector3 direction = (point - _muzzle.GlobalPosition).Normalized();
+            Vector3 reflection = direction.Bounce(normal);
+
+            // Convert reflection to local space of the particle emitter
+            Vector3 localReflection = _hitParticles.GlobalTransform.Basis.Inverse() * reflection;
+            material.Direction = localReflection;
+
+            _hitParticles.Restart();
         }
 
         #region obsolete
