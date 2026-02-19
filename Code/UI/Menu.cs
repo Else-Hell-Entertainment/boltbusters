@@ -10,6 +10,7 @@ namespace EHE.BoltBusters.Ui
     {
         public Menu()
         {
+            // Ensures that no menu can become locked when the game is paused.
             ProcessMode = ProcessModeEnum.Always;
         }
     }
