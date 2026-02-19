@@ -7,6 +7,29 @@ using Godot;
 
 namespace EHE.BoltBusters
 {
+    /// <summary>
+    /// <para>Manages the overall state and lifecycle of a game level.</para>
+    ///
+    /// <para>
+    /// This class is responsible for:
+    /// <list type="bullet">
+    /// <item>Initializing and managing the game level structure</item>
+    /// <item>Controlling round timing and progression</item>
+    /// <item>Spawning and managing enemies through the <see cref="EnemySpawner"/></item>
+    /// </list>
+    /// </para>
+    ///
+    /// <para>
+    /// The LevelManager maintains a static reference to the currently active
+    /// level instance, allowing other systems to access level data without
+    /// maintaining their own references.
+    /// </para>
+    /// </summary>
+    ///
+    /// <remarks>
+    /// Note: This class is marked as WIP (Work In Progress) with several
+    /// features not yet fully functional.
+    /// </remarks>
     public partial class LevelManager : Node3D
     {
         // Fields that are editable in the inspector.
