@@ -13,7 +13,7 @@ namespace EHE.BoltBusters
         [Export]
         private LevelType _levelType = LevelType.None;
 
-        // Visible in editor.
+        // Nodes that are visible in the editor's node tree.
         private Node3D _arena;
         private EnemySpawner _enemySpawner;
         private Player _player;
@@ -22,7 +22,7 @@ namespace EHE.BoltBusters
         private Node3D _projectileRoot;
         private Node3D _collectibleRoot;
 
-        // Not in editor, created from code.
+        // Nodes that are created from the code.
         private Timer _roundTimer;
         private RoundData _roundData;
 
