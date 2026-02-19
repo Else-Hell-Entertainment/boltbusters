@@ -9,6 +9,10 @@ namespace EHE.BoltBusters
 {
     public partial class LevelManager : Node3D
     {
+        // Fields that are editable in the inspector.
+        [Export]
+        private LevelType _levelType = LevelType.None;
+
         // Visible in editor.
         private Node3D _arena;
         private EnemySpawner _enemySpawner;
@@ -26,6 +30,11 @@ namespace EHE.BoltBusters
         /// Reference to the currently active LevelManager.
         /// </summary>
         public static LevelManager Active { get; private set; }
+
+        /// <summary>
+        /// The type of the level.
+        /// </summary>
+        public LevelType LevelType => _levelType;
 
         /// <summary>
         /// Reference to the player.
