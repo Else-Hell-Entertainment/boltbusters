@@ -43,35 +43,44 @@ namespace EHE.BoltBusters
 
         public override void _Ready()
         {
-            Active = this;
             _arena = GetNodeOrNull<Node3D>("Arena");
             _enemySpawner = GetNodeOrNull<EnemySpawner>("EnemySpawner");
             _player = GetNodeOrNull<Player>("Player");
             _playerSpawnPosition = GetNodeOrNull<Node3D>("PlayerSpawnPosition");
 
+            bool hasErrors = false;
+
             if (_arena == null)
             {
                 GD.PushError("Arena node not found in level!");
-                return;
+                hasErrors = true;
             }
 
             if (_enemySpawner == null)
             {
                 GD.PushError("Enemy Spawner node not found in level!");
-                return;
+                hasErrors = true;
             }
 
             if (_player == null)
             {
                 GD.PushError("Player node not found in level!");
-                return;
+                hasErrors = true;
             }
 
             if (_playerSpawnPosition == null)
             {
                 GD.PushError("Player Spawn Position node not found in level!");
+                hasErrors = true;
+            }
+
+            if (hasErrors)
+            {
+                GD.PushError($"Encountered problems when creating {Name} ({typeof(LevelManager)}).");
                 return;
             }
+
+            Active = this;
 
             // Create object root nodes.
             _enemyRoot = new Node3D();
