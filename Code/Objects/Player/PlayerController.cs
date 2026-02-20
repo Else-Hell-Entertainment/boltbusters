@@ -16,7 +16,7 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Smoothing factor for body rotation to prevent jittery movement when rotating towards nearby points.
         /// </summary>
-        private const float BodyRotationSmoothingFactor = 10f;
+        private const float BODY_ROTATION_SMOOTHING = 10f;
 
         [Export]
         private float _movementSpeed = 10f;
@@ -63,7 +63,7 @@ namespace EHE.BoltBusters
 
         [Export]
         private PlayerRocketLauncherController _rocketLauncherController;
-        #endregion
+        #endregion Exported Nodes
 
         #region Mover Components
         /// <summary>
@@ -80,7 +80,7 @@ namespace EHE.BoltBusters
         /// Mover component that handles rotation of the body node towards the movement direction.
         /// </summary>
         private Node3DMover _bodyNode3DMover;
-        #endregion
+        #endregion Mover Components
 
         #region Command State Flags
         /// <summary>
@@ -94,7 +94,7 @@ namespace EHE.BoltBusters
         /// Prevents multiple rotation commands from being executed simultaneously.
         /// </summary>
         private bool _hasRotateCommand;
-        #endregion
+        #endregion Command State Flags
 
         /// <summary>
         /// Maps weapon types to their respective weapon controllers for command delegation.
@@ -182,18 +182,22 @@ namespace EHE.BoltBusters
         {
             // Only allow one move command per frame
             if (_hasMoveCommand)
+            {
                 return false;
+            }
 
             // Assign movement to the physics body
             if (!command.AssignReceiver(_playerBodyMover))
+            {
                 return false;
+            }
 
             _hasMoveCommand = true;
 
             // Automatically rotate the body node to face the movement direction
             if (command.Direction != Vector3.Zero)
             {
-                Vector3 smoothedPoint = _playerBody.GlobalPosition + command.Direction * BodyRotationSmoothingFactor;
+                Vector3 smoothedPoint = _playerBody.GlobalPosition + command.Direction * BODY_ROTATION_SMOOTHING;
                 RotateTowardsCommand rotateCommand = new RotateTowardsCommand(smoothedPoint);
                 rotateCommand.AssignReceiver(_bodyNode3DMover);
                 AddValidatedCommand(rotateCommand);
@@ -209,11 +213,15 @@ namespace EHE.BoltBusters
         {
             // Only allow one rotation command per frame
             if (_hasRotateCommand)
+            {
                 return false;
+            }
 
             // Assign rotation to the turret node
             if (!command.AssignReceiver(_turret3DMover))
+            {
                 return false;
+            }
 
             _hasRotateCommand = true;
             return true;
@@ -225,7 +233,9 @@ namespace EHE.BoltBusters
         private bool HandleAttackCommand(AttackCommand command)
         {
             if (!_weaponControllers.TryGetValue(command.WeaponType, out IAttacker controller))
+            {
                 return false;
+            }
 
             return command.AssignReceiver(controller);
         }

@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 
+using EHE.BoltBusters.Config;
 using Godot;
 
 namespace EHE.BoltBusters
