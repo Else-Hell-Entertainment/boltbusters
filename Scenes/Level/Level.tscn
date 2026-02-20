@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bledl4g0j55e6"]
+[gd_scene load_steps=6 format=3 uid="uid://bledl4g0j55e6"]
 
 [ext_resource type="Script" uid="uid://d0hobigx0gyeh" path="res://Code/Level/LevelManager.cs" id="1_k2uda"]
 [ext_resource type="MeshLibrary" uid="uid://43rio2xy10fd" path="res://Assets/Models/Arena/MeshLibraryArena1.tres" id="1_qp1lj"]
@@ -11,6 +11,7 @@ polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 2), PackedInt32Arr
 
 [node name="Level" type="Node3D"]
 script = ExtResource("1_k2uda")
+_levelType = 1
 
 [node name="GlobalLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
