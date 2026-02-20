@@ -30,7 +30,7 @@ namespace EHE.BoltBusters
 
         #region Properties
 
-        public static GameManager Instance = null;
+        public static GameManager Instance { get; private set; }
 
         public SceneTree SceneTree
         {
