@@ -103,6 +103,7 @@ namespace EHE.BoltBusters
         {
             if (
                 inputEvent.IsActionPressed(ControlConfig.PAUSE_GAME)
+                && StateMachine.CurrentState != null
                 && StateMachine.CurrentState.CanTransitionTo(StateType.Paused)
             )
             {
