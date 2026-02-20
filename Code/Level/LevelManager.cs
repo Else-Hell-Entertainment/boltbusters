@@ -80,6 +80,8 @@ namespace EHE.BoltBusters
         // TODO: Create separate classes for Background and Gameplay level managers.
         public override void _Ready()
         {
+            Active = this;
+
             // Get references to nodes defined in the editor.
             _arena = GetNodeOrNull<Node3D>("Arena");
             _enemySpawner = GetNodeOrNull<EnemySpawner>("EnemySpawner");
@@ -117,8 +119,6 @@ namespace EHE.BoltBusters
                 GD.PushError($"Encountered problems when creating {Name} ({typeof(LevelManager)}).");
                 return;
             }
-
-            Active = this;
 
             // Create object root nodes.
             _enemyRoot = new Node3D();
