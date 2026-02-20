@@ -187,10 +187,10 @@ namespace EHE.BoltBusters
             {
                 _enemyRoot.AddChild(enemy);
             }
-            // else if (levelObject is Projectile projectile)
-            // {
-            //     _projectileRoot.AddChild(projectile);
-            // }
+            else if (levelObject is Projectile projectile)
+            {
+                _projectileRoot.AddChild(projectile);
+            }
             // else if (levelObject is Collectible collectible)
             // {
             //     _collectibleRoot.AddChild(collectible);
