@@ -14,7 +14,14 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class GameManager : Node
     {
+        #region Fields
+
         private SceneTree _sceneTree = null;
+
+        #endregion Fields
+
+
+        #region Properties
 
         public static GameManager Instance = null;
 
@@ -32,6 +39,11 @@ namespace EHE.BoltBusters
         }
 
         public GameloopStateMachine StateMachine { get; private set; }
+
+        #endregion Properties
+
+
+        #region Overrides
 
         public override void _Ready()
         {
@@ -61,6 +73,13 @@ namespace EHE.BoltBusters
             }
         }
 
+        #endregion Overrides
+
+
+        #region Public Methods
+
+        #region Pause Control
+
         /// <summary>
         /// Pauses the game.
         /// </summary>
@@ -89,5 +108,9 @@ namespace EHE.BoltBusters
             SceneTree.Paused = SceneTree.Paused;
             return SceneTree.Paused;
         }
+
+        #endregion Pause Control
+
+        #endregion Public Methods
     }
 }
