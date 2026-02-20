@@ -14,11 +14,12 @@ namespace EHE.BoltBusters
     public partial class Loader : Control
     {
         [Export]
-        private StateType _initialState = StateType.MenuMain;
+        private StateType _initialState = StateType.MainMenu;
 
         public override void _Ready()
         {
             GameManager.Instance.StateMachine.TransitionTo(_initialState);
+            QueueFree();
         }
     }
 }
