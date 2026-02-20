@@ -57,16 +57,23 @@ namespace EHE.BoltBusters
 
         #region Overrides
 
-        public override void _Ready()
+        public override void _EnterTree()
         {
-            Instance = this;
+            // Set up state machine.
             StateMachine = new GameloopStateMachine(
                 new GameStateMainMenu(),
                 new GameStateSettingsMenu(),
                 new GameStateRound(),
                 new GameStatePaused()
             );
+
+            // All done.
+            Instance = this;
             ProcessMode = ProcessModeEnum.Always;
+        }
+
+        public override void _Ready()
+        {
             CreateCamera();
         }
 
