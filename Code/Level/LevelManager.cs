@@ -125,20 +125,6 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Handles non-movements inputs that happen during gameplay.
-        /// For example, pausing the game.
-        /// </summary>
-        /// <param name="inputEvent">Input event that occurred.</param>
-        public override void _Input(InputEvent inputEvent)
-        {
-            // TODO: Move the key name to a config file.
-            if (inputEvent.IsActionPressed("Pause"))
-            {
-                GameManager.Instance.StateMachine.TransitionTo(StateType.Paused);
-            }
-        }
-
-        /// <summary>
         /// WIP! NOT FULLY FUNCTIONAL YET!
         /// Initializes the round from provided <see cref="RoundData"/>.
         /// </summary>

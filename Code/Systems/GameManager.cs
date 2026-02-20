@@ -46,6 +46,22 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
+        /// Handles non-movements inputs that happen during gameplay.
+        /// For example, pausing the game.
+        /// </summary>
+        /// <param name="inputEvent">Input event that occurred.</param>
+        public override void _Input(InputEvent inputEvent)
+        {
+            if (
+                inputEvent.IsActionPressed(ControlConfig.PAUSE_GAME)
+                && StateMachine.CurrentState.CanTransitionTo(StateType.Paused)
+            )
+            {
+                StateMachine.TransitionTo(StateType.Paused);
+            }
+        }
+
+        /// <summary>
         /// Pauses the game.
         /// </summary>
         public void Pause()
