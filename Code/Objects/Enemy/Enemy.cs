@@ -1,3 +1,7 @@
+// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): TimeForNano tuominen.mika-95@hotmail.com
+
 using Godot;
 
 namespace EHE.BoltBusters
@@ -35,11 +39,7 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class Enemy : Character
     {
-        // Exports
-        ///////////////////////////////////////////////////////////////////////
-
-        #region Movement
-
+        #region Movement (Exports)
         [ExportGroup("Movement")]
         [Export]
         private float _moveSpeed = 4.0f;
@@ -52,11 +52,9 @@ namespace EHE.BoltBusters
 
         [Export]
         private float _stopDistance = 1.4f;
+        #endregion Movement (Exports)
 
-        #endregion Movement
-
-        #region Avoidance
-
+        #region Avoidance (Exports)
         [ExportGroup("Avoidance")]
         [Export]
         private bool _useAvoidance = true;
@@ -65,7 +63,7 @@ namespace EHE.BoltBusters
         private float _avoidanceRadius = 1.2f;
 
         [Export]
-        private float _neighborDistance = 5f;
+        private float _neighborDistance = 5.0f;
 
         [Export]
         private int _maxNeighbors = 12;
@@ -75,51 +73,38 @@ namespace EHE.BoltBusters
 
         [Export]
         private float _avoidancePriority = 1.0f;
+        #endregion Avoidance (Exports)
 
-        #endregion Avoidance
-
-        #region Facing
-
+        #region Facing (Exports)
         [ExportGroup("Facing")]
-        // If true, rotate to face movement direction.
         [Export]
         private bool _faceMovement = true;
 
-        // Maximum yaw rotation speed (degrees per second).
         [Export]
-        private float _turnSpeedDegreesPerSec = 540f;
+        private float _turnSpeedDegreesPerSec = 540.0f;
 
         // Minimum horizontal speed required to rotate.
         // Prevents jitter when almost stopped.
         [Export]
         private float _rotateMinSpeed = 0.25f;
+        #endregion Facing (Exports)
 
-        #endregion Facing
+        #region Fields
+        private NavigationAgent3D _agent = null;
 
-        // Fields
-        ///////////////////////////////////////////////////////////////////////
+        private CharacterBody3D _player = null;
+        private double _repathTimer = 0.0;
 
-        private NavigationAgent3D _agent;
+        private Vector3 _desiredVelocity = Vector3.Zero;
+        private Vector3 _safeVelocity = Vector3.Zero;
+        private bool _hasSafeVelocity = false;
 
-        #region Runtime State
+        private float _currentYaw = 0f;
 
-        private CharacterBody3D _player;
-        private double _repathTimer;
+        private EnemyType _enemyType;
+        #endregion Fields
 
-        private Vector3 _desiredVelocity;
-        private Vector3 _safeVelocity;
-        private bool _hasSafeVelocity;
-
-        // Cached yaw for smooth angular turning
-        private float _currentYaw;
-
-        #endregion Runtime State
-
-        // Properties
-        ///////////////////////////////////////////////////////////////////////
-
-        #region Movement
-
+        #region Movement (Properties)
         public float MoveSpeed
         {
             get => _moveSpeed;
@@ -143,11 +128,9 @@ namespace EHE.BoltBusters
             get => _stopDistance;
             protected set => _stopDistance = value;
         }
+        #endregion Movement (Properties)
 
-        #endregion Movement
-
-        #region Avoidance
-
+        #region Avoidance (Properties)
         public bool UseAvoidance
         {
             get => _useAvoidance;
@@ -183,11 +166,9 @@ namespace EHE.BoltBusters
             get => _avoidancePriority;
             protected set => _avoidancePriority = value;
         }
+        #endregion Avoidance (Properties)
 
-        #endregion Avoidance
-
-        #region Facing
-
+        #region Facing (Properties)
         public bool FaceMovement
         {
             get => _faceMovement;
@@ -205,18 +186,20 @@ namespace EHE.BoltBusters
             get => _rotateMinSpeed;
             protected set => _rotateMinSpeed = value;
         }
+        #endregion Facing (Properties)
 
-        #endregion Facing
+        #region EnemyInfo
+        public EnemyType EnemyType
+        {
+            get => _enemyType;
+            private set => _enemyType = value;
+        }
 
-        // Methods
-        ///////////////////////////////////////////////////////////////////////
+        [Signal]
+        public delegate void EnemyDiedEventHandler(int enemyType, Vector3 deathPosition);
+        #endregion EnemyInfo
 
-        #region Public Methods
-
-        /// <summary>
-        /// Called when the node enters the scene tree and is ready.
-        /// Initializes navigation, avoidance, and target subscriptions.
-        /// </summary>
+        #region Godot callbacks
         public override void _Ready()
         {
             _agent = GetNodeOrNull<NavigationAgent3D>("NavigationAgent3D");
@@ -244,22 +227,19 @@ namespace EHE.BoltBusters
             }
         }
 
-        /// <summary>
-        /// Unsubscribe from events when leaving the scene tree.
-        /// </summary>
         public override void _ExitTree()
         {
             if (TargetProvider.Instance != null)
+            {
                 TargetProvider.Instance.PlayerChanged -= OnPlayerChanged;
+            }
 
             if (_agent != null)
+            {
                 _agent.VelocityComputed -= OnVelocityComputed;
+            }
         }
 
-        /// <summary>
-        /// Main physics update loop.
-        /// Handles navigation, movement, avoidance, and facing.
-        /// </summary>
         public override void _PhysicsProcess(double delta)
         {
             // No target → decelerate smoothly
@@ -274,7 +254,7 @@ namespace EHE.BoltBusters
             _repathTimer += delta;
             if (_repathTimer >= RepathInterval)
             {
-                _repathTimer = 0;
+                _repathTimer = 0.0;
                 _agent.TargetPosition = _player.GlobalPosition;
             }
 
@@ -284,7 +264,9 @@ namespace EHE.BoltBusters
             // Request avoidance each frame (fresh result)
             _hasSafeVelocity = false;
             if (UseAvoidance && _agent.AvoidanceEnabled)
+            {
                 _agent.Velocity = _desiredVelocity;
+            }
 
             // Choose applied velocity
             // If both conditions are true, use _safeVelocity, otherwise _desiredVelocity.
@@ -296,14 +278,28 @@ namespace EHE.BoltBusters
 
             // Facing
             if (FaceMovement)
+            {
                 FaceInMovementDirectionSmooth(Velocity, delta);
+            }
+        }
+        #endregion Godot callbacks
+
+        #region Public methods
+        public void Initialize(EnemyType enemyType)
+        {
+            EnemyType = enemyType;
         }
 
-        #endregion Public Methods
+        public override void OnSpawn() { }
 
+        public override void OnDespawn()
+        {
+            EmitSignal(SignalName.EnemyDied, (int)_enemyType, GlobalPosition);
+            QueueFree();
+        }
+        #endregion Public methods
 
-        #region Private Methods
-
+        #region Private methods
         /// <summary>
         /// Called whenever the player reference changes.
         /// Player may be null during scene transitions.
@@ -311,12 +307,14 @@ namespace EHE.BoltBusters
         private void OnPlayerChanged(CharacterBody3D player)
         {
             _player = player;
-            _repathTimer = 0;
+            _repathTimer = 0.0;
             _hasSafeVelocity = false;
             _safeVelocity = Vector3.Zero;
 
             if (_agent != null && _player != null)
+            {
                 _agent.TargetPosition = _player.GlobalPosition;
+            }
         }
 
         /// <summary>
@@ -354,19 +352,22 @@ namespace EHE.BoltBusters
             Vector3 myPos = GlobalPosition;
             Vector3 targetPos = _player.GlobalPosition;
 
-            // Stop when near the player (XZ)
             Vector3 toPlayer = targetPos - myPos;
-            toPlayer.Y = 0;
+            toPlayer.Y = 0f;
             if (toPlayer.Length() <= StopDistance)
+            {
                 return Vector3.Zero;
+            }
 
             Vector3 next = !_agent.IsNavigationFinished() ? _agent.GetNextPathPosition() : targetPos;
 
             Vector3 toNext = next - myPos;
-            toNext.Y = 0;
+            toNext.Y = 0f;
 
             if (toNext.LengthSquared() < 0.000001f)
+            {
                 return Vector3.Zero;
+            }
 
             return toNext.Normalized() * MoveSpeed;
         }
@@ -382,9 +383,10 @@ namespace EHE.BoltBusters
 
             // Do not rotate when barely moving
             if (flat.LengthSquared() < RotateMinSpeed * RotateMinSpeed)
+            {
                 return;
+            }
 
-            // Same yaw logic as your original working version
             float targetYaw = Mathf.Atan2(-flat.X, -flat.Z);
 
             float maxStep = Mathf.DegToRad(TurnSpeedDegreesPerSec) * (float)delta;
@@ -402,11 +404,12 @@ namespace EHE.BoltBusters
             float diff = Mathf.Wrap(target - current, -Mathf.Pi, Mathf.Pi);
 
             if (Mathf.Abs(diff) <= maxDelta)
+            {
                 return target;
+            }
 
             return current + Mathf.Sign(diff) * maxDelta;
         }
-
-        #endregion Private Methods
+        #endregion Private methods
     }
 }
