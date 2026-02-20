@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using System.Collections.Generic;
 using EHE.BoltBusters.Config;
 using EHE.BoltBusters.States;
 using EHE.BoltBusters.Systems;
@@ -16,6 +17,13 @@ namespace EHE.BoltBusters
     public partial class GameManager : Node
     {
         #region Fields
+
+        // Level-related stuff.
+        private PackedScene _backgroundLevelScene;
+        private PackedScene _gameplayLevelScene;
+        private LevelManager _backgroundLevel;
+        private LevelManager _gameplayLevel;
+        private Dictionary<LevelType, PackedScene> _levelScenes;
 
         // Camera-related stuff.
         private SubViewportContainer _levelViewportContainer;
@@ -59,6 +67,15 @@ namespace EHE.BoltBusters
 
         public override void _EnterTree()
         {
+            // Load level scenes into memory.
+            _backgroundLevelScene = GD.Load<PackedScene>(SceneFileConfig.BACKGROUND_LEVEL_PATH);
+            _gameplayLevelScene = GD.Load<PackedScene>(SceneFileConfig.GAMEPLAY_LEVEL_PATH);
+            _levelScenes = new Dictionary<LevelType, PackedScene>
+            {
+                { LevelType.Background, _backgroundLevelScene },
+                { LevelType.Gameplay, _gameplayLevelScene },
+            };
+
             // Set up state machine.
             StateMachine = new GameloopStateMachine(
                 new GameStateMainMenu(),
@@ -97,6 +114,47 @@ namespace EHE.BoltBusters
 
 
         #region Public Methods
+
+
+        /// <summary>
+        ///  <para>
+        ///   Switches the active level by unloading the current level and
+        ///   loading a new one.
+        ///  </para>
+        ///  <para>
+        ///    When called, this method will instantiate a new level of the
+        ///    specified <paramref name="levelType"/>, remove the currently
+        ///    active level from the scene tree, and add the new level.
+        ///  </para>
+        /// </summary>
+        ///
+        /// <param name="levelType">
+        ///  The type of level to load and switch to.
+        /// </param>
+        ///
+        /// <remarks>
+        ///  The scene tree operation is deferred, ensuring it occurs at the
+        ///  end of the current frame.
+        /// </remarks>
+        public void SwitchToLevelType(LevelType levelType)
+        {
+            if (!_levelScenes.TryGetValue(levelType, out PackedScene levelResource))
+            {
+                GD.PushError($"Cannot switch levels: no level of type '{levelType}' was found.");
+                return;
+            }
+
+            var levelScene = levelResource.InstantiateOrNull<LevelManager>();
+
+            if (levelScene == null)
+            {
+                GD.PushError($"Failed to instantiate level scene from '{levelResource.ResourcePath}'.");
+                return;
+            }
+
+            LevelManager.Active?.QueueFree();
+            SceneTree.Root.CallDeferred(Node.MethodName.AddChild, levelScene);
+        }
 
         #region Pause Control
 
