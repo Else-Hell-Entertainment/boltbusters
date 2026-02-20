@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bledl4g0j55e6"]
+[gd_scene load_steps=8 format=3 uid="uid://bledl4g0j55e6"]
 
 [ext_resource type="Script" uid="uid://d0hobigx0gyeh" path="res://Code/Level/LevelManager.cs" id="1_k2uda"]
 [ext_resource type="MeshLibrary" uid="uid://43rio2xy10fd" path="res://Assets/Models/Arena/MeshLibraryArena1.tres" id="1_qp1lj"]
-[ext_resource type="PackedScene" uid="uid://tb0fhj8w73mc" path="res://Scenes/EnemySpawner.tscn" id="2_k2uda"]
+[ext_resource type="PackedScene" uid="uid://tb0fhj8w73mc" path="res://Scenes/Enemies/EnemySpawnManager.tscn" id="2_k2uda"]
 [ext_resource type="PackedScene" uid="uid://d2pwdhbrhlwgr" path="res://Scenes/CameraRig.tscn" id="3_ksici"]
 [ext_resource type="PackedScene" uid="uid://c4h2yy8w0gt3l" path="res://Scenes/Player/player.tscn" id="4_8gphe"]
+[ext_resource type="PackedScene" uid="uid://bh3xawx4w08w2" path="res://Scenes/Collectible/CollectibleSpawnManager.tscn" id="6_ksici"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_x00a1"]
 vertices = PackedVector3Array(0.5, 0.5, 11.5, 6.5, 0.5, 11.5, 6.5, 0.5, 6.75, 11.5, 0.5, 6.5, 11.5, 0.5, 0.5, 0.5, 0.5, 0.5, 20.75, 0.5, 0.5, 20.75, 0.5, 6.5, 27.5, 0.5, 6.5, 27.5, 0.5, 0.5, 36.75, 0.5, 0.5, 36.75, 0.5, 6.5, 41.5, 0.5, 6.5, 41.75, 0.5, 11.5, 48.5, 0.5, 11.5, 48.75, 0.5, 13.25, 63.5, 0.5, 13, 63.5, 0.5, 0.5, 13.25, 0.5, 8.75, 8.75, 0.5, 8.75, 8.75, 0.5, 13.25, 8.5, 0.5, 34.5, 8.75, 0.5, 39.5, 13.75, 0.5, 39.75, 18.75, 0.5, 39.5, 8.75, 0.5, 29.25, 34.5, 0.5, 39.75, 39.5, 0.5, 39.5, 39.75, 0.5, 34.5, 29.5, 0.5, 39.5, 39.75, 0.5, 13.75, 39.5, 0.5, 8.75, 34.5, 0.5, 8.5, 29.25, 0.5, 8.75, 39.5, 0.5, 18.75, 8.25, 0.5, 29.75, 1.75, 0.5, 29.75, 1.75, 0.5, 34.5, 39.5, 0.5, 29.5, 34.5, 0.5, 1.75, 29.75, 0.5, 1.75, 29.75, 0.5, 8.25, 46.5, 0.5, 18.5, 46.5, 0.5, 13.75, 18.5, 0.5, 1.75, 13.75, 0.5, 1.75, 13.75, 0.5, 8.25, 18.75, 0.5, 8.75, 8.25, 0.5, 13.75, 1.75, 0.5, 13.75, 1.75, 0.5, 18.5, 8.75, 0.5, 18.75, 46.5, 0.5, 34.5, 46.5, 0.5, 29.75, 13.75, 0.5, 46.5, 18.5, 0.5, 46.5, 29.75, 0.5, 46.5, 34.5, 0.5, 46.5, 48.75, 0.5, 18.75, 63.5, 0.5, 19, 48.25, 0.5, 20.75, 46.5, 0.5, 20.75, 46.75, 0.5, 27.5, 48.5, 0.5, 27.5, 48.75, 0.5, 20.25, 48.75, 0.5, 29.25, 63.5, 0.5, 29, 0.5, 0.5, 20.75, 0.5, 0.5, 27.5, 6.5, 0.5, 27.5, 6.5, 0.5, 20.75, 41.75, 0.5, 20.75, 41.75, 0.5, 27.5, 48.75, 0.5, 34.75, 63.5, 0.5, 35, 48.25, 0.5, 36.75, 41.75, 0.5, 36.75, 41.75, 0.5, 41.25, 41.25, 0.5, 41.75, 36.75, 0.5, 41.75, 36.75, 0.5, 48.25, 48.75, 0.5, 36.25, 36.25, 0.5, 48.75, 34.75, 0.5, 48.75, 35, 0.5, 63.5, 63.5, 0.5, 63.5, 6.5, 0.5, 41.5, 6.5, 0.5, 36.75, 0.5, 0.5, 36.75, 11.5, 0.5, 48.5, 11.5, 0.5, 41.75, 13, 0.5, 63.5, 13.25, 0.5, 48.75, 0.5, 0.5, 63.5, 20.75, 0.5, 46.5, 27.5, 0.5, 46.75, 27.5, 0.5, 41.75, 20.75, 0.5, 41.75, 20.75, 0.5, 48.25, 27.5, 0.5, 48.5, 20.25, 0.5, 48.75, 18.75, 0.5, 48.75, 19, 0.5, 63.5, 29, 0.5, 63.5, 29.25, 0.5, 48.75)
@@ -46,7 +47,7 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 2, 0)
 
-[node name="EnemySpawner" parent="." instance=ExtResource("2_k2uda")]
+[node name="EnemySpawnManager" parent="." instance=ExtResource("2_k2uda")]
 
 [node name="CameraRig" parent="." instance=ExtResource("3_ksici")]
 UseSmoothFollow = false
@@ -57,3 +58,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 28)
 
 [node name="PlayerSpawnPosition" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.951452, 0.17866802, 27.92754)
+
+[node name="CollectibleSpawnManager" parent="." instance=ExtResource("6_ksici")]

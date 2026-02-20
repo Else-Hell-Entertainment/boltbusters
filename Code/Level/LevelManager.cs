@@ -38,7 +38,7 @@ namespace EHE.BoltBusters
 
         // Nodes that are visible in the editor's node tree.
         private Node3D _arena;
-        private EnemySpawner _enemySpawner;
+        private EnemySpawnManager _enemySpawnManager;
         private Player _player;
         private Node3D _playerSpawnPosition;
         private Node3D _enemyRoot;
@@ -67,7 +67,7 @@ namespace EHE.BoltBusters
         public override void _Ready()
         {
             _arena = GetNodeOrNull<Node3D>("Arena");
-            _enemySpawner = GetNodeOrNull<EnemySpawner>("EnemySpawner");
+            _enemySpawnManager = GetNodeOrNull<EnemySpawnManager>("EnemySpawnManager");
             _player = GetNodeOrNull<Player>("Player");
             _playerSpawnPosition = GetNodeOrNull<Node3D>("PlayerSpawnPosition");
 
@@ -79,7 +79,7 @@ namespace EHE.BoltBusters
                 hasErrors = true;
             }
 
-            if (_enemySpawner == null)
+            if (_enemySpawnManager == null)
             {
                 GD.PushError("Enemy Spawner node not found in level!");
                 hasErrors = true;
@@ -145,7 +145,6 @@ namespace EHE.BoltBusters
         /// <param name="roundData">Data describing the round.</param>
         public void InitializeLevel(RoundData roundData)
         {
-            _roundData = roundData;
             _roundTimer.WaitTime = roundData.RoundLength;
         }
 
@@ -156,7 +155,7 @@ namespace EHE.BoltBusters
         public void StartRound()
         {
             _roundTimer.Start();
-            // TODO: Instruct enemy spawner to start spawning waves.
+            _enemySpawnManager.StartRound(_roundData);
         }
 
         /// <summary>
@@ -191,10 +190,10 @@ namespace EHE.BoltBusters
             // {
             //     _projectileRoot.AddChild(projectile);
             // }
-            // else if (levelObject is Collectible collectible)
-            // {
-            //     _collectibleRoot.AddChild(collectible);
-            // }
+            else if (levelObject is Collectible collectible)
+            {
+                _collectibleRoot.AddChild(collectible);
+            }
         }
 
         /// <summary>

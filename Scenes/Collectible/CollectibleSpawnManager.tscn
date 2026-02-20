@@ -1,0 +1,12 @@
+[gd_scene load_steps=5 format=3 uid="uid://bh3xawx4w08w2"]
+
+[ext_resource type="Script" uid="uid://xc1vnexgvp7h" path="res://Code/Objects/Collectible/CollectibleSpawnManager.cs" id="1_wwp7c"]
+[ext_resource type="PackedScene" uid="uid://duawocsu2myp3" path="res://Scenes/Collectible/Bolt.tscn" id="2_bd2ji"]
+[ext_resource type="PackedScene" uid="uid://5noo3v8c32ss" path="res://Scenes/Collectible/Nut.tscn" id="3_0mdo5"]
+[ext_resource type="PackedScene" uid="uid://bxcsp8ax5dc3s" path="res://Scenes/Collectible/Wrench.tscn" id="4_i21es"]
+
+[node name="CollectibleSpawnManager" type="Node3D"]
+script = ExtResource("1_wwp7c")
+_boltScene = ExtResource("2_bd2ji")
+_nutScene = ExtResource("3_0mdo5")
+_wrenchScene = ExtResource("4_i21es")
