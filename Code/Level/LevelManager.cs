@@ -32,6 +32,8 @@ namespace EHE.BoltBusters
     /// </remarks>
     public partial class LevelManager : Node3D
     {
+        #region Fields
+
         // Fields that are editable in the inspector.
         [Export]
         private LevelType _levelType = LevelType.None;
@@ -49,6 +51,11 @@ namespace EHE.BoltBusters
         private Timer _roundTimer;
         private RoundData _roundData;
 
+        #endregion Fields
+
+
+        #region Properties
+
         /// <summary>
         /// Reference to the currently active LevelManager.
         /// </summary>
@@ -64,8 +71,16 @@ namespace EHE.BoltBusters
         /// </summary>
         public Player Player => _player;
 
+        #endregion Properties
+
+
+        #region Overrides
+
+        // TODO: Create a base class for LevelManager.
+        // TODO: Create separate classes for Background and Gameplay level managers.
         public override void _Ready()
         {
+            // Get references to nodes defined in the editor.
             _arena = GetNodeOrNull<Node3D>("Arena");
             _enemySpawner = GetNodeOrNull<EnemySpawner>("EnemySpawner");
             _player = GetNodeOrNull<Player>("Player");
@@ -123,6 +138,11 @@ namespace EHE.BoltBusters
             _roundTimer.Timeout += OnRoundEnded;
             AddChild(_roundTimer);
         }
+
+        #endregion Overrides
+
+
+        #region Public Methods
 
         /// <summary>
         /// WIP! NOT FULLY FUNCTIONAL YET!
@@ -183,6 +203,11 @@ namespace EHE.BoltBusters
             // }
         }
 
+        #endregion Public Methods
+
+
+        #region Private Methods
+
         /// <summary>
         /// WIP!
         /// Called when the round timer runs out. Stops the round timer.
@@ -192,5 +217,7 @@ namespace EHE.BoltBusters
             _roundTimer.Stop();
             // TODO: Wait 5s and transition to shop state.
         }
+
+        #endregion Private Methods
     }
 }
