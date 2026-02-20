@@ -10,10 +10,14 @@ namespace EHE.BoltBusters
     /// <summary>
     /// Prototype rocket. WIP.
     /// </summary>
-    public partial class Rocket : CharacterBody3D
+    public partial class Rocket : Projectile
     {
+        private const int COLLISION_MASK_LAYER = 1;
+
         [Export]
         private float _speed = 20.0f;
+
+        private CharacterBody3D _rocketBody;
 
         private bool _isActive = true;
         private SphereMesh _explosionMesh;
@@ -26,19 +30,17 @@ namespace EHE.BoltBusters
 
         public override void _Ready()
         {
-            _explosionCast = GetNode<ShapeCast3D>("ExplosionCast");
-            _rocketBodyMeshInstance = GetNode<MeshInstance3D>("RocketBodyMesh");
-            _damageData = new DamageData(50, DamageType.Missile);
-            _VFXanimationPlayer = GetNode<AnimationPlayer>("VFX/Explosion/AnimationPlayer");
+            InitializeNodes();
+            VerifyInit();
         }
 
         public override void _PhysicsProcess(double delta)
         {
             if (_isActive)
             {
-                Vector3 direction = -GlobalTransform.Basis.Z;
+                Vector3 direction = -_rocketBody.GlobalTransform.Basis.Z;
                 direction *= _speed;
-                var collision = MoveAndCollide(direction * (float)delta);
+                var collision = _rocketBody.MoveAndCollide(direction * (float)delta);
                 if (collision != null)
                 {
                     Explode();
@@ -46,12 +48,55 @@ namespace EHE.BoltBusters
             }
         }
 
+        private void InitializeNodes()
+        {
+            _rocketBody = GetNodeOrNull<CharacterBody3D>("RocketBody");
+            _explosionCast = _rocketBody.GetNodeOrNull<ShapeCast3D>("ExplosionCast");
+            _rocketBodyMeshInstance = _rocketBody.GetNodeOrNull<MeshInstance3D>("RocketBodyMesh");
+            _damageData = new DamageData(50, DamageType.Missile);
+            _VFXanimationPlayer = _rocketBody.GetNodeOrNull<AnimationPlayer>("VFX/Explosion/AnimationPlayer");
+        }
+
+        private void VerifyInit()
+        {
+            if (_rocketBody == null)
+            {
+                GD.PrintErr("Rocket: No rocket body found.");
+            }
+
+            if (_rocketBodyMeshInstance == null)
+            {
+                GD.PrintErr("Rocket: No rocket body mesh instance found.");
+            }
+            if (_damageData == null)
+            {
+                GD.PrintErr("Rocket: No damage data found.");
+            }
+
+            if (_VFXanimationPlayer == null)
+            {
+                GD.PrintErr("Rocket: No animation player found.");
+            }
+        }
+
+        public void LaunchRocket(Node3D launchPoint, Vector3 direction)
+        {
+            _isActive = true;
+            _rocketBody.SetCollisionMaskValue(COLLISION_MASK_LAYER, true);
+            _rocketBodyMeshInstance.Visible = true;
+            Vector3 globalDir = launchPoint.GlobalBasis * direction;
+            globalDir = globalDir.Normalized();
+            _rocketBody.GlobalPosition = launchPoint.GlobalPosition;
+            Transform3D t = _rocketBody.GlobalTransform;
+            t.Basis = Basis.LookingAt(globalDir, Vector3.Up);
+            _rocketBody.GlobalTransform = t;
+        }
+
         private void Explode()
         {
             CallDeferred(MethodName.CheckExplosionDamage);
             _VFXanimationPlayer.Play("Explode");
-            _isActive = false;
-            HideRocketBody();
+            DeactivateRocketBody();
         }
 
         private void CheckExplosionDamage()
@@ -67,20 +112,19 @@ namespace EHE.BoltBusters
                     if (target is IDamageable damageable)
                     {
                         damageable.TakeDamage(_damageData);
-                        GD.Print("Rocket did damage.");
                     }
                 }
             }
         }
 
-        private void HideRocketBody()
+        /// <summary>
+        /// Deactivates the body of the rocket. Used when the rocket hits a target, but still needs to play the vfx.
+        /// </summary>
+        private void DeactivateRocketBody()
         {
+            _isActive = false;
             _rocketBodyMeshInstance.Visible = false;
-        }
-
-        private void Reset()
-        {
-            _rocketBodyMeshInstance.Visible = true;
+            _rocketBody.SetCollisionMaskValue(COLLISION_MASK_LAYER, false);
         }
     }
 }

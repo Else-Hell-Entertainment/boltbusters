@@ -79,11 +79,10 @@ namespace EHE.BoltBusters
             while (shotCounter < _salvoSize)
             {
                 Rocket rocket = _rocketScene.Instantiate<Rocket>();
-                _levelRootNode.AddChild(rocket);
+                LevelManager.Active.AddLevelObject(rocket);
                 Node3D point = _launchPoints[launchPointIndex];
                 launchPointIndex = (launchPointIndex + 1) % _launchPoints.Count;
-                rocket.GlobalPosition = point.GlobalPosition;
-                rocket.GlobalRotation = point.GlobalRotation;
+                rocket.LaunchRocket(point, Vector3.Forward);
                 shotCounter++;
                 _intervalTimer.Start();
                 await (ToSignal(_intervalTimer, "timeout"));
