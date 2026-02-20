@@ -1,4 +1,9 @@
-﻿using Godot;
+﻿// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
+
+using EHE.BoltBusters.Config;
+using Godot;
 
 namespace EHE.BoltBusters
 {
@@ -8,15 +13,6 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class InputHandler : Node3D
     {
-        // Input action names
-        private const string MOVE_LEFT = "MoveLeft";
-        private const string MOVE_RIGHT = "MoveRight";
-        private const string MOVE_UP = "MoveUp";
-        private const string MOVE_DOWN = "MoveDown";
-        private const string FIRE_CHAINGUN = "FireChaingun";
-        private const string FIRE_RAILGUN = "FireRailgun";
-        private const string FIRE_ROCKET = "FireRocket";
-
         /// <summary>
         /// The entity controller that receives and executes the generated commands.
         /// </summary>
@@ -27,6 +23,8 @@ namespace EHE.BoltBusters
         /// </summary>
         private Camera3D _camera;
 
+        private bool _isMouseActive;
+
         public override void _Ready()
         {
             _camera = GetViewport().GetCamera3D();
@@ -35,8 +33,38 @@ namespace EHE.BoltBusters
         public override void _PhysicsProcess(double delta)
         {
             GetMovementInput();
-            GetRotationInput();
+            if (_isMouseActive)
+            {
+                GetMouseRotationInput();
+            }
+            GetControllerRotationInput();
+
             GetAttackInput();
+        }
+
+        /// <summary>
+        /// Used to switch between mouse and controller.
+        /// </summary>
+        /// <param name="event"></param>
+        public override void _UnhandledInput(InputEvent @event)
+        {
+            switch (@event)
+            {
+                case InputEventMouseMotion:
+                    _isMouseActive = true;
+                    Input.SetMouseMode(Input.MouseModeEnum.Visible);
+                    break;
+                case InputEventJoypadMotion joypadMotion:
+                    if (joypadMotion.Axis == JoyAxis.RightX || joypadMotion.Axis == JoyAxis.RightY)
+                    {
+                        if (joypadMotion.AxisValue > 0.1f)
+                        {
+                            _isMouseActive = false;
+                            Input.SetMouseMode(Input.MouseModeEnum.Hidden);
+                        }
+                    }
+                    break;
+            }
         }
 
         /// <summary>
@@ -54,12 +82,13 @@ namespace EHE.BoltBusters
         /// </summary>
         private void GetMovementInput()
         {
-            Vector2 inputVector = Input.GetVector(MOVE_LEFT, MOVE_RIGHT, MOVE_DOWN, MOVE_UP);
-            if (inputVector == Vector2.Zero)
-            {
-                return;
-            }
-            Vector3 moveVector = new Vector3(inputVector.X, 0, -inputVector.Y).Normalized();
+            Vector2 inputVector = Input.GetVector(
+                ControlConfig.MOVE_LEFT,
+                ControlConfig.MOVE_RIGHT,
+                ControlConfig.MOVE_DOWN,
+                ControlConfig.MOVE_UP
+            );
+            Vector3 moveVector = new Vector3(inputVector.X, 0, -inputVector.Y);
             _entityController.AddCommand(new MoveToDirectionCommand(moveVector));
         }
 
@@ -67,13 +96,13 @@ namespace EHE.BoltBusters
         /// Reads mouse position and generates rotation commands to face the cursor.
         /// Performs raycasting from the camera to find the intersection point on the ground plane.
         /// </summary>
-        private void GetRotationInput()
+        private void GetMouseRotationInput()
         {
             // Ensure camera reference is valid
-            if (_camera == null)
+            if (!IsInstanceValid(_camera))
             {
                 _camera = GetViewport().GetCamera3D();
-                if (_camera == null)
+                if (!IsInstanceValid(_camera))
                 {
                     GD.PrintErr("Attempting to Raycast from camera but no camera defined.");
                     return;
@@ -98,21 +127,43 @@ namespace EHE.BoltBusters
             _entityController.AddCommand(cmd);
         }
 
+        /// <summary>
+        /// When controller is active, motion is taken from controller joystick.
+        /// </summary>
+        private void GetControllerRotationInput()
+        {
+            Vector2 rotation = Input.GetVector(
+                ControlConfig.ROTATE_LEFT,
+                ControlConfig.ROTATE_RIGHT,
+                ControlConfig.ROTATE_UP,
+                ControlConfig.ROTATE_DOWN
+            );
+            if (!rotation.IsZeroApprox())
+            {
+                Vector3 rot = new Vector3(rotation.X, 0, rotation.Y);
+                RotateToDirectionCommand command = new RotateToDirectionCommand(rot);
+                _entityController.AddCommand(command);
+            }
+        }
+
+        /// <summary>
+        /// Process attack commands from player.
+        /// </summary>
         private void GetAttackInput()
         {
-            if (Input.IsActionPressed(FIRE_CHAINGUN))
+            if (Input.IsActionPressed(ControlConfig.FIRE_CHAINGUN))
             {
-                _entityController.AddCommand(new AttackCommand("Chaingun"));
+                _entityController.AddCommand(new AttackCommand(WeaponType.Chaingun));
             }
 
-            if (Input.IsActionJustPressed(FIRE_RAILGUN))
+            if (Input.IsActionJustPressed(ControlConfig.FIRE_RAILGUN))
             {
-                _entityController.AddCommand((new AttackCommand("Railgun")));
+                _entityController.AddCommand((new AttackCommand(WeaponType.Railgun)));
             }
 
-            if (Input.IsActionJustPressed(FIRE_ROCKET))
+            if (Input.IsActionJustPressed(ControlConfig.FIRE_ROCKET))
             {
-                _entityController.AddCommand(new AttackCommand("Rocket"));
+                _entityController.AddCommand(new AttackCommand(WeaponType.Rocket));
             }
         }
     }

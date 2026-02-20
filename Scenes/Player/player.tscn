@@ -124,6 +124,20 @@ radius = 1.5
 script = ExtResource("1_4wape")
 _healthComponent = NodePath("PlayerHealthComponent")
 
+[node name="PlayerController" type="Node3D" parent="." node_paths=PackedStringArray("_playerBody", "_bodyNode", "_turretNode", "_inputHandler", "_chaingunController", "_railgunController", "_rocketLauncherController")]
+script = ExtResource("5_gk6dx")
+_turretRotationSpeed = 5.0
+_playerBody = NodePath("..")
+_bodyNode = NodePath("../PlayerBody")
+_turretNode = NodePath("../Turret")
+_inputHandler = NodePath("../InputHandler")
+_chaingunController = NodePath("../Turret/ChaingunController")
+_railgunController = NodePath("../Turret/RailgunController")
+_rocketLauncherController = NodePath("../Turret/RocketLauncherController")
+
+[node name="InputHandler" type="Node3D" parent="."]
+script = ExtResource("4_jlvik")
+
 [node name="PlayerBody" type="Node3D" parent="."]
 
 [node name="Foot" type="MeshInstance3D" parent="PlayerBody"]
@@ -171,19 +185,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3719362, -0.048951387, -0.
 
 [node name="RailgunController" parent="Turret" instance=ExtResource("4_0u5uq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0878613, 0.9125178, -0.5440887)
-
-[node name="InputHandler" type="Node3D" parent="."]
-script = ExtResource("4_jlvik")
-
-[node name="PlayerController" type="Node3D" parent="." node_paths=PackedStringArray("_playerBody", "_bodyNode", "_turretNode", "_inputHandler", "_chaingunController", "_railgunController", "_rocketLauncherController")]
-script = ExtResource("5_gk6dx")
-_playerBody = NodePath("..")
-_bodyNode = NodePath("../PlayerBody")
-_turretNode = NodePath("../Turret")
-_inputHandler = NodePath("../InputHandler")
-_chaingunController = NodePath("../Turret/ChaingunController")
-_railgunController = NodePath("../Turret/RailgunController")
-_rocketLauncherController = NodePath("../Turret/RocketLauncherController")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0703006, 0)
