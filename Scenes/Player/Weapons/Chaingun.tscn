@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dbokno8n21haj"]
+[gd_scene load_steps=21 format=3 uid="uid://dbokno8n21haj"]
 
 [ext_resource type="Script" uid="uid://co4if3wvhh2jx" path="res://Code/Objects/Chaingun.cs" id="1_gvsop"]
 
@@ -57,6 +57,45 @@ height = 0.1
 radial_segments = 6
 rings = 0
 
+[sub_resource type="Curve" id="Curve_p72gw"]
+_limits = [0.0, 5.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.26139408, 0), 0.0, 0.0, 0, 0, Vector2(1, 3.2729468), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_i8k86"]
+curve = SubResource("Curve_p72gw")
+
+[sub_resource type="Curve" id="Curve_r70u3"]
+_data = [Vector2(0.012064345, 0), 0.0, 0.0, 0, 0, Vector2(0.16756032, 1), 0.0, 0.0, 0, 0, Vector2(0.47855228, 0.54991955), 0.0, 0.0, 0, 0, Vector2(0.74128693, 0.7958938), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_8m278"]
+curve = SubResource("Curve_r70u3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4thyt"]
+spread = 180.0
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+damping_max = 4.372
+damping_curve = SubResource("CurveTexture_i8k86")
+scale_curve = SubResource("CurveTexture_8m278")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ldruj"]
+frequency = 0.0126
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qjm2a"]
+noise = SubResource("FastNoiseLite_ldruj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kxkqh"]
+transparency = 1
+albedo_color = Color(0.4030275, 0.4030275, 0.4030275, 0.73600006)
+albedo_texture = SubResource("NoiseTexture2D_qjm2a")
+
+[sub_resource type="SphereMesh" id="SphereMesh_5k1de"]
+material = SubResource("StandardMaterial3D_kxkqh")
+radius = 0.025
+height = 0.05
+
 [node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer", "_bulletTrail")]
 script = ExtResource("1_gvsop")
 _cooldownTimer = NodePath("CooldownTimer")
@@ -87,3 +126,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 top_level = true
 cast_shadow = 0
 mesh = SubResource("CylinderMesh_p72gw")
+
+[node name="PuffParticles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+emitting = false
+amount = 13
+lifetime = 0.15000000000000002
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_4thyt")
+draw_pass_1 = SubResource("SphereMesh_5k1de")
