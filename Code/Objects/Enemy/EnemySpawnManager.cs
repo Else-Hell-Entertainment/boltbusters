@@ -117,9 +117,6 @@ namespace EHE.BoltBusters
             {
                 GD.PushError("One or more exported references are not assigned OR resource not found.");
             }
-
-            RoundManager roundManager = GetNode<RoundManager>("/root/RoundManager");
-            roundManager.RegisterEnemySpawnManager(this);
         }
         #endregion Godot lifecycle
 
