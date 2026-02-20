@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.BoltBusters.Config;
 using EHE.BoltBusters.States;
 using EHE.BoltBusters.Systems;
 using Godot;
@@ -16,6 +17,12 @@ namespace EHE.BoltBusters
     {
         #region Fields
 
+        // Camera-related stuff.
+        private SubViewportContainer _levelViewportContainer;
+        private SubViewport _levelViewport;
+        private CameraRig _cameraRig;
+
+        // Other.
         private SceneTree _sceneTree = null;
 
         #endregion Fields
@@ -40,6 +47,11 @@ namespace EHE.BoltBusters
 
         public GameloopStateMachine StateMachine { get; private set; }
 
+        /// <summary>
+        /// Reference to the global camera.
+        /// </summary>
+        public Camera3D Camera => _cameraRig.GetChild<Camera3D>(0);
+
         #endregion Properties
 
 
@@ -55,6 +67,7 @@ namespace EHE.BoltBusters
                 new GameStatePaused()
             );
             ProcessMode = ProcessModeEnum.Always;
+            CreateCamera();
         }
 
         /// <summary>
@@ -112,5 +125,36 @@ namespace EHE.BoltBusters
         #endregion Pause Control
 
         #endregion Public Methods
+
+
+        #region Private Methods
+
+        // TODO: Refactor this and make the parameters editable in the editor.
+        /// <summary>
+        /// Instantiates the <see cref="CameraRig"/> from a file and adds it to
+        /// the <see cref="SceneTree"/>.
+        /// </summary>
+        private void CreateCamera()
+        {
+            // Create container and assign shader material.
+            _levelViewportContainer = new SubViewportContainer();
+            _levelViewportContainer.Material = GD.Load<Material>(MaterialConfig.CAMERA_SHADER_MATERIAL_FILE);
+
+            // Create viewport, set its size, and add it to the container.
+            _levelViewport = new SubViewport();
+            _levelViewport.Size = (Vector2I)GetViewport().GetWindow().GetVisibleRect().Size;
+            _levelViewportContainer.CallDeferred(Node.MethodName.AddChild, _levelViewport);
+
+            // Create camera rig and add it to the viewport.
+            _cameraRig = GD.Load<PackedScene>(SceneFileConfig.CAMERA_FILE).Instantiate<CameraRig>();
+            _cameraRig.HeightAboveGround = 10f;
+            _cameraRig.UseSmoothFollow = false;
+            _levelViewport.CallDeferred(Node.MethodName.AddChild, _cameraRig);
+
+            // Add the container to the scene tree.
+            SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _levelViewportContainer);
+        }
+
+        #endregion Private Methods
     }
 }

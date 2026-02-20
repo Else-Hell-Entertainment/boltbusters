@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://d0hobigx0gyeh" path="res://Code/Level/LevelManager.cs" id="1_k2uda"]
 [ext_resource type="MeshLibrary" uid="uid://43rio2xy10fd" path="res://Assets/Models/Arena/MeshLibraryArena1.tres" id="1_qp1lj"]
 [ext_resource type="PackedScene" uid="uid://tb0fhj8w73mc" path="res://Scenes/EnemySpawner.tscn" id="2_k2uda"]
-[ext_resource type="PackedScene" uid="uid://d2pwdhbrhlwgr" path="res://Scenes/CameraRig.tscn" id="3_ksici"]
 [ext_resource type="PackedScene" uid="uid://c4h2yy8w0gt3l" path="res://Scenes/Player/player.tscn" id="4_8gphe"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_x00a1"]
@@ -47,10 +46,6 @@ data = {
 metadata/_editor_floor_ = Vector3(0, 2, 0)
 
 [node name="EnemySpawner" parent="." instance=ExtResource("2_k2uda")]
-
-[node name="CameraRig" parent="." instance=ExtResource("3_ksici")]
-UseSmoothFollow = false
-HeightAboveGround = 10.0
 
 [node name="Player" parent="." instance=ExtResource("4_8gphe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 28)
