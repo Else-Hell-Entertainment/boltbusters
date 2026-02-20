@@ -1,13 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://tb0fhj8w73mc"]
+[gd_scene load_steps=2 format=3 uid="uid://tb0fhj8w73mc"]
 
 [ext_resource type="Script" uid="uid://dh3lql1bbrjr6" path="res://Code/Objects/Enemy/EnemySpawnManager.cs" id="1_fvypd"]
-[ext_resource type="PackedScene" uid="uid://c1rblmwfal2st" path="res://Temp/Melee.tscn" id="2_3r4d1"]
 
 [node name="EnemySpawnManager" type="Node3D" node_paths=PackedStringArray("_spawnAreasRoot")]
 script = ExtResource("1_fvypd")
-_meleeScene = ExtResource("2_3r4d1")
-_rangedScene = ExtResource("2_3r4d1")
-_shieldedScene = ExtResource("2_3r4d1")
 _spawnAreasRoot = NodePath("SpawnAreas")
 
 [node name="SpawnAreas" type="Node3D" parent="."]
