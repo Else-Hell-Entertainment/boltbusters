@@ -141,9 +141,14 @@ namespace EHE.BoltBusters.Systems
                 currentState.Exit(keepLoaded: nextState.IsAdditive);
             }
 
-            // If next state is not additive, clear state history.
+            // If next state is not additive, exit all states in state history and clear state history.
             if (!nextState.IsAdditive)
             {
+                // TODO: Make sure this works when more state have custom logic or audio calls are added!
+                foreach (var state in _stateHistory)
+                {
+                    state.Exit();
+                }
                 _stateHistory.Clear();
             }
 
