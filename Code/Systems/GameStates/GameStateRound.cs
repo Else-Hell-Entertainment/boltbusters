@@ -18,9 +18,20 @@ namespace EHE.BoltBusters.States
             AddTargetState(StateType.GameOver);
         }
 
+        /// <summary>
+        /// Switches the level to the gameplay level if necessary.
+        /// </summary>
         protected override void OnEntered()
         {
             base.OnEntered();
+
+            var levelManager = LevelManager.Active;
+            var targetLevelType = LevelType.Gameplay;
+
+            if (levelManager == null || levelManager.LevelType != targetLevelType)
+            {
+                GameManager.Instance.SwitchToLevelType(targetLevelType);
+            }
         }
 
         protected override void OnExited(bool keepLoaded = false)
