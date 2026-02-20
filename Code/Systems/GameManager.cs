@@ -31,7 +31,7 @@ namespace EHE.BoltBusters
         private CameraRig _cameraRig;
 
         // Other.
-        private SceneTree _sceneTree = null;
+        private SceneTree _sceneTree;
 
         #endregion Fields
 
