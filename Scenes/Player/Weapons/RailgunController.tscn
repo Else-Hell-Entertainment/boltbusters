@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bfp2kgi6a16wi"]
 
-[ext_resource type="Script" uid="uid://bub1el2qo1icj" path="res://Code/Objects/PlayerRailgunController.cs" id="1_43uyx"]
-[ext_resource type="PackedScene" uid="uid://b2qo60rl84pvj" path="res://Scenes/Player/Weapons/Railgun.tscn" id="2_m3cup"]
+[ext_resource type="Script" uid="uid://bub1el2qo1icj" path="res://Code/Objects/Player/Weapons/PlayerRailgunController.cs" id="1_43uyx"]
+[ext_resource type="PackedScene" uid="uid://cf5vqiflfwdvt" path="res://Scenes/Player/Weapons/Railgun.tscn" id="2_m3cup"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_tktho"]
 size = Vector3(0.2, 0.2, 0.4)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://dbokno8n21haj"]
 
-[ext_resource type="Script" uid="uid://co4if3wvhh2jx" path="res://Code/Objects/Chaingun.cs" id="1_gvsop"]
+[ext_resource type="Script" uid="uid://co4if3wvhh2jx" path="res://Code/Objects/Player/Weapons/Chaingun.cs" id="1_gvsop"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_gvsop"]
 top_radius = 0.1

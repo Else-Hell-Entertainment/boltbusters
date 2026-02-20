@@ -48,7 +48,7 @@ texture_type = 1
 linked_parent_graph_frame = 18
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_4t1sr"]
-size = Vector2(786.25, 462.00012)
+size = Vector2(786.25, 462)
 title = "CloudDissolver"
 attached_nodes = PackedInt32Array(16, 14, 19)
 
