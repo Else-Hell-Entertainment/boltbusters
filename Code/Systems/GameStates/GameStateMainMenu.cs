@@ -6,14 +6,14 @@ using Godot;
 
 namespace EHE.BoltBusters.States
 {
-    public class GameStateMenuMain : GameState
+    public class GameStateMainMenu : GameState
     {
-        public override StateType StateType => StateType.MenuMain;
+        public override StateType StateType => StateType.MainMenu;
         public override StringName ScenePath => "res://Scenes/UI/MenuMain.tscn";
 
-        public GameStateMenuMain()
+        public GameStateMainMenu()
         {
-            AddTargetState(StateType.MenuSettings);
+            AddTargetState(StateType.SettingsMenu);
             AddTargetState(StateType.Round);
         }
 
@@ -22,9 +22,9 @@ namespace EHE.BoltBusters.States
             base.OnEntered();
         }
 
-        protected override void OnExited()
+        protected override void OnExited(bool keepLoaded = false)
         {
-            base.OnExited();
+            base.OnExited(keepLoaded);
         }
     }
 }
