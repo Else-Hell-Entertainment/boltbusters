@@ -11,9 +11,21 @@ using Godot;
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// WIP. Only dummy implementation with the minimum necessary logic to test
-    /// the GameState class.
+    /// Manages the overall game state, level transitions, camera setup, and
+    /// game loop control.
     /// </summary>
+    ///
+    /// <remarks>
+    /// GameManager is a singleton that serves as the central hub for game
+    /// management. It handles:
+    /// <list type="bullet">
+    /// <item>Level loading and switching between different level types</item>
+    /// <item>Camera rig initialization and viewport management</item>
+    /// <item>Game state transitions via a finite state machine</item>
+    /// <item>Game pause/resume functionality</item>
+    /// <item>Input handling for pause actions</item>
+    /// </list>
+    /// </remarks>
     public partial class GameManager : Node
     {
         #region Fields
@@ -38,8 +50,14 @@ namespace EHE.BoltBusters
 
         #region Properties
 
+        /// <summary>
+        /// Reference to the GameManager singleton.
+        /// </summary>
         public static GameManager Instance { get; private set; }
 
+        /// <summary>
+        /// Reference to the SceneTree of the game.
+        /// </summary>
         public SceneTree SceneTree
         {
             get
@@ -53,6 +71,10 @@ namespace EHE.BoltBusters
             }
         }
 
+        /// <summary>
+        /// A finite state machine responsible for controlling the transitions
+        /// between different <see cref="GameState"/>s.
+        /// </summary>
         public GameloopStateMachine StateMachine { get; private set; }
 
         /// <summary>
