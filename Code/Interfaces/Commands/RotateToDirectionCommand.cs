@@ -18,7 +18,7 @@ namespace EHE.BoltBusters
         public Vector3 Point { get; } = point;
 
         /// <summary>
-        /// The EntityMover component that will execute the rotation.
+        /// The <see cref="EntityMover"/> component that will execute the rotation.
         /// </summary>
         private EntityMover _mover;
 
@@ -31,7 +31,9 @@ namespace EHE.BoltBusters
         public bool AssignReceiver(object target)
         {
             if (target is not EntityMover mover)
+            {
                 return false;
+            }
             _mover = mover;
             return true;
         }
