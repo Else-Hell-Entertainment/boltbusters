@@ -34,7 +34,7 @@ namespace EHE.BoltBusters.Ui
 
         private void OnBtnNewGamePressed()
         {
-            GameManager.Instance.StateMachine.TransitionTo(StateType.Round);
+            GameManager.Instance.StartNewGame();
         }
 
         private void OnBtnSettingsPressed()

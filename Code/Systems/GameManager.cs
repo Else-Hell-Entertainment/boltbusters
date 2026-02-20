@@ -115,6 +115,13 @@ namespace EHE.BoltBusters
 
         #region Public Methods
 
+        /// <summary>
+        /// Starts a new game.
+        /// </summary>
+        public void StartNewGame()
+        {
+            StateMachine.TransitionTo(StateType.Round);
+        }
 
         /// <summary>
         ///  <para>
