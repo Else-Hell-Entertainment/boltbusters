@@ -7,18 +7,18 @@ using Godot;
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// Command that rotates an entity to face a specified point in 3D space.
+    /// Command that rotates an entity to face a specified direction in global 3D space.
     /// Implements the Command pattern to encapsulate rotation logic.
     /// </summary>
-    public class RotateTowardsCommand(Vector3 point) : ICommand
+    public class RotateToDirectionCommand(Vector3 point) : ICommand
     {
         /// <summary>
-        /// Gets the target point in 3D space that the entity should rotate towards.
+        /// Gets the target direction in 3D space that the entity should rotate towards.
         /// </summary>
         public Vector3 Point { get; } = point;
 
         /// <summary>
-        /// The EntityMover component that will execute the rotation.
+        /// The <see cref="EntityMover"/> component that will execute the rotation.
         /// </summary>
         private EntityMover _mover;
 
@@ -31,7 +31,9 @@ namespace EHE.BoltBusters
         public bool AssignReceiver(object target)
         {
             if (target is not EntityMover mover)
+            {
                 return false;
+            }
             _mover = mover;
             return true;
         }
@@ -41,7 +43,7 @@ namespace EHE.BoltBusters
         /// </summary>
         public void Execute()
         {
-            _mover?.RotateTowards(Point);
+            _mover?.RotateToDirection(Point);
         }
     }
 }
