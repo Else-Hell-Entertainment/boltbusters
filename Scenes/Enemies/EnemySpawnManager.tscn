@@ -1,14 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://tb0fhj8w73mc"]
 
-[ext_resource type="Script" uid="uid://bv1mdgnq8curu" path="res://Code/EnemySpawner.cs" id="1_4b1db"]
-[ext_resource type="PackedScene" uid="uid://c1rblmwfal2st" path="res://Scenes/ProtoEnemy.tscn" id="2_4l853"]
+[ext_resource type="Script" uid="uid://dh3lql1bbrjr6" path="res://Code/Objects/Enemy/EnemySpawnManager.cs" id="1_fvypd"]
+[ext_resource type="PackedScene" uid="uid://c1rblmwfal2st" path="res://Temp/Melee.tscn" id="2_3r4d1"]
 
-[node name="EnemySpawner" type="Node3D" node_paths=PackedStringArray("_spawnAreasRoot", "_enemiesRoot", "_spawnTimer")]
-script = ExtResource("1_4b1db")
-_enemyScene = ExtResource("2_4l853")
+[node name="EnemySpawnManager" type="Node3D" node_paths=PackedStringArray("_spawnAreasRoot")]
+script = ExtResource("1_fvypd")
+_meleeScene = ExtResource("2_3r4d1")
+_rangedScene = ExtResource("2_3r4d1")
+_shieldedScene = ExtResource("2_3r4d1")
 _spawnAreasRoot = NodePath("SpawnAreas")
-_enemiesRoot = NodePath("Enemies")
-_spawnTimer = NodePath("SpawnTimer")
 
 [node name="SpawnAreas" type="Node3D" parent="."]
 
@@ -131,7 +131,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, 1.5)
 
 [node name="Spawn4" type="Marker3D" parent="SpawnAreas/SpawnArea8" groups=["SpawnArea8"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, -1.5)
-
-[node name="Enemies" type="Node3D" parent="."]
-
-[node name="SpawnTimer" type="Timer" parent="."]
