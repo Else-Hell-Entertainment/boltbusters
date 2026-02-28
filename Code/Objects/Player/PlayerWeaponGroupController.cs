@@ -13,7 +13,7 @@ namespace EHE.BoltBusters
     /// work, add any number of Node3D nodes as children of the WeaponSlots node in the editor. Weapons will be spawned
     /// to these points.
     /// </summary>
-    public partial class PlayerWeaponGroupController : Node3D, IAttacker
+    public partial class PlayerWeaponGroupController : Node3D, IAttacker, IUpgradeable
     {
         private List<Node3D> _weaponSlots = new List<Node3D>();
 
@@ -86,5 +86,20 @@ namespace EHE.BoltBusters
             return false;
         }
 
+        public virtual bool Upgrade()
+        {
+#if DEBUG
+            GD.Print($"Upgrading {Name} ({GetType()})");
+#endif
+            return AddWeapon();
+        }
+
+        public virtual bool Downgrade()
+        {
+#if DEBUG
+            GD.Print($"Downgrading {Name} ({GetType()})");
+#endif
+            return RemoveWeapon();
+        }
     }
 }
