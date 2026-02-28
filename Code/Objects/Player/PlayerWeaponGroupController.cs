@@ -22,6 +22,11 @@ namespace EHE.BoltBusters
 
         protected List<BaseWeapon> Weapons = new List<BaseWeapon>();
 
+        /// <summary>
+        /// The type of weapons added to this controller.
+        /// </summary>
+        public virtual WeaponType WeaponType => WeaponType.None;
+
         public override void _Ready()
         {
             Node3D weaponSlots = GetNode<Node3D>("WeaponSlots");

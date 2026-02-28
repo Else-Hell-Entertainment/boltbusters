@@ -22,6 +22,8 @@ namespace EHE.BoltBusters
 
         private Sprite3D _reticle;
 
+        public override WeaponType WeaponType => WeaponType.Chaingun;
+
         public override void _Ready()
         {
             base._Ready();

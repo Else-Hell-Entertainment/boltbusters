@@ -14,6 +14,8 @@ namespace EHE.BoltBusters
 
         private List<Railgun> _connectedRailguns = new List<Railgun>();
 
+        public override WeaponType WeaponType => WeaponType.Railgun;
+
         public override void _Ready()
         {
             base._Ready();
