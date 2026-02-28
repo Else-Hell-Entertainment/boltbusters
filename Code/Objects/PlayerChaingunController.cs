@@ -1,6 +1,7 @@
 ﻿// (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
+//            Miska Rihu <miska.rihu@tuni.fi>
 
 using Godot;
 
@@ -37,16 +38,24 @@ namespace EHE.BoltBusters
             _reticle.Position -= new Vector3(0, _reticle.GlobalPosition.Y - 0.2f, _range);
         }
 
-        public override void AddWeapon()
+        public override bool AddWeapon()
         {
-            base.AddWeapon();
+            if (!base.AddWeapon())
+            {
+                return false;
+            }
             SetAttackInterval();
+            return true;
         }
 
-        public override void RemoveWeapon()
+        public override bool RemoveWeapon()
         {
-            base.RemoveWeapon();
+            if (!base.RemoveWeapon())
+            {
+                return false;
+            }
             SetAttackInterval();
+            return true;
         }
 
         public override void Attack()

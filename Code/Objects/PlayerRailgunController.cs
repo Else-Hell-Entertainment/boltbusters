@@ -1,6 +1,7 @@
 // (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
+//            Miska Rihu <miska.rihu@tuni.fi>
 
 using System.Collections.Generic;
 using Godot;
@@ -22,18 +23,26 @@ namespace EHE.BoltBusters
             AddWeapon();
         }
 
-        public override void AddWeapon()
+        public override bool AddWeapon()
         {
-            base.AddWeapon();
+            if (!base.AddWeapon())
+            {
+                return false;
+            }
             RefreshConnectedRailguns();
             SetNextActive();
+            return true;
         }
 
-        public override void RemoveWeapon()
+        public override bool RemoveWeapon()
         {
-            base.RemoveWeapon();
+            if (!base.RemoveWeapon())
+            {
+                return false;
+            }
             RefreshConnectedRailguns();
             SetNextActive();
+            return true;
         }
 
         public override void Attack()

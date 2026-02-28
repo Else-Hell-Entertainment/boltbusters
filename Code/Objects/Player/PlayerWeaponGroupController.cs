@@ -1,6 +1,7 @@
 ﻿// (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
+//            Miska Rihu <miska.rihu@tuni.fi>
 
 using System.Collections.Generic;
 using Godot;
@@ -51,27 +52,27 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Add a new weapon of type BaseWeapon to the controller. Set the appropriate weapon scene in the editor.
         /// </summary>
-        public virtual void AddWeapon()
+        public virtual bool AddWeapon()
         {
             if (Weapons.Count >= _weaponSlots.Count)
             {
                 GD.Print("Not enough slots!");
+                return false;
             }
-            else
-            {
-                var weapon = _weaponScene.Instantiate<BaseWeapon>();
-                Weapons.Add(weapon);
-                int newIndex = Weapons.Count - 1;
-                Node3D node = _weaponSlots[newIndex];
-                weapon.Position = node.GetPosition();
-                AddChild(weapon);
-            }
+
+            var weapon = _weaponScene.Instantiate<BaseWeapon>();
+            Weapons.Add(weapon);
+            int newIndex = Weapons.Count - 1;
+            Node3D node = _weaponSlots[newIndex];
+            weapon.Position = node.GetPosition();
+            AddChild(weapon);
+            return true;
         }
 
         /// <summary>
         /// Removes a weapon from the last index of the controller's list (LIFO) and calls QueueFree on it.
         /// </summary>
-        public virtual void RemoveWeapon()
+        public virtual bool RemoveWeapon()
         {
             if (Weapons.Count > 0)
             {
@@ -79,7 +80,11 @@ namespace EHE.BoltBusters
                 BaseWeapon weapon = Weapons[lastIndex];
                 Weapons.RemoveAt(lastIndex);
                 weapon.QueueFree();
+                return true;
             }
+
+            return false;
         }
+
     }
 }
