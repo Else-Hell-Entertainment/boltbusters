@@ -5,18 +5,28 @@
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// An interface for handling upgrading components.
+    ///  An interface for handling upgrading components.
     /// </summary>
     public interface IUpgradeable
     {
         /// <summary>
-        /// Use this method to perform upgrades.
+        ///  Use this method to perform upgrades.
         /// </summary>
-        public void Upgrade();
+        ///
+        /// <returns>
+        ///  <c>true</c> if upgrade was successful,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        public bool Upgrade();
 
         /// <summary>
-        /// Use this method to perform downgrades.
+        ///  Use this method to perform downgrades.
         /// </summary>
-        public void Downgrade();
+        ///
+        /// <returns>
+        ///  <c>true</c> if downgrade was successful,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        public bool Downgrade();
     }
 }
