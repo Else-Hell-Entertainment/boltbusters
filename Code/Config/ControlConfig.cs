@@ -1,6 +1,7 @@
 // (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
+//            Miska Rihu <miska.rihu@tuni.fi>
 
 namespace EHE.BoltBusters.Config
 {
@@ -27,5 +28,6 @@ namespace EHE.BoltBusters.Config
         public const string FIRE_ROCKET = "FireRocket";
 
         // Other
+        public const string PAUSE_GAME = "Pause";
     }
 }

@@ -1,10 +1,16 @@
 using System;
+using EHE.Common.Godot.Extensions;
 using Godot;
 
 namespace EHE.BoltBusters
 {
     public partial class Player : Character
     {
+        private PlayerChaingunController _chaingunController;
+        private PlayerRailgunController _railgunController;
+        private PlayerRocketLauncherController _rocketLauncherController;
+        private PlayerUpgradeHandler _upgradeHandler;
+
         /// <summary>
         /// (Parent) _EnterTree runs first and is good for registering and subscribing to services.
         /// </summary>
@@ -17,6 +23,49 @@ namespace EHE.BoltBusters
             }
 
             TargetProvider.Instance.RegisterPlayer(this);
+        }
+
+        public override void _Input(InputEvent inputEvent)
+        {
+#if DEBUG
+            if (inputEvent.IsActionPressed("DebugDowngradeChaingun"))
+            {
+                _upgradeHandler.DowngradeWeapon(WeaponType.Chaingun);
+            }
+            else if (inputEvent.IsActionPressed("DebugUpgradeChaingun"))
+            {
+                _upgradeHandler.UpgradeWeapon(WeaponType.Chaingun);
+            }
+
+            if (inputEvent.IsActionPressed("DebugDowngradeRailgun"))
+            {
+                _upgradeHandler.DowngradeWeapon(WeaponType.Railgun);
+            }
+            else if (inputEvent.IsActionPressed("DebugUpgradeRailgun"))
+            {
+                _upgradeHandler.UpgradeWeapon(WeaponType.Railgun);
+            }
+
+            if (inputEvent.IsActionPressed("DebugDowngradeMissile"))
+            {
+                _upgradeHandler.DowngradeWeapon(WeaponType.Rocket);
+            }
+            else if (inputEvent.IsActionPressed("DebugUpgradeMissile"))
+            {
+                _upgradeHandler.UpgradeWeapon(WeaponType.Rocket);
+            }
+#endif
+        }
+
+        public override void _Ready()
+        {
+            _chaingunController = this.GetFirstChildOfType<PlayerChaingunController>(true);
+            _railgunController = this.GetFirstChildOfType<PlayerRailgunController>(true);
+            _rocketLauncherController = this.GetFirstChildOfType<PlayerRocketLauncherController>(true);
+            _upgradeHandler = new PlayerUpgradeHandler();
+            _upgradeHandler.RegisterWeaponController(_chaingunController);
+            _upgradeHandler.RegisterWeaponController(_railgunController);
+            _upgradeHandler.RegisterWeaponController(_rocketLauncherController);
         }
 
         /// <summary>
