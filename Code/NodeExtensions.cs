@@ -141,5 +141,12 @@ namespace EHE.Common.Godot.Extensions
 
             return wantedChildren;
         }
+
+        public static void PrintDebug(this Node node, string message)
+        {
+#if DEBUG
+            GD.Print($"[{node.Name}] {message}");
+#endif
+        }
     }
 }

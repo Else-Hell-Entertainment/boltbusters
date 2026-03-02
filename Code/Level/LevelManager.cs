@@ -3,6 +3,7 @@
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
 using EHE.BoltBusters.States;
+using EHE.Common.Godot.Extensions;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -83,11 +84,13 @@ namespace EHE.BoltBusters
             Active = this;
 
             // Get references to nodes defined in the editor.
+            // TODO: Replace getting by name with extension method.
             _arena = GetNodeOrNull<Node3D>("Arena");
             _enemySpawnManager = GetNodeOrNull<EnemySpawnManager>("EnemySpawnManager");
             _player = GetNodeOrNull<Player>("Player");
             _playerSpawnPosition = GetNodeOrNull<Node3D>("PlayerSpawnPosition");
 
+            // TODO: Refactor validation code to a separate method.
             bool hasErrors = false;
 
             if (_arena == null)
@@ -134,9 +137,12 @@ namespace EHE.BoltBusters
             AddChild(_collectibleRoot);
 
             // Create round timer.
+            // TODO: Create timer in separate method when round starts.
             _roundTimer = new Timer();
             _roundTimer.Timeout += OnRoundEnded;
             AddChild(_roundTimer);
+
+            this.PrintDebug("Ready.");
         }
 
         #endregion Overrides
@@ -151,7 +157,9 @@ namespace EHE.BoltBusters
         /// <param name="roundData">Data describing the round.</param>
         public void InitializeLevel(RoundData roundData)
         {
-            _roundTimer.WaitTime = roundData.RoundLength;
+            this.PrintDebug("Initializing level...");
+            _roundData = roundData;
+            _roundTimer.WaitTime = _roundData.RoundLength;
         }
 
         /// <summary>
@@ -160,6 +168,7 @@ namespace EHE.BoltBusters
         /// </summary>
         public void StartRound()
         {
+            this.PrintDebug("Starting round...");
             _roundTimer.Start();
             _enemySpawnManager.StartRound(_roundData);
         }
@@ -171,6 +180,7 @@ namespace EHE.BoltBusters
         /// </summary>
         public void ResetLevel()
         {
+            this.PrintDebug("Resetting level...");
             // TODO: Enable this code once the enemy spawner is integrated!
             // foreach (var enemy in _enemyRoot.GetChildren())
             // {
@@ -188,6 +198,7 @@ namespace EHE.BoltBusters
         /// <param name="levelObject"></param>
         public void AddLevelObject(Node3D levelObject)
         {
+            this.PrintDebug($"Adding level object '{levelObject.GetType()}'");
             if (levelObject is Enemy enemy)
             {
                 _enemyRoot.AddChild(enemy);
@@ -213,6 +224,7 @@ namespace EHE.BoltBusters
         /// </summary>
         private void OnRoundEnded()
         {
+            this.PrintDebug("Round ended.");
             _roundTimer.Stop();
             // TODO: Wait 5s and transition to shop state.
         }
