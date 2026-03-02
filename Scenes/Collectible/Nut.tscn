@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://5noo3v8c32ss"]
+
+[ext_resource type="PackedScene" uid="uid://bp6daxj5awnm6" path="res://Assets/Models/Collectibles/Nut.glb" id="1_tfj5i"]
+[ext_resource type="Script" uid="uid://5ma2u3qcof5c" path="res://Code/Objects/Collectible/Nut.cs" id="2_thefg"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0mfrp"]
+height = 1.0
+radius = 0.6
+
+[node name="Nut" type="Area3D"]
+script = ExtResource("2_thefg")
+
+[node name="CollectionArea" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CylinderShape3D_0mfrp")
+
+[node name="Nut" parent="." instance=ExtResource("1_tfj5i")]
+
+[node name="Nut" parent="Nut" index="0"]
+transform = Transform3D(0.4, 0, 0, 0, -6.993822e-09, -0.4, 0, 0.16, -1.7484556e-08, 0, 0.4, 0)
+
+[editable path="Nut"]

@@ -19,6 +19,7 @@ namespace EHE.BoltBusters
             if (TargetProvider.Instance == null)
             {
                 GD.PushWarning($"Player: TargetProvider.Instance is null. Player was not registered.");
+                return;
             }
 
             TargetProvider.Instance.RegisterPlayer(this);
@@ -80,5 +81,9 @@ namespace EHE.BoltBusters
             base.TakeDamage(damageData);
             GD.Print("Aaaa I'm taking damage! ");
         }
+
+        public override void OnSpawn() { }
+
+        public override void OnDespawn() { }
     }
 }
