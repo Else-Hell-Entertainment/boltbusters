@@ -1,6 +1,7 @@
 // (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
+//            Miska Rihu <miska.rihu@tuni.fi>
 
 using Godot;
 
@@ -13,6 +14,8 @@ namespace EHE.BoltBusters
         private float _range = 12f;
 
         private Sprite3D _reticle;
+
+        public override WeaponType WeaponType => WeaponType.Rocket;
 
         public override void _Ready()
         {

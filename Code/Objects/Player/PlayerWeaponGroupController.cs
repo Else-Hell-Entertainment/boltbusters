@@ -1,6 +1,7 @@
 ﻿// (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
+//            Miska Rihu <miska.rihu@tuni.fi>
 
 using System.Collections.Generic;
 using Godot;
@@ -12,7 +13,7 @@ namespace EHE.BoltBusters
     /// work, add any number of Node3D nodes as children of the WeaponSlots node in the editor. Weapons will be spawned
     /// to these points.
     /// </summary>
-    public partial class PlayerWeaponGroupController : Node3D, IAttacker
+    public partial class PlayerWeaponGroupController : Node3D, IAttacker, IUpgradeable
     {
         private List<Node3D> _weaponSlots = new List<Node3D>();
 
@@ -20,6 +21,11 @@ namespace EHE.BoltBusters
         private PackedScene _weaponScene;
 
         protected List<BaseWeapon> Weapons = new List<BaseWeapon>();
+
+        /// <summary>
+        /// The type of weapons added to this controller.
+        /// </summary>
+        public virtual WeaponType WeaponType => WeaponType.None;
 
         public override void _Ready()
         {
@@ -51,27 +57,27 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Add a new weapon of type BaseWeapon to the controller. Set the appropriate weapon scene in the editor.
         /// </summary>
-        public virtual void AddWeapon()
+        public virtual bool AddWeapon()
         {
             if (Weapons.Count >= _weaponSlots.Count)
             {
                 GD.Print("Not enough slots!");
+                return false;
             }
-            else
-            {
-                var weapon = _weaponScene.Instantiate<BaseWeapon>();
-                Weapons.Add(weapon);
-                int newIndex = Weapons.Count - 1;
-                Node3D node = _weaponSlots[newIndex];
-                weapon.Position = node.GetPosition();
-                AddChild(weapon);
-            }
+
+            var weapon = _weaponScene.Instantiate<BaseWeapon>();
+            Weapons.Add(weapon);
+            int newIndex = Weapons.Count - 1;
+            Node3D node = _weaponSlots[newIndex];
+            weapon.Position = node.GetPosition();
+            AddChild(weapon);
+            return true;
         }
 
         /// <summary>
         /// Removes a weapon from the last index of the controller's list (LIFO) and calls QueueFree on it.
         /// </summary>
-        public virtual void RemoveWeapon()
+        public virtual bool RemoveWeapon()
         {
             if (Weapons.Count > 0)
             {
@@ -79,7 +85,26 @@ namespace EHE.BoltBusters
                 BaseWeapon weapon = Weapons[lastIndex];
                 Weapons.RemoveAt(lastIndex);
                 weapon.QueueFree();
+                return true;
             }
+
+            return false;
+        }
+
+        public virtual bool Upgrade()
+        {
+#if DEBUG
+            GD.Print($"Upgrading {Name} ({GetType()})");
+#endif
+            return AddWeapon();
+        }
+
+        public virtual bool Downgrade()
+        {
+#if DEBUG
+            GD.Print($"Downgrading {Name} ({GetType()})");
+#endif
+            return RemoveWeapon();
         }
     }
 }
