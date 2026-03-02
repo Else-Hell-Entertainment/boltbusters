@@ -32,12 +32,15 @@ namespace EHE.BoltBusters
         private Timer _intervalTimer;
         private List<Node3D> _launchPoints = new List<Node3D>();
 
+        private HashSet<Rocket> _rockets;
+
+
         // Rockets will be reparented under this node.
-        private Node _levelRootNode;
+        //private Node _levelRootNode;
 
         public override void _Ready()
         {
-            _levelRootNode = GetTree().CurrentScene;
+            //_levelRootNode = GetTree().CurrentScene;
             Node3D points = GetNode<Node3D>("LaunchPoints");
             foreach (var point in points.GetChildren())
             {
@@ -60,6 +63,17 @@ namespace EHE.BoltBusters
             _cooldownTimer.WaitTime = _cooldown;
             _cooldownTimer.OneShot = true;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
+
+            _rockets = new HashSet<Rocket>();
+            for (int i = 0; i < _salvoSize; i++)
+            {
+                Rocket rocket = _rocketScene.Instantiate<Rocket>();
+                LevelManager.Active.AddLevelObject(rocket);
+                _rockets.Add(rocket);
+            }
+            #if DEBUG
+
+            #endif
         }
 
         public override void Attack()
