@@ -27,7 +27,7 @@ namespace EHE.BoltBusters
 
         public override void _Ready()
         {
-            _camera = GetViewport().GetCamera3D();
+            _camera = GameManager.Instance.Camera;
         }
 
         public override void _PhysicsProcess(double delta)
@@ -46,7 +46,7 @@ namespace EHE.BoltBusters
         /// Used to switch between mouse and controller.
         /// </summary>
         /// <param name="event"></param>
-        public override void _UnhandledInput(InputEvent @event)
+        public override void _Input(InputEvent @event)
         {
             switch (@event)
             {
@@ -101,7 +101,7 @@ namespace EHE.BoltBusters
             // Ensure camera reference is valid
             if (!IsInstanceValid(_camera))
             {
-                _camera = GetViewport().GetCamera3D();
+                _camera = GameManager.Instance.Camera;
                 if (!IsInstanceValid(_camera))
                 {
                     GD.PrintErr("Attempting to Raycast from camera but no camera defined.");

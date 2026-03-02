@@ -32,13 +32,15 @@ namespace EHE.BoltBusters
     /// </remarks>
     public partial class LevelManager : Node3D
     {
+        #region Fields
+
         // Fields that are editable in the inspector.
         [Export]
         private LevelType _levelType = LevelType.None;
 
         // Nodes that are visible in the editor's node tree.
         private Node3D _arena;
-        private EnemySpawner _enemySpawner;
+        private EnemySpawnManager _enemySpawnManager;
         private Player _player;
         private Node3D _playerSpawnPosition;
         private Node3D _enemyRoot;
@@ -48,6 +50,11 @@ namespace EHE.BoltBusters
         // Nodes that are created from the code.
         private Timer _roundTimer;
         private RoundData _roundData;
+
+        #endregion Fields
+
+
+        #region Properties
 
         /// <summary>
         /// Reference to the currently active LevelManager.
@@ -64,10 +71,20 @@ namespace EHE.BoltBusters
         /// </summary>
         public Player Player => _player;
 
+        #endregion Properties
+
+
+        #region Overrides
+
+        // TODO: Create a base class for LevelManager.
+        // TODO: Create separate classes for Background and Gameplay level managers.
         public override void _Ready()
         {
+            Active = this;
+
+            // Get references to nodes defined in the editor.
             _arena = GetNodeOrNull<Node3D>("Arena");
-            _enemySpawner = GetNodeOrNull<EnemySpawner>("EnemySpawner");
+            _enemySpawnManager = GetNodeOrNull<EnemySpawnManager>("EnemySpawnManager");
             _player = GetNodeOrNull<Player>("Player");
             _playerSpawnPosition = GetNodeOrNull<Node3D>("PlayerSpawnPosition");
 
@@ -79,7 +96,7 @@ namespace EHE.BoltBusters
                 hasErrors = true;
             }
 
-            if (_enemySpawner == null)
+            if (_enemySpawnManager == null)
             {
                 GD.PushError("Enemy Spawner node not found in level!");
                 hasErrors = true;
@@ -103,8 +120,6 @@ namespace EHE.BoltBusters
                 return;
             }
 
-            Active = this;
-
             // Create object root nodes.
             _enemyRoot = new Node3D();
             _projectileRoot = new Node3D();
@@ -124,19 +139,10 @@ namespace EHE.BoltBusters
             AddChild(_roundTimer);
         }
 
-        /// <summary>
-        /// Handles non-movements inputs that happen during gameplay.
-        /// For example, pausing the game.
-        /// </summary>
-        /// <param name="inputEvent">Input event that occurred.</param>
-        public override void _Input(InputEvent inputEvent)
-        {
-            // TODO: Move the key name to a config file.
-            if (inputEvent.IsActionPressed("Pause"))
-            {
-                GameManager.Instance.StateMachine.TransitionTo(StateType.Paused);
-            }
-        }
+        #endregion Overrides
+
+
+        #region Public Methods
 
         /// <summary>
         /// WIP! NOT FULLY FUNCTIONAL YET!
@@ -145,7 +151,6 @@ namespace EHE.BoltBusters
         /// <param name="roundData">Data describing the round.</param>
         public void InitializeLevel(RoundData roundData)
         {
-            _roundData = roundData;
             _roundTimer.WaitTime = roundData.RoundLength;
         }
 
@@ -156,7 +161,7 @@ namespace EHE.BoltBusters
         public void StartRound()
         {
             _roundTimer.Start();
-            // TODO: Instruct enemy spawner to start spawning waves.
+            _enemySpawnManager.StartRound(_roundData);
         }
 
         /// <summary>
@@ -191,11 +196,16 @@ namespace EHE.BoltBusters
             {
                 _projectileRoot.AddChild(projectile);
             }
-            // else if (levelObject is Collectible collectible)
-            // {
-            //     _collectibleRoot.AddChild(collectible);
-            // }
+            else if (levelObject is Collectible collectible)
+            {
+                _collectibleRoot.AddChild(collectible);
+            }
         }
+
+        #endregion Public Methods
+
+
+        #region Private Methods
 
         /// <summary>
         /// WIP!
@@ -206,5 +216,7 @@ namespace EHE.BoltBusters
             _roundTimer.Stop();
             // TODO: Wait 5s and transition to shop state.
         }
+
+        #endregion Private Methods
     }
 }

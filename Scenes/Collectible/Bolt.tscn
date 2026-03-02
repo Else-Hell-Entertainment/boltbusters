@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://duawocsu2myp3"]
+
+[ext_resource type="PackedScene" uid="uid://bfgnstraapuc4" path="res://Assets/Models/Collectibles/Bolt.glb" id="1_0y4va"]
+[ext_resource type="Script" uid="uid://dkj5ld6ngt1dj" path="res://Code/Objects/Collectible/Bolt.cs" id="2_uugkp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_at2ah"]
+size = Vector3(0.8, 0.7, 1.2)
+
+[node name="Bolt" type="Area3D"]
+script = ExtResource("2_uugkp")
+
+[node name="CollectionArea" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("BoxShape3D_at2ah")
+
+[node name="Bolt" parent="." instance=ExtResource("1_0y4va")]
+
+[node name="Screw" parent="Bolt" index="0"]
+transform = Transform3D(0.3, 0, 0, 0, -1.3113417e-08, -0.3, 0, 0.3, -1.3113417e-08, 0, 0.3, -0.5)
+
+[editable path="Bolt"]

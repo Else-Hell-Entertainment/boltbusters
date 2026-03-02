@@ -2,7 +2,7 @@ using Godot;
 
 namespace EHE.BoltBusters
 {
-    public abstract partial class Character : CharacterBody3D, IDamageable
+    public abstract partial class Character : CharacterBody3D, IDamageable, ISpawnable
     {
         [Export]
         private HealthComponent _healthComponent = null;
@@ -42,7 +42,21 @@ namespace EHE.BoltBusters
         /// </summary>
         public void HandleDeath()
         {
-            QueueFree();
+            OnDespawn();
         }
+
+        /// <summary>
+        /// Called when the character is spawned into the scene.
+        /// Use this to initialize state, reset health,
+        /// or perform any setup required before gameplay begins.
+        /// </summary>
+        public abstract void OnSpawn();
+
+        /// <summary>
+        /// Called when the character is to be removed from the scene.
+        /// Use this to clean up timers, animations, effects,
+        /// or return the character to an object pool.
+        /// </summary>
+        public abstract void OnDespawn();
     }
 }

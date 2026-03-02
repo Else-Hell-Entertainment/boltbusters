@@ -71,6 +71,11 @@ namespace EHE.BoltBusters
             targetPos.Z -= _range;
             targetPos.Y = 0;
             _muzzle.LookAt(targetPos);
+            // TODO: Is there a better solution?
+            // This line makes sure the chaingun points to the right direction
+            // on the XY plane. Without this, the newly added chainguns will point
+            // to the player's default facing direction.
+            _muzzle.Rotation = new Vector3(_muzzle.Rotation.X, 0, 0);
         }
 
         private void OnCooldownTimerTimeout()
