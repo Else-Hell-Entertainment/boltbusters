@@ -93,10 +93,7 @@ _data = {
 &"RESET": SubResource("Animation_aundc")
 }
 
-[sub_resource type="Animation" id="Animation_hku7k"]
-resource_name = "Attack"
-
-[sub_resource type="Animation" id="Animation_on8ld"]
+[sub_resource type="Animation" id="Animation_iv0vp"]
 resource_name = "Idle"
 length = 3.0
 loop_mode = 1
@@ -108,15 +105,30 @@ tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 1.2, 3),
-"transitions": PackedFloat32Array(0.7578589, 1.5157164, 0.84089655),
+"transitions": PackedFloat32Array(-2, -2, -2),
 "update": 0,
 "values": [Vector3(-0.2460443, 1.2601633, -0.64771014), Vector3(-0.291279, 1.3019369, -0.8047433), Vector3(-0.2460443, 1.2601633, -0.64771014)]
+}
+
+[sub_resource type="Animation" id="Animation_hku7k"]
+resource_name = "Attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HammerNode/Cylinder:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.19999999, 0.25, 1),
+"transitions": PackedFloat32Array(-2, 1, -2),
+"update": 0,
+"values": [Vector3(-0.25964728, 1.2727255, -0.6949332), Vector3(0.019886257, 1.1785328, 0.04921492), Vector3(-0.25964728, 1.2727255, -0.6949332)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5800e"]
 _data = {
 &"Attack": SubResource("Animation_hku7k"),
-&"Idle": SubResource("Animation_on8ld")
+&"Idle": SubResource("Animation_iv0vp")
 }
 
 [node name="EnemyHammerBot" type="CharacterBody3D"]
@@ -135,7 +147,7 @@ skeleton = NodePath("")
 [node name="HammerNode" type="Node3D" parent="."]
 
 [node name="Cylinder" type="MeshInstance3D" parent="HammerNode"]
-transform = Transform3D(0.085594326, -0.00017203082, 0.20601273, -0.153996, 0.22057061, 0.06406547, -0.13684475, -0.24832314, 0.056762807, 0, 0.7883917, -0.008932114)
+transform = Transform3D(0.085594326, -0.0001720308, 0.20601271, -0.153996, 0.2205706, 0.06406547, -0.13684475, -0.24832313, 0.056762803, 0, 0.7883917, -0.008932114)
 mesh = SubResource("ArrayMesh_hku7k")
 skeleton = NodePath("")
 
