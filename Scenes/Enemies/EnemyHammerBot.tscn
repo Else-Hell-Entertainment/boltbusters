@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://d1v0b82d6dwda"]
+[gd_scene load_steps=14 format=4 uid="uid://d1v0b82d6dwda"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aundc"]
 size = Vector3(1, 1.0645752, 1.3820648)
@@ -73,6 +73,52 @@ shadow_mesh = SubResource("ArrayMesh_ppfkk")
 radius = 0.28759766
 height = 0.89125
 
+[sub_resource type="Animation" id="Animation_aundc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HammerNode/Cylinder:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.291279, 1.3019369, -0.8047433)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_iv0vp"]
+_data = {
+&"RESET": SubResource("Animation_aundc")
+}
+
+[sub_resource type="Animation" id="Animation_hku7k"]
+resource_name = "Attack"
+
+[sub_resource type="Animation" id="Animation_on8ld"]
+resource_name = "Idle"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HammerNode/Cylinder:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.2, 3),
+"transitions": PackedFloat32Array(0.7578589, 1.5157164, 0.84089655),
+"update": 0,
+"values": [Vector3(-0.2460443, 1.2601633, -0.64771014), Vector3(-0.291279, 1.3019369, -0.8047433), Vector3(-0.2460443, 1.2601633, -0.64771014)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5800e"]
+_data = {
+&"Attack": SubResource("Animation_hku7k"),
+&"Idle": SubResource("Animation_on8ld")
+}
+
 [node name="EnemyHammerBot" type="CharacterBody3D"]
 
 [node name="BodyCollider" type="CollisionShape3D" parent="."]
@@ -89,7 +135,7 @@ skeleton = NodePath("")
 [node name="HammerNode" type="Node3D" parent="."]
 
 [node name="Cylinder" type="MeshInstance3D" parent="HammerNode"]
-transform = Transform3D(0.08559434, -0.00017207119, 0.20601276, 0.00011187431, 0.33213815, 7.86717e-05, -0.20601276, 0.00010887385, 0.085594386, 0, 0.7883917, -0.008932114)
+transform = Transform3D(0.085594326, -0.00017203082, 0.20601273, -0.153996, 0.22057061, 0.06406547, -0.13684475, -0.24832314, 0.056762807, 0, 0.7883917, -0.008932114)
 mesh = SubResource("ArrayMesh_hku7k")
 skeleton = NodePath("")
 
@@ -99,3 +145,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7808353, 1.2591003)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AttackArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3443489, 0.044343352)
 shape = SubResource("CapsuleShape3D_on8ld")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_iv0vp"),
+&"HammeBotAnimations": SubResource("AnimationLibrary_5800e")
+}
+autoplay = "HammeBotAnimations/Idle"
