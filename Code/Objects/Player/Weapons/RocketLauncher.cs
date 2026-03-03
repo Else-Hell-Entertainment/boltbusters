@@ -71,15 +71,26 @@ namespace EHE.BoltBusters
             }
         }
 
+        public void IncreaseSalvoSize()
+        {
+            _salvoSize++;
+            AddNewRocket();
+        }
+
         private void InitializeRockets()
         {
             _rockets = new HashSet<Rocket>();
             for (int i = 0; i < _salvoSize; i++)
             {
-                Rocket rocket = _rocketScene.Instantiate<Rocket>();
-                LevelManager.Active.AddLevelObject(rocket);
-                _rockets.Add(rocket);
+                AddNewRocket();
             }
+        }
+
+        private void AddNewRocket()
+        {
+            Rocket rocket = _rocketScene.Instantiate<Rocket>();
+            LevelManager.Active.AddLevelObject(rocket);
+            _rockets.Add(rocket);
         }
 
         private async Task LaunchRockets()
@@ -95,6 +106,7 @@ namespace EHE.BoltBusters
                         "Rocket launcher did not have available rocket when one was expected. \n"
                             + "Adding new rocket to pool. Please report this error. "
                     );
+                    AddNewRocket();
                     return;
                 }
                 Node3D point = _launchPoints[launchPointIndex];
