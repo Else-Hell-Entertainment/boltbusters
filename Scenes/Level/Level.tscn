@@ -1,9 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://bledl4g0j55e6"]
+[gd_scene load_steps=10 format=3 uid="uid://bledl4g0j55e6"]
 
 [ext_resource type="Script" uid="uid://d0hobigx0gyeh" path="res://Code/Level/LevelManager.cs" id="1_k2uda"]
 [ext_resource type="MeshLibrary" uid="uid://43rio2xy10fd" path="res://Assets/Models/Arena/MeshLibraryArena1.tres" id="1_qp1lj"]
 [ext_resource type="PackedScene" uid="uid://tb0fhj8w73mc" path="res://Scenes/Enemies/EnemySpawnManager.tscn" id="2_k2uda"]
 [ext_resource type="PackedScene" uid="uid://c4h2yy8w0gt3l" path="res://Scenes/Player/player.tscn" id="4_8gphe"]
+[ext_resource type="PackedScene" uid="uid://c1rblmwfal2st" path="res://Scenes/Enemies/LeCubeShielded.tscn" id="4_ksici"]
+[ext_resource type="PackedScene" uid="uid://dx520spxbmak1" path="res://Scenes/Enemies/LeCubeMelee.tscn" id="4_t3e81"]
+[ext_resource type="PackedScene" uid="uid://3h0giwhnpbwv" path="res://Scenes/Enemies/LeCubeRanged.tscn" id="5_lvwdj"]
 [ext_resource type="PackedScene" uid="uid://bh3xawx4w08w2" path="res://Scenes/Collectible/CollectibleSpawnManager.tscn" id="6_ksici"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_x00a1"]
@@ -48,6 +51,9 @@ data = {
 metadata/_editor_floor_ = Vector3(0, 2, 0)
 
 [node name="EnemySpawnManager" parent="." instance=ExtResource("2_k2uda")]
+_meleeScene = ExtResource("4_t3e81")
+_rangedScene = ExtResource("5_lvwdj")
+_shieldedScene = ExtResource("4_ksici")
 
 [node name="Player" parent="." instance=ExtResource("4_8gphe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 28)
@@ -56,3 +62,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 28)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.951452, 0.17866802, 27.92754)
 
 [node name="CollectibleSpawnManager" parent="." instance=ExtResource("6_ksici")]
+
+[node name="RoundTimer" type="Timer" parent="."]
