@@ -211,6 +211,7 @@ namespace EHE.BoltBusters
             {
                 _collectibleRoot.AddChild(collectible);
             }
+            // TODO: Check for null root nodes and incompatible levelObjects.
         }
 
         #endregion Public Methods
