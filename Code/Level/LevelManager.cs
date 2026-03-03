@@ -218,6 +218,9 @@ namespace EHE.BoltBusters
 
         #region Private Methods
 
+        // TODO: Add Load method that takes round index as param and loads the
+        //       round data from a file.
+
         /// <summary>
         /// WIP!
         /// Called when the round timer runs out. Stops the round timer.
@@ -226,6 +229,9 @@ namespace EHE.BoltBusters
         {
             this.PrintDebug("Round ended.");
             _roundTimer.Stop();
+            // TODO: Disable player movement.
+            // TODO: Disable enemy movement.
+            // TODO: Instruct GameManager to save session to disk.
             // TODO: Wait 5s and transition to shop state.
         }
 

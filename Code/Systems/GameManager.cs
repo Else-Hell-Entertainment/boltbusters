@@ -85,6 +85,8 @@ namespace EHE.BoltBusters
 
         public RoundData CurrentRoundData { get; private set; }
 
+        // TODO: Add public round index property (get, private set).
+
         #endregion Properties
 
 
@@ -156,6 +158,8 @@ namespace EHE.BoltBusters
             // on the background level that is no longer present. The timer is
             // therefore created in the OnNewGameStarted method and the timeout
             // is connected to the OnLevelStartDelayTimeout method.
+
+            // TODO: Set round index to 1.
 
             this.PrintDebug("Starting new game...");
             this.PrintDebug("Loading round data...");
