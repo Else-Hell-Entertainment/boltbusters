@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using EHE.BoltBusters.Config;
 using EHE.BoltBusters.States;
 using EHE.BoltBusters.Systems;
+using EHE.Common.Godot.Extensions;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -82,6 +83,8 @@ namespace EHE.BoltBusters
         /// </summary>
         public Camera3D Camera => _cameraRig.GetChild<Camera3D>(0);
 
+        public RoundData CurrentRoundData { get; private set; }
+
         #endregion Properties
 
 
@@ -141,9 +144,24 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Starts a new game.
         /// </summary>
+        /// <seealso cref="OnNewGameStarted"/>
+        /// <seealso cref="OnLevelStartDelayTimeout"/>
         public void StartNewGame()
         {
+            // IMPORTANT!
+            // Creating a timer and linking it directly to a method call that
+            // starts the round cannot be done here because connecting the
+            // signal seems to pass the references that are valid during this
+            // frame. E.g., the linked method would call the StartRound method
+            // on the background level that is no longer present. The timer is
+            // therefore created in the OnNewGameStarted method and the timeout
+            // is connected to the OnLevelStartDelayTimeout method.
+
+            this.PrintDebug("Starting new game...");
+            this.PrintDebug("Loading round data...");
+            CurrentRoundData = GD.Load<RoundData>("res://Data/Round/RoundData1.tres");
             StateMachine.TransitionTo(StateType.Round);
+            CallDeferred(nameof(OnNewGameStarted));
         }
 
         /// <summary>
@@ -248,6 +266,29 @@ namespace EHE.BoltBusters
 
             // Add the container to the scene tree.
             SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _levelViewportContainer);
+        }
+
+        /// <summary>
+        /// Called when a new game is started. Used specifically to add delay
+        /// between starting entering the level and starting the round. To know
+        /// why this is here, see the comments in <see cref="StartNewGame"/>.
+        /// </summary>
+        /// <seealso cref="StartNewGame"/>
+        /// <seealso cref="OnLevelStartDelayTimeout"/>
+        private void OnNewGameStarted()
+        {
+            LevelManager.Active.InitializeLevel(CurrentRoundData);
+            SceneTree.CreateTimer(5f).Timeout += OnLevelStartDelayTimeout;
+        }
+
+        /// <summary>
+        /// Starts the round.
+        /// </summary>
+        /// <seealso cref="StartNewGame"/>
+        /// <seealso cref="OnNewGameStarted"/>
+        private void OnLevelStartDelayTimeout()
+        {
+            LevelManager.Active.StartRound();
         }
 
         #endregion Private Methods
