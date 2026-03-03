@@ -1,0 +1,30 @@
+// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Miska Rihu <miska.rihu@tuni.fi>
+
+using Godot;
+
+namespace EHE.BoltBusters.States
+{
+    public class GameStateSettingsMenu : GameState
+    {
+        public override StateType StateType => StateType.SettingsMenu;
+        public override StringName ScenePath => "res://Scenes/UI/MenuSettings.tscn";
+        public override bool IsAdditive => true;
+
+        public GameStateSettingsMenu()
+        {
+            AddTargetState(StateType.MainMenu);
+        }
+
+        protected override void OnEntered()
+        {
+            base.OnEntered();
+        }
+
+        protected override void OnExited(bool keepLoaded = false)
+        {
+            base.OnExited(keepLoaded);
+        }
+    }
+}

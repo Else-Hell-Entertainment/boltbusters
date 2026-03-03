@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://b4w446hov1iq4"]
 
-[ext_resource type="Script" uid="uid://csfsxcmayp2td" path="res://Code/Objects/PlayerRocketLauncherController.cs" id="1_qfr55"]
+[ext_resource type="Script" uid="uid://csfsxcmayp2td" path="res://Code/Objects/Player/Weapons/PlayerRocketLauncherController.cs" id="1_qfr55"]
 [ext_resource type="PackedScene" uid="uid://bweyw22j1yyt8" path="res://Scenes/Player/Weapons/RocketLauncher.tscn" id="2_qfr55"]
 [ext_resource type="Texture2D" uid="uid://ceqe6b24k56lo" path="res://Assets/Sprites/BombSight.png" id="3_qfr55"]
 

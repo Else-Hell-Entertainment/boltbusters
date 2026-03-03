@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bjnc7ni0pla1w"]
 
-[ext_resource type="Script" uid="uid://bv0chl62e0uai" path="res://Code/Objects/Rocket.cs" id="1_am5q4"]
+[ext_resource type="Script" uid="uid://bv0chl62e0uai" path="res://Code/Objects/Player/Weapons/Rocket.cs" id="1_8dbdp"]
 [ext_resource type="PackedScene" uid="uid://dc6fhhvhsqt4c" path="res://Assets/VFX/ExplosionCloud.tscn" id="2_8dbdp"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_am5q4"]
@@ -15,29 +15,31 @@ rings = 4
 [sub_resource type="SphereShape3D" id="SphereShape3D_am5q4"]
 radius = 2.0
 
-[node name="Rocket" type="CharacterBody3D" node_paths=PackedStringArray("_VFXanimationPlayer")]
-collision_layer = 0
-script = ExtResource("1_am5q4")
-_VFXanimationPlayer = NodePath("VFX/Explosion/AnimationPlayer")
+[node name="Rocket" type="Node3D" node_paths=PackedStringArray("_VFXanimationPlayer")]
+script = ExtResource("1_8dbdp")
+_VFXanimationPlayer = NodePath("RocketBody/VFX/Explosion/AnimationPlayer")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="RocketBody" type="CharacterBody3D" parent="."]
+collision_layer = 0
+
+[node name="RocketBodyCollider" type="CollisionShape3D" parent="RocketBody"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.48225397)
 shape = SubResource("ConvexPolygonShape3D_am5q4")
 
-[node name="RocketBodyMesh" type="MeshInstance3D" parent="."]
+[node name="RocketBodyMesh" type="MeshInstance3D" parent="RocketBody"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.48225397)
 mesh = SubResource("CapsuleMesh_p46dw")
 
-[node name="ExplosionCast" type="ShapeCast3D" parent="."]
+[node name="ExplosionCast" type="ShapeCast3D" parent="RocketBody"]
 enabled = false
 shape = SubResource("SphereShape3D_am5q4")
 target_position = Vector3(0, 0, 0)
 
-[node name="VFX" type="Node3D" parent="."]
+[node name="VFX" type="Node3D" parent="RocketBody"]
 
-[node name="Explosion" parent="VFX" instance=ExtResource("2_8dbdp")]
+[node name="Explosion" parent="RocketBody/VFX" instance=ExtResource("2_8dbdp")]
 
-[node name="MeshInstance3D" parent="VFX/Explosion" index="3"]
+[node name="MeshInstance3D" parent="RocketBody/VFX/Explosion" index="3"]
 visible = false
 
-[editable path="VFX/Explosion"]
+[editable path="RocketBody/VFX/Explosion"]
