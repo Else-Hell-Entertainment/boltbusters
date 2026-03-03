@@ -17,7 +17,7 @@ namespace EHE.BoltBusters
         private const int COLLISION_MASK_LAYER = 1;
 
         [Export]
-        private float _speed = 20.0f;
+        private float _speed = 50.0f;
 
         private CharacterBody3D _rocketBody;
 
@@ -41,13 +41,18 @@ namespace EHE.BoltBusters
         {
             if (_isActive)
             {
-                Vector3 direction = -_rocketBody.GlobalTransform.Basis.Z;
-                direction *= _speed;
-                var collision = _rocketBody.MoveAndCollide(direction * (float)delta);
-                if (collision != null)
-                {
-                    Explode();
-                }
+                Move(delta);
+            }
+        }
+
+        private void Move(double delta)
+        {
+            Vector3 direction = -_rocketBody.GlobalTransform.Basis.Z;
+            direction *= _speed;
+            var collision = _rocketBody.MoveAndCollide(direction * (float)delta);
+            if (collision != null)
+            {
+                Explode();
             }
         }
 
