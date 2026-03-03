@@ -1,4 +1,9 @@
-[gd_scene load_steps=14 format=4 uid="uid://d1v0b82d6dwda"]
+[gd_scene load_steps=15 format=4 uid="uid://d1v0b82d6dwda"]
+
+[ext_resource type="Script" uid="uid://be4qkv6x76unn" path="res://Code/Objects/Enemy/Enemy.cs" id="1_on8ld"]
+[ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="2_5800e"]
+[ext_resource type="Script" uid="uid://tk4ek7denot" path="res://Code/Objects/Enemy/EnemyMeleeWeapon.cs" id="3_7mpij"]
+[ext_resource type="AnimationLibrary" uid="uid://daif2hrjdta3p" path="res://Assets/Animations/HammerBotAnimations.tres" id="4_5800e"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aundc"]
 size = Vector3(1, 1.0645752, 1.3820648)
@@ -73,94 +78,74 @@ shadow_mesh = SubResource("ArrayMesh_ppfkk")
 radius = 0.28759766
 height = 0.89125
 
-[sub_resource type="Animation" id="Animation_aundc"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HammerNode/Cylinder:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-0.291279, 1.3019369, -0.8047433)]
-}
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_57rxb"]
+angle_min = -44.99999
+angle_max = 45.00001
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 3.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, 0, 0)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_iv0vp"]
-_data = {
-&"RESET": SubResource("Animation_aundc")
-}
+[sub_resource type="SphereMesh" id="SphereMesh_0ad1w"]
+radius = 0.1
+height = 0.2
 
-[sub_resource type="Animation" id="Animation_iv0vp"]
-resource_name = "Idle"
-length = 3.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HammerNode/Cylinder:rotation")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.2, 3),
-"transitions": PackedFloat32Array(-2, -2, -2),
-"update": 0,
-"values": [Vector3(-0.2460443, 1.2601633, -0.64771014), Vector3(-0.291279, 1.3019369, -0.8047433), Vector3(-0.2460443, 1.2601633, -0.64771014)]
-}
-
-[sub_resource type="Animation" id="Animation_hku7k"]
-resource_name = "Attack"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HammerNode/Cylinder:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.19999999, 0.25, 1),
-"transitions": PackedFloat32Array(-2, 1, -2),
-"update": 0,
-"values": [Vector3(-0.25964728, 1.2727255, -0.6949332), Vector3(0.019886257, 1.1785328, 0.04921492), Vector3(-0.25964728, 1.2727255, -0.6949332)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_5800e"]
-_data = {
-&"Attack": SubResource("Animation_hku7k"),
-&"Idle": SubResource("Animation_iv0vp")
-}
-
-[node name="EnemyHammerBot" type="CharacterBody3D"]
+[node name="EnemyHammerBot" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent")]
+script = ExtResource("1_on8ld")
+_healthComponent = NodePath("EnemyHealthComponent")
 
 [node name="BodyCollider" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6182584, 0.4422648)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6182584, 0.24930006)
 shape = SubResource("BoxShape3D_aundc")
 
 [node name="BodyNode" type="Node3D" parent="."]
 
 [node name="Cube" type="MeshInstance3D" parent="BodyNode"]
-transform = Transform3D(0.23772654, 0, 0, 0, 0.28714886, 0, 0, 0, 0.2282728, 0, 0.44016513, 0.3561785)
+transform = Transform3D(-0.23772654, 0, -1.9956241e-08, 0, 0.28714886, 0, 2.0782714e-08, 0, -0.2282728, 0, 0.44016513, 0.3561785)
 mesh = SubResource("ArrayMesh_iv0vp")
 skeleton = NodePath("")
 
 [node name="HammerNode" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0.73608446)
 
 [node name="Cylinder" type="MeshInstance3D" parent="HammerNode"]
-transform = Transform3D(0.085594326, -0.0001720308, 0.20601271, -0.153996, 0.2205706, 0.06406547, -0.13684475, -0.24832313, 0.056762803, 0, 0.7883917, -0.008932114)
+transform = Transform3D(0.085373014, -0.00016431988, 0.2061045, -0.14700373, 0.2327509, 0.06097588, -0.14446105, -0.23694469, 0.059753705, 0, 0.7883917, -0.008932114)
 mesh = SubResource("ArrayMesh_hku7k")
 skeleton = NodePath("")
 
-[node name="AttackArea" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7808353, 1.2591003)
+[node name="EnemyHealthComponent" type="Node" parent="."]
+script = ExtResource("2_5800e")
+metadata/_custom_type_script = "uid://b620lyqticbmf"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AttackArea"]
+[node name="MeleeWeapon" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.87726426, -0.61224896)
+script = ExtResource("3_7mpij")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MeleeWeapon"]
+root_node = NodePath("../..")
+libraries = {
+&"HammerBotAnimations": ExtResource("4_5800e")
+}
+autoplay = "HammerBotAnimations/Idle"
+
+[node name="AttackArea" type="Area3D" parent="MeleeWeapon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.09642899, -0.13639528)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeleeWeapon/AttackArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3443489, 0.044343352)
 shape = SubResource("CapsuleShape3D_on8ld")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_iv0vp"),
-&"HammeBotAnimations": SubResource("AnimationLibrary_5800e")
-}
-autoplay = "HammeBotAnimations/Idle"
+[node name="CooldownTimer" type="Timer" parent="MeleeWeapon"]
+
+[node name="AttackParalysisTimer" type="Timer" parent="MeleeWeapon"]
+
+[node name="HitParticles" type="GPUParticles3D" parent="MeleeWeapon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4816972, 1.8955739)
+emitting = false
+lifetime = 0.3
+one_shot = true
+explosiveness = 0.39
+process_material = SubResource("ParticleProcessMaterial_57rxb")
+draw_pass_1 = SubResource("SphereMesh_0ad1w")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]

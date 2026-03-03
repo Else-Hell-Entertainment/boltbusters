@@ -11,19 +11,27 @@ namespace EHE.BoltBusters
         [Export]
         private float _attackCooldown = 5.0f;
 
+        private AnimationPlayer _animationPlayer;
+
         private Area3D _attackArea;
         private Timer _cooldownTimer;
         private GpuParticles3D _hitParticles;
         private DamageData _damageData;
 
+        private const string AttackAnimationName = "HammerBotAnimations/Attack";
+        private const string IdleAnimationName = "HammerBotAnimations/Idle";
+
         public override void _Ready()
         {
             InitializeNodes();
             _damageData = new DamageData(5, DamageType.Melee);
+            _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+            GD.Print(_animationPlayer);
         }
 
         public override void Attack()
         {
+
             CallDeferred(nameof(CheckAttackArea));
         }
 
@@ -47,6 +55,7 @@ namespace EHE.BoltBusters
                     _hitParticles.Emitting = true;
                     CanAttack = false;
                     _cooldownTimer.Start();
+                    _animationPlayer.Play(AttackAnimationName);
                 }
             }
         }

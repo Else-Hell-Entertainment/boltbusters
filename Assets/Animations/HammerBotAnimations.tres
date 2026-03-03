@@ -1,0 +1,40 @@
+[gd_resource type="AnimationLibrary" load_steps=3 format=3 uid="uid://daif2hrjdta3p"]
+
+[sub_resource type="Animation" id="Animation_hku7k"]
+resource_name = "Attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HammerNode/Cylinder:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.19999999, 0.25, 1),
+"transitions": PackedFloat32Array(-2, 1, -2),
+"update": 0,
+"values": [Vector3(-0.25964728, 1.2727255, -0.6949332), Vector3(0.019886257, 1.1785328, 0.04921492), Vector3(-0.25964728, 1.2727255, -0.6949332)]
+}
+
+[sub_resource type="Animation" id="Animation_iv0vp"]
+resource_name = "Idle"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HammerNode/Cylinder:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.2, 3),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector3(-0.2460443, 1.2601633, -0.64771014), Vector3(-0.291279, 1.3019369, -0.8047433), Vector3(-0.2460443, 1.2601633, -0.64771014)]
+}
+
+[resource]
+resource_local_to_scene = true
+_data = {
+&"Attack": SubResource("Animation_hku7k"),
+&"Idle": SubResource("Animation_iv0vp")
+}
