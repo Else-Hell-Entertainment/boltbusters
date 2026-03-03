@@ -1,35 +1,106 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbokno8n21haj"]
+[gd_scene load_steps=21 format=3 uid="uid://dbokno8n21haj"]
 
-[ext_resource type="Script" uid="uid://co4if3wvhh2jx" path="res://Code/Objects/Chaingun.cs" id="1_gvsop"]
+[ext_resource type="Script" uid="uid://co4if3wvhh2jx" path="res://Code/Objects/Player/Weapons/Chaingun.cs" id="1_gvsop"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_gvsop"]
 top_radius = 0.1
 bottom_radius = 0.1
 height = 0.5
 
+[sub_resource type="Gradient" id="Gradient_gvsop"]
+colors = PackedColorArray(1, 0.9048281, 0.613057, 1, 0.9929336, 0.62702, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_p72gw"]
+gradient = SubResource("Gradient_gvsop")
+
+[sub_resource type="Curve" id="Curve_gvsop"]
+_data = [Vector2(0.02010724, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_p72gw"]
+curve = SubResource("Curve_gvsop")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gvsop"]
+resource_local_to_scene = true
+lifetime_randomness = 0.33
+particle_flag_align_y = true
 direction = Vector3(0, 0, -1)
-spread = 180.0
+spread = 30.0
 initial_velocity_min = 10.0
 initial_velocity_max = 20.0
 gravity = Vector3(0, 0, 0)
-turbulence_enabled = true
+color_ramp = SubResource("GradientTexture1D_p72gw")
+emission_curve = SubResource("CurveTexture_p72gw")
 turbulence_noise_strength = 13.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p72gw"]
-albedo_color = Color(1, 1, 0.11764706, 1)
-emission_enabled = true
-emission = Color(1, 0.44705883, 0, 1)
+vertex_color_use_as_albedo = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_i8k86"]
 material = SubResource("StandardMaterial3D_p72gw")
 radius = 0.05
+height = 0.1
+radial_segments = 4
+rings = 2
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_gvsop"]
+albedo_color = Color(1, 0.9063318, 0, 1)
+emission_enabled = true
+emission = Color(0.85490197, 0.75686276, 0.105882354, 1)
+emission_energy_multiplier = 16.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_p72gw"]
+material = SubResource("ORMMaterial3D_gvsop")
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.1
+radial_segments = 6
+rings = 0
+
+[sub_resource type="Curve" id="Curve_p72gw"]
+_limits = [0.0, 5.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.26139408, 0), 0.0, 0.0, 0, 0, Vector2(1, 3.2729468), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_i8k86"]
+curve = SubResource("Curve_p72gw")
+
+[sub_resource type="Curve" id="Curve_r70u3"]
+_data = [Vector2(0.012064345, 0), 0.0, 0.0, 0, 0, Vector2(0.16756032, 1), 0.0, 0.0, 0, 0, Vector2(0.47855228, 0.54991955), 0.0, 0.0, 0, 0, Vector2(0.74128693, 0.7958938), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_8m278"]
+curve = SubResource("Curve_r70u3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4thyt"]
+spread = 180.0
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+damping_max = 4.372
+damping_curve = SubResource("CurveTexture_i8k86")
+scale_curve = SubResource("CurveTexture_8m278")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ldruj"]
+frequency = 0.0126
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qjm2a"]
+noise = SubResource("FastNoiseLite_ldruj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kxkqh"]
+transparency = 1
+albedo_color = Color(0.4030275, 0.4030275, 0.4030275, 0.73600006)
+albedo_texture = SubResource("NoiseTexture2D_qjm2a")
+
+[sub_resource type="SphereMesh" id="SphereMesh_5k1de"]
+material = SubResource("StandardMaterial3D_kxkqh")
+radius = 0.025
 height = 0.05
 
-[node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer")]
+[node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer", "_bulletTrail")]
 script = ExtResource("1_gvsop")
 _cooldownTimer = NodePath("CooldownTimer")
 _accuracy = 0.01
+_bulletTrail = NodePath("BulletTrail")
 
 [node name="CooldownTimer" type="Timer" parent="."]
 
@@ -42,10 +113,25 @@ mesh = SubResource("CylinderMesh_gvsop")
 [node name="HitParticles" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.343589)
 emitting = false
-amount = 16
-lifetime = 0.06999999999999999
+amount = 12
+lifetime = 0.15000000000000002
 one_shot = true
 explosiveness = 1.0
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_gvsop")
 draw_pass_1 = SubResource("SphereMesh_i8k86")
+
+[node name="BulletTrail" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+top_level = true
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_p72gw")
+
+[node name="PuffParticles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+emitting = false
+amount = 13
+lifetime = 0.15000000000000002
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_4thyt")
+draw_pass_1 = SubResource("SphereMesh_5k1de")

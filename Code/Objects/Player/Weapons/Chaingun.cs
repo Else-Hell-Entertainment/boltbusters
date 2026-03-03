@@ -1,7 +1,8 @@
-﻿// (c) 2026 Else Hell Entertainment
+// (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 
+using System;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -20,10 +21,15 @@ namespace EHE.BoltBusters
         private float _cooldown = 0.5f;
 
         [Export]
-        private float _accuracy = 0.0f;
+        private float _accuracy = 0.005f;
 
         [Export]
         private float _range = 7f;
+
+        [Export]
+        private MeshInstance3D _bulletTrail;
+
+        private CylinderMesh _bulletMesh;
 
         /// <summary>
         /// Cooldown for a single chaingun can never be faster than one physics frame at 30 fps = 0.033 seconds.
@@ -51,6 +57,12 @@ namespace EHE.BoltBusters
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
             _cooldownTimer.OneShot = true;
             SetTarget();
+
+            _bulletMesh = (CylinderMesh)_bulletTrail.GetMesh();
+            if (_bulletMesh == null)
+            {
+                GD.PrintErr("Couldn't find a bullet trail mesh!");
+            }
         }
 
         private void SetTarget()
@@ -85,15 +97,90 @@ namespace EHE.BoltBusters
         private void ApplyDamage(IDamageable target)
         {
             target.TakeDamage(_damageData);
-            GD.Print("Chaingun did damage!");
         }
 
         /// <summary>
-        /// Draws a bullet trail. Placeholder implementation.
+        /// Draws a bullet trail effect (a cylinder mesh defined in editor) from the start to end position.
+        /// </summary>
+        /// <param name="start">Point in global space where the trail starts from.</param>
+        /// <param name="end">Point in global space where the trail ends.</param>
+        private void DrawBulletTrailEffect(Vector3 start, Vector3 end)
+        {
+            Vector3 direction = end - start;
+            _bulletTrail.Show();
+            _bulletTrail.GlobalPosition = start + direction * _bulletMesh.Height / 2;
+            var transform = Transform3D.Identity;
+            transform.Basis.Y = direction;
+            _bulletTrail.Basis = transform.Basis;
+            Tween bulletTween = CreateTween();
+            bulletTween.TweenProperty(_bulletTrail, "position", end, 0.1f);
+            bulletTween.TweenCallback(Callable.From(_bulletTrail.Hide));
+        }
+
+        /// <summary>
+        /// Will raycast towards a preset target. Applies a small inaccuracy. If the raycast hits an IDamageable target,
+        /// it will call ApplyDamage().
+        /// Implementation still WIP.
+        /// </summary>
+        private void DoRayCast()
+        {
+            float vertDeviation = (float)GD.RandRange(-_accuracy, _accuracy);
+            float horizontalDeviation = (float)GD.RandRange(-_accuracy, _accuracy);
+            Vector3 deviation = new Vector3(horizontalDeviation, vertDeviation, 0);
+
+            var spaceState = GetWorld3D().DirectSpaceState;
+            Vector3 start = _muzzle.GlobalPosition;
+            Vector3 direction = -_muzzle.GlobalBasis.Z;
+            direction += deviation;
+            Vector3 end = start + direction.Normalized() * 100f;
+
+            var query = PhysicsRayQueryParameters3D.Create(start, end);
+            query.CollideWithAreas = true;
+            var result = spaceState.IntersectRay(query);
+            if (result.ContainsKey("position"))
+            {
+                var collider = result["collider"];
+
+                Node target = (Node)collider;
+                Vector3 point = (Vector3)result["position"];
+                Vector3 normal = (Vector3)result["normal"];
+                PlayHitParticles(point, normal);
+                DrawBulletTrailEffect(start, point);
+                if (target is IDamageable damageable)
+                {
+                    ApplyDamage(damageable);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Emits hit particles from the hit point bounced from the surface normal.
+        /// </summary>
+        /// <param name="point">Point in global space where hit occurs.</param>
+        /// <param name="normal">Normal of the surface.</param>
+        private void PlayHitParticles(Vector3 point, Vector3 normal)
+        {
+            _hitParticles.GlobalPosition = point;
+            ParticleProcessMaterial material = (ParticleProcessMaterial)_hitParticles.ProcessMaterial;
+            Vector3 direction = (point - _muzzle.GlobalPosition).Normalized();
+            Vector3 reflection = direction.Bounce(normal);
+
+            // Convert reflection to local space of the particle emitter
+            Vector3 localReflection = _hitParticles.GlobalTransform.Basis.Inverse() * reflection;
+            material.Direction = localReflection;
+
+            _hitParticles.Restart();
+        }
+
+        #region obsolete
+
+        /// <summary>
+        /// Draws a bullet trail. Placeholder implementation. Marked obsolete.
         /// </summary>
         /// <param name="start"></param>
         /// <param name="direction"></param>
         /// <param name="end"></param>
+        [Obsolete]
         private void DrawBulletTrail(Vector3 start, Vector3 direction, Vector3 end)
         {
             var lineMesh = new MeshInstance3D();
@@ -127,41 +214,6 @@ namespace EHE.BoltBusters
             GetTree().GetRoot().AddChild(lineMesh);
         }
 
-        /// <summary>
-        /// Will raycast towards a preset target. Applies a small inaccuracy. If the raycast hits an IDamageable target,
-        /// it will call ApplyDamage().
-        /// Implementation still WIP.
-        /// </summary>
-        private void DoRayCast()
-        {
-            float vertDeviation = (float)GD.RandRange(-_accuracy, _accuracy);
-            float horizontalDeviation = (float)GD.RandRange(-_accuracy, _accuracy);
-            Vector3 deviation = new Vector3(horizontalDeviation, vertDeviation, 0);
-
-            var spaceState = GetWorld3D().DirectSpaceState;
-            Vector3 start = _muzzle.GlobalPosition;
-            Vector3 direction = -_muzzle.GlobalBasis.Z;
-            direction += deviation;
-            Vector3 end = start + direction.Normalized() * 1000f;
-
-            var query = PhysicsRayQueryParameters3D.Create(start, end);
-            query.CollideWithAreas = true;
-            var result = spaceState.IntersectRay(query);
-            DrawBulletTrail(start, direction, end);
-            if (result.ContainsKey("position"))
-            {
-                var collider = result["collider"];
-
-                Node target = (Node)collider;
-                Vector3 point = (Vector3)result["position"];
-                _hitParticles.GlobalPosition = point;
-                _hitParticles.Emitting = true;
-                if (target is IDamageable damageable)
-                {
-                    ApplyDamage(damageable);
-                    GD.Print("Chaingun did damage");
-                }
-            }
-        }
+        #endregion
     }
 }
