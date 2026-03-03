@@ -32,12 +32,10 @@ namespace EHE.BoltBusters
         private Timer _intervalTimer;
         private List<Node3D> _launchPoints = new List<Node3D>();
 
-        // Rockets will be reparented under this node.
-        private Node _levelRootNode;
+        private HashSet<Rocket> _rockets;
 
         public override void _Ready()
         {
-            _levelRootNode = GetTree().CurrentScene;
             Node3D points = GetNode<Node3D>("LaunchPoints");
             foreach (var point in points.GetChildren())
             {
@@ -60,6 +58,7 @@ namespace EHE.BoltBusters
             _cooldownTimer.WaitTime = _cooldown;
             _cooldownTimer.OneShot = true;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
+            CallDeferred(MethodName.InitializeRockets);
         }
 
         public override void Attack()
@@ -72,28 +71,71 @@ namespace EHE.BoltBusters
             }
         }
 
+        public void IncreaseSalvoSize()
+        {
+            _salvoSize++;
+            AddNewRocket();
+        }
+
+        private void InitializeRockets()
+        {
+            _rockets = new HashSet<Rocket>();
+            for (int i = 0; i < _salvoSize; i++)
+            {
+                AddNewRocket();
+            }
+        }
+
+        private void AddNewRocket()
+        {
+            Rocket rocket = _rocketScene.Instantiate<Rocket>();
+            LevelManager.Active.AddLevelObject(rocket);
+            _rockets.Add(rocket);
+        }
+
         private async Task LaunchRockets()
         {
             int shotCounter = 0;
             int launchPointIndex = 0;
             while (shotCounter < _salvoSize)
             {
-                Rocket rocket = _rocketScene.Instantiate<Rocket>();
-                _levelRootNode.AddChild(rocket);
+                var rocket = FindNextAvailableRocket();
+                if (rocket == null)
+                {
+                    GD.PushError(
+                        "Rocket launcher did not have available rocket when one was expected. \n"
+                            + "Adding new rocket to pool. Please report this error. "
+                    );
+                    AddNewRocket();
+                    return;
+                }
                 Node3D point = _launchPoints[launchPointIndex];
                 launchPointIndex = (launchPointIndex + 1) % _launchPoints.Count;
-                rocket.GlobalPosition = point.GlobalPosition;
-                rocket.GlobalRotation = point.GlobalRotation;
+                rocket.LaunchRocket(point, Vector3.Forward);
                 shotCounter++;
                 _intervalTimer.Start();
                 await (ToSignal(_intervalTimer, "timeout"));
             }
+
             _cooldownTimer.Start();
         }
 
         private void OnCooldownTimerTimeout()
         {
             CanAttack = true;
+        }
+
+        private Rocket FindNextAvailableRocket()
+        {
+            foreach (Rocket rocket in _rockets)
+            {
+                if (rocket.IsAvailable)
+                {
+                    return rocket;
+                }
+            }
+
+            return null;
         }
     }
 }
