@@ -157,6 +157,4 @@ radius = 5.0
 
 [node name="EnemyHealthComponent" type="Node" parent="."]
 script = ExtResource("4_vqqcb")
-_maxHealth = 10000
-_initialHealth = 200
 metadata/_custom_type_script = "uid://b620lyqticbmf"

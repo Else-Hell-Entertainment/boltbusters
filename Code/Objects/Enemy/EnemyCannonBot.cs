@@ -68,5 +68,15 @@ namespace EHE.BoltBusters
         {
             _canFire = true;
         }
+
+        public override void OnSpawn()
+        {
+
+        }
+
+        public override void OnDespawn()
+        {
+
+        }
     }
 }
