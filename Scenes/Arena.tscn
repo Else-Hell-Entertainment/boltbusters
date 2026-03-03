@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cneglc8s4irky"]
+[gd_scene load_steps=8 format=3 uid="uid://cneglc8s4irky"]
 
 [ext_resource type="MeshLibrary" uid="uid://43rio2xy10fd" path="res://Assets/Models/Arena/MeshLibraryArena1.tres" id="1_0g2wx"]
 [ext_resource type="PackedScene" uid="uid://tb0fhj8w73mc" path="res://Scenes/Enemies/EnemySpawnManager.tscn" id="2_pyk7t"]
