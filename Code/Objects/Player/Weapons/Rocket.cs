@@ -12,6 +12,8 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class Rocket : Projectile
     {
+        public bool IsAvailable { get; private set; } = true;
+
         private const int COLLISION_MASK_LAYER = 1;
 
         [Export]
@@ -26,12 +28,13 @@ namespace EHE.BoltBusters
         private DamageData _damageData;
 
         [Export]
-        private AnimationPlayer _VFXanimationPlayer;
+        private AnimationPlayer _vfxAnimationPlayer;
 
         public override void _Ready()
         {
             InitializeNodes();
             VerifyInit();
+            _vfxAnimationPlayer.AnimationFinished += OnExplosionVfxFinished;
         }
 
         public override void _PhysicsProcess(double delta)
@@ -54,7 +57,7 @@ namespace EHE.BoltBusters
             _explosionCast = _rocketBody.GetNodeOrNull<ShapeCast3D>("ExplosionCast");
             _rocketBodyMeshInstance = _rocketBody.GetNodeOrNull<MeshInstance3D>("RocketBodyMesh");
             _damageData = new DamageData(50, DamageType.Missile);
-            _VFXanimationPlayer = _rocketBody.GetNodeOrNull<AnimationPlayer>("VFX/Explosion/AnimationPlayer");
+            _vfxAnimationPlayer = _rocketBody.GetNodeOrNull<AnimationPlayer>("VFX/Explosion/AnimationPlayer");
         }
 
         private void VerifyInit()
@@ -73,7 +76,7 @@ namespace EHE.BoltBusters
                 GD.PrintErr("Rocket: No damage data found.");
             }
 
-            if (_VFXanimationPlayer == null)
+            if (_vfxAnimationPlayer == null)
             {
                 GD.PrintErr("Rocket: No animation player found.");
             }
@@ -82,6 +85,7 @@ namespace EHE.BoltBusters
         public void LaunchRocket(Node3D launchPoint, Vector3 direction)
         {
             _isActive = true;
+            IsAvailable = false;
             _rocketBody.SetCollisionMaskValue(COLLISION_MASK_LAYER, true);
             _rocketBodyMeshInstance.Visible = true;
             Vector3 globalDir = launchPoint.GlobalBasis * direction;
@@ -94,12 +98,12 @@ namespace EHE.BoltBusters
 
         private void Explode()
         {
-            CallDeferred(MethodName.CheckExplosionDamage);
-            _VFXanimationPlayer.Play("Explode");
+            CallDeferred(MethodName.ResolveExplosionDamage);
+            _vfxAnimationPlayer.Play("Explode");
             DeactivateRocketBody();
         }
 
-        private void CheckExplosionDamage()
+        private void ResolveExplosionDamage()
         {
             _explosionCast.ForceShapecastUpdate();
             var collisions = _explosionCast.CollisionResult;
@@ -125,6 +129,11 @@ namespace EHE.BoltBusters
             _isActive = false;
             _rocketBodyMeshInstance.Visible = false;
             _rocketBody.SetCollisionMaskValue(COLLISION_MASK_LAYER, false);
+        }
+
+        private void OnExplosionVfxFinished(StringName animation)
+        {
+            IsAvailable = true;
         }
     }
 }
