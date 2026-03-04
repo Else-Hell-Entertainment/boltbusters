@@ -187,6 +187,7 @@ shape = SubResource("CapsuleShape3D_on8ld")
 [node name="HitParticles" type="GPUParticles3D" parent="MeleeWeapon"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4816972, -0.15241164)
 emitting = false
+amount = 16
 lifetime = 0.3
 one_shot = true
 explosiveness = 0.39
