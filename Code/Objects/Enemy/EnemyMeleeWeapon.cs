@@ -11,22 +11,23 @@ namespace EHE.BoltBusters
         [Export]
         private float _attackCooldown = 5.0f;
 
-        private AnimationPlayer _animationPlayer;
+        [Export] private int _attackDamage = 5;
 
+        private AnimationPlayer _animationPlayer;
         private Area3D _attackArea;
         private Timer _cooldownTimer;
         private GpuParticles3D _hitParticles;
         private DamageData _damageData;
         private bool _isAttacking;
 
-        private const string AttackAnimationName = "HammerBotAnimations/Attack";
-        private const string IdleAnimationName = "HammerBotAnimations/Idle";
+        private const string ATTACK_ANIMATION_NAME = "HammerBotAnimations/Attack";
+        private const string IDLE_ANIMATION_NAME = "HammerBotAnimations/Idle";
 
         public override void _Ready()
         {
             InitializeNodes();
             ConnectSignals();
-            _damageData = new DamageData(5, DamageType.Melee);
+            _damageData = new DamageData(_attackDamage, DamageType.Melee);
         }
 
         public override void Attack()
@@ -58,7 +59,7 @@ namespace EHE.BoltBusters
                     _hitParticles.Emitting = true;
                     CanAttack = false;
                     _cooldownTimer.Start();
-                    _animationPlayer.Play(AttackAnimationName);
+                    _animationPlayer.Play(ATTACK_ANIMATION_NAME);
                 }
             }
             // Player has exited the attack area so enemy stops attacking.
@@ -88,7 +89,6 @@ namespace EHE.BoltBusters
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
             _attackArea.BodyEntered += OnAttackAreaBodyEntered;
             _animationPlayer.AnimationFinished += OnAnimationFinished;
-
         }
 
         private void OnCooldownTimerTimeout()
@@ -107,9 +107,9 @@ namespace EHE.BoltBusters
 
         private void OnAnimationFinished(StringName animationName)
         {
-            if (animationName == AttackAnimationName)
+            if (animationName == ATTACK_ANIMATION_NAME)
             {
-                _animationPlayer.Play(IdleAnimationName);
+                _animationPlayer.Play(IDLE_ANIMATION_NAME);
             }
 
         }
