@@ -30,6 +30,31 @@ namespace EHE.BoltBusters
     /// </remarks>
     public partial class GameManager : Node
     {
+        #region Signals
+
+        /// <summary>
+        ///  Emitted when the player chooses to upgrade a weapon in the shop.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  Numerical representation of the weapon type to upgrade.
+        /// </param>
+        [Signal]
+        public delegate bool RequestWeaponUpgradeEventHandler(int weaponType);
+
+        /// <summary>
+        ///  Emitted when the player chooses to downgrade a weapon in the shop.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  Numerical representation of the weapon type to downgrade.
+        /// </param>
+        [Signal]
+        public delegate bool RequestWeaponDowngradeEventHandler(int weaponType);
+
+        #endregion Signals
+
+
         #region Fields
 
         // Level-related stuff.

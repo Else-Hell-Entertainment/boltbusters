@@ -23,6 +23,9 @@ namespace EHE.BoltBusters
             }
 
             TargetProvider.Instance.RegisterPlayer(this);
+
+            GameManager.Instance.RequestWeaponUpgrade += OnWeaponUpgradeRequested;
+            GameManager.Instance.RequestWeaponDowngrade += OnWeaponDowngradeRequested;
         }
 
         public override void _Input(InputEvent inputEvent)
@@ -74,6 +77,9 @@ namespace EHE.BoltBusters
         public override void _ExitTree()
         {
             TargetProvider.Instance?.UnregisterPlayer(this);
+
+            GameManager.Instance.RequestWeaponUpgrade -= OnWeaponUpgradeRequested;
+            GameManager.Instance.RequestWeaponDowngrade -= OnWeaponDowngradeRequested;
         }
 
         public override void TakeDamage(DamageData damageData)
@@ -85,5 +91,39 @@ namespace EHE.BoltBusters
         public override void OnSpawn() { }
 
         public override void OnDespawn() { }
+
+        /// <summary>
+        ///  Handles the <see cref="GameManager.RequestWeaponUpgrade"/> event.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  Integer representation of the weapon type to upgrade.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if upgrade was performed successfully,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        private bool OnWeaponUpgradeRequested(int weaponType)
+        {
+            return _upgradeHandler.UpgradeWeapon((WeaponType)weaponType);
+        }
+
+        /// <summary>
+        ///  Handles the <see cref="GameManager.RequestWeaponDowngrade"/> event.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  Integer representation of the weapon type to downgrade.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if downgrade was performed successfully,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        private bool OnWeaponDowngradeRequested(int weaponType)
+        {
+            return _upgradeHandler.DowngradeWeapon((WeaponType)weaponType);
+        }
     }
 }
