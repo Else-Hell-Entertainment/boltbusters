@@ -258,6 +258,7 @@ namespace EHE.BoltBusters
             this.PrintDebug("Round ended.");
             _roundTimer.Stop();
             ResetLevel();
+            GameManager.Instance.StateMachine.TransitionTo(StateType.Shop);
             // TODO: Disable player movement.
             // TODO: Disable enemy movement.
             // TODO: Instruct GameManager to save session to disk.

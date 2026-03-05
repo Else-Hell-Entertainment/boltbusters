@@ -92,6 +92,11 @@ namespace EHE.BoltBusters.Ui
             RequestWeaponDowngrade(WeaponType.Rocket);
         }
 
-        private void OnBtnEnterNextRoundPressed() { }
+        private void OnBtnEnterNextRoundPressed()
+        {
+            GameManager.Instance.StateMachine.TransitionTo(StateType.Round);
+            LevelManager.Active.InitializeLevel(GameManager.Instance.RoundIndex);
+            GameManager.Instance.SceneTree.CreateTimer(2).Timeout += LevelManager.Active.StartRound;
+        }
     }
 }
