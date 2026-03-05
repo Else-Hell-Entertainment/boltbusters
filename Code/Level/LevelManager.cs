@@ -174,6 +174,7 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
+        /// THIS WILL LIKELY BECOME PRIVATE!
         /// WIP! NOT FUNCTIONAL YET!
         /// Despawns enemies, projectiles and collectible, and resets the
         /// player.
@@ -181,14 +182,11 @@ namespace EHE.BoltBusters
         public void ResetLevel()
         {
             this.PrintDebug("Resetting level...");
-            // TODO: Enable this code once the enemy spawner is integrated!
-            // foreach (var enemy in _enemyRoot.GetChildren())
-            // {
-            //     enemy.OnDespawn();
-            // }
+            DespawnLevelObjects();
 
+            // TODO: Make player immobile.
+            Player.GlobalPosition = _playerSpawnPosition.GlobalPosition; // TODO: Is this too hacky?
             // TODO: Reset player health.
-            // TODO: Reset player position.
         }
 
         /// <summary>
@@ -230,10 +228,33 @@ namespace EHE.BoltBusters
         {
             this.PrintDebug("Round ended.");
             _roundTimer.Stop();
+            ResetLevel();
             // TODO: Disable player movement.
             // TODO: Disable enemy movement.
             // TODO: Instruct GameManager to save session to disk.
             // TODO: Wait 5s and transition to shop state.
+        }
+
+        /// <summary>
+        ///  Despawns all objects from the level that implement the
+        ///  <see cref="ISpawnable"/> interface.
+        /// </summary>
+        private void DespawnLevelObjects()
+        {
+            var children = this.GetChildrenOfType<Node>(recurse: true, recurseMatching: true);
+
+            if (children.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var child in children)
+            {
+                if (child is ISpawnable spawnable)
+                {
+                    spawnable.OnDespawn();
+                }
+            }
         }
 
         #endregion Private Methods
