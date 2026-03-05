@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using System;
 using System.Collections.Generic;
 using EHE.BoltBusters.Config;
 using EHE.BoltBusters.States;
@@ -83,9 +84,13 @@ namespace EHE.BoltBusters
         /// </summary>
         public Camera3D Camera => _cameraRig.GetChild<Camera3D>(0);
 
+        [Obsolete]
         public RoundData CurrentRoundData { get; private set; }
 
-        // TODO: Add public round index property (get, private set).
+        /// <summary>
+        /// The index number for the current round.
+        /// </summary>
+        public int RoundIndex { get; set; }
 
         #endregion Properties
 
@@ -160,11 +165,8 @@ namespace EHE.BoltBusters
             // therefore created in the OnNewGameStarted method and the timeout
             // is connected to the OnLevelStartDelayTimeout method.
 
-            // TODO: Set round index to 1.
-
+            RoundIndex = 1;
             this.PrintDebug("Starting new game...");
-            this.PrintDebug("Loading round data...");
-            CurrentRoundData = GD.Load<RoundData>("res://Data/Round/RoundData1.tres");
             StateMachine.TransitionTo(StateType.Round);
             CallDeferred(nameof(OnNewGameStarted));
         }
@@ -282,7 +284,7 @@ namespace EHE.BoltBusters
         /// <seealso cref="OnLevelStartDelayTimeout"/>
         private void OnNewGameStarted()
         {
-            LevelManager.Active.InitializeLevel(CurrentRoundData);
+            LevelManager.Active.InitializeLevel(RoundIndex);
             SceneTree.CreateTimer(5f).Timeout += OnLevelStartDelayTimeout;
         }
 

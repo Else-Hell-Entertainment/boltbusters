@@ -2,6 +2,8 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using System;
+using EHE.BoltBusters.Config;
 using EHE.BoltBusters.States;
 using EHE.Common.Godot.Extensions;
 using Godot;
@@ -155,11 +157,38 @@ namespace EHE.BoltBusters
         /// Initializes the round from provided <see cref="RoundData"/>.
         /// </summary>
         /// <param name="roundData">Data describing the round.</param>
+        [Obsolete]
         public void InitializeLevel(RoundData roundData)
         {
             this.PrintDebug("Initializing level...");
             _roundData = roundData;
             _roundTimer.WaitTime = _roundData.RoundLength;
+        }
+
+        /// <summary>
+        ///  Fetches the round data from a resource file using the given
+        ///  <paramref name="roundIndex"/>, caches it, and sets up the round
+        ///  timer.
+        /// </summary>
+        ///
+        /// <param name="roundIndex">
+        ///  Numerical index for the round data.
+        /// </param>
+        public void InitializeLevel(int roundIndex)
+        {
+            this.PrintDebug("Initializing level...");
+            var roundDataPath = string.Format(DataConfig.ROUND_DATA_FILE_PATH_FORMAT, roundIndex);
+            _roundData = GD.Load<RoundData>(roundDataPath);
+
+            if (_roundData == null)
+            {
+                GD.PushError($"Failed to load round data from path '{roundDataPath}'");
+                return;
+            }
+
+            DespawnLevelObjects();
+            _roundTimer.WaitTime = _roundData.RoundLength;
+            GameManager.Instance.RoundIndex++;
         }
 
         /// <summary>
