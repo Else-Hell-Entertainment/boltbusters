@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.BoltBusters.States;
 using Godot;
 
 namespace EHE.BoltBusters.Ui
@@ -51,17 +52,45 @@ namespace EHE.BoltBusters.Ui
             _btnEnterNextRound.Pressed -= OnBtnEnterNextRoundPressed;
         }
 
-        private void OnBtnUpgradeChaingunPressed() { }
+        private void RequestWeaponUpgrade(WeaponType weaponType)
+        {
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RequestWeaponUpgrade, (int)weaponType);
+        }
 
-        private void OnBtnUpgradeRailgunPressed() { }
+        private void RequestWeaponDowngrade(WeaponType weaponType)
+        {
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RequestWeaponDowngrade, (int)weaponType);
+        }
 
-        private void OnBtnUpgradeRocketLauncherPressed() { }
+        private void OnBtnUpgradeChaingunPressed()
+        {
+            RequestWeaponUpgrade(WeaponType.Chaingun);
+        }
 
-        private void OnBtnDowngradeChaingunPressed() { }
+        private void OnBtnUpgradeRailgunPressed()
+        {
+            RequestWeaponUpgrade(WeaponType.Railgun);
+        }
 
-        private void OnBtnDowngradeRailgunPressed() { }
+        private void OnBtnUpgradeRocketLauncherPressed()
+        {
+            RequestWeaponUpgrade(WeaponType.Rocket);
+        }
 
-        private void OnBtnDowngradeRocketLauncherPressed() { }
+        private void OnBtnDowngradeChaingunPressed()
+        {
+            RequestWeaponDowngrade(WeaponType.Chaingun);
+        }
+
+        private void OnBtnDowngradeRailgunPressed()
+        {
+            RequestWeaponDowngrade(WeaponType.Railgun);
+        }
+
+        private void OnBtnDowngradeRocketLauncherPressed()
+        {
+            RequestWeaponDowngrade(WeaponType.Rocket);
+        }
 
         private void OnBtnEnterNextRoundPressed() { }
     }
