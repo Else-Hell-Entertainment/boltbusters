@@ -75,7 +75,7 @@ namespace EHE.BoltBusters
             }
         }
 
-        public override void _PhysicsProcess(double delta)
+        public override void _Process(double delta)
         {
             float deltaTime = (float)delta;
             if (_attackTimer < _attackInterval)
