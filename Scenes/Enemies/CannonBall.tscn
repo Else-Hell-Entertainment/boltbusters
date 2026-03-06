@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://t3nx0bltkocl"]
+
+[ext_resource type="Script" uid="uid://dmqp0wn3qsuph" path="res://Code/Objects/Enemy/CannonBall.cs" id="1_fx4c4"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_8ulpy"]
+radius = 0.25
+height = 0.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8ulpy"]
+radius = 0.25
+
+[node name="CannonBall" type="Node3D"]
+script = ExtResource("1_fx4c4")
+_speed = 35.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_8ulpy")
+
+[node name="HitArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitArea"]
+shape = SubResource("SphereShape3D_8ulpy")
+
+[node name="DespawnTimer" type="Timer" parent="."]

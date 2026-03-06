@@ -31,7 +31,9 @@ namespace EHE.BoltBusters
         public bool AssignReceiver(object target)
         {
             if (target is not EntityMover mover)
+            {
                 return false;
+            }
             _mover = mover;
             return true;
         }

@@ -121,6 +121,7 @@ points = PackedVector3Array(-0.12520654, -0.532801, -0.4805069, 0.022783129, 0.4
 radius = 1.5
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent")]
+axis_lock_linear_y = true
 script = ExtResource("1_4wape")
 _healthComponent = NodePath("PlayerHealthComponent")
 

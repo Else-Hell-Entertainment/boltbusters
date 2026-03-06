@@ -55,7 +55,7 @@ metadata/_editor_floor_ = Vector3(0, 2, 0)
 
 [node name="CameraRig" parent="." instance=ExtResource("4_4f205")]
 UseSmoothFollow = false
-HeightAboveGround = 10.0
+HeightAboveGround = 15.0
 
 [node name="Player" parent="." instance=ExtResource("4_x00a1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 28)
