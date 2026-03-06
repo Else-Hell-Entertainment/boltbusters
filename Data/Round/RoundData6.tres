@@ -1,0 +1,88 @@
+[gd_resource type="Resource" script_class="RoundData" load_steps=11 format=3 uid="uid://5msyy6en4jvg"]
+
+[ext_resource type="Script" uid="uid://dy1moahlf6gxp" path="res://Code/Data/WaveData.cs" id="1_vllpw"]
+[ext_resource type="Script" uid="uid://cl3rtewo80fc5" path="res://Code/Data/RoundData.cs" id="2_dmhcg"]
+
+[sub_resource type="Resource" id="Resource_ap8wf"]
+script = ExtResource("1_vllpw")
+Enemies = Dictionary[int, int]({
+1: 2,
+2: 1,
+3: 1
+})
+
+[sub_resource type="Resource" id="Resource_vllpw"]
+script = ExtResource("1_vllpw")
+SpawnTimeAfterStart = 5.0
+Enemies = Dictionary[int, int]({
+1: 2,
+2: 2,
+3: 0
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_dmhcg"]
+script = ExtResource("1_vllpw")
+SpawnTimeAfterStart = 10.0
+Enemies = Dictionary[int, int]({
+1: 2,
+2: 1,
+3: 1
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_54o6e"]
+script = ExtResource("1_vllpw")
+SpawnTimeAfterStart = 15.0
+Enemies = Dictionary[int, int]({
+1: 2,
+2: 2,
+3: 0
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_faxx0"]
+script = ExtResource("1_vllpw")
+SpawnTimeAfterStart = 20.0
+Enemies = Dictionary[int, int]({
+1: 2,
+2: 1,
+3: 1
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_8v4wj"]
+script = ExtResource("1_vllpw")
+SpawnTimeAfterStart = 25.0
+Enemies = Dictionary[int, int]({
+1: 2,
+2: 2,
+3: 0
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_a1a0a"]
+script = ExtResource("1_vllpw")
+SpawnTimeAfterStart = 30.0
+Enemies = Dictionary[int, int]({
+1: 2,
+2: 1,
+3: 1
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_wr1if"]
+script = ExtResource("1_vllpw")
+SpawnTimeAfterStart = 35.0
+Enemies = Dictionary[int, int]({
+1: 2,
+2: 2,
+3: 0
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[resource]
+script = ExtResource("2_dmhcg")
+RoundLength = 45.0
+Waves = Array[ExtResource("1_vllpw")]([SubResource("Resource_ap8wf"), SubResource("Resource_vllpw"), SubResource("Resource_dmhcg"), SubResource("Resource_54o6e"), SubResource("Resource_faxx0"), SubResource("Resource_8v4wj"), SubResource("Resource_a1a0a"), SubResource("Resource_wr1if")])
+metadata/_custom_type_script = "uid://cl3rtewo80fc5"
