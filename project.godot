@@ -21,6 +21,10 @@ config/icon="res://icon.svg"
 TargetProvider="*res://Code/TargetProvider.cs"
 GameManager="*res://Code/Systems/GameManager.cs"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [dotnet]
 
 project/assembly_name="Bolt Busters"

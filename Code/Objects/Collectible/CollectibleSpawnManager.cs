@@ -117,12 +117,7 @@ namespace EHE.BoltBusters
 
             Collectible collectible = scene.Instantiate<Collectible>();
 
-            // TODO:
-            // Once LevelManager implements AddLevelObject(...) for collectibles,
-            // replace AddChild(...) with:
-            // LevelManager.active.AddLevelObject(collectible);
-
-            AddChild(collectible);
+            LevelManager.Active.AddLevelObject(collectible);
             collectible.GlobalPosition = position;
         }
         #endregion Private Helpers

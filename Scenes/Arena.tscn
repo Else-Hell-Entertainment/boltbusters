@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cneglc8s4irky"]
+[gd_scene load_steps=8 format=3 uid="uid://cneglc8s4irky"]
 
 [ext_resource type="MeshLibrary" uid="uid://43rio2xy10fd" path="res://Assets/Models/Arena/MeshLibraryArena1.tres" id="1_0g2wx"]
 [ext_resource type="PackedScene" uid="uid://tb0fhj8w73mc" path="res://Scenes/Enemies/EnemySpawnManager.tscn" id="2_pyk7t"]
@@ -55,7 +55,7 @@ metadata/_editor_floor_ = Vector3(0, 2, 0)
 
 [node name="CameraRig" parent="." instance=ExtResource("4_4f205")]
 UseSmoothFollow = false
-HeightAboveGround = 10.0
+HeightAboveGround = 15.0
 
 [node name="Player" parent="." instance=ExtResource("4_x00a1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 28)
