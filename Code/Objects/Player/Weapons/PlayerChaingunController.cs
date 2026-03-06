@@ -20,6 +20,8 @@ namespace EHE.BoltBusters
         [Export]
         private float _range = 7f;
 
+        [Export] private AudioStreamPlayer3D _shootingAudio;
+
         private Sprite3D _reticle;
 
         public override WeaponType WeaponType => WeaponType.Chaingun;
@@ -70,6 +72,10 @@ namespace EHE.BoltBusters
                 {
                     weapon.Attack();
                     _attackTimer = 0;
+                    if (!_shootingAudio.IsPlaying())
+                    {
+                        _shootingAudio.Play();
+                    }
                     return;
                 }
             }
