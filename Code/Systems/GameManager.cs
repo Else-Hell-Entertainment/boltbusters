@@ -288,6 +288,7 @@ namespace EHE.BoltBusters
             // Create viewport, set its size, and add it to the container.
             _levelViewport = new SubViewport();
             _levelViewport.Size = (Vector2I)GetViewport().GetWindow().GetVisibleRect().Size;
+            _levelViewport.AudioListenerEnable3D = true;
             _levelViewportContainer.CallDeferred(Node.MethodName.AddChild, _levelViewport);
 
             // Create camera rig and add it to the viewport.

@@ -18,6 +18,10 @@ namespace EHE.BoltBusters
 
         [Export]
         private float _speed = 50.0f;
+        [Export]
+        private AudioStreamPlayer3D _launchSound;
+        [Export]
+        private AudioStreamPlayer3D _exlosionSound;
 
         private CharacterBody3D _rocketBody;
 
@@ -99,12 +103,14 @@ namespace EHE.BoltBusters
             Transform3D t = _rocketBody.GlobalTransform;
             t.Basis = Basis.LookingAt(globalDir, Vector3.Up);
             _rocketBody.GlobalTransform = t;
+            _launchSound.Play();
         }
 
         private void Explode()
         {
             CallDeferred(MethodName.ResolveExplosionDamage);
             _vfxAnimationPlayer.Play("Explode");
+            _exlosionSound.Play();
             DeactivateRocketBody();
         }
 

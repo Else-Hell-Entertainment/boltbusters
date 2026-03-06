@@ -10,6 +10,8 @@ namespace EHE.BoltBusters
 {
     public partial class PlayerRailgunController : PlayerWeaponGroupController
     {
+        [Export] private AudioStreamPlayer3D _shootingSound;
+
         private Railgun _activeRailgun;
 
         private List<Railgun> _connectedRailguns = new List<Railgun>();
@@ -20,9 +22,9 @@ namespace EHE.BoltBusters
         {
             base._Ready();
             AddWeapon();
-            AddWeapon();
-            AddWeapon();
-            AddWeapon();
+            // AddWeapon();
+            // AddWeapon();
+            // AddWeapon();
         }
 
         public override bool AddWeapon()
@@ -56,6 +58,7 @@ namespace EHE.BoltBusters
             _activeRailgun.Attack();
             _activeRailgun.IsActive = false;
             _activeRailgun = null;
+            _shootingSound.Play();
             SetNextActive();
         }
 
