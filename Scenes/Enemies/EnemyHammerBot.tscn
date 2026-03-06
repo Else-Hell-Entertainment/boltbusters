@@ -6,7 +6,7 @@
 [ext_resource type="AnimationLibrary" uid="uid://daif2hrjdta3p" path="res://Assets/Animations/HammerBotAnimations.tres" id="4_5800e"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aundc"]
-size = Vector3(1, 1.0645752, 1.3820648)
+size = Vector3(1, 1.9749222, 1.3820648)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fq6sj"]
 
@@ -139,7 +139,7 @@ script = ExtResource("1_on8ld")
 _healthComponent = NodePath("EnemyHealthComponent")
 
 [node name="BodyCollider" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6182584, 0.24930006)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.073432, 0.24930006)
 shape = SubResource("BoxShape3D_aundc")
 
 [node name="BodyNode" type="Node3D" parent="."]
@@ -153,7 +153,7 @@ skeleton = NodePath("")
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0.73608446)
 
 [node name="Cylinder" type="MeshInstance3D" parent="HammerNode"]
-transform = Transform3D(0.08559429, -0.00017201352, 0.20601268, -0.20240523, 0.061813764, 0.08411875, -0.038384285, -0.3263355, 0.015825002, 0, 0.7883917, -0.008932114)
+transform = Transform3D(0.08559429, -0.00017201352, 0.2060127, -0.20240523, 0.061813764, 0.08411876, -0.038384285, -0.3263355, 0.015825003, 0, 0.7883917, -0.008932114)
 mesh = SubResource("ArrayMesh_hku7k")
 skeleton = NodePath("")
 
