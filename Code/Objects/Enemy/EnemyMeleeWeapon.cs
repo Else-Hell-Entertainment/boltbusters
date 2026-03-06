@@ -6,21 +6,61 @@ using Godot;
 
 namespace EHE.BoltBusters
 {
+    /// <summary>
+    /// Represents a melee weapon for enemies that attacks the player when in range.
+    /// Uses an Area3D to detect the player and plays attack animations on hit.
+    /// </summary>
     public partial class EnemyMeleeWeapon : BaseWeapon
     {
+        /// <summary>
+        /// Time in seconds between consecutive attacks.
+        /// </summary>
         [Export]
         private float _attackCooldown = 5.0f;
 
+        /// <summary>
+        /// Amount of damage dealt to the player per attack.
+        /// </summary>
         [Export] private int _attackDamage = 5;
 
+        /// <summary>
+        /// Animation player for playing attack and idle animations.
+        /// </summary>
         private AnimationPlayer _animationPlayer;
+
+        /// <summary>
+        /// Area used to detect if the player is within attack range.
+        /// </summary>
         private Area3D _attackArea;
+
+        /// <summary>
+        /// Timer that controls the cooldown between attacks.
+        /// </summary>
         private Timer _cooldownTimer;
+
+        /// <summary>
+        /// Particle effect displayed when the attack hits the player.
+        /// </summary>
         private GpuParticles3D _hitParticles;
+
+        /// <summary>
+        /// Cached damage data passed to the player when attacked.
+        /// </summary>
         private DamageData _damageData;
+
+        /// <summary>
+        /// Tracks whether the enemy is currently in attack mode (player is in range).
+        /// </summary>
         private bool _isAttacking;
 
+        /// <summary>
+        /// Animation name for the attack animation. Currently hardcoded here, but location is to be changed.
+        /// </summary>
         private const string ATTACK_ANIMATION_NAME = "HammerBotAnimations/Attack";
+
+        /// <summary>
+        /// Animation name for the idle animation. Currently hardcoded here, but location is to be changed.
+        /// </summary>
         private const string IDLE_ANIMATION_NAME = "HammerBotAnimations/Idle";
 
         public override void _Ready()
@@ -30,9 +70,12 @@ namespace EHE.BoltBusters
             _damageData = new DamageData(_attackDamage, DamageType.Melee);
         }
 
+        /// <summary>
+        /// Executes an attack by checking if the player is in the attack area.
+        /// Called using CallDeferred to avoid physics state issues.
+        /// </summary>
         public override void Attack()
         {
-
             CallDeferred(nameof(CheckAttackArea));
         }
 
@@ -44,6 +87,11 @@ namespace EHE.BoltBusters
             }
         }
 
+        /// <summary>
+        /// Checks if the player is within the attack area and executes the attack.
+        /// Deals damage, plays hit particles, starts cooldown, and triggers attack animation.
+        /// Sets _isAttacking to false if the player leaves the area.
+        /// </summary>
         private void CheckAttackArea()
         {
             var bodies = _attackArea.GetOverlappingBodies();
@@ -84,6 +132,9 @@ namespace EHE.BoltBusters
             _cooldownTimer.WaitTime = _attackCooldown;
         }
 
+        /// <summary>
+        /// Connects all signal handlers for timers, areas, and animation events.
+        /// </summary>
         private void ConnectSignals()
         {
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
@@ -91,11 +142,20 @@ namespace EHE.BoltBusters
             _animationPlayer.AnimationFinished += OnAnimationFinished;
         }
 
+        /// <summary>
+        /// Called when the cooldown timer expires.
+        /// Re-enables the weapon's ability to attack.
+        /// </summary>
         private void OnCooldownTimerTimeout()
         {
             CanAttack = true;
         }
 
+        /// <summary>
+        /// Called when a body enters the attack area.
+        /// If the body is the player, enables attack mode.
+        /// </summary>
+        /// <param name="body">The body that entered the attack area.</param>
         private void OnAttackAreaBodyEntered(Node3D body)
         {
             if (body is Player)

@@ -153,7 +153,7 @@ skeleton = NodePath("")
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0.73608446)
 
 [node name="Cylinder" type="MeshInstance3D" parent="HammerNode"]
-transform = Transform3D(0.0855943, -0.00017201352, 0.20601267, -0.20240524, 0.061813764, 0.084118746, -0.038384285, -0.3263355, 0.015825002, 0, 0.7883917, -0.008932114)
+transform = Transform3D(0.08559429, -0.00017201352, 0.20601268, -0.20240523, 0.061813764, 0.08411875, -0.038384285, -0.3263355, 0.015825002, 0, 0.7883917, -0.008932114)
 mesh = SubResource("ArrayMesh_hku7k")
 skeleton = NodePath("")
 
@@ -164,6 +164,8 @@ metadata/_custom_type_script = "uid://b620lyqticbmf"
 [node name="MeleeWeapon" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.87726426, -0.61224896)
 script = ExtResource("3_7mpij")
+_attackCooldown = 2.5
+_attackDamage = 10
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MeleeWeapon"]
 root_node = NodePath("../..")
