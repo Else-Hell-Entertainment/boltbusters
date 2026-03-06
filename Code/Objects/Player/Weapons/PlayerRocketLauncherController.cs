@@ -23,9 +23,9 @@ namespace EHE.BoltBusters
             _reticle = GetNode<Sprite3D>("Reticle");
             _reticle.Position -= new Vector3(0, _reticle.GlobalPosition.Y - 0.2f, _range);
             AddWeapon();
-            AddWeapon();
-            AddWeapon();
-            AddWeapon();
+            // AddWeapon();
+            // AddWeapon();
+            // AddWeapon();
         }
 
         public override void Attack()

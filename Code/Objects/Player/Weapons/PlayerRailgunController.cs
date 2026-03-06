@@ -20,9 +20,9 @@ namespace EHE.BoltBusters
         {
             base._Ready();
             AddWeapon();
-            AddWeapon();
-            AddWeapon();
-            AddWeapon();
+            // AddWeapon();
+            // AddWeapon();
+            // AddWeapon();
         }
 
         public override bool AddWeapon()
