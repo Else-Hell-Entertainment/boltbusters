@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bfp2kgi6a16wi"]
+[gd_scene load_steps=6 format=3 uid="uid://bfp2kgi6a16wi"]
 
 [ext_resource type="Script" uid="uid://bub1el2qo1icj" path="res://Code/Objects/Player/Weapons/PlayerRailgunController.cs" id="1_43uyx"]
-[ext_resource type="PackedScene" uid="uid://cf5vqiflfwdvt" path="res://Scenes/Player/Weapons/Railgun.tscn" id="2_m3cup"]
+[ext_resource type="PackedScene" uid="uid://cf5vqiflfwdvt" path="res://Scenes/Player/Weapons/railgun.tscn" id="2_m3cup"]
+[ext_resource type="AudioStream" uid="uid://d3apgvl2x6pdt" path="res://Assets/SFX/PROTORailgunShoot.mp3" id="3_m3cup"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_tktho"]
 size = Vector3(0.2, 0.2, 0.4)
@@ -9,8 +10,9 @@ size = Vector3(0.2, 0.2, 0.4)
 [sub_resource type="BoxMesh" id="BoxMesh_4c8oc"]
 size = Vector3(0.1, 0.1, 0.1)
 
-[node name="RailgunController" type="Node3D"]
+[node name="RailgunController" type="Node3D" node_paths=PackedStringArray("_shootingSound")]
 script = ExtResource("1_43uyx")
+_shootingSound = NodePath("AudioStreamPlayer3D")
 _weaponScene = ExtResource("2_m3cup")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -42,3 +44,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21218425, 0.17114127, -0.06
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot4"]
 mesh = SubResource("BoxMesh_4c8oc")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_m3cup")

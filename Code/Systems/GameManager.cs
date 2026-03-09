@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using System;
 using System.Collections.Generic;
 using EHE.BoltBusters.Config;
 using EHE.BoltBusters.States;
@@ -29,6 +30,31 @@ namespace EHE.BoltBusters
     /// </remarks>
     public partial class GameManager : Node
     {
+        #region Signals
+
+        /// <summary>
+        ///  Emitted when the player chooses to upgrade a weapon in the shop.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  Numerical representation of the weapon type to upgrade.
+        /// </param>
+        [Signal]
+        public delegate bool RequestWeaponUpgradeEventHandler(int weaponType);
+
+        /// <summary>
+        ///  Emitted when the player chooses to downgrade a weapon in the shop.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  Numerical representation of the weapon type to downgrade.
+        /// </param>
+        [Signal]
+        public delegate bool RequestWeaponDowngradeEventHandler(int weaponType);
+
+        #endregion Signals
+
+
         #region Fields
 
         // Level-related stuff.
@@ -83,7 +109,13 @@ namespace EHE.BoltBusters
         /// </summary>
         public Camera3D Camera => _cameraRig.GetChild<Camera3D>(0);
 
+        [Obsolete]
         public RoundData CurrentRoundData { get; private set; }
+
+        /// <summary>
+        /// The index number for the current round.
+        /// </summary>
+        public int RoundIndex { get; set; }
 
         #endregion Properties
 
@@ -106,7 +138,8 @@ namespace EHE.BoltBusters
                 new GameStateMainMenu(),
                 new GameStateSettingsMenu(),
                 new GameStateRound(),
-                new GameStatePaused()
+                new GameStatePaused(),
+                new ShopState()
             );
 
             // All done.
@@ -157,9 +190,8 @@ namespace EHE.BoltBusters
             // therefore created in the OnNewGameStarted method and the timeout
             // is connected to the OnLevelStartDelayTimeout method.
 
+            RoundIndex = 1;
             this.PrintDebug("Starting new game...");
-            this.PrintDebug("Loading round data...");
-            CurrentRoundData = GD.Load<RoundData>("res://Data/Round/RoundData1.tres");
             StateMachine.TransitionTo(StateType.Round);
             CallDeferred(nameof(OnNewGameStarted));
         }
@@ -256,6 +288,7 @@ namespace EHE.BoltBusters
             // Create viewport, set its size, and add it to the container.
             _levelViewport = new SubViewport();
             _levelViewport.Size = (Vector2I)GetViewport().GetWindow().GetVisibleRect().Size;
+            _levelViewport.AudioListenerEnable3D = true;
             _levelViewportContainer.CallDeferred(Node.MethodName.AddChild, _levelViewport);
 
             // Create camera rig and add it to the viewport.
@@ -277,7 +310,7 @@ namespace EHE.BoltBusters
         /// <seealso cref="OnLevelStartDelayTimeout"/>
         private void OnNewGameStarted()
         {
-            LevelManager.Active.InitializeLevel(CurrentRoundData);
+            LevelManager.Active.InitializeLevel(RoundIndex);
             SceneTree.CreateTimer(5f).Timeout += OnLevelStartDelayTimeout;
         }
 

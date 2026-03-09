@@ -20,6 +20,8 @@ namespace EHE.BoltBusters
         [Export]
         private float _range = 7f;
 
+        [Export] private AudioStreamPlayer3D _shootingAudio;
+
         private Sprite3D _reticle;
 
         public override WeaponType WeaponType => WeaponType.Chaingun;
@@ -28,13 +30,13 @@ namespace EHE.BoltBusters
         {
             base._Ready();
             AddWeapon();
-            AddWeapon();
-            AddWeapon();
-            AddWeapon();
-            AddWeapon();
-            AddWeapon();
-            AddWeapon();
-            AddWeapon();
+            // AddWeapon();
+            // AddWeapon();
+            // AddWeapon();
+            // AddWeapon();
+            // AddWeapon();
+            // AddWeapon();
+            // AddWeapon();
 
             _reticle = GetNode<Sprite3D>("Reticle");
             _reticle.Position -= new Vector3(0, _reticle.GlobalPosition.Y - 0.2f, _range);
@@ -70,12 +72,16 @@ namespace EHE.BoltBusters
                 {
                     weapon.Attack();
                     _attackTimer = 0;
+                    if (!_shootingAudio.IsPlaying())
+                    {
+                        _shootingAudio.Play();
+                    }
                     return;
                 }
             }
         }
 
-        public override void _PhysicsProcess(double delta)
+        public override void _Process(double delta)
         {
             float deltaTime = (float)delta;
             if (_attackTimer < _attackInterval)

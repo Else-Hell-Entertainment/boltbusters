@@ -2,6 +2,8 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using System;
+using EHE.BoltBusters.Config;
 using EHE.BoltBusters.States;
 using EHE.Common.Godot.Extensions;
 using Godot;
@@ -155,11 +157,38 @@ namespace EHE.BoltBusters
         /// Initializes the round from provided <see cref="RoundData"/>.
         /// </summary>
         /// <param name="roundData">Data describing the round.</param>
+        [Obsolete]
         public void InitializeLevel(RoundData roundData)
         {
             this.PrintDebug("Initializing level...");
             _roundData = roundData;
             _roundTimer.WaitTime = _roundData.RoundLength;
+        }
+
+        /// <summary>
+        ///  Fetches the round data from a resource file using the given
+        ///  <paramref name="roundIndex"/>, caches it, and sets up the round
+        ///  timer.
+        /// </summary>
+        ///
+        /// <param name="roundIndex">
+        ///  Numerical index for the round data.
+        /// </param>
+        public void InitializeLevel(int roundIndex)
+        {
+            this.PrintDebug("Initializing level...");
+            var roundDataPath = string.Format(DataConfig.ROUND_DATA_FILE_PATH_FORMAT, roundIndex);
+            _roundData = GD.Load<RoundData>(roundDataPath);
+
+            if (_roundData == null)
+            {
+                GD.PushError($"Failed to load round data from path '{roundDataPath}'");
+                return;
+            }
+
+            DespawnLevelObjects();
+            _roundTimer.WaitTime = _roundData.RoundLength;
+            GameManager.Instance.RoundIndex++;
         }
 
         /// <summary>
@@ -174,6 +203,7 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
+        /// THIS WILL LIKELY BECOME PRIVATE!
         /// WIP! NOT FUNCTIONAL YET!
         /// Despawns enemies, projectiles and collectible, and resets the
         /// player.
@@ -181,14 +211,11 @@ namespace EHE.BoltBusters
         public void ResetLevel()
         {
             this.PrintDebug("Resetting level...");
-            // TODO: Enable this code once the enemy spawner is integrated!
-            // foreach (var enemy in _enemyRoot.GetChildren())
-            // {
-            //     enemy.OnDespawn();
-            // }
+            DespawnLevelObjects();
 
+            // TODO: Make player immobile.
+            Player.GlobalPosition = _playerSpawnPosition.GlobalPosition; // TODO: Is this too hacky?
             // TODO: Reset player health.
-            // TODO: Reset player position.
         }
 
         /// <summary>
@@ -219,6 +246,9 @@ namespace EHE.BoltBusters
 
         #region Private Methods
 
+        // TODO: Add Load method that takes round index as param and loads the
+        //       round data from a file.
+
         /// <summary>
         /// WIP!
         /// Called when the round timer runs out. Stops the round timer.
@@ -227,7 +257,34 @@ namespace EHE.BoltBusters
         {
             this.PrintDebug("Round ended.");
             _roundTimer.Stop();
+            ResetLevel();
+            GameManager.Instance.StateMachine.TransitionTo(StateType.Shop);
+            // TODO: Disable player movement.
+            // TODO: Disable enemy movement.
+            // TODO: Instruct GameManager to save session to disk.
             // TODO: Wait 5s and transition to shop state.
+        }
+
+        /// <summary>
+        ///  Despawns all objects from the level that implement the
+        ///  <see cref="ISpawnable"/> interface.
+        /// </summary>
+        private void DespawnLevelObjects()
+        {
+            var children = this.GetChildrenOfType<Node>(recurse: true, recurseMatching: true);
+
+            if (children.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var child in children)
+            {
+                if (child is ISpawnable spawnable)
+                {
+                    spawnable.OnDespawn();
+                }
+            }
         }
 
         #endregion Private Methods

@@ -505,12 +505,7 @@ namespace EHE.BoltBusters
 
                 Enemy enemy = entry.Scene.Instantiate<Enemy>();
 
-                // TODO:
-                // Once LevelManager implements AddLevelObject(...) for enemies,
-                // replace AddChild(enemy) with:
-                // LevelManager.active.AddLevelObject(enemy)
-
-                AddChild(enemy);
+                LevelManager.Active.AddLevelObject(enemy);
                 enemy.GlobalPosition = marker.GlobalPosition;
 
                 enemy.Initialize(entry.EnemyType);
