@@ -62,6 +62,7 @@ namespace EHE.BoltBusters
         #region Fields (private/protected)
 
         private int _health = 100;
+        private int _levelIndex = 1;
 
         #endregion Private Fields
 
@@ -108,8 +109,12 @@ namespace EHE.BoltBusters
         /// <summary>
         ///  The index of the level the player is currently in.
         /// </summary>
-        [Export(PropertyHint.Range, "0,2147483647,1")]
-        public int LevelIndex { get; set; } = 1;
+        [Export(PropertyHint.Range, "1,2147483647,1")]
+        public int LevelIndex
+        {
+            get => _levelIndex;
+            set => _levelIndex = Mathf.Clamp(value, min: 1, max: int.MaxValue);
+        }
 
         /// <summary>
         ///  Whether the player has already cleared the current level or not,
