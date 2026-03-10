@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://d1v0b82d6dwda" path="res://Scenes/Enemies/EnemyHammerBot.tscn" id="4_t3e81"]
 [ext_resource type="PackedScene" uid="uid://dleoqwseq5x4p" path="res://Scenes/Enemies/EnemyCannonBot.tscn" id="5_t3e81"]
 [ext_resource type="PackedScene" uid="uid://bh3xawx4w08w2" path="res://Scenes/Collectible/CollectibleSpawnManager.tscn" id="6_ksici"]
-[ext_resource type="PackedScene" uid="uid://c8508sp5whysw" path="res://Scenes/Enemies/EnemyHammerBot2.tscn" id="6_lvwdj"]
 [ext_resource type="AudioStream" uid="uid://djijfckbs3y04" path="res://Assets/Music/MainTheme.wav" id="7_8gphe"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_x00a1"]
@@ -55,7 +54,7 @@ data = {
 metadata/_editor_floor_ = Vector3(0, 2, 0)
 
 [node name="EnemySpawnManager" parent="." instance=ExtResource("2_k2uda")]
-_meleeScene = ExtResource("4_t3e81")
+_meleeScene = ExtResource("5_t3e81")
 _rangedScene = ExtResource("5_t3e81")
 _shieldedScene = ExtResource("4_t3e81")
 

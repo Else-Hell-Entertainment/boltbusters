@@ -21,6 +21,9 @@ namespace EHE.BoltBusters
         private bool _canFire = true;
         private Node3D _muzzle;
 
+        private double _repathTimer = 0;
+        private double _repathInterval = 0.5;
+
         public override void _Ready()
         {
             _player = TargetProvider.Instance.Player;
@@ -34,12 +37,27 @@ namespace EHE.BoltBusters
 
         public override void _Process(double delta)
         {
-            Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
+            if (IsInstanceValid(_player))
+            {
+                Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
+            }
         }
 
         public override void _PhysicsProcess(double delta)
         {
-            if (IsPlayerInAttackCone() && _canFire)
+            if (_repathTimer < _repathInterval)
+            {
+                _repathTimer += delta;
+            }
+            else
+            {
+                _repathTimer = 0;
+                if (IsInstanceValid(_player))
+                {
+                    Controller.AddCommand(new MoveToPositionCommand(_player.GlobalPosition));
+                }
+            }
+            if (IsInstanceValid(_player) && IsPlayerInAttackCone() && _canFire)
             {
                 Attack();
             }

@@ -41,6 +41,14 @@ namespace EHE.BoltBusters
         public override void _PhysicsProcess(double delta)
         {
             base._PhysicsProcess(delta);
+            if (_enemyBodyMover.IsMovingToPosition)
+            {
+                RotateTowardsCommand cmd = new RotateTowardsCommand(_targetPosition);
+                if (cmd.AssignReceiver(_bodyNodeMover))
+                {
+                    AddValidatedCommand(cmd);
+                }
+            }
             ExecuteCommandStack();
             ResetCommandState();
         }

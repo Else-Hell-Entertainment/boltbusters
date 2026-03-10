@@ -35,13 +35,13 @@ namespace EHE.BoltBusters
         public float Acceleration = 40f;
 
         public bool IsUsingNavigation = false;
+        public bool IsMovingToPosition;
         private NavigationAgent3D _navigationAgent;
         private Vector3 _targetPosition;
-        private bool _isMovingToPosition;
 
         public override void _PhysicsProcess(double delta)
         {
-            if (_isMovingToPosition)
+            if (IsMovingToPosition)
             {
                 ExecuteMoveToPosition();
             }
@@ -55,7 +55,7 @@ namespace EHE.BoltBusters
         /// <param name="direction">The direction vector to move towards (Y component is ignored).</param>
         public override void MoveToDirection(Vector3 direction)
         {
-            _isMovingToPosition = false;
+            IsMovingToPosition = false;
             if (direction == Vector3.Zero)
             {
                 _body.Velocity = Vector3.Zero;
@@ -81,7 +81,7 @@ namespace EHE.BoltBusters
         public override void MoveToPosition(Vector3 position)
         {
             _targetPosition = position;
-            _isMovingToPosition = true;
+            IsMovingToPosition = true;
             if (IsUsingNavigation)
             {
                 _navigationAgent.TargetPosition = _targetPosition;
@@ -102,9 +102,6 @@ namespace EHE.BoltBusters
 
         private void ExecuteMoveToPosition()
         {
-            Vector3 direction = _targetPosition;
-            direction.Y = 0f;
-            _body.LookAt(direction);
             if (!IsUsingNavigation)
             {
                 //TODO: implement regular movement
@@ -113,7 +110,7 @@ namespace EHE.BoltBusters
 
             if (_navigationAgent.IsNavigationFinished())
             {
-                _isMovingToPosition = false;
+                IsMovingToPosition = false;
                 return;
             }
 
