@@ -48,7 +48,7 @@ namespace EHE.BoltBusters
         public override void _Ready()
         {
             // TODO: Placeholder implementation - refactor.
-            _damageData = new DamageData(100, DamageType.Chaingun);
+            _damageData = new DamageData(34, DamageType.Chaingun);
 
             _muzzle = GetNode<Node3D>("Muzzle");
             _hitParticles = GetNode<GpuParticles3D>("HitParticles");
