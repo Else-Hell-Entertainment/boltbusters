@@ -23,6 +23,21 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void HealthChangedEventHandler(int newHealth);
 
+        /// <summary>
+        ///  Emitted when the number of collected items changes.
+        /// </summary>
+        ///
+        /// <param name="collectibleType">
+        ///  Type of the collectible whose count changed.
+        /// </param>
+        /// <param name="newAmount">
+        ///  The new count of the given type of collectible.
+        /// </param>
+        ///
+        /// <seealso cref="CollectibleType"/>
+        [Signal]
+        public delegate void CollectibleAmountsChangedEventHandler(int collectibleType, int newAmount);
+
         #endregion Signals
 
 
@@ -34,6 +49,14 @@ namespace EHE.BoltBusters
 
 
         #region Exported Fields & Properties (private/protected/public)
+
+        [Export]
+        private Dictionary<CollectibleType, int> _collectibleCounts = new()
+        {
+            { CollectibleType.Nut, 0 },
+            { CollectibleType.Bolt, 0 },
+            { CollectibleType.Wrench, 0 },
+        };
 
         /// <summary>
         ///  The current health of the player.
@@ -57,5 +80,87 @@ namespace EHE.BoltBusters
         }
 
         #endregion Exported Fields & Properties (private/protected/public)
+
+
+        #region Public Methods
+
+        /// <summary>
+        ///  Gets the current amount of the specified collectible.
+        /// </summary>
+        ///
+        /// <param name="collectibleType">
+        ///  The type of collectible to query.
+        /// </param>
+        ///
+        /// <returns>
+        ///  The amount of the specified collectible type, or <c>-1</c> if the
+        ///  given collectible type is invalid.
+        /// </returns>
+        ///
+        /// <seealso cref="CollectibleType"/>
+        /// <seealso cref="SetCollectibleAmount"/>
+        public int GetCollectibleAmount(CollectibleType collectibleType)
+        {
+            if (!_collectibleCounts.TryGetValue(collectibleType, out var amount))
+            {
+                return -1;
+            }
+
+            return amount;
+        }
+
+        /// <summary>
+        ///  Sets the amount of the specified collectible type.
+        /// </summary>
+        ///
+        /// <param name="collectibleType">
+        ///  The type of collectible to set the amount of.
+        /// </param>
+        /// <param name="amount">
+        ///  The new amount for the collectible. Must be non-negative.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if the collectible amount was successfully set;
+        ///  <c>false</c> if the collectible type is invalid or if the amount
+        ///  is negative.
+        /// </returns>
+        ///
+        /// <remarks>
+        ///  <para>
+        ///   This method emits the <see cref="CollectibleAmountsChanged"/>
+        ///   signal when the amount is successfully updated.
+        ///  </para>
+        ///  <para>
+        ///   The <paramref name="amount"/> is clamped between 0 and
+        ///   <see cref="int.MaxValue"/>. <b>Note</b>: The maximum value will
+        ///   be lowered when the UI is implemented.
+        ///  </para>
+        /// </remarks>
+        ///
+        /// <seealso cref="CollectibleType"/>
+        /// <seealso cref="GetCollectibleAmount"/>
+        /// <seealso cref="CollectibleAmountsChanged"/>
+        public bool SetCollectibleAmount(CollectibleType collectibleType, int amount)
+        {
+            if (!_collectibleCounts.ContainsKey(collectibleType))
+            {
+                GD.PushError($"Cannot set collectible amount: key '{collectibleType}' not found!");
+                return false;
+            }
+
+            if (amount < 0)
+            {
+                GD.PushError("Cannot set collectible amount: amount cannot be negative!");
+                return false;
+            }
+
+            // TODO: Decide max value when designing UI.
+            _collectibleCounts[collectibleType] = Mathf.Clamp(amount, min: 0, max: int.MaxValue);
+            EmitSignal(SignalName.CollectibleAmountsChanged, (int)collectibleType, amount);
+            return true;
+        }
+
+        #endregion Public Methods
     }
 }
