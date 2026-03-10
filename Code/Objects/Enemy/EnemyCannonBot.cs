@@ -73,7 +73,5 @@ namespace EHE.BoltBusters
         }
 
         public override void OnSpawn() { }
-
-        public override void OnDespawn() { }
     }
 }

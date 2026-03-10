@@ -207,9 +207,6 @@ namespace EHE.BoltBusters
             private set => _enemyType = value;
         }
 
-        [Signal]
-        public delegate void EnemyDiedEventHandler(int enemyType, Vector3 deathPosition);
-
         #endregion EnemyInfo
 
         #region Godot callbacks
@@ -299,22 +296,6 @@ namespace EHE.BoltBusters
 
         #endregion Godot callbacks
 
-        #region Public methods
-
-        public void Initialize(EnemyType enemyType)
-        {
-            EnemyType = enemyType;
-        }
-
-        public override void OnSpawn() { }
-
-        public override void OnDespawn()
-        {
-            EmitSignal(SignalName.EnemyDied, (int)_enemyType, GlobalPosition);
-            QueueFree();
-        }
-
-        #endregion Public methods
 
         #region Private methods
 
