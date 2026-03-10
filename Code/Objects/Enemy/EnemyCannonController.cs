@@ -5,27 +5,31 @@ namespace EHE.BoltBusters
 {
     public partial class EnemyCannonController : EntityController
     {
+        [ExportGroup("Node assignment")]
         [Export]
-        private CharacterBody3D _enemyBody;
+        private CB3DMover _enemyBodyMover;
 
         [Export]
-        private Node3D _bodyNode;
+        private Node3DMover _bodyNodeMover;
 
         [Export]
-        private Node3D _turretNode;
+        private Node3DMover _turretMover;
 
+        [ExportGroup("Speed settings")]
         [Export]
         private float _movementSpeed = 5f;
 
         [Export]
         private float _rotationSpeed = 5f;
 
-        private CB3DMover _enemyBodyMover;
-        private Node3DMover _bodyNodeMover;
-        private Node3DMover _turretMover;
+        [ExportGroup("Navigation settings")]
+        [Export]
+        private bool _navigationEnabled = true;
 
         private bool _hasMovementCommand = false;
         private bool _hasRotationCommand = false;
+
+        private NavigationAgent3D _navigationAgent;
 
         public override void _Ready()
         {
@@ -48,11 +52,10 @@ namespace EHE.BoltBusters
 
         private void Initialize()
         {
-            _enemyBodyMover = new CB3DMover(_enemyBody);
             _enemyBodyMover.MovementSpeed = _movementSpeed;
             _enemyBodyMover.RotationSpeed = _rotationSpeed;
-            _bodyNodeMover = new Node3DMover(_bodyNode);
-            _turretMover = new Node3DMover(_turretNode);
+            _turretMover.RotationSpeed = _rotationSpeed;
+            _navigationAgent = GetNode<NavigationAgent3D>("NavigationAgent3D");
         }
 
         protected override bool ValidateCommand(ICommand command)

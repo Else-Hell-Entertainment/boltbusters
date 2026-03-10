@@ -2,7 +2,7 @@ using Godot;
 
 namespace EHE.BoltBusters
 {
-    public partial class EnemyCannonBot : Character
+    public partial class EnemyCannonBot : Enemy
     {
         [Export]
         private PackedScene _cannonBallScene;
@@ -15,6 +15,7 @@ namespace EHE.BoltBusters
 
         [Export]
         public EntityController Controller { get; private set; }
+
         private CharacterBody3D _player;
         private Timer _reloadTimer;
         private bool _canFire = true;
@@ -69,14 +70,8 @@ namespace EHE.BoltBusters
             _canFire = true;
         }
 
-        public override void OnSpawn()
-        {
+        public override void OnSpawn() { }
 
-        }
-
-        public override void OnDespawn()
-        {
-
-        }
+        public override void OnDespawn() { }
     }
 }
