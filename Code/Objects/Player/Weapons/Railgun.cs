@@ -41,7 +41,7 @@ namespace EHE.BoltBusters
             _cooldownTimer.OneShot = true;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
             _muzzle = GetNode<Node3D>("Muzzle");
-            _damageData = new DamageData(200, DamageType.Sniper);
+            _damageData = new DamageData(150, DamageType.Sniper);
             _hitParticles = GetNode<GpuParticles3D>("HitParticles");
             _bulletEffect = GetNode<MeshInstance3D>("BulletEffect");
             _bulletTravel = GetNode<MeshInstance3D>("BulletTravel");
