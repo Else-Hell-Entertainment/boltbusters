@@ -67,6 +67,16 @@ namespace EHE.BoltBusters
         #endregion Private Fields
 
 
+        #region Properties (private/protected/public)
+
+        /// <summary>
+        ///  Tells if the player is currently alive or not.
+        /// </summary>
+        public bool IsAlive => Health > 0;
+
+        #endregion Properties (private/protected/public)
+
+
         #region Exported Fields & Properties (private/protected/public)
 
         [Export]
