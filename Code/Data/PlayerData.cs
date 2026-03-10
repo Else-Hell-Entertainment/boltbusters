@@ -61,7 +61,7 @@ namespace EHE.BoltBusters
 
         #region Fields (private/protected)
 
-        private int _health;
+        private int _health = 100;
 
         #endregion Private Fields
 
