@@ -38,6 +38,24 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void CollectibleAmountsChangedEventHandler(int collectibleType, int newAmount);
 
+        /// <summary>
+        ///  Emitted when the number of weapons changes.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  The integer value of the type of the weapon whose count changed.
+        ///  See <see cref="WeaponType"/>.
+        /// </param>
+        /// <param name="newCount">
+        ///  The new number of weapons of the given type.
+        /// </param>
+        ///
+        /// <seealso cref="WeaponType"/>
+        /// <seealso cref="SetNumberOfWeapons"/>
+        /// <seealso cref="GetNumberOfWeapons"/>
+        [Signal]
+        public delegate void NumberOfWeaponsChangedEventHandler(int weaponType, int newCount);
+
         #endregion Signals
 
 
@@ -56,6 +74,14 @@ namespace EHE.BoltBusters
             { CollectibleType.Nut, 0 },
             { CollectibleType.Bolt, 0 },
             { CollectibleType.Wrench, 0 },
+        };
+
+        [Export]
+        private Dictionary<WeaponType, int> _weaponCounts = new()
+        {
+            { WeaponType.Chaingun, 1 },
+            { WeaponType.Railgun, 0 },
+            { WeaponType.Rocket, 0 },
         };
 
         /// <summary>
@@ -158,6 +184,83 @@ namespace EHE.BoltBusters
             // TODO: Decide max value when designing UI.
             _collectibleCounts[collectibleType] = Mathf.Clamp(amount, min: 0, max: int.MaxValue);
             EmitSignal(SignalName.CollectibleAmountsChanged, (int)collectibleType, amount);
+            return true;
+        }
+
+        /// <summary>
+        ///  Gets the current number of the specified weapons.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  The type of weapon to query.
+        /// </param>
+        ///
+        /// <returns>
+        ///  The amount of the specified weapon type, or <c>-1</c> if the
+        ///  given collectible type is invalid.
+        /// </returns>
+        ///
+        /// <seealso cref="WeaponType"/>
+        /// <seealso cref="SetNumberOfWeapons"/>
+        public int GetNumberOfWeapons(WeaponType weaponType)
+        {
+            if (!_weaponCounts.TryGetValue(weaponType, out var amount))
+            {
+                return -1;
+            }
+
+            return amount;
+        }
+
+        /// <summary>
+        ///  Sets the number of the specified weapons.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  The type of weapon to set the number of.
+        /// </param>
+        /// <param name="count">
+        ///  The new count for the weapon. Must be non-negative.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if the number of weapons was successfully set;
+        ///  <c>false</c> if the weapon type is invalid or if the count
+        ///  is negative.
+        /// </returns>
+        ///
+        /// <remarks>
+        ///  <para>
+        ///   This method emits the <see cref="NumberOfWeaponsChanged"/>
+        ///   signal when the number of weapons is successfully updated.
+        ///  </para>
+        ///  <para>
+        ///   The <paramref name="count"/> is clamped between 0 and
+        ///   <see cref="int.MaxValue"/>. <b>Note</b>: The maximum value will
+        ///   be set properly when this feature is fully implemented!
+        ///  </para>
+        /// </remarks>
+        ///
+        /// <seealso cref="WeaponType"/>
+        /// <seealso cref="GetNumberOfWeapons"/>
+        /// <seealso cref="NumberOfWeaponsChanged"/>
+        public bool SetNumberOfWeapons(WeaponType weaponType, int count)
+        {
+            if (!_weaponCounts.ContainsKey(weaponType))
+            {
+                GD.PushError($"Cannot set collectible amount: key '{weaponType}' not found!");
+                return false;
+            }
+
+            if (count < 0)
+            {
+                GD.PushError("Cannot set collectible amount: amount cannot be negative!");
+                return false;
+            }
+
+            // TODO: Decide max value when designing UI.
+            _weaponCounts[weaponType] = Mathf.Clamp(count, min: 0, max: int.MaxValue);
+            EmitSignal(SignalName.CollectibleAmountsChanged, (int)weaponType, count);
             return true;
         }
 
