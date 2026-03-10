@@ -10,12 +10,13 @@ namespace EHE.BoltBusters
     /// Concrete implementation of EntityMover for CharacterBody3D nodes.
     /// Handles physics-based movement using Godot's built-in CharacterBody3D collision system.
     /// </summary>
-    public class CB3DMover(CharacterBody3D body) : EntityMover
+    public partial class CB3DMover : EntityMover
     {
         /// <summary>
         /// The CharacterBody3D that this mover controls.
         /// </summary>
-        private CharacterBody3D _body = body;
+        [Export]
+        private CharacterBody3D _body;
 
         /// <summary>
         /// The speed at which the entity moves, measured in units per second.
@@ -60,6 +61,17 @@ namespace EHE.BoltBusters
             float dt = (float)_body.GetPhysicsProcessDeltaTime();
             _body.Velocity = _body.Velocity.MoveToward(desiredVelocity, Acceleration * dt);
             _body.MoveAndSlide();
+        }
+
+        public void MoveWithVelocity(Vector3 velocity)
+        {
+            _body.Velocity = velocity;
+            _body.MoveAndSlide();
+        }
+
+        public void SetControlledBody(CharacterBody3D body)
+        {
+            _body = body;
         }
     }
 }
