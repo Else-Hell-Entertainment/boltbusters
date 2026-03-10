@@ -105,6 +105,25 @@ namespace EHE.BoltBusters
             }
         }
 
+        /// <summary>
+        ///  The index of the level the player is currently in.
+        /// </summary>
+        [Export(PropertyHint.Range, "0,2147483647,1")]
+        public int LevelIndex { get; set; } = 1;
+
+        /// <summary>
+        ///  Whether the player has already cleared the current level or not,
+        ///  useful when loading data from a save game.
+        /// </summary>
+        ///
+        /// <remarks>
+        ///  This flag tells the save system whether to put the player at the
+        ///  start of the level or in the shop state that is accessible after
+        ///  the level has been cleared.
+        /// </remarks>
+        [Export]
+        public bool IsLevelCleared { get; set; } = false;
+
         #endregion Exported Fields & Properties (private/protected/public)
 
 
