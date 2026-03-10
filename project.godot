@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 
 TargetProvider="*res://Code/TargetProvider.cs"
 GameManager="*res://Code/Systems/GameManager.cs"
+MusicManager="*res://Code/Systems/MusicManager.cs"
 
 [dotnet]
 
