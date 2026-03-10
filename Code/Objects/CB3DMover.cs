@@ -102,6 +102,9 @@ namespace EHE.BoltBusters
 
         private void ExecuteMoveToPosition()
         {
+            Vector3 direction = _targetPosition;
+            direction.Y = 0f;
+            _body.LookAt(direction);
             if (!IsUsingNavigation)
             {
                 //TODO: implement regular movement

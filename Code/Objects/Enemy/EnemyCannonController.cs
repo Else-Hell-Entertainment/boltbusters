@@ -70,6 +70,11 @@ namespace EHE.BoltBusters
                         return false;
                     }
                     _hasMovementCommand = true;
+                    Vector3 rotateDirection = cmd.Direction;
+                    Vector3 rotationTarget = GlobalPosition + rotateDirection;
+                    RotateTowardsCommand rotCmd = new RotateTowardsCommand(rotationTarget);
+                    rotCmd.AssignReceiver(_enemyBodyMover);
+                    AddValidatedCommand(rotCmd);
                     return cmd.AssignReceiver(_enemyBodyMover);
                 case RotateTowardsCommand cmd:
                     if (_hasRotationCommand)
