@@ -47,5 +47,15 @@ namespace EHE.BoltBusters.Config
         public const string ROUND_DATA_FILE_PATH_FORMAT = "res://Data/Round/RoundData{0}.tres";
 
         #endregion Round Data
+
+
+        #region Player Data
+
+        /// <summary>
+        ///  The path to the default player data resource file.
+        /// </summary>
+        public const string DEFAULT_PLAYER_DATA_RESOURCE_PATH = "res://Data/Player/DefaultPlayerData.tres";
+
+        #endregion Player Data
     }
 }
