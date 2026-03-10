@@ -32,6 +32,11 @@ namespace EHE.BoltBusters
             Controller.AddCommand(new MoveToPositionCommand(target));
         }
 
+        public override void _Process(double delta)
+        {
+            Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
+        }
+
         public override void _PhysicsProcess(double delta)
         {
             if (IsPlayerInAttackCone() && _canFire)
