@@ -28,6 +28,8 @@ namespace EHE.BoltBusters
             _reloadTimer.Timeout += OnReloadTimerTimeout;
             _reloadTimer.OneShot = true;
             _muzzle = GetNode<Node3D>("Turret/Muzzle");
+            Vector3 target = _player.GlobalPosition;
+            Controller.AddCommand(new MoveToPositionCommand(target));
         }
 
         public override void _PhysicsProcess(double delta)

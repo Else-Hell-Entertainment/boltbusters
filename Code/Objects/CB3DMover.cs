@@ -34,13 +34,28 @@ namespace EHE.BoltBusters
         [Export]
         public float Acceleration = 40f;
 
+        public bool IsUsingNavigation = false;
+        private NavigationAgent3D _navigationAgent;
+        private Vector3 _targetPosition;
+        private bool _isMovingToPosition;
+
+        public override void _PhysicsProcess(double delta)
+        {
+            if (_isMovingToPosition)
+            {
+                ExecuteMoveToPosition();
+            }
+        }
+
         /// <summary>
         /// Moves the entity in the specified direction using physics-based movement.
         /// Applies velocity on the XZ plane and uses MoveAndSlide for collision handling.
+        /// Calling this will also disable any active MoveToPosition orders.
         /// </summary>
         /// <param name="direction">The direction vector to move towards (Y component is ignored).</param>
         public override void MoveToDirection(Vector3 direction)
         {
+            _isMovingToPosition = false;
             if (direction == Vector3.Zero)
             {
                 _body.Velocity = Vector3.Zero;
@@ -63,15 +78,58 @@ namespace EHE.BoltBusters
             _body.MoveAndSlide();
         }
 
-        public void MoveWithVelocity(Vector3 velocity)
+        public override void MoveToPosition(Vector3 position)
         {
-            _body.Velocity = velocity;
-            _body.MoveAndSlide();
+            _targetPosition = position;
+            _isMovingToPosition = true;
+            if (IsUsingNavigation)
+            {
+                _navigationAgent.TargetPosition = _targetPosition;
+            }
         }
 
         public void SetControlledBody(CharacterBody3D body)
         {
             _body = body;
+        }
+
+        public void EnableNavigation(NavigationAgent3D navigationAgent)
+        {
+            _navigationAgent = navigationAgent;
+            _navigationAgent.VelocityComputed += OnVelocityComputed;
+            IsUsingNavigation = true;
+        }
+
+        private void ExecuteMoveToPosition()
+        {
+            if (!IsUsingNavigation)
+            {
+                //TODO: implement regular movement
+                return;
+            }
+
+            if (_navigationAgent.IsNavigationFinished())
+            {
+                _isMovingToPosition = false;
+                return;
+            }
+
+            Vector3 nextPathPosition = _navigationAgent.GetNextPathPosition();
+            Vector3 newVelocity = GlobalPosition.DirectionTo(nextPathPosition) * MovementSpeed;
+            if (_navigationAgent.AvoidanceEnabled)
+            {
+                _navigationAgent.Velocity = newVelocity;
+            }
+            else
+            {
+                OnVelocityComputed(newVelocity);
+            }
+        }
+
+        private void OnVelocityComputed(Vector3 safeVelocity)
+        {
+            _body.Velocity = safeVelocity;
+            _body.MoveAndSlide();
         }
     }
 }

@@ -26,9 +26,10 @@ namespace EHE.BoltBusters
         [Export]
         private bool _navigationEnabled = true;
 
-        private bool _hasMovementCommand = false;
-        private bool _hasRotationCommand = false;
+        private bool _hasMovementCommand;
+        private bool _hasRotationCommand;
 
+        private Vector3 _targetPosition = Vector3.Zero;
         private NavigationAgent3D _navigationAgent;
 
         public override void _Ready()
@@ -56,6 +57,7 @@ namespace EHE.BoltBusters
             _enemyBodyMover.RotationSpeed = _rotationSpeed;
             _turretMover.RotationSpeed = _rotationSpeed;
             _navigationAgent = GetNode<NavigationAgent3D>("NavigationAgent3D");
+            _enemyBodyMover.EnableNavigation(_navigationAgent);
         }
 
         protected override bool ValidateCommand(ICommand command)
@@ -76,7 +78,8 @@ namespace EHE.BoltBusters
                     }
                     _hasRotationCommand = true;
                     return cmd.AssignReceiver(_turretMover);
-
+                case MoveToPositionCommand cmd:
+                    return cmd.AssignReceiver(_enemyBodyMover);
                 default:
                     return false;
             }
