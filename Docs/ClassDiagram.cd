@@ -1,0 +1,540 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="FullSignature">
+  <Class Name="EHE.BoltBusters.HealthComponent">
+    <Position X="6.25" Y="23.5" Width="2.25" />
+    <NestedTypes>
+      <Delegate Name="EHE.BoltBusters.HealthComponent.CurrentHealthChangedEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Code\Components\HealthComponent.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QQEAEAAAEAABCAAAAAQAABQAAAgAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Components\HealthComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.DamageData" Collapsed="true">
+    <Position X="35.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Code\CustomTypes\DamageData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.RoundData" Collapsed="true">
+    <Position X="42.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAABAAACAAAAABAAAAAAAAAAAAAAAAAAAgAAAAAAQAA=</HashCode>
+      <FileName>Code\Data\RoundData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.WaveData" Collapsed="true">
+    <Position X="39.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAQAAAAAAAAAAAAAAAAEAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Data\WaveData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.AttackCommand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="35.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAQAAAAACAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Code\Interfaces\Commands\AttackCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EHE.BoltBusters.MoveToDirectionCommand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="42.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAACAIAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Code\Interfaces\Commands\MoveToDirectionCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EHE.BoltBusters.RotateToDirectionCommand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="39.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAQAAAAIAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Code\Interfaces\Commands\RotateToDirectionCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EHE.BoltBusters.RotateTowardsCommand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="41" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAQAAAAIAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Code\Interfaces\Commands\RotateTowardsCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EHE.BoltBusters.LevelManager" Collapsed="true">
+    <Position X="37.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QIAApUAAAgAAAABEAAAAKAIAAAAgAAAgAAAACQCIAEA=</HashCode>
+      <FileName>Code\Level\LevelManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Character">
+    <Position X="26.5" Y="23.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAIEAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAhgAAAAA=</HashCode>
+      <FileName>Code\Objects\Character\Character.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EHE.BoltBusters.Bolt">
+    <Position X="23.5" Y="20.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Code\Objects\Collectible\Bolt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Collectible">
+    <Position X="27.5" Y="17.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAARAAAAAAAAAAAAAAAAAAAAAABgAEAAA=</HashCode>
+      <FileName>Code\Objects\Collectible\Collectible.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EHE.BoltBusters.CollectibleSpawnManager" Collapsed="true">
+    <Position X="41" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAIQgAAAAAAAAAAAACAAAAAAAAEAAAAAAAgAABCAAA=</HashCode>
+      <FileName>Code\Objects\Collectible\CollectibleSpawnManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Nut">
+    <Position X="27.5" Y="20.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Code\Objects\Collectible\Nut.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Wrench">
+    <Position X="31.5" Y="20.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Code\Objects\Collectible\Wrench.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Enemy">
+    <Position X="28" Y="26.75" Width="4.75" />
+    <NestedTypes>
+      <Delegate Name="EHE.BoltBusters.Enemy.EnemyDiedEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Code\Objects\Enemy\Enemy.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>wIACEAEABBAAAVAAISAASMAAICGEhAKBAQMEh5MBBFA=</HashCode>
+      <FileName>Code\Objects\Enemy\Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.EnemyHealthComponent">
+    <Position X="7.75" Y="28" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Objects\Enemy\EnemyHealthComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.EnemyMeleeWeapon">
+    <Position X="5.5" Y="18.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>QAAAACAAABAAAAAAAAAAAAIAoIAAMAAAgAQAAAAAAAA=</HashCode>
+      <FileName>Code\Objects\Enemy\EnemyMeleeWeapon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.EnemySpawnManager" Collapsed="true">
+    <Position X="39.25" Y="1.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>QAQAAAgBAgAAAHgCRAgDAAIkBAACQAEBAEAAUQGAEgE=</HashCode>
+      <FileName>Code\Objects\Enemy\EnemySpawnManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.BaseWeapon">
+    <Position X="12.25" Y="16.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Objects\Player\Weapons\BaseWeapon.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EHE.BoltBusters.Chaingun">
+    <Position X="12.25" Y="18.75" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAACIAAAAACACAEAAQAAIAgMAAIAAgAAAEAgiAAAI=</HashCode>
+      <FileName>Code\Objects\Player\Weapons\Chaingun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.PlayerChaingunController">
+    <Position X="21.25" Y="12.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>QgAABAAAABAAAAAAFAAAAAAAgoAAAAAAAAgAAAAAEAA=</HashCode>
+      <FileName>Code\Objects\Player\Weapons\PlayerChaingunController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.PlayerRailgunController">
+    <Position X="24.75" Y="12.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>QgEEBAAAEAAAAAAABAAAAAAIAIAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Code\Objects\Player\Weapons\PlayerRailgunController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.PlayerRocketLauncherController">
+    <Position X="28.75" Y="12.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>QgAAAAAAAAAAAAAAEAAAAAAAgIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Objects\Player\Weapons\PlayerRocketLauncherController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.PlayerWeaponGroupController">
+    <Position X="25" Y="8.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>QgAABAAAAAAAAAAAAAAgAAAAAIgAAAAAAAggAAAACBA=</HashCode>
+      <FileName>Code\Objects\Player\Weapons\PlayerWeaponGroupController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EHE.BoltBusters.Railgun">
+    <Position X="17.5" Y="18.75" Width="3.5" />
+    <NestedTypes>
+      <Delegate Name="EHE.BoltBusters.Railgun.RailgunReloadReadyEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Code\Objects\Player\Weapons\Railgun.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QAAAACYAABCICAGAEgAAEAIAgMAAIAAAgAAAAgAQBAA=</HashCode>
+      <FileName>Code\Objects\Player\Weapons\Railgun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Rocket">
+    <Position X="11" Y="26.25" Width="4" />
+    <TypeIdentifier>
+      <HashCode>QoEAMAAAANAAAAAAAIAAAAoAIAAAEAAABAgAKIAAAAA=</HashCode>
+      <FileName>Code\Objects\Player\Weapons\Rocket.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.RocketLauncher">
+    <Position X="9" Y="18.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>wEAAAAAIgAAACQwAAAAIAAAAgIEAIAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Code\Objects\Player\Weapons\RocketLauncher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.InputHandler" Collapsed="true">
+    <Position X="35.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAIAAABAAAAAAEAAAAAAAQYAAAAAAACAAICAAAAA=</HashCode>
+      <FileName>Code\Objects\Player\InputHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Player">
+    <Position X="23.25" Y="26.75" Width="4" />
+    <TypeIdentifier>
+      <HashCode>QAAQAIAAAAAAEBUAAAAAAAAAAAAABAAAAAAohgAAAAA=</HashCode>
+      <FileName>Code\Objects\Player\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.PlayerController">
+    <Position X="17" Y="29.5" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>QwAAgAgABBIAERBBAAEAAADJAAABgAAAAAAgAQAgoAI=</HashCode>
+      <FileName>Code\Objects\Player\PlayerController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.PlayerHealthComponent">
+    <Position X="5" Y="28" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Objects\Player\PlayerHealthComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.PlayerUpgradeHandler" Collapsed="true">
+    <Position X="37.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAABAAAAAIAAAAAAAAAAAAAAAQAACAA=</HashCode>
+      <FileName>Code\Objects\Player\PlayerUpgradeHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.CB3DMover">
+    <Position X="29" Y="3" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAgAAAAAAAAEAAAAUAA=</HashCode>
+      <FileName>Code\Objects\CB3DMover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.EntityController">
+    <Position X="17.5" Y="25.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AICAAAAAAAQAAABCEAAAAAACAAAAAAAAAAABABAAAAA=</HashCode>
+      <FileName>Code\Objects\EntityController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.EntityMover">
+    <Position X="27" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAQAAAEgAAAAAAAAA=</HashCode>
+      <FileName>Code\Objects\EntityMover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Node3DMover">
+    <Position X="25.25" Y="3" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAgAQAAAEgAAAAAAUAA=</HashCode>
+      <FileName>Code\Objects\Node3DMover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Projectile">
+    <Position X="12.25" Y="24.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Objects\Projectile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.GameManager" Collapsed="true">
+    <Position X="42.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAiAMMAAACgABQBAAEAgBAAAAALAAIAQAEACAgAAAA=</HashCode>
+      <FileName>Code\Systems\GameManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.CameraRig" Collapsed="true">
+    <Position X="37.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UgAAIABSoCRAMAAAEAACACAAEACAAEAAIgABAAAAAAA=</HashCode>
+      <FileName>Code\CameraRig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.CollectArea" Collapsed="true">
+    <Position X="39.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAEAAAEAAAAAAAIAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\CollectArea.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Loader" Collapsed="true">
+    <Position X="39.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Loader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.TargetProvider" Collapsed="true">
+    <Position X="37.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAEAAAEAAABAAAQAAQAQAAAAA=</HashCode>
+      <FileName>Code\TargetProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Config.ControlConfig" Collapsed="true">
+    <Position X="42.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ARAAAAAkAEABAAAAAAAAAAAAAAAQACAEgACAQAAAAAA=</HashCode>
+      <FileName>Code\Config\ControlConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Config.DataConfig" Collapsed="true">
+    <Position X="37.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Config\DataConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Config.MaterialConfig" Collapsed="true">
+    <Position X="41" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Config\MaterialConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Config.SceneFileConfig" Collapsed="true">
+    <Position X="35.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAJAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Config\SceneFileConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.States.GameState">
+    <Position X="12.5" Y="0.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEACBAAAAAAICEAEAAEAABCIAIAAACAAAA=</HashCode>
+      <FileName>Code\Systems\GameStates\GameState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.States.GameStateMainMenu">
+    <Position X="12.75" Y="5.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEACAAAAAAAAAAAEAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Code\Systems\GameStates\GameStateMainMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.States.GameStatePaused">
+    <Position X="16.5" Y="5.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEACAAAAAAAAAEAEAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Code\Systems\GameStates\GameStatePaused.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.States.GameStateRound">
+    <Position X="20.25" Y="5.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEACAAAAAAAAAAAEAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Code\Systems\GameStates\GameStateRound.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.States.GameStateSettingsMenu">
+    <Position X="5.75" Y="5.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEACAAAAAAAAAEAEAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Code\Systems\GameStates\GameStateSettingsMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.States.ShopState">
+    <Position X="9.5" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAEAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Code\Systems\GameStates\ShopState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Systems.GameloopStateMachine" Collapsed="true">
+    <Position X="41" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAIAAAAAAAAAAAAACACAAAAAABAAAAEAAAAAAA=</HashCode>
+      <FileName>Code\Systems\GameloopStateMachine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Ui.Menu">
+    <Position X="11.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\UI\Menu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Ui.MenuMain">
+    <Position X="5.5" Y="10.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAIAAAACAIAQAAAAAAACAAAAgBAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\UI\MenuMain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Ui.MenuPause">
+    <Position X="8.75" Y="10.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAQACAIAQAAAAAAACACAAABEBAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\UI\MenuPause.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Ui.MenuSettings">
+    <Position X="12" Y="10.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAQACAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\UI\MenuSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.BoltBusters.Ui.MenuShop">
+    <Position X="14.75" Y="10.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AEAAAACAFAAAASQQAAABAAAABAgABABEAAIABAAAAAE=</HashCode>
+      <FileName>Code\UI\MenuShop.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EHE.Common.Godot.Extensions.NodeExtensions" Collapsed="true">
+    <Position X="35.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAABAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Code\NodeExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="EHE.BoltBusters.IAttacker" Collapsed="true">
+    <Position X="35.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Interfaces\IAttacker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EHE.BoltBusters.ICollectible" Collapsed="true">
+    <Position X="37.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Interfaces\ICollectible.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EHE.BoltBusters.IDamageable" Collapsed="true">
+    <Position X="41" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Code\Interfaces\IDamageable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EHE.BoltBusters.ISpawnable" Collapsed="true">
+    <Position X="42.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAA=</HashCode>
+      <FileName>Code\Interfaces\ISpawnable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EHE.BoltBusters.IUpgradeable" Collapsed="true">
+    <Position X="35.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Code\Interfaces\IUpgradeable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ICommand" Collapsed="true">
+    <Position X="39.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Code\Interfaces\ICommand.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="EHE.BoltBusters.DamageType" Collapsed="true">
+    <Position X="37.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAgAAAAAAAAAAAAAAQAABAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Code\CustomTypes\DamageData.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="EHE.BoltBusters.CollectibleType" Collapsed="true">
+    <Position X="35.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Code\Enums\CollectibleType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="EHE.BoltBusters.EnemyType" Collapsed="true">
+    <Position X="39.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAACAAABAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Code\Enums\EnemyType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="EHE.BoltBusters.WeaponType" Collapsed="true">
+    <Position X="35.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAQAAAAAAAAAIAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Code\Enums\WeaponType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="EHE.BoltBusters.LevelType" Collapsed="true">
+    <Position X="41" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAgEAAAA=</HashCode>
+      <FileName>Code\Level\LevelType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="EHE.BoltBusters.States.StateType" Collapsed="true">
+    <Position X="42.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAggAAAAAAAAAAAAAAAAAAQAACAAAAAEAAAAAMAAAA=</HashCode>
+      <FileName>Code\Systems\GameStates\GameState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
