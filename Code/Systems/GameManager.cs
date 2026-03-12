@@ -115,7 +115,21 @@ namespace EHE.BoltBusters
         /// <summary>
         /// The index number for the current round.
         /// </summary>
-        public int RoundIndex { get; set; }
+        public int RoundIndex
+        {
+            get => CurrentPlayerData.LevelIndex;
+            set => CurrentPlayerData.LevelIndex = value;
+        }
+
+        /// <summary>
+        ///  Default player data values. Defined in the editor.
+        /// </summary>
+        public PlayerData DefaultPlayerData { get; private set; }
+
+        /// <summary>
+        ///  Player data for the current session.
+        /// </summary>
+        public PlayerData CurrentPlayerData { get; private set; }
 
         #endregion Properties
 
@@ -126,6 +140,8 @@ namespace EHE.BoltBusters
         {
             LoadLevelManagersIntoMemory();
             SetUpStateMachine();
+
+            DefaultPlayerData = GD.Load<PlayerData>(FilePathConfig.DEFAULT_PLAYER_DATA_RESOURCE_PATH);
 
             // All done.
             Instance = this;
@@ -175,7 +191,7 @@ namespace EHE.BoltBusters
             // therefore created in the OnNewGameStarted method and the timeout
             // is connected to the OnLevelStartDelayTimeout method.
 
-            RoundIndex = 1;
+            CurrentPlayerData = (PlayerData)DefaultPlayerData.Duplicate(deep: true);
             this.PrintDebug("Starting new game...");
             StateMachine.TransitionTo(StateType.Round);
             CallDeferred(nameof(OnNewGameStarted));
