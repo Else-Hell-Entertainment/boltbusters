@@ -13,6 +13,9 @@ namespace EHE.BoltBusters.Ui
         private Button _btnNewGame;
 
         [Export]
+        private Button _btnLoadGame;
+
+        [Export]
         private Button _btnSettings;
 
         [Export]
@@ -21,6 +24,7 @@ namespace EHE.BoltBusters.Ui
         public override void _EnterTree()
         {
             _btnNewGame.Pressed += OnBtnNewGamePressed;
+            _btnLoadGame.Pressed += OnBtnLoadGamePressed;
             _btnSettings.Pressed += OnBtnSettingsPressed;
             _btnQuit.Pressed += OnBtnQuitPressed;
         }
@@ -28,6 +32,7 @@ namespace EHE.BoltBusters.Ui
         public override void _ExitTree()
         {
             _btnNewGame.Pressed -= OnBtnNewGamePressed;
+            _btnLoadGame.Pressed -= OnBtnLoadGamePressed;
             _btnSettings.Pressed -= OnBtnSettingsPressed;
             _btnQuit.Pressed -= OnBtnQuitPressed;
         }
@@ -35,6 +40,11 @@ namespace EHE.BoltBusters.Ui
         private void OnBtnNewGamePressed()
         {
             GameManager.Instance.StartNewGame();
+        }
+
+        private void OnBtnLoadGamePressed()
+        {
+            GameManager.Instance.LoadGame();
         }
 
         private void OnBtnSettingsPressed()
