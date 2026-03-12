@@ -227,8 +227,7 @@ namespace EHE.BoltBusters
 
             CurrentPlayerData = (PlayerData)DefaultPlayerData.Duplicate(deep: true);
             this.PrintDebug("Starting new game...");
-            StateMachine.TransitionTo(StateType.Round);
-            CallDeferred(nameof(OnNewGameStarted));
+            StartGame();
         }
 
         /// <summary>
@@ -356,6 +355,13 @@ namespace EHE.BoltBusters
 
             // Add the container to the scene tree.
             SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _levelViewportContainer);
+        }
+
+        private void StartGame()
+        {
+            this.PrintDebug("Starting game...");
+            StateMachine.TransitionTo(StateType.Round);
+            CallDeferred(nameof(OnNewGameStarted));
         }
 
         /// <summary>
