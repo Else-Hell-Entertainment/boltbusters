@@ -176,8 +176,9 @@ namespace EHE.BoltBusters
         /// </param>
         public void InitializeLevel(int roundIndex)
         {
-            this.PrintDebug("Initializing level...");
+            this.PrintDebug($"Initializing level '{roundIndex}'...");
             var roundDataPath = string.Format(DataConfig.ROUND_DATA_FILE_PATH_FORMAT, roundIndex);
+            this.PrintDebug($"Loading round data from '{roundDataPath}'...");
             _roundData = GD.Load<RoundData>(roundDataPath);
 
             if (_roundData == null)
