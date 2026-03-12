@@ -124,23 +124,8 @@ namespace EHE.BoltBusters
 
         public override void _EnterTree()
         {
-            // Load level scenes into memory.
-            _backgroundLevelScene = GD.Load<PackedScene>(SceneFileConfig.BACKGROUND_LEVEL_PATH);
-            _gameplayLevelScene = GD.Load<PackedScene>(SceneFileConfig.GAMEPLAY_LEVEL_PATH);
-            _levelScenes = new Dictionary<LevelType, PackedScene>
-            {
-                { LevelType.Background, _backgroundLevelScene },
-                { LevelType.Gameplay, _gameplayLevelScene },
-            };
-
-            // Set up state machine.
-            StateMachine = new GameloopStateMachine(
-                new GameStateMainMenu(),
-                new GameStateSettingsMenu(),
-                new GameStateRound(),
-                new GameStatePaused(),
-                new ShopState()
-            );
+            LoadLevelManagersIntoMemory();
+            SetUpStateMachine();
 
             // All done.
             Instance = this;
@@ -273,6 +258,28 @@ namespace EHE.BoltBusters
 
 
         #region Private Methods
+
+        private void LoadLevelManagersIntoMemory()
+        {
+            _backgroundLevelScene = GD.Load<PackedScene>(SceneFileConfig.BACKGROUND_LEVEL_PATH);
+            _gameplayLevelScene = GD.Load<PackedScene>(SceneFileConfig.GAMEPLAY_LEVEL_PATH);
+            _levelScenes = new Dictionary<LevelType, PackedScene>
+            {
+                { LevelType.Background, _backgroundLevelScene },
+                { LevelType.Gameplay, _gameplayLevelScene },
+            };
+        }
+
+        private void SetUpStateMachine()
+        {
+            StateMachine = new GameloopStateMachine(
+                new GameStateMainMenu(),
+                new GameStateSettingsMenu(),
+                new GameStateRound(),
+                new GameStatePaused(),
+                new ShopState()
+            );
+        }
 
         // TODO: Refactor this and make the parameters editable in the editor.
         /// <summary>
