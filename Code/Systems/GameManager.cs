@@ -62,6 +62,7 @@ namespace EHE.BoltBusters
         private PackedScene _gameplayLevelScene;
         private LevelManager _backgroundLevel;
         private LevelManager _gameplayLevel;
+        private SaveManager _saveManager;
         private Dictionary<LevelType, PackedScene> _levelScenes;
 
         // Camera-related stuff.
@@ -141,6 +142,7 @@ namespace EHE.BoltBusters
             LoadLevelManagersIntoMemory();
             SetUpStateMachine();
 
+            _saveManager = new SaveManager();
             DefaultPlayerData = GD.Load<PlayerData>(FilePathConfig.DEFAULT_PLAYER_DATA_RESOURCE_PATH);
 
             // All done.
@@ -174,6 +176,38 @@ namespace EHE.BoltBusters
 
 
         #region Public Methods
+
+        /// <summary>
+        ///  Saves the current game state to a save file.
+        /// </summary>
+        ///
+        /// <remarks>
+        ///  WIP! Support for selecting the save slot is not implemented.
+        ///  Currently, all saves are written to slot 0. If a save file exists,
+        ///  it is overwritten.
+        /// </remarks>
+        public void SaveGame()
+        {
+            this.PrintDebug("Saving game...");
+
+            var saveSlot = 0;
+            var saveFile = string.Format(SaveConfig.SAVE_FILE_PATH_FORMAT, saveSlot);
+
+            var saveData = new Godot.Collections.Dictionary();
+            var playerData = CurrentPlayerData.Save();
+            //var levelData = LevelManager.Active.Save();
+
+            saveData.Add(SaveConfig.KEY_PLAYER_DATA, playerData);
+            //saveData.Add(SaveConfig.KEY_LEVEL_DATA, levelData);
+
+            if (!_saveManager.WriteToFile(saveFile, saveData))
+            {
+                GD.PushError("Failed to save the game.");
+                return;
+            }
+
+            this.PrintDebug($"Game saved successfully to '{saveFile}'");
+        }
 
         /// <summary>
         /// Starts a new game.
