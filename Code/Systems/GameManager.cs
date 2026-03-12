@@ -170,6 +170,12 @@ namespace EHE.BoltBusters
             {
                 StateMachine.TransitionTo(StateType.Paused);
             }
+#if DEBUG
+            if (inputEvent.IsActionPressed("DebugSaveGame"))
+            {
+                SaveGame();
+            }
+#endif
         }
 
         #endregion Overrides
