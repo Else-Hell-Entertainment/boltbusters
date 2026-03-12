@@ -3,14 +3,28 @@
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
 using System;
+using EHE.Common.Godot;
 using Godot;
 using Godot.Collections;
 
 namespace EHE.BoltBusters
 {
     [GlobalClass]
-    public partial class PlayerData : Resource
+    public partial class PlayerData : Resource, ISaveable
     {
+        #region Constants
+
+        private const string KEY_HEALTH = "Health";
+        private const string KEY_COLLECTIBLE_COUNTS = "CollectibleCounts";
+        private const string KEY_WEAPON_COUNTS = "WeaponCounts";
+        private const string KEY_LEVEL_INDEX = "LevelIndex";
+        private const string KEY_START_FROM_SHOP = "StartFromShop";
+
+        private const string LOAD_ERROR_FORMAT = "Failed to load '{0}' from save data; using default value of '{1}'.";
+
+        #endregion Constants
+
+
         #region Signals
 
         /// <summary>
@@ -63,6 +77,23 @@ namespace EHE.BoltBusters
 
         private int _health = 100;
         private int _levelIndex = 1;
+
+        // TODO: Read these from the default player data in GameManager!
+        private static int s_defaultHealth = 100;
+        private int _defaultLevelIndex = 1;
+        private bool _defaultIsLevelCleared = false;
+        private Dictionary<CollectibleType, int> _defaultCollectibleCounts = new()
+        {
+            { CollectibleType.Nut, 0 },
+            { CollectibleType.Bolt, 0 },
+            { CollectibleType.Wrench, 0 },
+        };
+        private Dictionary<WeaponType, int> _defaultWeaponCounts = new()
+        {
+            { WeaponType.Chaingun, 1 },
+            { WeaponType.Railgun, 0 },
+            { WeaponType.Rocket, 0 },
+        };
 
         #endregion Private Fields
 
@@ -299,5 +330,106 @@ namespace EHE.BoltBusters
         }
 
         #endregion Public Methods
+
+
+        #region ISaveable
+
+        /// <summary>
+        ///  Saves the following values to a Godot <see cref="Dictionary"/>:
+        ///  <list type="bullet">
+        ///   <item><see cref="LevelIndex"/></item>
+        ///   <item><see cref="IsLevelCleared"/></item>
+        ///   <item>number of each type of collectibles in possession</item>
+        ///   <item>number of each type of weapon in possession</item>
+        ///  </list>
+        /// </summary>
+        ///
+        /// <returns>
+        ///  <inheritdoc/>
+        /// </returns>
+        public Dictionary Save()
+        {
+            return new Dictionary()
+            {
+                [KEY_LEVEL_INDEX] = LevelIndex,
+                [KEY_START_FROM_SHOP] = IsLevelCleared,
+                [KEY_COLLECTIBLE_COUNTS] = _collectibleCounts,
+                [KEY_WEAPON_COUNTS] = _weaponCounts,
+            };
+        }
+
+        // TODO: Refactor this.
+        /// <summary>
+        ///  <inheritdoc/>
+        ///  If reading the data fails, uses default values.
+        ///  TODO: Provide defaults from GameManager!
+        /// </summary>
+        ///
+        /// <param name="data">
+        ///  <inheritdoc/>
+        /// </param>
+        public void Load(Dictionary data)
+        {
+            // Level index.
+            if (
+                !data.TryGetValue(KEY_LEVEL_INDEX, out var levelIndex)
+                || levelIndex.VariantType != Variant.Type.Int
+                || (int)levelIndex < 1 // TODO: Set min level index in config.
+            )
+            {
+                LevelIndex = _defaultLevelIndex; // TODO: Refactor, read from default player data resource.
+                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_LEVEL_INDEX, LevelIndex));
+            }
+            else
+            {
+                LevelIndex = (int)levelIndex;
+            }
+
+            // Level cleared flag.
+            if (
+                !data.TryGetValue(KEY_START_FROM_SHOP, out var startFromShop)
+                || startFromShop.VariantType != Variant.Type.Bool
+            )
+            {
+                IsLevelCleared = _defaultIsLevelCleared; // TODO: Refactor, read from default player data resource.
+                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_START_FROM_SHOP, IsLevelCleared));
+            }
+            else
+            {
+                IsLevelCleared = (bool)startFromShop;
+            }
+
+            // Collectible counts.
+            if (
+                !data.TryGetValue(KEY_COLLECTIBLE_COUNTS, out var collectibleCounts)
+                || collectibleCounts.VariantType != Variant.Type.Dictionary
+                || ((Dictionary)collectibleCounts).Count != 3 // TODO: Get dict length from default dict.
+            )
+            {
+                _collectibleCounts = _defaultCollectibleCounts; // TODO: Refactor, read from default player data
+                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_COLLECTIBLE_COUNTS, _collectibleCounts.Values));
+            }
+            else
+            {
+                _collectibleCounts = (Dictionary<CollectibleType, int>)collectibleCounts;
+            }
+
+            // Weapon counts.
+            if (
+                !data.TryGetValue(KEY_WEAPON_COUNTS, out var weaponCounts)
+                || weaponCounts.VariantType != Variant.Type.Dictionary
+                || ((Dictionary)weaponCounts).Count != 3 // TODO: Get dict length from default dict.
+            )
+            {
+                _weaponCounts = _defaultWeaponCounts; // TODO: Refactor, read from default player data resource.
+                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_WEAPON_COUNTS, _weaponCounts.Values));
+            }
+            else
+            {
+                _weaponCounts = (Dictionary<WeaponType, int>)weaponCounts;
+            }
+        }
+
+        #endregion ISaveable
     }
 }
