@@ -210,6 +210,43 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
+        ///  Loads a previously saved game state from a save file and resumes
+        ///  gameplay.
+        /// </summary>
+        ///
+        /// <remarks>
+        ///  WIP! Support for selecting the save slot is not implemented.
+        ///  Currently, all saves are read from slot 0.
+        /// </remarks>
+        public void LoadGame()
+        {
+            this.PrintDebug("Loading game...");
+
+            var saveSlot = 0;
+            var saveFile = string.Format(SaveConfig.SAVE_FILE_PATH_FORMAT, saveSlot);
+            var saveData = _saveManager.ReadFromFile(saveFile);
+
+            if (saveData == null)
+            {
+                GD.PushError("Failed to load the game.");
+                return;
+            }
+
+            if (!saveData.TryGetValue(SaveConfig.KEY_PLAYER_DATA, out var playerData))
+            {
+                GD.PushError("Failed to load player data.");
+                return;
+            }
+
+            CurrentPlayerData = (PlayerData)DefaultPlayerData.Duplicate(deep: true);
+            CurrentPlayerData.Load((Godot.Collections.Dictionary)playerData);
+
+            this.PrintDebug("Game loaded successfully.");
+
+            StartGame();
+        }
+
+        /// <summary>
         /// Starts a new game.
         /// </summary>
         /// <seealso cref="OnNewGameStarted"/>
