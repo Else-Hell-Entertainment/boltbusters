@@ -14,6 +14,9 @@ namespace EHE.BoltBusters
         private float _reloadTime = 5;
 
         [Export]
+        private RayCast3D _rayCaster;
+
+        [Export]
         public EntityController Controller { get; private set; }
 
         private CharacterBody3D _player;
@@ -21,29 +24,22 @@ namespace EHE.BoltBusters
         private bool _canFire = true;
         private Node3D _muzzle;
 
-        private double _repathTimer = 0;
+        private double _repathTimer = 0.25;
         private double _repathInterval = 0.5;
 
         public override void _Ready()
         {
+            // Add small variance to how often the bots call the nav API for repathing so that they don't all query
+            // at the exact same frame.
+            _repathInterval += GD.RandRange(0.0, 0.1);
             _player = TargetProvider.Instance.Player;
             _reloadTimer = GetNode<Timer>("ReloadTimer");
             _reloadTimer.Timeout += OnReloadTimerTimeout;
             _reloadTimer.OneShot = true;
             _muzzle = GetNode<Node3D>("Turret/Muzzle");
-            Vector3 target = _player.GlobalPosition;
-            Controller.AddCommand(new MoveToPositionCommand(target));
         }
 
         public override void _Process(double delta)
-        {
-            if (IsInstanceValid(_player))
-            {
-                Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
-            }
-        }
-
-        public override void _PhysicsProcess(double delta)
         {
             if (_repathTimer < _repathInterval)
             {
@@ -57,7 +53,15 @@ namespace EHE.BoltBusters
                     Controller.AddCommand(new MoveToPositionCommand(_player.GlobalPosition));
                 }
             }
-            if (IsInstanceValid(_player) && IsPlayerInAttackCone() && _canFire)
+            if (IsInstanceValid(_player))
+            {
+                Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
+            }
+        }
+
+        public override void _PhysicsProcess(double delta)
+        {
+            if (_canFire && IsInstanceValid(_player) && IsPlayerInLineOfSight())
             {
                 Attack();
             }
@@ -68,26 +72,18 @@ namespace EHE.BoltBusters
             _canFire = false;
             _reloadTimer.Start();
             CannonBall ball = _cannonBallScene.Instantiate<CannonBall>();
-            GetTree().GetRoot().AddChild(ball);
+            LevelManager.Active.AddLevelObject(ball);
             ball.GlobalPosition = _muzzle.GlobalPosition;
             ball.GlobalRotation = _muzzle.GlobalRotation;
         }
 
         /// <summary>
-        /// Checks if the player is within the accepted attack range and directly in front of the cannon. Method allows
-        /// for 0.02 rad (a little over 1 degree) deviation in angle to account for minor errors.
+        /// Uses RaycastNode3D to check if the player is directly in front of the cannon and can be hit.
         /// </summary>
-        /// <returns></returns>
-        private bool IsPlayerInAttackCone()
+        /// <returns>True if there is no obstruction between cannon and player.</returns>
+        private bool IsPlayerInLineOfSight()
         {
-            float angleTolerance = 0.02f;
-            Vector3 direction = _player.GlobalPosition - _muzzle.GlobalPosition;
-            direction.Y = 0;
-            Vector3 origin = -_muzzle.GlobalBasis.Z;
-            origin.Y = 0;
-            float angle = origin.AngleTo(direction);
-
-            return angle < angleTolerance && direction.Length() < _range;
+            return _rayCaster.IsColliding() && _rayCaster.GetCollider() is Player;
         }
 
         private void OnReloadTimerTimeout()

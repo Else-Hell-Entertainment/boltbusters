@@ -113,9 +113,10 @@ shadow_mesh = SubResource("ArrayMesh_p28l2")
 radius = 0.68867385
 height = 1.3773477
 
-[node name="EnemyCannonBot" type="CharacterBody3D" node_paths=PackedStringArray("Controller", "_healthComponent")]
+[node name="EnemyCannonBot" type="CharacterBody3D" node_paths=PackedStringArray("_rayCaster", "Controller", "_healthComponent")]
 script = ExtResource("1_k6seb")
 _cannonBallScene = ExtResource("1_mqbn8")
+_rayCaster = NodePath("Turret/Muzzle/RayCast3D")
 Controller = NodePath("Controller")
 _healthComponent = NodePath("EnemyHealthComponent")
 
@@ -158,6 +159,9 @@ skeleton = NodePath("")
 
 [node name="Muzzle" type="Node3D" parent="Turret"]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 1.683, -1)
+
+[node name="RayCast3D" type="RayCast3D" parent="Turret/Muzzle"]
+target_position = Vector3(0, 0, -15)
 
 [node name="Cylinder_002" type="MeshInstance3D" parent="Turret"]
 transform = Transform3D(-0.3056622, 0, -2.6721837e-08, 0, 0.30566218, 0, 2.6721839e-08, 0, -0.30566218, 0, 2.1959326, 0)
