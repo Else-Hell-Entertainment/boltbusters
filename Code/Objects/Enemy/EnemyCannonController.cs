@@ -58,6 +58,11 @@ namespace EHE.BoltBusters
             ResetCommandState();
         }
 
+        public void StopMovement()
+        {
+            _enemyBodyMover.StopMovement();
+        }
+
         private void ResetCommandState()
         {
             _hasMovementCommand = false;
@@ -97,6 +102,8 @@ namespace EHE.BoltBusters
                     _hasRotationCommand = true;
                     return cmd.AssignReceiver(_turretMover);
                 case MoveToPositionCommand cmd:
+                    return cmd.AssignReceiver(_enemyBodyMover);
+                case StopMovementCommand cmd:
                     return cmd.AssignReceiver(_enemyBodyMover);
                 default:
                     return false;

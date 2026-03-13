@@ -25,13 +25,13 @@ namespace EHE.BoltBusters
         private Node3D _muzzle;
 
         private double _repathTimer = 0.25;
-        private double _repathInterval = 0.5;
+        private double _repathInterval = 0.3;
 
         public override void _Ready()
         {
             // Add small variance to how often the bots call the nav API for repathing so that they don't all query
             // at the exact same frame.
-            _repathInterval += GD.RandRange(0.0, 0.1);
+            _repathInterval += GD.RandRange(0.0, 0.02);
             _player = TargetProvider.Instance.Player;
             _reloadTimer = GetNode<Timer>("ReloadTimer");
             _reloadTimer.Timeout += OnReloadTimerTimeout;
@@ -41,22 +41,37 @@ namespace EHE.BoltBusters
 
         public override void _Process(double delta)
         {
+            if (!IsInstanceValid(_player))
+            {
+                GD.Print("Player not found");
+                return;
+            }
+
             if (_repathTimer < _repathInterval)
             {
                 _repathTimer += delta;
             }
-            else
+
+            Vector3 invertedDirection = GlobalPosition - _player.GlobalPosition;
+            float distanceToPlayer = invertedDirection.Length();
+            float separation = _range - distanceToPlayer;
+
+            if (Mathf.Abs(separation) < 0.1f)
+            {
+                Controller.AddCommand(new StopMovementCommand());
+            }
+            else if (_repathTimer > _repathInterval)
             {
                 _repathTimer = 0;
-                if (IsInstanceValid(_player))
+                Vector3 targetPosition = _player.GlobalPosition;
+                if (distanceToPlayer < _range)
                 {
-                    Controller.AddCommand(new MoveToPositionCommand(_player.GlobalPosition));
+                    targetPosition += invertedDirection.Normalized() * _range;
                 }
+                Controller.AddCommand(new MoveToPositionCommand(targetPosition));
             }
-            if (IsInstanceValid(_player))
-            {
-                Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
-            }
+
+            Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
         }
 
         public override void _PhysicsProcess(double delta)
