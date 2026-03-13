@@ -4,14 +4,25 @@
 
 namespace EHE.BoltBusters
 {
+    /// <summary>
+    /// Defines common spawn and despawn lifecycle events for objects
+    /// that appear in the game world.
+    /// </summary>
     public interface ISpawnable
     {
-        // Trigger events that the object needs to handle AFTER it has spawned.
-        // Can be used for Start animations, set variables, etc.
+        /// <summary>
+        /// Called immediately after the object has spawned.
+        /// Used for initializing state, starting animations,
+        /// or performing setup that must happen post‑spawn.
+        /// </summary>
         void OnSpawn();
 
-        // Trigger events when the object is called to despawn.
-        // Can be used for 'Death' animations, object rest / queue free, etc.
+        /// <summary>
+        /// Called when the object is requested to despawn.
+        /// Used for playing despawn animations
+        /// (for characters, see <see cref="Character.HandleDeath()"/> before this method is invoked),
+        /// cleaning up state, or queueing the object for removal / returning the object to a pooling system.
+        /// </summary>
         void OnDespawn();
     }
 }

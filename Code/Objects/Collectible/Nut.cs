@@ -9,7 +9,8 @@ namespace EHE.BoltBusters
     public partial class Nut : Collectible
     {
         public override void OnSpawn()
-        { // TODO: Add spawn behavior for this collectible.
+        {
+            // TODO: Add spawn behavior for this collectible.
             // Examples:
             // - Play a spawn animation (hover, spin, or rise)
             // - Play a spawn sound
