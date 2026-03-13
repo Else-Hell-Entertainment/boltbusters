@@ -100,11 +100,12 @@ namespace EHE.BoltBusters
             IsUsingNavigation = true;
         }
 
-        public void StopMovement()
+        public override void StopMovement()
         {
             _targetPosition = _body.GlobalPosition;
             IsMovingToPosition = false;
-            _body.Velocity = Vector3.Zero;
+            _navigationAgent.Velocity = Vector3.Zero;
+            _navigationAgent.TargetPosition = _targetPosition;
         }
 
         private void ExecuteMoveToPosition()

@@ -34,5 +34,7 @@ namespace EHE.BoltBusters
         public virtual void RotateTowards(Vector3 point) { }
 
         public virtual void RotateToDirection(Vector3 direction) { }
+
+        public virtual void StopMovement() { }
     }
 }
