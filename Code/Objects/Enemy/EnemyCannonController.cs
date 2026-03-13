@@ -1,4 +1,6 @@
-using System;
+// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
 using Godot;
 
 namespace EHE.BoltBusters
@@ -41,9 +43,12 @@ namespace EHE.BoltBusters
         public override void _PhysicsProcess(double delta)
         {
             base._PhysicsProcess(delta);
+            // TODO: Refactor if there's ever time (there isn't).
+            // Navigation agent should be in it's own class in order to decouple the logic from controller and mover.
+            // This is here because it works for now.
             if (_enemyBodyMover.IsMovingToPosition)
             {
-                RotateTowardsCommand cmd = new RotateTowardsCommand(_targetPosition);
+                RotateTowardsCommand cmd = new RotateTowardsCommand(_navigationAgent.TargetPosition);
                 if (cmd.AssignReceiver(_bodyNodeMover))
                 {
                     AddValidatedCommand(cmd);
