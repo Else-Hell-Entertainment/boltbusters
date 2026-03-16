@@ -1,15 +1,15 @@
-[gd_scene load_steps=17 format=4 uid="uid://d1v0b82d6dwda"]
+[gd_scene load_steps=17 format=4 uid="uid://b4ompibyuebev"]
 
-[ext_resource type="Script" uid="uid://cai3rjcjb1tw8" path="res://Code/Objects/Enemy/EnemyHammerBot.cs" id="1_5800e"]
-[ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="2_5800e"]
-[ext_resource type="Script" uid="uid://tk4ek7denot" path="res://Code/Objects/Enemy/EnemyMeleeWeapon.cs" id="3_7mpij"]
-[ext_resource type="AnimationLibrary" uid="uid://daif2hrjdta3p" path="res://Assets/Animations/HammerBotAnimations.tres" id="4_5800e"]
+[ext_resource type="Script" uid="uid://be4qkv6x76unn" path="res://Code/Objects/Enemy/Enemy.cs" id="1_lu8aj"]
+[ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="2_7n6a7"]
+[ext_resource type="Script" uid="uid://tk4ek7denot" path="res://Code/Objects/Enemy/EnemyMeleeWeapon.cs" id="3_e6362"]
+[ext_resource type="AnimationLibrary" uid="uid://daif2hrjdta3p" path="res://Assets/Animations/HammerBotAnimations.tres" id="4_s4fci"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aundc"]
 size = Vector3(1, 1.9749222, 1.3820648)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fq6sj"]
-albedo_color = Color(0.654902, 0.30980393, 0.16470589, 1)
+albedo_color = Color(0.21832424, 0.47008574, 0.49685317, 1)
 metallic = 0.7
 roughness = 0.7
 
@@ -141,7 +141,7 @@ radius = 0.1
 height = 0.2
 
 [node name="EnemyHammerBot" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent")]
-script = ExtResource("1_5800e")
+script = ExtResource("1_lu8aj")
 _healthComponent = NodePath("EnemyHealthComponent")
 
 [node name="BodyCollider" type="CollisionShape3D" parent="."]
@@ -165,12 +165,12 @@ mesh = SubResource("ArrayMesh_hku7k")
 skeleton = NodePath("")
 
 [node name="EnemyHealthComponent" type="Node" parent="."]
-script = ExtResource("2_5800e")
+script = ExtResource("2_7n6a7")
 metadata/_custom_type_script = "uid://b620lyqticbmf"
 
 [node name="MeleeWeapon" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.87726426, -0.61224896)
-script = ExtResource("3_7mpij")
+script = ExtResource("3_e6362")
 _attackCooldown = 2.5
 _attackDamage = 10
 
@@ -178,7 +178,7 @@ _attackDamage = 10
 root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_7mpij"),
-&"HammerBotAnimations": ExtResource("4_5800e")
+&"HammerBotAnimations": ExtResource("4_s4fci")
 }
 autoplay = "HammerBotAnimations/Idle"
 

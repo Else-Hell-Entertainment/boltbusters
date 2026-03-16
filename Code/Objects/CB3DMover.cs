@@ -10,12 +10,13 @@ namespace EHE.BoltBusters
     /// Concrete implementation of EntityMover for CharacterBody3D nodes.
     /// Handles physics-based movement using Godot's built-in CharacterBody3D collision system.
     /// </summary>
-    public class CB3DMover(CharacterBody3D body) : EntityMover
+    public partial class CB3DMover : EntityMover
     {
         /// <summary>
         /// The CharacterBody3D that this mover controls.
         /// </summary>
-        private CharacterBody3D _body = body;
+        [Export]
+        private CharacterBody3D _body;
 
         /// <summary>
         /// The speed at which the entity moves, measured in units per second.
@@ -33,13 +34,28 @@ namespace EHE.BoltBusters
         [Export]
         public float Acceleration = 40f;
 
+        public bool IsUsingNavigation = false;
+        public bool IsMovingToPosition;
+        private NavigationAgent3D _navigationAgent;
+        private Vector3 _targetPosition;
+
+        public override void _PhysicsProcess(double delta)
+        {
+            if (IsMovingToPosition)
+            {
+                ExecuteMoveToPosition();
+            }
+        }
+
         /// <summary>
         /// Moves the entity in the specified direction using physics-based movement.
         /// Applies velocity on the XZ plane and uses MoveAndSlide for collision handling.
+        /// Calling this will also disable any active MoveToPosition orders.
         /// </summary>
         /// <param name="direction">The direction vector to move towards (Y component is ignored).</param>
         public override void MoveToDirection(Vector3 direction)
         {
+            IsMovingToPosition = false;
             if (direction == Vector3.Zero)
             {
                 _body.Velocity = Vector3.Zero;
@@ -59,6 +75,68 @@ namespace EHE.BoltBusters
             Vector3 desiredVelocity = direction * MovementSpeed * controllerSpeedAdjust;
             float dt = (float)_body.GetPhysicsProcessDeltaTime();
             _body.Velocity = _body.Velocity.MoveToward(desiredVelocity, Acceleration * dt);
+            _body.MoveAndSlide();
+        }
+
+        public override void MoveToPosition(Vector3 position)
+        {
+            _targetPosition = position;
+            IsMovingToPosition = true;
+            if (IsUsingNavigation)
+            {
+                _navigationAgent.TargetPosition = _targetPosition;
+            }
+        }
+
+        public void SetControlledBody(CharacterBody3D body)
+        {
+            _body = body;
+        }
+
+        public void EnableNavigation(NavigationAgent3D navigationAgent)
+        {
+            _navigationAgent = navigationAgent;
+            _navigationAgent.VelocityComputed += OnVelocityComputed;
+            IsUsingNavigation = true;
+        }
+
+        public override void StopMovement()
+        {
+            _targetPosition = _body.GlobalPosition;
+            IsMovingToPosition = false;
+            _navigationAgent.Velocity = Vector3.Zero;
+            _navigationAgent.TargetPosition = _targetPosition;
+        }
+
+        private void ExecuteMoveToPosition()
+        {
+            if (!IsUsingNavigation)
+            {
+                //TODO: implement regular movement
+                return;
+            }
+
+            if (_navigationAgent.IsNavigationFinished())
+            {
+                IsMovingToPosition = false;
+                return;
+            }
+
+            Vector3 nextPathPosition = _navigationAgent.GetNextPathPosition();
+            Vector3 newVelocity = GlobalPosition.DirectionTo(nextPathPosition) * MovementSpeed;
+            if (_navigationAgent.AvoidanceEnabled)
+            {
+                _navigationAgent.Velocity = newVelocity;
+            }
+            else
+            {
+                OnVelocityComputed(newVelocity);
+            }
+        }
+
+        private void OnVelocityComputed(Vector3 safeVelocity)
+        {
+            _body.Velocity = safeVelocity;
             _body.MoveAndSlide();
         }
     }

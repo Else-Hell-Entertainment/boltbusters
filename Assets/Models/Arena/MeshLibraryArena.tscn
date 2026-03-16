@@ -1,13 +1,17 @@
-[gd_scene load_steps=22 format=3 uid="uid://dvt45xcrvwkiq"]
+[gd_scene load_steps=25 format=3 uid="uid://dvt45xcrvwkiq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a3aiw"]
+albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_rxeo1"]
+material = SubResource("StandardMaterial3D_a3aiw")
 size = Vector3(2, 1, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_udfbk"]
 size = Vector3(2, 1, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_udfbk"]
-albedo_color = Color(0.7764706, 0.7058824, 0.5411765, 1)
+albedo_color = Color(0.33333334, 0.34901962, 0.3764706, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_xgyi6"]
 material = SubResource("StandardMaterial3D_udfbk")
@@ -16,14 +20,18 @@ size = Vector3(2, 1, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_nkgiv"]
 size = Vector3(2, 1, 2)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j4adp"]
+albedo_color = Color(0, 0, 0, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_dwyc4"]
+material = SubResource("StandardMaterial3D_j4adp")
 size = Vector3(1, 2, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4yajv"]
 size = Vector3(1, 2, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xgyi6"]
-albedo_color = Color(0.78431374, 0.7254902, 0.64705884, 1)
+albedo_color = Color(0.20392157, 0.21176471, 0.22745098, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_nkgiv"]
 material = SubResource("StandardMaterial3D_xgyi6")
@@ -33,7 +41,7 @@ size = Vector3(1, 2, 1)
 size = Vector3(1, 2, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nkgiv"]
-albedo_color = Color(0.4117647, 0.37254903, 0.3137255, 1)
+albedo_color = Color(0.20392157, 0.21176471, 0.22745098, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_4yajv"]
 material = SubResource("StandardMaterial3D_nkgiv")
@@ -42,12 +50,16 @@ size = Vector3(1, 2, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_j5mdd"]
 size = Vector3(1, 2, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o2vev"]
+albedo_color = Color(0, 0, 0, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_udfbk"]
+material = SubResource("StandardMaterial3D_o2vev")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xgyi6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dwyc4"]
-albedo_color = Color(0.78431374, 0.7254902, 0.64705884, 1)
+albedo_color = Color(0.20392157, 0.21176471, 0.22745098, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_j5mdd"]
 material = SubResource("StandardMaterial3D_dwyc4")
@@ -55,7 +67,7 @@ material = SubResource("StandardMaterial3D_dwyc4")
 [sub_resource type="BoxShape3D" id="BoxShape3D_8uabg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4yajv"]
-albedo_color = Color(0.4117647, 0.37254903, 0.3137255, 1)
+albedo_color = Color(0.20392157, 0.21176471, 0.22745098, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_sresv"]
 material = SubResource("StandardMaterial3D_4yajv")

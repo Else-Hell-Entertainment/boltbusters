@@ -90,7 +90,10 @@ namespace EHE.BoltBusters
 
         public override void OnSpawn() { }
 
-        public override void OnDespawn() { }
+        public override void OnDespawn()
+        {
+            QueueFree();
+        }
 
         /// <summary>
         ///  Handles the <see cref="GameManager.RequestWeaponUpgrade"/> event.

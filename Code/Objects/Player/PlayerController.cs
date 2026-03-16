@@ -115,15 +115,21 @@ namespace EHE.BoltBusters
         private void Initialize()
         {
             // Initialize mover components for each controllable part
-            _playerBodyMover = new CB3DMover(_playerBody);
+            _playerBodyMover = new CB3DMover();
+            AddChild(_playerBodyMover);
+            _playerBodyMover.SetControlledBody(_playerBody);
             _playerBodyMover.MovementSpeed = _movementSpeed;
             _playerBodyMover.RotationSpeed = _bodyRotationSpeed;
             _playerBodyMover.Acceleration = _acceleration;
 
-            _bodyNode3DMover = new Node3DMover(_bodyNode);
+            _bodyNode3DMover = new Node3DMover();
+            AddChild(_bodyNode3DMover);
+            _bodyNode3DMover.SetControlledNode(_bodyNode);
             _bodyNode3DMover.RotationSpeed = _turretRotationSpeed;
 
-            _turret3DMover = new Node3DMover(_turretNode);
+            _turret3DMover = new Node3DMover();
+            AddChild(_turret3DMover);
+            _turret3DMover.SetControlledNode(_turretNode);
             _turret3DMover.RotationSpeed = _turretRotationSpeed;
 
             // Initialize weapon controller mapping
