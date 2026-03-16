@@ -19,8 +19,8 @@ public partial class MusicManager : Node
 
     private Dictionary<Song, AudioStream> _music = new();
 
-    public AudioStreamPlayer CurrentPlayer;
-    public AudioStreamPlayer NextPlayer;
+    public AudioStreamPlayer CurrentPlayer { get; private set; }
+    public AudioStreamPlayer NextPlayer { get; private set; }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
