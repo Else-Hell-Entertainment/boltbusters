@@ -17,7 +17,7 @@ public partial class MusicManager : Node
         StageTheme4,
     }
 
-    private Dictionary<Song, AudioStream> music = new();
+    private Dictionary<Song, AudioStream> _music = new();
 
     public AudioStreamPlayer CurrentPlayer;
     public AudioStreamPlayer NextPlayer;
