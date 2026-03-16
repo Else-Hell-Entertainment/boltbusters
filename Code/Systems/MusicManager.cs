@@ -42,7 +42,9 @@ public partial class MusicManager : Node
     public void PlayMusic(AudioStreamPlayer player, Song title)
     {
         if (!music.ContainsKey(title))
+        {
             return;
+        }
 
         player.Stop();
         player.Stream = music[title];
