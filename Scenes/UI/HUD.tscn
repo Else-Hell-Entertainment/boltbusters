@@ -1,4 +1,6 @@
-[gd_scene load_steps=0 format=3 uid="uid://dibuxv5a07sr1"]
+[gd_scene load_steps=2 format=3 uid="uid://dibuxv5a07sr1"]
+
+[ext_resource type="Texture2D" uid="uid://h5iw764dh18q" path="res://icon.svg" id="1_omqfp"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -13,3 +15,81 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "HUD"
+
+[node name="Label4" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Label5" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Label6" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="RocketUi" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 205.0
+offset_right = 350.0
+offset_bottom = 268.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RocketUi"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="RocketUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Launcher"
+
+[node name="Label2" type="Label" parent="RocketUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Ready"
+
+[node name="Label3" type="Label" parent="RocketUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Launching"
+
+[node name="Label4" type="Label" parent="RocketUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Reloading"
+
+[node name="RocketUi" type="HBoxContainer" parent="RocketUi"]
+layout_mode = 2
+alignment = 1
+
+[node name="LauncherName" type="Label" parent="RocketUi/RocketUi"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#1"
+
+[node name="IndicatorReady" type="TextureRect" parent="RocketUi/RocketUi"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorLaunching" type="TextureRect" parent="RocketUi/RocketUi"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorReloading" type="TextureRect" parent="RocketUi/RocketUi"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
