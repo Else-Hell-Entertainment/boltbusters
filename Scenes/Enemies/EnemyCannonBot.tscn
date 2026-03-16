@@ -1,9 +1,11 @@
-[gd_scene load_steps=15 format=4 uid="uid://dleoqwseq5x4p"]
+[gd_scene load_steps=17 format=4 uid="uid://dleoqwseq5x4p"]
 
 [ext_resource type="Script" uid="uid://yb7yelbnmfj5" path="res://Code/Objects/Enemy/EnemyCannonBot.cs" id="1_k6seb"]
 [ext_resource type="PackedScene" uid="uid://t3nx0bltkocl" path="res://Scenes/Enemies/CannonBall.tscn" id="1_mqbn8"]
+[ext_resource type="Script" uid="uid://byeyojbxfgtxc" path="res://Code/Objects/CB3DMover.cs" id="3_4sov6"]
 [ext_resource type="Script" uid="uid://ce6qc6u3q0hiv" path="res://Code/Objects/Enemy/EnemyCannonController.cs" id="3_oyasw"]
 [ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="4_vqqcb"]
+[ext_resource type="Script" uid="uid://dsnd2h8pgyhvi" path="res://Code/Objects/Node3DMover.cs" id="5_6314t"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rqpuh"]
 
@@ -108,20 +110,39 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_p28l2")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mqbn8"]
-radius = 0.9
-height = 2.367
+radius = 0.68867385
+height = 1.3773477
 
-[node name="EnemyCannonBot" type="CharacterBody3D" node_paths=PackedStringArray("Controller", "_healthComponent")]
+[node name="EnemyCannonBot" type="CharacterBody3D" node_paths=PackedStringArray("_rayCaster", "Controller", "_healthComponent")]
 script = ExtResource("1_k6seb")
 _cannonBallScene = ExtResource("1_mqbn8")
+_range = 12.0
+_rayCaster = NodePath("Turret/Muzzle/RayCast3D")
 Controller = NodePath("Controller")
 _healthComponent = NodePath("EnemyHealthComponent")
 
-[node name="Controller" type="Node3D" parent="." node_paths=PackedStringArray("_enemyBody", "_bodyNode", "_turretNode")]
+[node name="Controller" type="Node3D" parent="." node_paths=PackedStringArray("_enemyBodyMover", "_bodyNodeMover", "_turretMover")]
 script = ExtResource("3_oyasw")
-_enemyBody = NodePath("..")
-_bodyNode = NodePath("../Body")
-_turretNode = NodePath("../Turret")
+_enemyBodyMover = NodePath("CB3DMover")
+_bodyNodeMover = NodePath("LoweBodyMover")
+_turretMover = NodePath("TurretMover")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Controller"]
+avoidance_enabled = true
+radius = 1.0
+neighbor_distance = 5.0
+
+[node name="CB3DMover" type="Node3D" parent="Controller" node_paths=PackedStringArray("_body")]
+script = ExtResource("3_4sov6")
+_body = NodePath("../..")
+
+[node name="TurretMover" type="Node3D" parent="Controller" node_paths=PackedStringArray("_body")]
+script = ExtResource("5_6314t")
+_body = NodePath("../../Turret")
+
+[node name="LoweBodyMover" type="Node3D" parent="Controller" node_paths=PackedStringArray("_body")]
+script = ExtResource("5_6314t")
+_body = NodePath("../../Body")
 
 [node name="Body" type="Node3D" parent="."]
 
@@ -140,20 +161,19 @@ skeleton = NodePath("")
 [node name="Muzzle" type="Node3D" parent="Turret"]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 1.683, -1)
 
+[node name="RayCast3D" type="RayCast3D" parent="Turret/Muzzle"]
+target_position = Vector3(0, 0, -15)
+
 [node name="Cylinder_002" type="MeshInstance3D" parent="Turret"]
 transform = Transform3D(-0.3056622, 0, -2.6721837e-08, 0, 0.30566218, 0, 2.6721839e-08, 0, -0.30566218, 0, 2.1959326, 0)
 mesh = SubResource("ArrayMesh_sy30m")
 skeleton = NodePath("")
 
 [node name="Collider" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1898476, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6950214, 0)
 shape = SubResource("CapsuleShape3D_mqbn8")
 
 [node name="ReloadTimer" type="Timer" parent="."]
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-avoidance_enabled = true
-radius = 5.0
 
 [node name="EnemyHealthComponent" type="Node" parent="."]
 script = ExtResource("4_vqqcb")

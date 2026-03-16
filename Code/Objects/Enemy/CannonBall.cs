@@ -3,12 +3,12 @@ using Godot;
 
 namespace EHE.BoltBusters
 {
-    public partial class CannonBall : Node3D
+    public partial class CannonBall : Projectile
     {
         [Export]
         private float _speed = 20.0f;
 
-        private float _lifeTime = 10.0f;
+        private float _lifeTime = 3.0f;
         private Timer _despawnTimer;
         private Area3D _hitArea;
 
