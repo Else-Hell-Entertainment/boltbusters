@@ -38,6 +38,9 @@ namespace EHE.BoltBusters.Ui
         [Export]
         private WeaponUiRailgun _railgun4;
 
+        [Export]
+        private WeaponUiChaingun _chaingunUi;
+
         private List<WeaponUiRocketLauncher> _launchers = new List<WeaponUiRocketLauncher>();
         private List<WeaponUiRailgun> _railguns = new List<WeaponUiRailgun>();
 
@@ -52,7 +55,7 @@ namespace EHE.BoltBusters.Ui
             _railguns.Add(_railgun2);
             _railguns.Add(_railgun3);
             _railguns.Add(_railgun4);
-            RefreshUi();
+            CallDeferred(MethodName.RefreshUi);
         }
 
         public override void _ExitTree()
@@ -65,7 +68,13 @@ namespace EHE.BoltBusters.Ui
             ClearWeaponUiList();
             UpdateLauncherList();
             UpdateRailgunList();
+            UpdateChaingun();
             SetWeaponUiVisibility();
+        }
+
+        private void UpdateChaingun()
+        {
+            _chaingunUi.SetChaingunController(LevelManager.Active.Player.ChaingunController);
         }
 
         private void UpdateLauncherList()
