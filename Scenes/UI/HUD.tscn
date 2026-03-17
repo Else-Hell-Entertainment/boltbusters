@@ -208,3 +208,129 @@ size_flags_horizontal = 6
 texture = ExtResource("1_omqfp")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="RailgunUi" type="VBoxContainer" parent="WeaponUi"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 8.625
+anchor_top = 16.175
+anchor_right = 8.625
+anchor_bottom = 16.175
+offset_top = -167.0
+offset_right = 237.0
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="WeaponUi/RailgunUi"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="WeaponUi/RailgunUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Railgun"
+
+[node name="Label5" type="Label" parent="WeaponUi/RailgunUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Ready"
+
+[node name="Label6" type="Label" parent="WeaponUi/RailgunUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Charging"
+
+[node name="RailgunUiElement1" type="HBoxContainer" parent="WeaponUi/RailgunUi"]
+layout_mode = 2
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RailgunUi/RailgunUiElement1"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#1"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement1"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorCharging" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement1"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RailgunUiElement2" type="HBoxContainer" parent="WeaponUi/RailgunUi"]
+layout_mode = 2
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RailgunUi/RailgunUiElement2"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#1"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorCharging" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RailgunUiElement3" type="HBoxContainer" parent="WeaponUi/RailgunUi"]
+layout_mode = 2
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RailgunUi/RailgunUiElement3"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#1"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement3"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorCharging" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement3"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RailgunUiElement4" type="HBoxContainer" parent="WeaponUi/RailgunUi"]
+layout_mode = 2
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RailgunUi/RailgunUiElement4"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#1"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement4"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorCharging" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement4"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
