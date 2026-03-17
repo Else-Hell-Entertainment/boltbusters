@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dibuxv5a07sr1"]
+[gd_scene load_steps=4 format=3 uid="uid://dibuxv5a07sr1"]
 
+[ext_resource type="Script" uid="uid://b0wwj8jxnwn6r" path="res://Code/UI/WeaponHud.cs" id="1_4bm6u"]
 [ext_resource type="Texture2D" uid="uid://h5iw764dh18q" path="res://icon.svg" id="1_omqfp"]
+[ext_resource type="Script" uid="uid://tgj3ya8b7n8l" path="res://Code/UI/WeaponUiRocketLauncher.cs" id="2_xaom8"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -16,61 +18,63 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "HUD"
 
-[node name="Label4" type="Label" parent="."]
-layout_mode = 0
+[node name="WeaponUi" type="Control" parent="." node_paths=PackedStringArray("_launcher1", "_launcher2", "_launcher3", "_launcher4")]
+anchors_preset = 0
 offset_right = 40.0
-offset_bottom = 23.0
+offset_bottom = 40.0
+script = ExtResource("1_4bm6u")
+_launcher1 = NodePath("RocketUi/LauncherUiElement1")
+_launcher2 = NodePath("RocketUi/LauncherUiElement2")
+_launcher3 = NodePath("RocketUi/LauncherUiElement3")
+_launcher4 = NodePath("RocketUi/LauncherUiElement4")
 
-[node name="Label5" type="Label" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="RocketUi" type="VBoxContainer" parent="WeaponUi"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = 441.0
+offset_right = 324.0
+offset_bottom = 608.0
+grow_vertical = 0
 
-[node name="Label6" type="Label" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="RocketUi" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 26.0
-offset_top = 205.0
-offset_right = 350.0
-offset_bottom = 268.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="RocketUi"]
+[node name="HBoxContainer" type="HBoxContainer" parent="WeaponUi/RocketUi"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="RocketUi/HBoxContainer"]
+[node name="Label" type="Label" parent="WeaponUi/RocketUi/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "Launcher"
 
-[node name="Label2" type="Label" parent="RocketUi/HBoxContainer"]
+[node name="Label2" type="Label" parent="WeaponUi/RocketUi/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
-text = "Ready"
+text = "Armed"
 
-[node name="Label3" type="Label" parent="RocketUi/HBoxContainer"]
+[node name="Label3" type="Label" parent="WeaponUi/RocketUi/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "Launching"
 
-[node name="Label4" type="Label" parent="RocketUi/HBoxContainer"]
+[node name="Label4" type="Label" parent="WeaponUi/RocketUi/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "Reloading"
 
-[node name="RocketUi" type="HBoxContainer" parent="RocketUi"]
+[node name="LauncherUiElement1" type="HBoxContainer" parent="WeaponUi/RocketUi" node_paths=PackedStringArray("_readyTexture", "_launchingTexture", "_reloadingTexture")]
 layout_mode = 2
 alignment = 1
+script = ExtResource("2_xaom8")
+_readyTexture = NodePath("IndicatorReady")
+_launchingTexture = NodePath("IndicatorLaunching")
+_reloadingTexture = NodePath("IndicatorReloading")
 
-[node name="LauncherName" type="Label" parent="RocketUi/RocketUi"]
+[node name="LauncherName" type="Label" parent="WeaponUi/RocketUi/LauncherUiElement1"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "#1"
 
-[node name="IndicatorReady" type="TextureRect" parent="RocketUi/RocketUi"]
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement1"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 6
@@ -78,7 +82,7 @@ texture = ExtResource("1_omqfp")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="IndicatorLaunching" type="TextureRect" parent="RocketUi/RocketUi"]
+[node name="IndicatorLaunching" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement1"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 6
@@ -86,7 +90,118 @@ texture = ExtResource("1_omqfp")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="IndicatorReloading" type="TextureRect" parent="RocketUi/RocketUi"]
+[node name="IndicatorReloading" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement1"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LauncherUiElement2" type="HBoxContainer" parent="WeaponUi/RocketUi" node_paths=PackedStringArray("_readyTexture", "_launchingTexture", "_reloadingTexture")]
+layout_mode = 2
+alignment = 1
+script = ExtResource("2_xaom8")
+_readyTexture = NodePath("IndicatorReady")
+_launchingTexture = NodePath("IndicatorLaunching")
+_reloadingTexture = NodePath("IndicatorReloading")
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RocketUi/LauncherUiElement2"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#2"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorLaunching" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorReloading" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LauncherUiElement3" type="HBoxContainer" parent="WeaponUi/RocketUi" node_paths=PackedStringArray("_readyTexture", "_launchingTexture", "_reloadingTexture")]
+layout_mode = 2
+alignment = 1
+script = ExtResource("2_xaom8")
+_readyTexture = NodePath("IndicatorReady")
+_launchingTexture = NodePath("IndicatorLaunching")
+_reloadingTexture = NodePath("IndicatorReloading")
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RocketUi/LauncherUiElement3"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#3"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement3"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorLaunching" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement3"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorReloading" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement3"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LauncherUiElement4" type="HBoxContainer" parent="WeaponUi/RocketUi" node_paths=PackedStringArray("_readyTexture", "_launchingTexture", "_reloadingTexture")]
+layout_mode = 2
+alignment = 1
+script = ExtResource("2_xaom8")
+_readyTexture = NodePath("IndicatorReady")
+_launchingTexture = NodePath("IndicatorLaunching")
+_reloadingTexture = NodePath("IndicatorReloading")
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RocketUi/LauncherUiElement4"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#4"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement4"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorLaunching" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement4"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorReloading" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement4"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 6
