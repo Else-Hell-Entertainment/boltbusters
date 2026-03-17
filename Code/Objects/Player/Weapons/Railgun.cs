@@ -31,6 +31,18 @@ namespace EHE.BoltBusters
 
         private Dictionary _lastRaycastResult = new Dictionary();
 
+        public enum RailgunState
+        {
+            None,
+            ReadyToFire,
+            NotReadyToFire,
+            ReloadingStarted,
+            ReloadingFinished,
+        }
+
+        [Signal]
+        public delegate void RailgunStateChangedEventHandler(int state);
+
         [Signal]
         public delegate void RailgunReloadReadyEventHandler(Railgun railgun);
 
@@ -50,6 +62,7 @@ namespace EHE.BoltBusters
 
             _laserSightInstance = GetNode<MeshInstance3D>("LaserSight");
             _laserSightMesh = (CylinderMesh)_laserSightInstance.Mesh;
+            EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.ReadyToFire);
         }
 
         public override void _PhysicsProcess(double delta)
@@ -78,7 +91,10 @@ namespace EHE.BoltBusters
         private void OnCooldownTimerTimeout()
         {
             CanAttack = true;
+            // TODO: Old signal left here for now, refactor the controller to use new signal
             EmitSignal(SignalName.RailgunReloadReady, this);
+            EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.ReloadingFinished);
+            EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.ReadyToFire);
         }
 
         public override void Attack()
@@ -90,6 +106,8 @@ namespace EHE.BoltBusters
             CanAttack = false;
             _cooldownTimer.Start();
             _laserSightInstance.Hide();
+            EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.NotReadyToFire);
+            EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.ReloadingStarted);
             ResolveAttack();
             //DoRayCast();
             DrawBulletEffect();
