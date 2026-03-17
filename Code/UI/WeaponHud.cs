@@ -13,6 +13,7 @@ namespace EHE.BoltBusters.Ui
     /// </summary>
     public partial class WeaponHud : Control
     {
+        [ExportGroup("Weapon UI nodes")]
         [Export]
         private WeaponUiRocketLauncher _launcher1;
 
@@ -25,7 +26,20 @@ namespace EHE.BoltBusters.Ui
         [Export]
         private WeaponUiRocketLauncher _launcher4;
 
+        [Export]
+        private WeaponUiRailgun _railgun1;
+
+        [Export]
+        private WeaponUiRailgun _railgun2;
+
+        [Export]
+        private WeaponUiRailgun _railgun3;
+
+        [Export]
+        private WeaponUiRailgun _railgun4;
+
         private List<WeaponUiRocketLauncher> _launchers = new List<WeaponUiRocketLauncher>();
+        private List<WeaponUiRailgun> _railguns = new List<WeaponUiRailgun>();
 
         private PlayerRocketLauncherController _launcherController;
 
@@ -36,6 +50,10 @@ namespace EHE.BoltBusters.Ui
             _launchers.Add(_launcher2);
             _launchers.Add(_launcher3);
             _launchers.Add(_launcher4);
+            _railguns.Add(_railgun1);
+            _railguns.Add(_railgun2);
+            _railguns.Add(_railgun3);
+            _railguns.Add(_railgun4);
             RefreshUi();
         }
 
@@ -58,6 +76,7 @@ namespace EHE.BoltBusters.Ui
                     _launchers[index].ResetIndicators();
                 }
             }
+
             SetWeaponUiVisibility();
         }
 
