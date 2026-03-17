@@ -9,7 +9,6 @@ namespace EHE.BoltBusters.Ui
 {
     public partial class WeaponUiRocketLauncher : Control
     {
-        [Export]
         private RocketLauncher _launcher;
 
         [Export]
