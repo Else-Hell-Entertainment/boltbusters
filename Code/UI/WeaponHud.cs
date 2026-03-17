@@ -41,8 +41,6 @@ namespace EHE.BoltBusters.Ui
         private List<WeaponUiRocketLauncher> _launchers = new List<WeaponUiRocketLauncher>();
         private List<WeaponUiRailgun> _railguns = new List<WeaponUiRailgun>();
 
-        private PlayerRocketLauncherController _launcherController;
-
         public override void _Ready()
         {
             GameManager.Instance.PlayerConfigurationChanged += RefreshUi;
@@ -64,20 +62,38 @@ namespace EHE.BoltBusters.Ui
 
         private void RefreshUi()
         {
-            _launcherController = LevelManager.Active.Player.RocketLauncherController;
             ClearWeaponUiList();
-            foreach (var weapon in _launcherController.Weapons)
+            UpdateLauncherList();
+            UpdateRailgunList();
+            SetWeaponUiVisibility();
+        }
+
+        private void UpdateLauncherList()
+        {
+            foreach (var weapon in LevelManager.Active.Player.RocketLauncherController.Weapons)
             {
                 if (weapon is RocketLauncher rocketLauncher)
                 {
-                    int index = _launcherController.Weapons.IndexOf(rocketLauncher);
+                    int index = LevelManager.Active.Player.RocketLauncherController.Weapons.IndexOf(rocketLauncher);
                     _launchers[index].SetLauncher(rocketLauncher);
                     _launchers[index].IsActive = true;
                     _launchers[index].ResetIndicators();
                 }
             }
+        }
 
-            SetWeaponUiVisibility();
+        private void UpdateRailgunList()
+        {
+            foreach (var weapon in LevelManager.Active.Player.RailgunController.Weapons)
+            {
+                if (weapon is Railgun railgun)
+                {
+                    int index = LevelManager.Active.Player.RailgunController.Weapons.IndexOf(railgun);
+                    _railguns[index].SetRailgun(railgun);
+                    _railguns[index].IsActive = true;
+                    _railguns[index].ResetIndicators();
+                }
+            }
         }
 
         private void ClearWeaponUiList()
@@ -87,6 +103,12 @@ namespace EHE.BoltBusters.Ui
                 launcherUi.ClearLauncher();
                 launcherUi.IsActive = false;
             }
+
+            foreach (WeaponUiRailgun railgunUi in _railguns)
+            {
+                railgunUi.IsActive = false;
+                railgunUi.ClearRailgun();
+            }
         }
 
         private void SetWeaponUiVisibility()
@@ -94,6 +116,11 @@ namespace EHE.BoltBusters.Ui
             foreach (WeaponUiRocketLauncher launcherUi in _launchers)
             {
                 launcherUi.Visible = launcherUi.IsActive;
+            }
+
+            foreach (WeaponUiRailgun railgunUi in _railguns)
+            {
+                railgunUi.Visible = railgunUi.IsActive;
             }
         }
     }

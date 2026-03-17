@@ -244,9 +244,11 @@ layout_mode = 2
 size_flags_horizontal = 6
 text = "Charging"
 
-[node name="RailgunUiElement1" type="HBoxContainer" parent="WeaponUi/RailgunUi"]
+[node name="RailgunUiElement1" type="HBoxContainer" parent="WeaponUi/RailgunUi" node_paths=PackedStringArray("_readyTexture", "_reloadingTexture")]
 layout_mode = 2
 script = ExtResource("4_4bm6u")
+_readyTexture = NodePath("IndicatorReady")
+_reloadingTexture = NodePath("IndicatorCharging")
 
 [node name="LauncherName" type="Label" parent="WeaponUi/RailgunUi/RailgunUiElement1"]
 layout_mode = 2
@@ -269,9 +271,11 @@ texture = ExtResource("1_omqfp")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RailgunUiElement2" type="HBoxContainer" parent="WeaponUi/RailgunUi"]
+[node name="RailgunUiElement2" type="HBoxContainer" parent="WeaponUi/RailgunUi" node_paths=PackedStringArray("_readyTexture", "_reloadingTexture")]
 layout_mode = 2
 script = ExtResource("4_4bm6u")
+_readyTexture = NodePath("IndicatorReady")
+_reloadingTexture = NodePath("IndicatorCharging")
 
 [node name="LauncherName" type="Label" parent="WeaponUi/RailgunUi/RailgunUiElement2"]
 layout_mode = 2
@@ -294,9 +298,11 @@ texture = ExtResource("1_omqfp")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RailgunUiElement3" type="HBoxContainer" parent="WeaponUi/RailgunUi"]
+[node name="RailgunUiElement3" type="HBoxContainer" parent="WeaponUi/RailgunUi" node_paths=PackedStringArray("_readyTexture", "_reloadingTexture")]
 layout_mode = 2
 script = ExtResource("4_4bm6u")
+_readyTexture = NodePath("IndicatorReady")
+_reloadingTexture = NodePath("IndicatorCharging")
 
 [node name="LauncherName" type="Label" parent="WeaponUi/RailgunUi/RailgunUiElement3"]
 layout_mode = 2
@@ -319,9 +325,11 @@ texture = ExtResource("1_omqfp")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RailgunUiElement4" type="HBoxContainer" parent="WeaponUi/RailgunUi"]
+[node name="RailgunUiElement4" type="HBoxContainer" parent="WeaponUi/RailgunUi" node_paths=PackedStringArray("_readyTexture", "_reloadingTexture")]
 layout_mode = 2
 script = ExtResource("4_4bm6u")
+_readyTexture = NodePath("IndicatorReady")
+_reloadingTexture = NodePath("IndicatorCharging")
 
 [node name="LauncherName" type="Label" parent="WeaponUi/RailgunUi/RailgunUiElement4"]
 layout_mode = 2
