@@ -74,7 +74,7 @@ namespace EHE.BoltBusters
             _upgradeHandler.RegisterWeaponController(RocketLauncherController);
 
             // Signal to let other elements (mainly UI) know the player is now ready.
-            GameManager.Instance.EmitSignal(GameManager.SignalName.PlayerConfigurationChanged);
+            GameManager.Instance.EmitSignal(GameManager.SignalName.HudRefreshRequested);
         }
 
         /// <summary>

@@ -53,7 +53,7 @@ namespace EHE.BoltBusters
         public delegate bool RequestWeaponDowngradeEventHandler(int weaponType);
 
         [Signal]
-        public delegate void PlayerConfigurationChangedEventHandler();
+        public delegate void HudRefreshRequestedEventHandler();
 
         #endregion Signals
 

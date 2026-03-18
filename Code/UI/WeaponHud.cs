@@ -46,7 +46,7 @@ namespace EHE.BoltBusters.Ui
 
         public override void _Ready()
         {
-            GameManager.Instance.PlayerConfigurationChanged += RefreshUi;
+            GameManager.Instance.HudRefreshRequested += RefreshUi;
             _launchers.Add(_launcher1);
             _launchers.Add(_launcher2);
             _launchers.Add(_launcher3);
@@ -55,12 +55,12 @@ namespace EHE.BoltBusters.Ui
             _railguns.Add(_railgun2);
             _railguns.Add(_railgun3);
             _railguns.Add(_railgun4);
-            CallDeferred(MethodName.RefreshUi);
+            RefreshUi();
         }
 
         public override void _ExitTree()
         {
-            GameManager.Instance.PlayerConfigurationChanged -= RefreshUi;
+            GameManager.Instance.HudRefreshRequested -= RefreshUi;
         }
 
         private void RefreshUi()
