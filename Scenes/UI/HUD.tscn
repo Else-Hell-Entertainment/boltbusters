@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dibuxv5a07sr1"]
+[gd_scene load_steps=8 format=3 uid="uid://dibuxv5a07sr1"]
 
 [ext_resource type="Script" uid="uid://b0wwj8jxnwn6r" path="res://Code/UI/WeaponHud.cs" id="1_4bm6u"]
 [ext_resource type="Texture2D" uid="uid://h5iw764dh18q" path="res://icon.svg" id="1_omqfp"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dvkwp0o428nb0" path="res://Code/UI/WeaponUiRailgun.cs" id="4_4bm6u"]
 [ext_resource type="Script" uid="uid://buhou76aa4uxs" path="res://Code/UI/WeaponUiChaingun.cs" id="5_ykvyr"]
 [ext_resource type="Script" uid="uid://sv650skqn02e" path="res://Code/UI/HealthUi.cs" id="6_lelo4"]
+[ext_resource type="Script" uid="uid://cmyu4wbi217m2" path="res://Code/UI/RoundTimerUi.cs" id="7_1ree7"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -463,3 +464,24 @@ text = "Health: "
 [node name="HealthCounterLabel" type="Label" parent="HealthUi/HBoxContainer"]
 layout_mode = 2
 text = "100"
+
+[node name="RoundTimerUi" type="Control" parent="." node_paths=PackedStringArray("_roundTimerLabel")]
+anchors_preset = 0
+offset_left = 88.0
+offset_top = 3.0
+offset_right = 128.0
+offset_bottom = 43.0
+script = ExtResource("7_1ree7")
+_roundTimerLabel = NodePath("HBoxContainer/RoundTimeLabel")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RoundTimerUi"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TimerText" type="Label" parent="RoundTimerUi/HBoxContainer"]
+layout_mode = 2
+text = "Time Remaining: "
+
+[node name="RoundTimeLabel" type="Label" parent="RoundTimerUi/HBoxContainer"]
+layout_mode = 2
