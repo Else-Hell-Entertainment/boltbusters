@@ -18,8 +18,8 @@ namespace EHE.BoltBusters
 
         private float _overheatLimit = 100;
         private float _currentHeat = 0;
-        private float _heatingRate = 5;
-        private float _coolingRate = 0.5f;
+        private float _heatingRate = 0.2f;
+        private float _coolingRate = 2f;
 
         // TODO: Implement chainguns automatically adjusting to target. Currently hardcoded!
         [Export]
