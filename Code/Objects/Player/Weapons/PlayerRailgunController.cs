@@ -10,7 +10,8 @@ namespace EHE.BoltBusters
 {
     public partial class PlayerRailgunController : PlayerWeaponGroupController
     {
-        [Export] private AudioStreamPlayer3D _shootingSound;
+        [Export]
+        private AudioStreamPlayer3D _shootingSound;
 
         private Railgun _activeRailgun;
 
@@ -21,7 +22,7 @@ namespace EHE.BoltBusters
         public override void _Ready()
         {
             base._Ready();
-            AddWeapon();
+            // AddWeapon();
             // AddWeapon();
             // AddWeapon();
             // AddWeapon();

@@ -281,7 +281,7 @@ namespace EHE.BoltBusters
 
             foreach (var child in children)
             {
-                if (child is ISpawnable spawnable)
+                if (child is ISpawnable spawnable && child is not BoltBusters.Player)
                 {
                     spawnable.OnDespawn();
                 }
