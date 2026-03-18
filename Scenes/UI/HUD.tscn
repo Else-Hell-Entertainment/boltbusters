@@ -21,9 +21,12 @@ offset_bottom = 23.0
 text = "HUD"
 
 [node name="WeaponUi" type="Control" parent="." node_paths=PackedStringArray("_launcher1", "_launcher2", "_launcher3", "_launcher4", "_railgun1", "_railgun2", "_railgun3", "_railgun4", "_chaingunUi")]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_4bm6u")
 _launcher1 = NodePath("RocketUi/LauncherUiElement1")
 _launcher2 = NodePath("RocketUi/LauncherUiElement2")
@@ -40,9 +43,8 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = 441.0
+offset_top = -167.0
 offset_right = 324.0
-offset_bottom = 608.0
 grow_vertical = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="WeaponUi/RocketUi"]
@@ -218,13 +220,15 @@ stretch_mode = 5
 
 [node name="RailgunUi" type="VBoxContainer" parent="WeaponUi"]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 8.625
-anchor_top = 16.175
-anchor_right = 8.625
-anchor_bottom = 16.175
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -118.5
 offset_top = -167.0
-offset_right = 237.0
+offset_right = 118.5
+grow_horizontal = 2
 grow_vertical = 0
 metadata/_edit_use_anchors_ = true
 
@@ -355,11 +359,16 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="ChaingunUi" type="HBoxContainer" parent="WeaponUi" node_paths=PackedStringArray("_readyTexture", "_overheatTexture", "_temperatureLabel", "_barrelCountLabel")]
-layout_mode = 0
-offset_left = 677.0
-offset_top = 486.0
-offset_right = 717.0
-offset_bottom = 526.0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -215.0
+offset_top = -122.0
+grow_horizontal = 0
+grow_vertical = 0
 script = ExtResource("5_ykvyr")
 _readyTexture = NodePath("VBoxContainer2/IndicatorReady")
 _overheatTexture = NodePath("VBoxContainer2/IndicatorReady2")
@@ -428,3 +437,26 @@ text = "Barrels"
 [node name="BarrelCount" type="Label" parent="WeaponUi/ChaingunUi/VBoxContainer3"]
 layout_mode = 2
 text = "1"
+
+[node name="HealthUi" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HealthUi"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthLabel" type="Label" parent="HealthUi/HBoxContainer"]
+layout_mode = 2
+text = "Health: "
+
+[node name="HealthCounterLabel" type="Label" parent="HealthUi/HBoxContainer"]
+layout_mode = 2
+text = "100"
