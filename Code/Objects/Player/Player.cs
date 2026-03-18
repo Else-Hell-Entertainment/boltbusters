@@ -91,7 +91,7 @@ namespace EHE.BoltBusters
         public override void TakeDamage(DamageData damageData)
         {
             base.TakeDamage(damageData);
-            GD.Print("Aaaa I'm taking damage! ");
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
         }
 
         public override void OnSpawn() { }

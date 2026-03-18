@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dibuxv5a07sr1"]
+[gd_scene load_steps=7 format=3 uid="uid://dibuxv5a07sr1"]
 
 [ext_resource type="Script" uid="uid://b0wwj8jxnwn6r" path="res://Code/UI/WeaponHud.cs" id="1_4bm6u"]
 [ext_resource type="Texture2D" uid="uid://h5iw764dh18q" path="res://icon.svg" id="1_omqfp"]
 [ext_resource type="Script" uid="uid://tgj3ya8b7n8l" path="res://Code/UI/WeaponUiRocketLauncher.cs" id="2_xaom8"]
 [ext_resource type="Script" uid="uid://dvkwp0o428nb0" path="res://Code/UI/WeaponUiRailgun.cs" id="4_4bm6u"]
 [ext_resource type="Script" uid="uid://buhou76aa4uxs" path="res://Code/UI/WeaponUiChaingun.cs" id="5_ykvyr"]
+[ext_resource type="Script" uid="uid://sv650skqn02e" path="res://Code/UI/HealthUi.cs" id="6_lelo4"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -438,7 +439,7 @@ text = "Barrels"
 layout_mode = 2
 text = "1"
 
-[node name="HealthUi" type="Control" parent="."]
+[node name="HealthUi" type="Control" parent="." node_paths=PackedStringArray("_healthLabel")]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -447,6 +448,8 @@ offset_left = -20.0
 offset_right = 20.0
 offset_bottom = 40.0
 grow_horizontal = 2
+script = ExtResource("6_lelo4")
+_healthLabel = NodePath("HBoxContainer/HealthCounterLabel")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HealthUi"]
 layout_mode = 0
