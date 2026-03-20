@@ -1,0 +1,118 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfmobgo6w8ab6"]
+
+[ext_resource type="Script" uid="uid://burthnjbxe21w" path="res://Code/UI/MenuShop.cs" id="1_kex23"]
+
+[node name="Shop" type="Control" node_paths=PackedStringArray("_btnUpgradeChaingun", "_btnUpgradeRailgun", "_btnUpgradeRocketLauncher", "_btnDowngradeChaingun", "_btnDowngradeRailgun", "_btnDowngradeRocketLauncher", "_btnEnterNextRound")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kex23")
+_btnUpgradeChaingun = NodePath("UpgradeChaingunButton")
+_btnUpgradeRailgun = NodePath("UpgradeRailgunButton")
+_btnUpgradeRocketLauncher = NodePath("UpgradeRocketLauncherButton")
+_btnDowngradeChaingun = NodePath("DowngradeChaingunButton")
+_btnDowngradeRailgun = NodePath("DowngradeRailgunButton")
+_btnDowngradeRocketLauncher = NodePath("DowngradeRocketLauncherButton")
+_btnEnterNextRound = NodePath("NextRoundButton")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 157.0
+offset_top = 59.0
+offset_right = 976.0
+offset_bottom = 503.0
+color = Color(0, 0, 0, 0.41960785)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_left = 521.0
+offset_top = 78.0
+offset_right = 561.0
+offset_bottom = 101.0
+text = "Shop"
+
+[node name="ChaingunLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 207.0
+offset_right = 319.0
+offset_bottom = 230.0
+text = "Chaingun"
+
+[node name="RailgunLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 516.0
+offset_top = 207.0
+offset_right = 574.0
+offset_bottom = 230.0
+text = "Railgun"
+
+[node name="MissileLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 728.0
+offset_top = 210.0
+offset_right = 858.0
+offset_bottom = 233.0
+text = "Rocket Launcher"
+
+[node name="UpgradeChaingunButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 244.0
+offset_top = 260.0
+offset_right = 319.0
+offset_bottom = 291.0
+text = "Upgrade"
+
+[node name="UpgradeRailgunButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 507.0
+offset_top = 259.0
+offset_right = 582.0
+offset_bottom = 290.0
+text = "Upgrade"
+
+[node name="UpgradeRocketLauncherButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 755.0
+offset_top = 263.0
+offset_right = 830.0
+offset_bottom = 294.0
+text = "Upgrade"
+
+[node name="DowngradeChaingunButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 234.0
+offset_top = 310.0
+offset_right = 332.0
+offset_bottom = 341.0
+text = "Downgrade
+"
+
+[node name="DowngradeRailgunButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 499.0
+offset_top = 313.0
+offset_right = 597.0
+offset_bottom = 344.0
+text = "Downgrade
+"
+
+[node name="DowngradeRocketLauncherButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 744.0
+offset_top = 310.0
+offset_right = 842.0
+offset_bottom = 341.0
+text = "Downgrade
+"
+
+[node name="NextRoundButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 453.0
+offset_top = 433.0
+offset_right = 648.0
+offset_bottom = 464.0
+text = "Continue to Next Round"

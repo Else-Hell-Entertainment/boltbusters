@@ -1,4 +1,8 @@
-﻿using Godot;
+﻿// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
+
+using Godot;
 
 namespace EHE.BoltBusters
 {
@@ -6,7 +10,7 @@ namespace EHE.BoltBusters
     /// Abstract base class for entity movement and rotation logic.
     /// Provides virtual methods that can be overridden to implement specific movement behaviors.
     /// </summary>
-    public abstract class EntityMover
+    public abstract partial class EntityMover : Node3D
     {
         /// <summary>
         /// Moves the entity in the specified direction.
@@ -28,5 +32,9 @@ namespace EHE.BoltBusters
         /// </summary>
         /// <param name="point">The point in global 3D space to rotate towards.</param>
         public virtual void RotateTowards(Vector3 point) { }
+
+        public virtual void RotateToDirection(Vector3 direction) { }
+
+        public virtual void StopMovement() { }
     }
 }
