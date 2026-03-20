@@ -54,7 +54,7 @@ data = {
 metadata/_editor_floor_ = Vector3(0, 2, 0)
 
 [node name="EnemySpawnManager" parent="." instance=ExtResource("2_k2uda")]
-_meleeScene = ExtResource("5_t3e81")
+_meleeScene = ExtResource("4_t3e81")
 _rangedScene = ExtResource("5_t3e81")
 _shieldedScene = ExtResource("4_t3e81")
 

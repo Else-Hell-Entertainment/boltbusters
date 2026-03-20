@@ -16,15 +16,34 @@ namespace EHE.BoltBusters
         private float _attackTimer;
         private float _attackInterval = 0.5f;
 
+        private float _overheatLimit = 100;
+        private float _currentHeat = 0;
+        private float _heatingRate = 0.2f;
+        private float _coolingRate = 2f;
+
         // TODO: Implement chainguns automatically adjusting to target. Currently hardcoded!
         [Export]
         private float _range = 7f;
 
-        [Export] private AudioStreamPlayer3D _shootingAudio;
+        [Export]
+        private AudioStreamPlayer3D _shootingAudio;
 
         private Sprite3D _reticle;
 
         public override WeaponType WeaponType => WeaponType.Chaingun;
+
+        [Signal]
+        public delegate void ChaingunStateChangedEventHandler(int state);
+
+        public enum ChaingunState
+        {
+            None,
+            ReadyToFire,
+            NotReadyToFire,
+            Firing,
+            HeatChanged,
+            Overheat,
+        }
 
         public override void _Ready()
         {
@@ -71,6 +90,8 @@ namespace EHE.BoltBusters
                 if (weapon.CanAttack)
                 {
                     weapon.Attack();
+                    EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.Firing);
+                    AddHeat(_heatingRate);
                     _attackTimer = 0;
                     if (!_shootingAudio.IsPlaying())
                     {
@@ -88,6 +109,39 @@ namespace EHE.BoltBusters
             {
                 _attackTimer += deltaTime;
             }
+            ReduceHeat(_coolingRate * deltaTime);
+        }
+
+        public float GetCurrentHeat()
+        {
+            return _currentHeat;
+        }
+
+        private void AddHeat(float heatAmount)
+        {
+            _currentHeat += heatAmount;
+            if (_currentHeat > _overheatLimit)
+            {
+                TriggerOverheat();
+            }
+            _currentHeat = Mathf.Clamp(_currentHeat, 0, _overheatLimit);
+            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
+        }
+
+        private void ReduceHeat(float heatAmount)
+        {
+            if (_currentHeat <= 0)
+            {
+                return;
+            }
+            _currentHeat -= heatAmount;
+            _currentHeat = Mathf.Clamp(_currentHeat, 0, _overheatLimit);
+            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
+        }
+
+        private void TriggerOverheat()
+        {
+            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.Overheat);
         }
 
         /// <summary>

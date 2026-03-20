@@ -143,7 +143,7 @@ namespace EHE.BoltBusters
             _roundTimer = new Timer();
             _roundTimer.Timeout += OnRoundEnded;
             AddChild(_roundTimer);
-
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
             this.PrintDebug("Ready.");
         }
 

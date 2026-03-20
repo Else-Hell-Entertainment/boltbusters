@@ -1,4 +1,11 @@
-[gd_scene load_steps=0 format=3 uid="uid://dibuxv5a07sr1"]
+[gd_scene load_steps=7 format=3 uid="uid://dibuxv5a07sr1"]
+
+[ext_resource type="Script" uid="uid://b0wwj8jxnwn6r" path="res://Code/UI/WeaponHud.cs" id="1_4bm6u"]
+[ext_resource type="Texture2D" uid="uid://h5iw764dh18q" path="res://icon.svg" id="1_omqfp"]
+[ext_resource type="Script" uid="uid://tgj3ya8b7n8l" path="res://Code/UI/WeaponUiRocketLauncher.cs" id="2_xaom8"]
+[ext_resource type="Script" uid="uid://dvkwp0o428nb0" path="res://Code/UI/WeaponUiRailgun.cs" id="4_4bm6u"]
+[ext_resource type="Script" uid="uid://buhou76aa4uxs" path="res://Code/UI/WeaponUiChaingun.cs" id="5_ykvyr"]
+[ext_resource type="Script" uid="uid://sv650skqn02e" path="res://Code/UI/HealthUi.cs" id="6_lelo4"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -13,3 +20,446 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "HUD"
+
+[node name="WeaponUi" type="Control" parent="." node_paths=PackedStringArray("_launcher1", "_launcher2", "_launcher3", "_launcher4", "_railgun1", "_railgun2", "_railgun3", "_railgun4", "_chaingunUi")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4bm6u")
+_launcher1 = NodePath("RocketUi/LauncherUiElement1")
+_launcher2 = NodePath("RocketUi/LauncherUiElement2")
+_launcher3 = NodePath("RocketUi/LauncherUiElement3")
+_launcher4 = NodePath("RocketUi/LauncherUiElement4")
+_railgun1 = NodePath("RailgunUi/RailgunUiElement1")
+_railgun2 = NodePath("RailgunUi/RailgunUiElement2")
+_railgun3 = NodePath("RailgunUi/RailgunUiElement3")
+_railgun4 = NodePath("RailgunUi/RailgunUiElement4")
+_chaingunUi = NodePath("ChaingunUi")
+
+[node name="RocketUi" type="VBoxContainer" parent="WeaponUi"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -167.0
+offset_right = 324.0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="WeaponUi/RocketUi"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="WeaponUi/RocketUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Launcher"
+
+[node name="Label2" type="Label" parent="WeaponUi/RocketUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Armed"
+
+[node name="Label3" type="Label" parent="WeaponUi/RocketUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Launching"
+
+[node name="Label4" type="Label" parent="WeaponUi/RocketUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Reloading"
+
+[node name="LauncherUiElement1" type="HBoxContainer" parent="WeaponUi/RocketUi" node_paths=PackedStringArray("_readyTexture", "_launchingTexture", "_reloadingTexture")]
+layout_mode = 2
+alignment = 1
+script = ExtResource("2_xaom8")
+_readyTexture = NodePath("IndicatorReady")
+_launchingTexture = NodePath("IndicatorLaunching")
+_reloadingTexture = NodePath("IndicatorReloading")
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RocketUi/LauncherUiElement1"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#1"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement1"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorLaunching" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement1"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorReloading" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement1"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LauncherUiElement2" type="HBoxContainer" parent="WeaponUi/RocketUi" node_paths=PackedStringArray("_readyTexture", "_launchingTexture", "_reloadingTexture")]
+layout_mode = 2
+alignment = 1
+script = ExtResource("2_xaom8")
+_readyTexture = NodePath("IndicatorReady")
+_launchingTexture = NodePath("IndicatorLaunching")
+_reloadingTexture = NodePath("IndicatorReloading")
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RocketUi/LauncherUiElement2"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#2"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorLaunching" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorReloading" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LauncherUiElement3" type="HBoxContainer" parent="WeaponUi/RocketUi" node_paths=PackedStringArray("_readyTexture", "_launchingTexture", "_reloadingTexture")]
+layout_mode = 2
+alignment = 1
+script = ExtResource("2_xaom8")
+_readyTexture = NodePath("IndicatorReady")
+_launchingTexture = NodePath("IndicatorLaunching")
+_reloadingTexture = NodePath("IndicatorReloading")
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RocketUi/LauncherUiElement3"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#3"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement3"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorLaunching" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement3"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorReloading" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement3"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LauncherUiElement4" type="HBoxContainer" parent="WeaponUi/RocketUi" node_paths=PackedStringArray("_readyTexture", "_launchingTexture", "_reloadingTexture")]
+layout_mode = 2
+alignment = 1
+script = ExtResource("2_xaom8")
+_readyTexture = NodePath("IndicatorReady")
+_launchingTexture = NodePath("IndicatorLaunching")
+_reloadingTexture = NodePath("IndicatorReloading")
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RocketUi/LauncherUiElement4"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#4"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement4"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorLaunching" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement4"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorReloading" type="TextureRect" parent="WeaponUi/RocketUi/LauncherUiElement4"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RailgunUi" type="VBoxContainer" parent="WeaponUi"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -118.5
+offset_top = -167.0
+offset_right = 118.5
+grow_horizontal = 2
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="WeaponUi/RailgunUi"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="WeaponUi/RailgunUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Railgun"
+
+[node name="Label5" type="Label" parent="WeaponUi/RailgunUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Ready"
+
+[node name="Label6" type="Label" parent="WeaponUi/RailgunUi/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Charging"
+
+[node name="RailgunUiElement1" type="HBoxContainer" parent="WeaponUi/RailgunUi" node_paths=PackedStringArray("_readyTexture", "_reloadingTexture")]
+layout_mode = 2
+script = ExtResource("4_4bm6u")
+_readyTexture = NodePath("IndicatorReady")
+_reloadingTexture = NodePath("IndicatorCharging")
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RailgunUi/RailgunUiElement1"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#1"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement1"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorCharging" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement1"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RailgunUiElement2" type="HBoxContainer" parent="WeaponUi/RailgunUi" node_paths=PackedStringArray("_readyTexture", "_reloadingTexture")]
+layout_mode = 2
+script = ExtResource("4_4bm6u")
+_readyTexture = NodePath("IndicatorReady")
+_reloadingTexture = NodePath("IndicatorCharging")
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RailgunUi/RailgunUiElement2"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#2"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorCharging" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RailgunUiElement3" type="HBoxContainer" parent="WeaponUi/RailgunUi" node_paths=PackedStringArray("_readyTexture", "_reloadingTexture")]
+layout_mode = 2
+script = ExtResource("4_4bm6u")
+_readyTexture = NodePath("IndicatorReady")
+_reloadingTexture = NodePath("IndicatorCharging")
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RailgunUi/RailgunUiElement3"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#3"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement3"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorCharging" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement3"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RailgunUiElement4" type="HBoxContainer" parent="WeaponUi/RailgunUi" node_paths=PackedStringArray("_readyTexture", "_reloadingTexture")]
+layout_mode = 2
+script = ExtResource("4_4bm6u")
+_readyTexture = NodePath("IndicatorReady")
+_reloadingTexture = NodePath("IndicatorCharging")
+
+[node name="LauncherName" type="Label" parent="WeaponUi/RailgunUi/RailgunUiElement4"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "#4"
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement4"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicatorCharging" type="TextureRect" parent="WeaponUi/RailgunUi/RailgunUiElement4"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ChaingunUi" type="HBoxContainer" parent="WeaponUi" node_paths=PackedStringArray("_readyTexture", "_overheatTexture", "_temperatureLabel", "_barrelCountLabel")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -215.0
+offset_top = -122.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("5_ykvyr")
+_readyTexture = NodePath("VBoxContainer2/IndicatorReady")
+_overheatTexture = NodePath("VBoxContainer2/IndicatorReady2")
+_temperatureLabel = NodePath("VBoxContainer3/TempLabel")
+_barrelCountLabel = NodePath("VBoxContainer3/BarrelCount")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WeaponUi/ChaingunUi"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="WeaponUi/ChaingunUi/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Firing"
+
+[node name="Label3" type="Label" parent="WeaponUi/ChaingunUi/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="WeaponUi/ChaingunUi/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Overheat"
+
+[node name="Label4" type="Label" parent="WeaponUi/ChaingunUi/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="WeaponUi/ChaingunUi"]
+layout_mode = 2
+
+[node name="IndicatorReady" type="TextureRect" parent="WeaponUi/ChaingunUi/VBoxContainer2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label2" type="Label" parent="WeaponUi/ChaingunUi/VBoxContainer2"]
+layout_mode = 2
+
+[node name="IndicatorReady2" type="TextureRect" parent="WeaponUi/ChaingunUi/VBoxContainer2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_omqfp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="WeaponUi/ChaingunUi/VBoxContainer2"]
+layout_mode = 2
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="WeaponUi/ChaingunUi"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="WeaponUi/ChaingunUi/VBoxContainer3"]
+layout_mode = 2
+text = "Temperature"
+
+[node name="TempLabel" type="Label" parent="WeaponUi/ChaingunUi/VBoxContainer3"]
+layout_mode = 2
+text = "100"
+
+[node name="Label3" type="Label" parent="WeaponUi/ChaingunUi/VBoxContainer3"]
+layout_mode = 2
+text = "Barrels"
+
+[node name="BarrelCount" type="Label" parent="WeaponUi/ChaingunUi/VBoxContainer3"]
+layout_mode = 2
+text = "1"
+
+[node name="HealthUi" type="Control" parent="." node_paths=PackedStringArray("_healthLabel")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+script = ExtResource("6_lelo4")
+_healthLabel = NodePath("HBoxContainer/HealthCounterLabel")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HealthUi"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthLabel" type="Label" parent="HealthUi/HBoxContainer"]
+layout_mode = 2
+text = "Health: "
+
+[node name="HealthCounterLabel" type="Label" parent="HealthUi/HBoxContainer"]
+layout_mode = 2
+text = "100"
