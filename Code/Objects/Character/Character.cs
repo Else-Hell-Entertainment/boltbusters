@@ -45,6 +45,11 @@ namespace EHE.BoltBusters
             OnDespawn();
         }
 
+        public int GetCurrentHealth()
+        {
+            return _healthComponent.CurrentHealth;
+        }
+
         /// <summary>
         /// Called when the character is spawned into the scene.
         /// Use this to initialize state, reset health,
