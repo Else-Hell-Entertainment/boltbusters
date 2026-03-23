@@ -193,6 +193,7 @@ namespace EHE.BoltBusters
             DespawnLevelObjects();
             _roundTimer.WaitTime = _roundData.RoundLength;
             GameManager.Instance.RoundIndex++;
+            GameManager.Instance.SaveGame();
         }
 
         /// <summary>

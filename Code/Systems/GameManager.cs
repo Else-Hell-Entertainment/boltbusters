@@ -407,7 +407,16 @@ namespace EHE.BoltBusters
         {
             this.PrintDebug("Starting game...");
             StateMachine.TransitionTo(StateType.Round);
-            CallDeferred(nameof(OnNewGameStarted));
+
+            this.PrintDebug($"Start from shop: {CurrentPlayerData.IsLevelCleared}");
+            if (CurrentPlayerData.IsLevelCleared)
+            {
+                StateMachine.TransitionTo(StateType.Shop);
+            }
+            else
+            {
+                CallDeferred(nameof(OnNewGameStarted));
+            }
         }
 
         /// <summary>
@@ -417,7 +426,7 @@ namespace EHE.BoltBusters
         /// </summary>
         /// <seealso cref="StartNewGame"/>
         /// <seealso cref="OnLevelStartDelayTimeout"/>
-        private void OnNewGameStarted()
+        private void OnNewGameStarted() // TODO: Rename this to OnGameStarted!
         {
             LevelManager.Active.InitializeLevel(RoundIndex);
             SceneTree.CreateTimer(5f).Timeout += OnLevelStartDelayTimeout;
