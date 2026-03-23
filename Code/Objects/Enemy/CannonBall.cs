@@ -35,14 +35,12 @@ namespace EHE.BoltBusters
         private void OnDespawnTimerTimeout()
         {
             QueueFree();
-            GD.Print("CANNON BALL DESTROYED");
         }
 
         private void OnBodyEntered(Node3D body)
         {
             if (body is Player)
             {
-                GD.Print("CANNON BALL HIT PLAYER IN THE HEEEEEEEAAAADDDD");
                 QueueFree();
             }
         }

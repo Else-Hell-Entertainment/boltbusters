@@ -74,6 +74,8 @@ namespace EHE.BoltBusters
         /// </summary>
         public Player Player => _player;
 
+        public bool RoundInProgress { get; private set; }
+
         #endregion Properties
 
 
@@ -143,7 +145,7 @@ namespace EHE.BoltBusters
             _roundTimer = new Timer();
             _roundTimer.Timeout += OnRoundEnded;
             AddChild(_roundTimer);
-
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
             this.PrintDebug("Ready.");
         }
 
@@ -200,6 +202,7 @@ namespace EHE.BoltBusters
         {
             this.PrintDebug("Starting round...");
             _roundTimer.Start();
+            RoundInProgress = true;
             _enemySpawnManager.StartRound(_roundData);
         }
 
@@ -242,6 +245,11 @@ namespace EHE.BoltBusters
             // TODO: Check for null root nodes and incompatible levelObjects.
         }
 
+        public double GetRemainingRoundTime()
+        {
+            return _roundTimer.GetTimeLeft();
+        }
+
         #endregion Public Methods
 
 
@@ -258,6 +266,7 @@ namespace EHE.BoltBusters
         {
             this.PrintDebug("Round ended.");
             _roundTimer.Stop();
+            RoundInProgress = false;
             ResetLevel();
             GameManager.Instance.StateMachine.TransitionTo(StateType.Shop);
             // TODO: Disable player movement.

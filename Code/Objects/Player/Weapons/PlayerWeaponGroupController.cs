@@ -20,7 +20,7 @@ namespace EHE.BoltBusters
         [Export]
         private PackedScene _weaponScene;
 
-        protected List<BaseWeapon> Weapons = new List<BaseWeapon>();
+        public List<BaseWeapon> Weapons { get; } = new List<BaseWeapon>();
 
         /// <summary>
         /// The type of weapons added to this controller.
@@ -71,6 +71,7 @@ namespace EHE.BoltBusters
             Node3D node = _weaponSlots[newIndex];
             weapon.Position = node.GetPosition();
             AddChild(weapon);
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
             return true;
         }
 
@@ -85,6 +86,7 @@ namespace EHE.BoltBusters
                 BaseWeapon weapon = Weapons[lastIndex];
                 Weapons.RemoveAt(lastIndex);
                 weapon.QueueFree();
+                GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
                 return true;
             }
 

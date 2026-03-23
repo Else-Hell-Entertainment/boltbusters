@@ -6,9 +6,12 @@ namespace EHE.BoltBusters
 {
     public partial class Player : Character
     {
-        private PlayerChaingunController _chaingunController;
-        private PlayerRailgunController _railgunController;
-        private PlayerRocketLauncherController _rocketLauncherController;
+        public PlayerChaingunController ChaingunController { get; private set; }
+
+        public PlayerRailgunController RailgunController { get; private set; }
+
+        public PlayerRocketLauncherController RocketLauncherController { get; private set; }
+
         private PlayerUpgradeHandler _upgradeHandler;
 
         /// <summary>
@@ -62,13 +65,16 @@ namespace EHE.BoltBusters
 
         public override void _Ready()
         {
-            _chaingunController = this.GetFirstChildOfType<PlayerChaingunController>(true);
-            _railgunController = this.GetFirstChildOfType<PlayerRailgunController>(true);
-            _rocketLauncherController = this.GetFirstChildOfType<PlayerRocketLauncherController>(true);
+            ChaingunController = this.GetFirstChildOfType<PlayerChaingunController>(true);
+            RailgunController = this.GetFirstChildOfType<PlayerRailgunController>(true);
+            RocketLauncherController = this.GetFirstChildOfType<PlayerRocketLauncherController>(true);
             _upgradeHandler = new PlayerUpgradeHandler();
-            _upgradeHandler.RegisterWeaponController(_chaingunController);
-            _upgradeHandler.RegisterWeaponController(_railgunController);
-            _upgradeHandler.RegisterWeaponController(_rocketLauncherController);
+            _upgradeHandler.RegisterWeaponController(ChaingunController);
+            _upgradeHandler.RegisterWeaponController(RailgunController);
+            _upgradeHandler.RegisterWeaponController(RocketLauncherController);
+
+            // Signal to let other elements (mainly UI) know the player is now ready.
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
         }
 
         /// <summary>
@@ -85,7 +91,7 @@ namespace EHE.BoltBusters
         public override void TakeDamage(DamageData damageData)
         {
             base.TakeDamage(damageData);
-            GD.Print("Aaaa I'm taking damage! ");
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
         }
 
         public override void OnSpawn() { }
