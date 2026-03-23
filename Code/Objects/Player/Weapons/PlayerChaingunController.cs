@@ -13,24 +13,42 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class PlayerChaingunController : PlayerWeaponGroupController
     {
-        private float _attackTimer;
-        private float _attackInterval = 0.5f;
+        [ExportGroup("Heat mechanics")]
+        // How many units are increased to _current heat per shot.
+        [Export]
+        private float _heatBuildupRate = 0.2f;
 
-        private float _overheatLimit = 100;
-        private float _currentHeat = 0;
-        private float _heatingRate = 0.2f;
-        private float _coolingRate = 2f;
+        // Heat will be reduced every second by _baseCoolingRate + CoolingRateUpgrade value. Base is what the weapon
+        // starts with and upgrades are bought during gameplay.
+        [Export]
+        private float _baseCoolingRate = 2f;
 
-        // TODO: Implement chainguns automatically adjusting to target. Currently hardcoded!
+        // When cooling is upgraded, increase the CoolingRateUpgrade by this amount per upgrade.
+        [Export]
+        private float _coolingUpgradeIncrease = 1f;
+
+        // After overheating the weapon must cool down below this level to be able to fire again.
+        [Export]
+        private float _overheatRecoveryThreshold = 80f;
+
         [Export]
         private float _range = 7f;
 
         [Export]
         private AudioStreamPlayer3D _shootingAudio;
 
+        private float _attackTimer;
+        private float _attackInterval = 0.5f;
+        private float _overheatLimit = 100;
+        private float _currentHeat = 0;
+
+        // TODO: Implement chainguns automatically adjusting to target. Currently hardcoded!
+
         private Sprite3D _reticle;
 
-        private ChaingunState _currentState = ChaingunState.None;
+        public ChaingunState CurrentState { get; private set; } = ChaingunState.None;
+
+        public float CoolingRateUpgrade { get; private set; } = 0;
 
         public override WeaponType WeaponType => WeaponType.Chaingun;
 
@@ -93,7 +111,7 @@ namespace EHE.BoltBusters
                 {
                     weapon.Attack();
                     EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.Firing);
-                    AddHeat(_heatingRate);
+                    AddHeat(_heatBuildupRate);
                     _attackTimer = 0;
                     if (!_shootingAudio.IsPlaying())
                     {
@@ -111,12 +129,26 @@ namespace EHE.BoltBusters
             {
                 _attackTimer += deltaTime;
             }
-            ReduceHeat(_coolingRate * deltaTime);
+            ReduceHeat((_baseCoolingRate + CoolingRateUpgrade) * deltaTime);
         }
 
         public float GetCurrentHeat()
         {
             return _currentHeat;
+        }
+
+        public void UpgradeCooling()
+        {
+            CoolingRateUpgrade += _coolingUpgradeIncrease;
+        }
+
+        public void DowngradeCooling()
+        {
+            CoolingRateUpgrade -= _coolingUpgradeIncrease;
+            if (CoolingRateUpgrade < 0)
+            {
+                CoolingRateUpgrade = 0;
+            }
         }
 
         private void AddHeat(float heatAmount)
@@ -145,6 +177,31 @@ namespace EHE.BoltBusters
         {
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.Overheat);
         }
+
+        private void ChangeState(ChaingunState newState)
+        {
+            switch (newState)
+            {
+                case ChaingunState.Firing:
+                    break;
+                case ChaingunState.ReadyToFire:
+                    break;
+                case ChaingunState.NotReadyToFire:
+                    break;
+                case ChaingunState.Overheat:
+                    break;
+                case ChaingunState.HeatChanged:
+                    break;
+                case ChaingunState.None:
+                    break;
+            }
+        }
+
+        # region Chaingun state change events
+
+        private void HeatChanged() { }
+
+        #endregion
 
         /// <summary>
         /// Sets the attack interval based on number of guns and the individual gun's cooldown to create a continuous
