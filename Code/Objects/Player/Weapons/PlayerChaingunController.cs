@@ -46,7 +46,11 @@ namespace EHE.BoltBusters
 
         private Sprite3D _reticle;
 
-        public ChaingunState CurrentState { get; private set; } = ChaingunState.None;
+        /// <summary>
+        /// Use only ReadyToFire, NotReadyToFire or Overheating states. Currently only used to update UI so other
+        /// states are not required because they are transitional and do not persist over one frame.
+        /// </summary>
+        public ChaingunState CurrentPersistentState { get; private set; } = ChaingunState.None;
 
         public float CoolingRateUpgrade { get; private set; } = 0;
 
@@ -63,22 +67,17 @@ namespace EHE.BoltBusters
             Firing,
             HeatChanged,
             Overheat,
+            BarrelCountChanged,
         }
 
         public override void _Ready()
         {
             base._Ready();
             AddWeapon();
-            // AddWeapon();
-            // AddWeapon();
-            // AddWeapon();
-            // AddWeapon();
-            // AddWeapon();
-            // AddWeapon();
-            // AddWeapon();
-
             _reticle = GetNode<Sprite3D>("Reticle");
             _reticle.Position -= new Vector3(0, _reticle.GlobalPosition.Y - 0.2f, _range);
+            CurrentPersistentState = ChaingunState.ReadyToFire;
+            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.ReadyToFire);
         }
 
         public override bool AddWeapon()
@@ -87,6 +86,7 @@ namespace EHE.BoltBusters
             {
                 return false;
             }
+            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.BarrelCountChanged);
             SetAttackInterval();
             return true;
         }
@@ -97,6 +97,7 @@ namespace EHE.BoltBusters
             {
                 return false;
             }
+            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.BarrelCountChanged);
             SetAttackInterval();
             return true;
         }
@@ -105,9 +106,10 @@ namespace EHE.BoltBusters
         {
             if (_attackTimer < _attackInterval)
                 return;
+
             foreach (BaseWeapon weapon in Weapons)
             {
-                if (weapon.CanAttack)
+                if (weapon.CanAttack && CurrentPersistentState == ChaingunState.ReadyToFire)
                 {
                     weapon.Attack();
                     EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.Firing);
@@ -117,6 +119,7 @@ namespace EHE.BoltBusters
                     {
                         _shootingAudio.Play();
                     }
+
                     return;
                 }
             }
@@ -129,19 +132,32 @@ namespace EHE.BoltBusters
             {
                 _attackTimer += deltaTime;
             }
+
             ReduceHeat((_baseCoolingRate + CoolingRateUpgrade) * deltaTime);
         }
 
+        #region Heating mechanics
+
+        /// <summary>
+        /// Current heat level of the chaingun.
+        /// </summary>
+        /// <returns>Current heat level as float between 0 - 100.</returns>
         public float GetCurrentHeat()
         {
             return _currentHeat;
         }
 
+        /// <summary>
+        /// Adds one level of cooling upgrade (defined in code).
+        /// </summary>
         public void UpgradeCooling()
         {
             CoolingRateUpgrade += _coolingUpgradeIncrease;
         }
 
+        /// <summary>
+        /// Removes one level of cooling upgrades. Total cooling can never drop below base value defined in code.
+        /// </summary>
         public void DowngradeCooling()
         {
             CoolingRateUpgrade -= _coolingUpgradeIncrease;
@@ -151,6 +167,12 @@ namespace EHE.BoltBusters
             }
         }
 
+        /// <summary>
+        /// Adds the indicated amount of heat to the chaingun. This is called during the attack and should be a one-time
+        /// increase when the individual chaingun fires. It's possible to use as gradual increase if multiplied by
+        /// delta on each frame (this is how cooling works). Can never go above overheatlimit and can trigger overheat.
+        /// </summary>
+        /// <param name="heatAmount">Value to be added to total heat.</param>
         private void AddHeat(float heatAmount)
         {
             _currentHeat += heatAmount;
@@ -158,50 +180,62 @@ namespace EHE.BoltBusters
             {
                 TriggerOverheat();
             }
+
             _currentHeat = Mathf.Clamp(_currentHeat, 0, _overheatLimit);
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
         }
 
+        /// <summary>
+        /// Deducst the indicated amount from current heat. Can not go below zero. Typically called on each frame in
+        /// Process for smooth cooling.
+        /// </summary>
+        /// <param name="heatAmount">Value to be deducted from total heat.</param>
         private void ReduceHeat(float heatAmount)
         {
             if (_currentHeat <= 0)
             {
                 return;
             }
+
             _currentHeat -= heatAmount;
             _currentHeat = Mathf.Clamp(_currentHeat, 0, _overheatLimit);
+            // Inform UI of heat change.
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
-        }
-
-        private void TriggerOverheat()
-        {
-            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.Overheat);
-        }
-
-        private void ChangeState(ChaingunState newState)
-        {
-            switch (newState)
+            // Handle case where weapon was overheating and has cooled down.
+            if (CurrentPersistentState == ChaingunState.Overheat && _currentHeat < _overheatRecoveryThreshold)
             {
-                case ChaingunState.Firing:
-                    break;
-                case ChaingunState.ReadyToFire:
-                    break;
-                case ChaingunState.NotReadyToFire:
-                    break;
-                case ChaingunState.Overheat:
-                    break;
-                case ChaingunState.HeatChanged:
-                    break;
-                case ChaingunState.None:
-                    break;
+                CurrentPersistentState = ChaingunState.ReadyToFire;
+                EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.ReadyToFire);
             }
         }
 
-        # region Chaingun state change events
+        /// <summary>
+        /// Triggers the overheat event. Notifies UI and sets the current state to Overheat.
+        /// </summary>
+        private void TriggerOverheat()
+        {
+            CurrentPersistentState = ChaingunState.Overheat;
+            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.Overheat);
+            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.NotReadyToFire);
+        }
 
-        private void HeatChanged() { }
+        #endregion Heating mechanics
 
-        #endregion
+        public int GetBarrelCount()
+        {
+            return Weapons.Count;
+        }
+
+        /// <summary>
+        /// Resets the chaingun state to zero heat buildup, sets the state to ReadyToFire and notifies the UI.
+        /// </summary>
+        public void ResetChaingun()
+        {
+            CurrentPersistentState = ChaingunState.ReadyToFire;
+            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.ReadyToFire);
+            _currentHeat = 0;
+            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
+        }
 
         /// <summary>
         /// Sets the attack interval based on number of guns and the individual gun's cooldown to create a continuous

@@ -73,9 +73,13 @@ namespace EHE.BoltBusters.Ui
                 case PlayerChaingunController.ChaingunState.ReadyToFire:
                     ToggleFireIndicator(true);
                     break;
+                case PlayerChaingunController.ChaingunState.BarrelCountChanged:
+                    UpdateBarrelCounter();
+                    break;
             }
         }
 
+        // NOTE: Currently the blink tween is active when going to overheat so the toggle is not working as intended.
         private void BlinkFireIndicator()
         {
             Tween blinkTween = CreateTween();
@@ -111,6 +115,12 @@ namespace EHE.BoltBusters.Ui
             {
                 _overheatTexture.Modulate = _colorGray;
             }
+        }
+
+        private void UpdateBarrelCounter()
+        {
+            _barrelCount = _chaingunController.GetBarrelCount();
+            _barrelCountLabel.Text = _barrelCount.ToString();
         }
     }
 }
