@@ -17,5 +17,11 @@ namespace EHE.BoltBusters.States
             AddTargetState(StateType.Paused);
             AddTargetState(StateType.Round);
         }
+
+        protected override void OnExited(bool keepLoaded = false)
+        {
+            GameManager.Instance.CurrentPlayerData.IsLevelCleared = false;
+            GameManager.Instance.SaveGame();
+        }
     }
 }
