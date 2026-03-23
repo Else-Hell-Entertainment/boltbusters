@@ -373,7 +373,7 @@ namespace EHE.BoltBusters
             // Level index.
             if (
                 !data.TryGetValue(KEY_LEVEL_INDEX, out var levelIndex)
-                || levelIndex.VariantType != Variant.Type.Int
+                || (levelIndex.VariantType != Variant.Type.Float && levelIndex.VariantType != Variant.Type.Int)
                 || (int)levelIndex < 1 // TODO: Set min level index in config.
             )
             {
