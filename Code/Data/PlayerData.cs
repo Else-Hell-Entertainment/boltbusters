@@ -313,13 +313,13 @@ namespace EHE.BoltBusters
         {
             if (!_weaponCounts.ContainsKey(weaponType))
             {
-                GD.PushError($"Cannot set collectible amount: key '{weaponType}' not found!");
+                GD.PushError($"Cannot set weapon count: key '{weaponType}' not found!");
                 return false;
             }
 
             if (count < 0)
             {
-                GD.PushError("Cannot set collectible amount: amount cannot be negative!");
+                GD.PushError("Cannot set weapon count: count cannot be negative!");
                 return false;
             }
 
