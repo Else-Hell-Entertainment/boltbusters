@@ -30,6 +30,8 @@ namespace EHE.BoltBusters
 
         private Sprite3D _reticle;
 
+        private ChaingunState _currentState = ChaingunState.None;
+
         public override WeaponType WeaponType => WeaponType.Chaingun;
 
         [Signal]
