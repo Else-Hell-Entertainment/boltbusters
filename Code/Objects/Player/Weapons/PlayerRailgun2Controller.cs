@@ -1,5 +1,6 @@
 using System;
 using Godot;
+using Godot.Collections;
 
 namespace EHE.BoltBusters
 {
@@ -9,11 +10,14 @@ namespace EHE.BoltBusters
 
         private Railgun2 _activeRailgun;
         private Node3D _muzzle;
+        private ShapeCast3D _shapeCast3D;
+        private DamageData _damageData;
 
         public override void _Ready()
         {
             base._Ready();
             InitializeNodes();
+            _damageData = new DamageData(150, DamageType.Sniper);
         }
 
         public override void _PhysicsProcess(double delta)
@@ -24,6 +28,7 @@ namespace EHE.BoltBusters
         private void InitializeNodes()
         {
             _muzzle = GetNode<Node3D>("Muzzle");
+            _shapeCast3D = GetNode<ShapeCast3D>("ShapeCast3D");
         }
 
         public override void Attack()
@@ -48,6 +53,20 @@ namespace EHE.BoltBusters
         private void ShootRailgun()
         {
             GD.Print("RAILGUN GOES KEKEKEKEKEKKEKEKEKE");
+            var collisions = _shapeCast3D.CollisionResult;
+            foreach (Dictionary collision in collisions)
+            {
+                if (collision.ContainsKey("collider"))
+                {
+                    var collider = collision["collider"];
+                    Node target = (Node)collider;
+                    if (target is IDamageable damageable)
+                    {
+                        GD.Print("Railgun hit something!" + target);
+                        damageable.TakeDamage(_damageData);
+                    }
+                }
+            }
         }
 
         private Railgun2 GetNextActiveRailgun()
