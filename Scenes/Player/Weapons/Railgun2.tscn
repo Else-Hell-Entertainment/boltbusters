@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bta8cuhn6twxu"]
+
+[ext_resource type="Script" uid="uid://jat1wciut4il" path="res://Code/Objects/Player/Weapons/Railgun2.cs" id="1_0hp30"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_vk13k"]
+
+[node name="Railgun2" type="Node3D"]
+script = ExtResource("1_0hp30")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.41, 0, 0, 0, -1.792167e-08, 0.41, 0, -0.41, -1.792167e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_vk13k")
+
+[node name="ReloadTimer" type="Timer" parent="."]

@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfcvy3x00knug"]
+
+[ext_resource type="Script" uid="uid://164vao156e32" path="res://Code/Objects/Player/Weapons/PlayerRailgun2Controller.cs" id="1_my7ni"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_my7ni"]
+size = Vector3(0.25, 0.25, 0.25)
+
+[node name="Railgun2Controller" type="Node3D"]
+script = ExtResource("1_my7ni")
+
+[node name="WeaponSlots" type="Node3D" parent="."]
+
+[node name="Slot1" type="Node3D" parent="WeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18229362, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot1"]
+mesh = SubResource("BoxMesh_my7ni")
+
+[node name="Slot2" type="Node3D" parent="WeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.519747, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot2"]
+mesh = SubResource("BoxMesh_my7ni")
+
+[node name="Slot3" type="Node3D" parent="WeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8250916, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot3"]
+mesh = SubResource("BoxMesh_my7ni")
+
+[node name="Slot4" type="Node3D" parent="WeaponSlots"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2076607, 0, 0)
+mesh = SubResource("BoxMesh_my7ni")
+skeleton = NodePath("../Slot4")
+
+[node name="Muzzle" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18369201, 0, 0)
