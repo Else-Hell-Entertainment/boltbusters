@@ -253,6 +253,78 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
+        ///  Increases the amount of the given collectible type by the given
+        ///  amount. If no amount is provided, increases the value by 1.
+        /// </summary>
+        ///
+        /// <param name="collectibleType">
+        ///  The collectible whose count should be increased.
+        /// </param>
+        /// <param name="increment">
+        ///  How much the amount should increase. Default is 1.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if increasing the amount was successful,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        public bool IncreaseCollectibleAmount(CollectibleType collectibleType, int increment = 1)
+        {
+            var current = GetCollectibleAmount(collectibleType);
+
+            // Invalid collectible type.
+            if (current < 0)
+            {
+                return false;
+            }
+
+            // Invalid increment.
+            if (increment < 0)
+            {
+                GD.PrintErr($"Cannot increase collectible amount by a negative value ({increment}).");
+                return false;
+            }
+
+            return SetCollectibleAmount(collectibleType, amount: current + increment);
+        }
+
+        /// <summary>
+        ///  Decreases the amount of the given collectible type by the given
+        ///  amount. If no amount is provided, decreases the value by 1.
+        /// </summary>
+        ///
+        /// <param name="collectibleType">
+        ///  The collectible whose count should be increased.
+        /// </param>
+        /// <param name="decrement">
+        ///  How much the amount should decrease. Default is 1.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if decreasing the amount was successful,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        public bool DecreaseCollectibleAmount(CollectibleType collectibleType, int decrement = 1)
+        {
+            var current = GetCollectibleAmount(collectibleType);
+
+            // Invalid collectible type.
+            if (current < 0)
+            {
+                return false;
+            }
+
+            // Invalid decrement.
+            if (decrement < 0)
+            {
+                GD.PrintErr($"Cannot decrease collectible amount by a negative value ({decrement}).");
+                return false;
+            }
+
+            return SetCollectibleAmount(collectibleType, amount: current - decrement);
+        }
+
+        /// <summary>
         ///  Gets the current number of the specified weapons.
         /// </summary>
         ///
