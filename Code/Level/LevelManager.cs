@@ -189,7 +189,7 @@ namespace EHE.BoltBusters
                 return;
             }
 
-            GameManager.Instance.CurrentPlayerData.IsLevelCleared = false;
+            GameManager.Instance.CurrentPlayerData.StartFromShop = false;
             DespawnLevelObjects();
             _roundTimer.WaitTime = _roundData.RoundLength;
             GameManager.Instance.RoundIndex++;
@@ -272,7 +272,7 @@ namespace EHE.BoltBusters
             ResetLevel();
             // TODO: Disable player movement.
             // TODO: Disable enemy movement.
-            GameManager.Instance.CurrentPlayerData.IsLevelCleared = true;
+            GameManager.Instance.CurrentPlayerData.StartFromShop = true;
             GameManager.Instance.SaveGame();
             // TODO: Wait 5s before transitioning to shop state.
             GameManager.Instance.StateMachine.TransitionTo(StateType.Shop);

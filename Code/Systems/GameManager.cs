@@ -408,8 +408,8 @@ namespace EHE.BoltBusters
             this.PrintDebug("Starting game...");
             StateMachine.TransitionTo(StateType.Round);
 
-            this.PrintDebug($"Start from shop: {CurrentPlayerData.IsLevelCleared}");
-            if (CurrentPlayerData.IsLevelCleared)
+            this.PrintDebug($"Start from shop: {CurrentPlayerData.StartFromShop}");
+            if (CurrentPlayerData.StartFromShop)
             {
                 StateMachine.TransitionTo(StateType.Shop);
             }

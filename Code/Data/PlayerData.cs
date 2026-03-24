@@ -81,7 +81,7 @@ namespace EHE.BoltBusters
         // TODO: Read these from the default player data in GameManager!
         private static int s_defaultHealth = 100;
         private int _defaultLevelIndex = 1;
-        private bool _defaultIsLevelCleared = false;
+        private bool _defaultStartFromShop = false;
         private Dictionary<CollectibleType, int> _defaultCollectibleCounts = new()
         {
             { CollectibleType.Nut, 0 },
@@ -158,17 +158,11 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        ///  Whether the player has already cleared the current level or not,
-        ///  useful when loading data from a save game.
+        ///  Whether the player should start in shop when the save game is
+        ///  loaded.
         /// </summary>
-        ///
-        /// <remarks>
-        ///  This flag tells the save system whether to put the player at the
-        ///  start of the level or in the shop state that is accessible after
-        ///  the level has been cleared.
-        /// </remarks>
         [Export]
-        public bool IsLevelCleared { get; set; } = false;
+        public bool StartFromShop { get; set; } = false;
 
         #endregion Exported Fields & Properties (private/protected/public)
 
@@ -482,7 +476,7 @@ namespace EHE.BoltBusters
         ///  Saves the following values to a Godot <see cref="Dictionary"/>:
         ///  <list type="bullet">
         ///   <item><see cref="LevelIndex"/></item>
-        ///   <item><see cref="IsLevelCleared"/></item>
+        ///   <item><see cref="StartFromShop"/></item>
         ///   <item>number of each type of collectibles in possession</item>
         ///   <item>number of each type of weapon in possession</item>
         ///  </list>
@@ -496,7 +490,7 @@ namespace EHE.BoltBusters
             return new Dictionary()
             {
                 [KEY_LEVEL_INDEX] = LevelIndex,
-                [KEY_START_FROM_SHOP] = IsLevelCleared,
+                [KEY_START_FROM_SHOP] = StartFromShop,
                 [KEY_COLLECTIBLE_COUNTS] = _collectibleCounts,
                 [KEY_WEAPON_COUNTS] = _weaponCounts,
             };
@@ -535,12 +529,12 @@ namespace EHE.BoltBusters
                 || startFromShop.VariantType != Variant.Type.Bool
             )
             {
-                IsLevelCleared = _defaultIsLevelCleared; // TODO: Refactor, read from default player data resource.
-                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_START_FROM_SHOP, IsLevelCleared));
+                StartFromShop = _defaultStartFromShop; // TODO: Refactor, read from default player data resource.
+                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_START_FROM_SHOP, StartFromShop));
             }
             else
             {
-                IsLevelCleared = (bool)startFromShop;
+                StartFromShop = (bool)startFromShop;
             }
 
             // Collectible counts.
