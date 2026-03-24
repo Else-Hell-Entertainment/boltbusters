@@ -17,6 +17,11 @@ namespace EHE.BoltBusters
 
         public override WeaponType WeaponType => WeaponType.Rocket;
 
+        /// <summary>
+        /// Counter for how many salvo size upgrades have been bought. Use Upgrade/DowngradeSalvoSize to change.
+        /// </summary>
+        public int SalvoSizeUpgradeCount { get; private set; }
+
         public override void _Ready()
         {
             base._Ready();
@@ -38,6 +43,7 @@ namespace EHE.BoltBusters
 
         public void UpgradeSalvoSize()
         {
+            SalvoSizeUpgradeCount++;
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is RocketLauncher launcher)
@@ -52,6 +58,7 @@ namespace EHE.BoltBusters
 
         public void DowngradeSalvoSize()
         {
+            SalvoSizeUpgradeCount--;
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is RocketLauncher launcher)
