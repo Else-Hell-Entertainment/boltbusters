@@ -27,7 +27,7 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0
 shape = SubResource("CapsuleShape3D_rklc7")
 
 [node name="RocketBodyMesh" parent="RocketBody" instance=ExtResource("2_wwpju")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0)
 skeleton = NodePath("../..")
 
 [node name="ExplosionCast" type="ShapeCast3D" parent="RocketBody"]

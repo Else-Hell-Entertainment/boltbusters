@@ -22,10 +22,6 @@ namespace EHE.BoltBusters
             base._Ready();
             _reticle = GetNode<Sprite3D>("Reticle");
             _reticle.Position -= new Vector3(0, _reticle.GlobalPosition.Y - 0.2f, _range);
-            // AddWeapon();
-            // AddWeapon();
-            // AddWeapon();
-            // AddWeapon();
         }
 
         public override void Attack()
@@ -36,6 +32,34 @@ namespace EHE.BoltBusters
                 {
                     weapon.Attack();
                     return;
+                }
+            }
+        }
+
+        public void UpgradeSalvoSize()
+        {
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon is RocketLauncher launcher)
+                {
+                    launcher.IncreaseSalvoSize();
+#if Debug
+                    GD.Print("Increasing rocket launcher salvo size");
+#endif
+                }
+            }
+        }
+
+        public void DowngradeSalvoSize()
+        {
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon is RocketLauncher launcher)
+                {
+                    launcher.DecreaseSalvoSize();
+#if Debug
+                    GD.Print("Decreasing rocket launcher salvo size");
+#endif
                 }
             }
         }
