@@ -401,6 +401,78 @@ namespace EHE.BoltBusters
             return true;
         }
 
+        /// <summary>
+        ///  Increases the number of the weapons of the given type by the given
+        ///  amount. If no amount is provided, increases the value by 1.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  The type of the weapon whose count should be increased.
+        /// </param>
+        /// <param name="increment">
+        ///  How much the count should be increased by. Default is 1.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if increasing the number of weapons was successful,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        public bool IncreaseNumberOfWeapons(WeaponType weaponType, int increment = 1)
+        {
+            var current = GetNumberOfWeapons(weaponType);
+
+            // Weapon type not found.
+            if (current < 0)
+            {
+                return false;
+            }
+
+            // Invalid increment.
+            if (increment < 0)
+            {
+                GD.PrintErr($"Cannot increase weapon count by a negative value ({increment}).");
+                return false;
+            }
+
+            return SetNumberOfWeapons(weaponType, count: current + increment);
+        }
+
+        /// <summary>
+        ///  Decreases the number of the weapons of the given type by the given
+        ///  amount. If no amount is provided, decreases the value by 1.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  The type of the weapon whose count should be increased.
+        /// </param>
+        /// <param name="decrement">
+        ///  How much the count should be decreased by. Default is 1.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if decreasing the number of weapons was successful,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        public bool DecreaseNumberOfWeapons(WeaponType weaponType, int decrement = 1)
+        {
+            var current = GetNumberOfWeapons(weaponType);
+
+            // Weapon type not found.
+            if (current < 0)
+            {
+                return false;
+            }
+
+            // Invalid decrement.
+            if (decrement < 0)
+            {
+                GD.PrintErr($"Cannot decrease weapon count by a negative value ({decrement}).");
+                return false;
+            }
+
+            return SetNumberOfWeapons(weaponType, count: current - decrement);
+        }
+
         #endregion Public Methods
 
 
