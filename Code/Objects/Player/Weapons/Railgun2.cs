@@ -76,8 +76,9 @@ namespace EHE.BoltBusters
         public override void _PhysicsProcess(double delta)
         {
             base._PhysicsProcess(delta);
-            // HACK: Reset this in Attack method which gets called from parent during phys frame and increase here to
-            // check if the attack button hasn't been pressed for more than 2 frames in a row.
+            // HACK: Assume here that there has been no attack command. If there's no attack command during 2 phys
+            // frames when charging, cancel the attack. This will be overriden and set to 0 if there is an attack
+            // command.
             if (CurrentState is RailgunState.Charging)
             {
                 _physFramewWithoutChargeCmd++;
