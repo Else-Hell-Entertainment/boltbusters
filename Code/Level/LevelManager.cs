@@ -192,7 +192,6 @@ namespace EHE.BoltBusters
             GameManager.Instance.CurrentPlayerData.StartFromShop = false;
             DespawnLevelObjects();
             _roundTimer.WaitTime = _roundData.RoundLength;
-            GameManager.Instance.RoundIndex++;
             GameManager.Instance.SaveGame();
         }
 
@@ -273,6 +272,7 @@ namespace EHE.BoltBusters
             // TODO: Disable player movement.
             // TODO: Disable enemy movement.
             GameManager.Instance.CurrentPlayerData.StartFromShop = true;
+            GameManager.Instance.RoundIndex++;
             GameManager.Instance.SaveGame();
             // TODO: Wait 5s before transitioning to shop state.
             GameManager.Instance.StateMachine.TransitionTo(StateType.Shop);
