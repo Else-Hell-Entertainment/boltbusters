@@ -1,0 +1,108 @@
+[gd_resource type="Resource" script_class="RoundData" load_steps=13 format=3 uid="uid://clqw3ny3nyte"]
+
+[ext_resource type="Script" uid="uid://dy1moahlf6gxp" path="res://Code/Data/WaveData.cs" id="1_7jfa0"]
+[ext_resource type="Script" uid="uid://cl3rtewo80fc5" path="res://Code/Data/RoundData.cs" id="2_7ursd"]
+
+[sub_resource type="Resource" id="Resource_7jfa0"]
+script = ExtResource("1_7jfa0")
+Enemies = Dictionary[int, int]({
+1: 1,
+2: 4,
+3: 0
+})
+
+[sub_resource type="Resource" id="Resource_7ursd"]
+script = ExtResource("1_7jfa0")
+SpawnTimeAfterStart = 5.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 2,
+3: 1
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_h4anh"]
+script = ExtResource("1_7jfa0")
+SpawnTimeAfterStart = 10.0
+Enemies = Dictionary[int, int]({
+1: 1,
+2: 4,
+3: 0
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_k03xu"]
+script = ExtResource("1_7jfa0")
+SpawnTimeAfterStart = 15.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 6,
+3: 1
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_lr2ux"]
+script = ExtResource("1_7jfa0")
+SpawnTimeAfterStart = 20.0
+Enemies = Dictionary[int, int]({
+1: 1,
+2: 8,
+3: 0
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_758t8"]
+script = ExtResource("1_7jfa0")
+SpawnTimeAfterStart = 25.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 4,
+3: 1
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_eti7t"]
+script = ExtResource("1_7jfa0")
+SpawnTimeAfterStart = 30.0
+Enemies = Dictionary[int, int]({
+1: 1,
+2: 4,
+3: 0
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_jtqp8"]
+script = ExtResource("1_7jfa0")
+SpawnTimeAfterStart = 35.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 2,
+3: 1
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_mdqlm"]
+script = ExtResource("1_7jfa0")
+SpawnTimeAfterStart = 40.0
+Enemies = Dictionary[int, int]({
+1: 1,
+2: 2,
+3: 0
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_hagns"]
+script = ExtResource("1_7jfa0")
+SpawnTimeAfterStart = 45.0
+Enemies = Dictionary[int, int]({
+1: 1,
+2: 0,
+3: 0
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[resource]
+script = ExtResource("2_7ursd")
+RoundLength = 55.0
+Waves = Array[ExtResource("1_7jfa0")]([SubResource("Resource_7jfa0"), SubResource("Resource_7ursd"), SubResource("Resource_h4anh"), SubResource("Resource_k03xu"), SubResource("Resource_lr2ux"), SubResource("Resource_758t8"), SubResource("Resource_eti7t"), SubResource("Resource_jtqp8"), SubResource("Resource_mdqlm"), SubResource("Resource_hagns")])
+metadata/_custom_type_script = "uid://cl3rtewo80fc5"

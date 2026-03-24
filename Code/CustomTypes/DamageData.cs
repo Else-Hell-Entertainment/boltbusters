@@ -6,6 +6,7 @@ namespace EHE.BoltBusters
         Chaingun,
         Sniper,
         Missile,
+        Melee,
     }
 
     public class DamageData

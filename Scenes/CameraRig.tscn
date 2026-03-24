@@ -4,8 +4,13 @@
 
 [node name="CameraRig" type="Marker3D" node_paths=PackedStringArray("CameraNode")]
 script = ExtResource("1_u8wcp")
+UseSmoothFollow = false
+MinX = -8.0
+MaxX = 56.0
+MinZ = 1.0
+MaxZ = 41.0
 CameraNode = NodePath("Camera3D")
+HeightAboveGround = 10.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
-projection = 1
 size = 10.0
