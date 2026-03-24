@@ -8,6 +8,8 @@ namespace EHE.BoltBusters
     {
         public override WeaponType WeaponType => WeaponType.Railgun;
 
+        private const int COLLISION_MASK_LAYER = 2;
+
         private Railgun2 _activeRailgun;
         private Node3D _muzzle;
         private ShapeCast3D _shapeCast3D;
@@ -29,6 +31,7 @@ namespace EHE.BoltBusters
         {
             _muzzle = GetNode<Node3D>("Muzzle");
             _shapeCast3D = GetNode<ShapeCast3D>("ShapeCast3D");
+            _shapeCast3D.CollisionMask = COLLISION_MASK_LAYER;
         }
 
         public override void Attack()
