@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfcvy3x00knug"]
+[gd_scene load_steps=4 format=3 uid="uid://cfcvy3x00knug"]
 
 [ext_resource type="Script" uid="uid://164vao156e32" path="res://Code/Objects/Player/Weapons/PlayerRailgun2Controller.cs" id="1_my7ni"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_my7ni"]
 size = Vector3(0.25, 0.25, 0.25)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_my7ni"]
+radius = 0.3
+height = 100.0
 
 [node name="Railgun2Controller" type="Node3D"]
 script = ExtResource("1_my7ni")
@@ -37,3 +41,7 @@ skeleton = NodePath("../Slot4")
 
 [node name="Muzzle" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18369201, 0, 0)
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 49, 0, 0)
+shape = SubResource("CapsuleShape3D_my7ni")

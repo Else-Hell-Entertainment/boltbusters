@@ -8,16 +8,22 @@ namespace EHE.BoltBusters
         public override WeaponType WeaponType => WeaponType.Railgun;
 
         private Railgun2 _activeRailgun;
+        private Node3D _muzzle;
 
         public override void _Ready()
         {
             base._Ready();
-            AddWeapon();
+            InitializeNodes();
         }
 
         public override void _PhysicsProcess(double delta)
         {
             base._PhysicsProcess(delta);
+        }
+
+        private void InitializeNodes()
+        {
+            _muzzle = GetNode<Node3D>("Muzzle");
         }
 
         public override void Attack()
