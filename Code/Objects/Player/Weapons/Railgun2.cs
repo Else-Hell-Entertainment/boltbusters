@@ -73,27 +73,6 @@ namespace EHE.BoltBusters
             ChangeState(RailgunState.ReadyToFire);
         }
 
-        public override void _PhysicsProcess(double delta)
-        {
-            base._PhysicsProcess(delta);
-            // // HACK: Assume here that there has been no attack command. If there's no attack command during 2 phys
-            // // frames when charging, cancel the attack. This will be overriden and set to 0 if there is an attack
-            // // command.
-            // if (CurrentState is RailgunState.Charging)
-            // {
-            //     _physFramewWithoutChargeCmd++;
-            //     if (_physFramewWithoutChargeCmd > 1)
-            //     {
-            //         _physFramewWithoutChargeCmd = 0;
-            //         ChangeState(RailgunState.Discharging);
-            //     }
-            // }
-            // else
-            // {
-            //     _physFramewWithoutChargeCmd = 0;
-            // }
-        }
-
         public override void _Process(double delta)
         {
             base._Process(delta);
@@ -103,7 +82,6 @@ namespace EHE.BoltBusters
         public override void Attack()
         {
             base.Attack();
-            //_physFramewWithoutChargeCmd = 0;
             if (CurrentState is RailgunState.ReadyToFire)
             {
                 ChangeState(RailgunState.Charging);
@@ -128,12 +106,10 @@ namespace EHE.BoltBusters
             CurrentChargePercent += (_baseChargingRate + ChargingUpgradeCount * _chargingUpgradeIncrease) * deltaTime;
             CurrentChargePercent = Mathf.Clamp(CurrentChargePercent, 0f, 100f);
             EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.Charging);
-            GD.Print(CurrentChargePercent);
         }
 
         private void DecreaseCharge()
         {
-            GD.Print(CurrentChargePercent);
             float deltaTime = (float)GetProcessDeltaTime();
             CurrentChargePercent -= _dischargeRate * deltaTime;
             if (CurrentChargePercent < 0f)

@@ -138,17 +138,5 @@ namespace EHE.BoltBusters
             }
             return false;
         }
-
-        private Railgun2 GetNextActiveRailgun()
-        {
-            foreach (BaseWeapon weapon in Weapons)
-            {
-                if (weapon is Railgun2 railgun && railgun.CurrentState == Railgun2.RailgunState.ReadyToFire)
-                {
-                    return railgun;
-                }
-            }
-            return null;
-        }
     }
 }
