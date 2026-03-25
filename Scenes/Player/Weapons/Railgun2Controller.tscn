@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfcvy3x00knug"]
+[gd_scene load_steps=8 format=3 uid="uid://cfcvy3x00knug"]
 
 [ext_resource type="Script" uid="uid://164vao156e32" path="res://Code/Objects/Player/Weapons/PlayerRailgun2Controller.cs" id="1_my7ni"]
+[ext_resource type="Material" uid="uid://u5hd3nb2o86u" path="res://Assets/SFX/ChargeEffectMaterial.tres" id="2_tjti4"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_my7ni"]
 radius = 0.3
@@ -24,21 +25,29 @@ cap_bottom = false
 [sub_resource type="BoxMesh" id="BoxMesh_tjti4"]
 size = Vector3(0.09, 0.12, 0.245)
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_my7ni"]
+material = ExtResource("2_tjti4")
+radius = 0.01
+height = 100.0
+radial_segments = 8
+rings = 4
+
 [node name="Railgun2Controller" type="Node3D"]
 script = ExtResource("1_my7ni")
 
 [node name="WeaponSlots" type="Node3D" parent="."]
 
 [node name="Slot1" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18229362, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008195668, 0, 0.3427992)
 
 [node name="Slot2" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.519747, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0033220053, 0, 0.4415773)
 
 [node name="Slot3" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8250916, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.011555791, 0, 0.47908545)
 
 [node name="Slot4" type="Node3D" parent="WeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.50990117)
 
 [node name="Muzzle" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18369201, 0, 0)
@@ -57,3 +66,7 @@ mesh = SubResource("CylinderMesh_my7ni")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1655865)
 mesh = SubResource("BoxMesh_tjti4")
+
+[node name="ChargeEffect" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -50)
+mesh = SubResource("CapsuleMesh_my7ni")

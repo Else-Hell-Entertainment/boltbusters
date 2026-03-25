@@ -23,6 +23,10 @@ namespace EHE.BoltBusters
         private MeshInstance3D _laserSightInstance;
         private CylinderMesh _laserSightMesh;
 
+        private MeshInstance3D _chargeEffectInstance;
+        private CapsuleMesh _chargeEffectMesh;
+        private StandardMaterial3D _chargeEffectMaterial;
+
         private bool _isAttackPressed;
         private int _physFramesCounter;
         private int _attackFramesCounter;
@@ -35,13 +39,29 @@ namespace EHE.BoltBusters
             _damageData = new DamageData(150, DamageType.Sniper);
         }
 
+        public override void _Process(double delta)
+        {
+            if (IsActive && _activeRailgun != null)
+            {
+                if (_activeRailgun.CurrentState == Railgun2.RailgunState.Charging)
+                {
+                    _chargeEffectInstance.Visible = true;
+                    UpdateChargeEffect();
+                }
+                else
+                {
+                    _chargeEffectInstance.Visible = false;
+                    UpdateLaserSight();
+                }
+            }
+        }
+
         public override void _PhysicsProcess(double delta)
         {
             base._PhysicsProcess(delta);
             if (IsActive)
             {
                 _lastRaycastResult = RayCastForward();
-                UpdateLaserSight();
             }
             if (_isAttackPressed)
             {
@@ -63,6 +83,9 @@ namespace EHE.BoltBusters
             _shapeCast3D.CollisionMask = COLLISION_MASK_LAYER;
             _laserSightInstance = GetNode<MeshInstance3D>("LaserSight");
             _laserSightMesh = (CylinderMesh)_laserSightInstance.Mesh;
+            _chargeEffectInstance = GetNode<MeshInstance3D>("ChargeEffect");
+            _chargeEffectMesh = (CapsuleMesh)_chargeEffectInstance.Mesh;
+            _chargeEffectMaterial = (StandardMaterial3D)_chargeEffectMesh.GetMaterial();
         }
 
         /// <summary>
@@ -206,6 +229,13 @@ namespace EHE.BoltBusters
                 _laserSightInstance.GlobalPosition = midpoint;
                 _laserSightInstance.Show();
             }
+        }
+
+        private void UpdateChargeEffect()
+        {
+            float strength = _activeRailgun.CurrentChargePercent;
+            _chargeEffectMesh.Radius = 0.0005f * strength;
+            _chargeEffectMaterial.EmissionEnergyMultiplier = strength;
         }
     }
 }
