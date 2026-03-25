@@ -45,12 +45,14 @@ namespace EHE.BoltBusters
             {
                 if (_activeRailgun.CurrentState == Railgun2.RailgunState.Charging)
                 {
-                    _chargeEffectInstanceBeam.Visible = true;
+                    _laserSightInstance.Hide();
+                    _chargeEffectInstanceBeam.Show();
                     UpdateChargeEffect();
                 }
                 else
                 {
-                    _chargeEffectInstanceBeam.Visible = false;
+                    _chargeEffectInstanceBeam.Hide();
+                    _laserSightInstance.Show();
                     UpdateLaserSight();
                 }
             }
@@ -63,6 +65,7 @@ namespace EHE.BoltBusters
             {
                 _lastRaycastResult = RayCastForward();
             }
+
             if (_isAttackPressed)
             {
                 _physFramesCounter++;
@@ -114,6 +117,7 @@ namespace EHE.BoltBusters
             {
                 return;
             }
+
             _isAttackPressed = true;
             _attackFramesCounter++;
 
@@ -162,6 +166,7 @@ namespace EHE.BoltBusters
             {
                 return false;
             }
+
             return true;
         }
 
@@ -201,6 +206,7 @@ namespace EHE.BoltBusters
                     return true;
                 }
             }
+
             return false;
         }
 
