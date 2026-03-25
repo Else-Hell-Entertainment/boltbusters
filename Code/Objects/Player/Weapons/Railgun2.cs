@@ -110,6 +110,10 @@ namespace EHE.BoltBusters
             _reloadTimer.Stop();
         }
 
+        public void UpgradeChargingSpeed() { }
+
+        public void DowngradeChargingSpeed() { }
+
         private void IncreaseCharge()
         {
             float deltaTime = (float)GetProcessDeltaTime();

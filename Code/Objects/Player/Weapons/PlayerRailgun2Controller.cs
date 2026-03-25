@@ -99,6 +99,39 @@ namespace EHE.BoltBusters
             return false;
         }
 
+        public override bool RemoveWeapon()
+        {
+            if (base.RemoveWeapon())
+            {
+                SetNextActiveRailgun();
+                return true;
+            }
+
+            return false;
+        }
+
+        public void UpgradeChargeSpeed()
+        {
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon is Railgun2 railgun)
+                {
+                    railgun.UpgradeChargingSpeed();
+                }
+            }
+        }
+
+        public void DowngradeChargeSpeed()
+        {
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon is Railgun2 railgun)
+                {
+                    railgun.DowngradeChargingSpeed();
+                }
+            }
+        }
+
         private void InitializeNodes()
         {
             _muzzle = GetNode<Node3D>("Muzzle");
