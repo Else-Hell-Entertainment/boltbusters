@@ -191,7 +191,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.44377965, -0.07728028, -0.1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3719362, -0.048951387, -0.10143402)
 
 [node name="Railgun2Controller" parent="Turret" instance=ExtResource("6_gk6dx")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1, 1.1974604, -0.30719876)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.1974604, -0.30719876)
 _weaponScene = ExtResource("7_jhyir")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]

@@ -1,10 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfcvy3x00knug"]
+[gd_scene load_steps=6 format=3 uid="uid://cfcvy3x00knug"]
 
 [ext_resource type="Script" uid="uid://164vao156e32" path="res://Code/Objects/Player/Weapons/PlayerRailgun2Controller.cs" id="1_my7ni"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_my7ni"]
 radius = 0.3
 height = 100.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1qj1a"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(0.95748645, 0.012920001, 0.17923622, 0.29900002)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_my7ni"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_1qj1a")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.001
+radial_segments = 6
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_tjti4"]
+size = Vector3(0.09, 0.12, 0.245)
 
 [node name="Railgun2Controller" type="Node3D"]
 script = ExtResource("1_my7ni")
@@ -26,5 +44,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8250916, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18369201, 0, 0)
 
 [node name="ShapeCast3D" type="ShapeCast3D" parent="."]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 49, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -1, -50)
 shape = SubResource("CapsuleShape3D_my7ni")
+target_position = Vector3(0, 0, -1)
+
+[node name="LaserSight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_my7ni")
+
+[node name="Muzzle2" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1655865)
+mesh = SubResource("BoxMesh_tjti4")
