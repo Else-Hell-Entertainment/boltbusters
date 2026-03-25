@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
 
+using System.Text.RegularExpressions;
 using Godot;
 using Godot.Collections;
 
@@ -79,6 +80,17 @@ namespace EHE.BoltBusters
             }
         }
 
+        public override bool AddWeapon()
+        {
+            if (base.AddWeapon())
+            {
+                SetNextActiveRailgun();
+                return true;
+            }
+
+            return false;
+        }
+
         private void InitializeNodes()
         {
             _muzzle = GetNode<Node3D>("Muzzle");
@@ -89,6 +101,7 @@ namespace EHE.BoltBusters
             _chargeEffectInstanceBeam = GetNode<MeshInstance3D>("ChargeEffectBeam");
             _chargeEffectMeshBeam = (CapsuleMesh)_chargeEffectInstanceBeam.Mesh;
             _chargeEffectMaterialBeam = (StandardMaterial3D)_chargeEffectMeshBeam.GetMaterial();
+            _chargeEffectInstanceBeam.Hide();
         }
 
         /// <summary>
