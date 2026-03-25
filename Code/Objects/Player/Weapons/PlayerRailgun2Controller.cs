@@ -11,6 +11,8 @@ namespace EHE.BoltBusters
     {
         public override WeaponType WeaponType => WeaponType.Railgun;
 
+        public bool IsActive = true;
+
         private const int COLLISION_MASK_LAYER = 2;
 
         private Railgun2 _activeRailgun;
@@ -18,9 +20,13 @@ namespace EHE.BoltBusters
         private ShapeCast3D _shapeCast3D;
         private DamageData _damageData;
 
+        private MeshInstance3D _laserSightInstance;
+        private CylinderMesh _laserSightMesh;
+
         private bool _isAttackPressed;
         private int _physFramesCounter;
         private int _attackFramesCounter;
+        private Dictionary _lastRaycastResult = new Dictionary();
 
         public override void _Ready()
         {
@@ -32,6 +38,11 @@ namespace EHE.BoltBusters
         public override void _PhysicsProcess(double delta)
         {
             base._PhysicsProcess(delta);
+            if (IsActive)
+            {
+                _lastRaycastResult = RayCastForward();
+                UpdateLaserSight();
+            }
             if (_isAttackPressed)
             {
                 _physFramesCounter++;
@@ -50,6 +61,8 @@ namespace EHE.BoltBusters
             _muzzle = GetNode<Node3D>("Muzzle");
             _shapeCast3D = GetNode<ShapeCast3D>("ShapeCast3D");
             _shapeCast3D.CollisionMask = COLLISION_MASK_LAYER;
+            _laserSightInstance = GetNode<MeshInstance3D>("LaserSight");
+            _laserSightMesh = (CylinderMesh)_laserSightInstance.Mesh;
         }
 
         /// <summary>
@@ -167,6 +180,32 @@ namespace EHE.BoltBusters
                 }
             }
             return false;
+        }
+
+        private Dictionary RayCastForward()
+        {
+            var spaceState = GetWorld3D().DirectSpaceState;
+            Vector3 start = _muzzle.GlobalPosition;
+            Vector3 direction = -_muzzle.GlobalBasis.Z;
+            Vector3 end = start + direction.Normalized() * 1000f;
+            var query = PhysicsRayQueryParameters3D.Create(start, end);
+            query.CollideWithAreas = true;
+            var result = spaceState.IntersectRay(query);
+            return result;
+        }
+
+        private void UpdateLaserSight()
+        {
+            if (_lastRaycastResult.ContainsKey("position"))
+            {
+                Vector3 point = (Vector3)_lastRaycastResult["position"];
+                Vector3 direction = point - _muzzle.GlobalPosition;
+                float distance = direction.Length();
+                _laserSightMesh.Height = distance;
+                Vector3 midpoint = _muzzle.GlobalPosition + direction * 0.5f;
+                _laserSightInstance.GlobalPosition = midpoint;
+                _laserSightInstance.Show();
+            }
         }
     }
 }
