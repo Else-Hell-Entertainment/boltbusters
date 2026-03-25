@@ -114,6 +114,8 @@ namespace EHE.BoltBusters
             {
                 return;
             }
+            _isAttackPressed = true;
+            _attackFramesCounter++;
 
             // Player must always wait for active railgun to finish discharging before they can attack again. Rider
             // complains about possible null reference exception but that's incorrect, it's checked earlier inside a
@@ -127,8 +129,6 @@ namespace EHE.BoltBusters
             {
                 _activeRailgun.Attack();
             }
-            _isAttackPressed = true;
-            _attackFramesCounter++;
 
             if (_activeRailgun.ChargeReady)
             {
@@ -146,6 +146,8 @@ namespace EHE.BoltBusters
         /// <returns><c>true</c> if active railgun was set and started to fire, <c>false</c> otherwise.</returns>
         private bool HandleJustPressedAttackInput()
         {
+            _isAttackPressed = true;
+            _attackFramesCounter++;
             // Player must always wait for the discharge to finish before they can attempt to shoot again.
             if (_activeRailgun.CurrentState == Railgun2.RailgunState.Discharging)
             {
@@ -160,8 +162,6 @@ namespace EHE.BoltBusters
             {
                 return false;
             }
-            _isAttackPressed = true;
-            _attackFramesCounter++;
             return true;
         }
 
@@ -221,12 +221,6 @@ namespace EHE.BoltBusters
             if (_lastRaycastResult.ContainsKey("position"))
             {
                 SetMeshToRaycastMidpoint(_laserSightInstance);
-                // Vector3 point = (Vector3)_lastRaycastResult["position"];
-                // Vector3 direction = point - _muzzle.GlobalPosition;
-                // float distance = direction.Length();
-                // _laserSightMesh.Height = distance;
-                // Vector3 midpoint = _muzzle.GlobalPosition + direction * 0.5f;
-                // _laserSightInstance.GlobalPosition = midpoint;
                 _laserSightInstance.Show();
             }
         }
