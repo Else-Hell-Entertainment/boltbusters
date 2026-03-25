@@ -2,7 +2,6 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
 
-using System.Text.RegularExpressions;
 using Godot;
 using Godot.Collections;
 
@@ -15,6 +14,9 @@ namespace EHE.BoltBusters
 
         [Export]
         private float _chargeBeamWidthModifier = 0.0005f;
+
+        [Export]
+        private PackedScene _railgunSparkEffect;
 
         public override WeaponType WeaponType => WeaponType.Railgun;
 
@@ -203,8 +205,10 @@ namespace EHE.BoltBusters
                     Node target = (Node)collider;
                     if (target is IDamageable damageable)
                     {
-                        GD.Print("Railgun hit something!" + target);
                         damageable.TakeDamage(_damageData);
+                        Vector3 position = (Vector3)collision["point"];
+                        Vector3 normal = (Vector3)collision["normal"];
+                        GenerateSparks(position, -normal);
                     }
                 }
             }
@@ -275,6 +279,16 @@ namespace EHE.BoltBusters
             {
                 cylinder.Height = distance;
             }
+        }
+
+        private void GenerateSparks(Vector3 position, Vector3 direction)
+        {
+            GpuParticles3D effect = (GpuParticles3D)_railgunSparkEffect.Instantiate();
+            AddChild(effect);
+            effect.GlobalPosition = position;
+            effect.LookAt(-direction);
+            effect.Emitting = true;
+            effect.Finished += effect.QueueFree;
         }
     }
 }

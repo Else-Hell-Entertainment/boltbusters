@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dj0xgg1j51b1b"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_um4sc"]
+direction = Vector3(1, 1, 0)
+initial_velocity_min = 6.0
+initial_velocity_max = 9.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -20.000002
+linear_accel_max = -10.000002
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8voy1"]
+albedo_color = Color(1, 0.51584375, 0.07016479, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_pdklq"]
+material = SubResource("StandardMaterial3D_8voy1")
+radius = 0.1
+height = 0.2
+
+[node name="RailgunSparkEffect" type="GPUParticles3D"]
+emitting = false
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_um4sc")
+draw_pass_1 = SubResource("SphereMesh_pdklq")

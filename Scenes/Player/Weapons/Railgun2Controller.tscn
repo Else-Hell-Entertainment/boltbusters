@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://cfcvy3x00knug"]
+[gd_scene load_steps=9 format=3 uid="uid://cfcvy3x00knug"]
 
 [ext_resource type="Script" uid="uid://164vao156e32" path="res://Code/Objects/Player/Weapons/PlayerRailgun2Controller.cs" id="1_my7ni"]
+[ext_resource type="PackedScene" uid="uid://dj0xgg1j51b1b" path="res://Assets/VFX/RailgunSparkEffect.tscn" id="2_pq4sq"]
 [ext_resource type="Material" uid="uid://u5hd3nb2o86u" path="res://Assets/SFX/ChargeEffectMaterial.tres" id="2_tjti4"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_my7ni"]
@@ -34,6 +35,7 @@ rings = 4
 
 [node name="Railgun2Controller" type="Node3D"]
 script = ExtResource("1_my7ni")
+_railgunSparkEffect = ExtResource("2_pq4sq")
 
 [node name="WeaponSlots" type="Node3D" parent="."]
 
