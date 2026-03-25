@@ -1,4 +1,7 @@
-using System;
+// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
+
 using Godot;
 using Godot.Collections;
 
@@ -34,7 +37,6 @@ namespace EHE.BoltBusters
                 _physFramesCounter++;
                 if (_physFramesCounter - _attackFramesCounter > 1)
                 {
-                    GD.PrintErr("Attack released");
                     _isAttackPressed = false;
                     _physFramesCounter = 0;
                     _attackFramesCounter = 0;
@@ -50,8 +52,18 @@ namespace EHE.BoltBusters
             _shapeCast3D.CollisionMask = COLLISION_MASK_LAYER;
         }
 
+        /// <summary>
+        /// Intended attack pattern:
+        /// - If currently active railgun is in Discharging state, player must wait for it to
+        /// finish. They must then click again, holding attack down does not initiate the next attack.
+        /// - If currently active is ready to fire, start the charging process.
+        /// - If player releases attack and cancels, the railgun must discharge before the next one can start firing
+        /// and player must click attack again.
+        /// - Keeping attack button pressed should never fire automatically in sequence, player must always click again.
+        /// </summary>
         public override void Attack()
         {
+            // Null check at the beginning in case the list hasn't been refreshed.
             if (_activeRailgun == null)
             {
                 if (!SetNextActiveRailgun())
@@ -60,12 +72,16 @@ namespace EHE.BoltBusters
                 }
             }
 
-            if (!_isAttackPressed && !CustomJustPressedInput())
+            // New attack input: method will return true only if there's a new, ready to fire railgun which can start
+            // attacking. Otherwise treat as if input didn't happen.
+            if (!_isAttackPressed && !HandleJustPressedAttackInput())
             {
                 return;
             }
 
-            // Player must always wait for active railgun to finish discharging before they can attack again.
+            // Player must always wait for active railgun to finish discharging before they can attack again. Rider
+            // complains about possible null reference exception but that's incorrect, it's checked earlier inside a
+            // method.
             if (_activeRailgun.CurrentState == Railgun2.RailgunState.Discharging)
             {
                 return;
@@ -86,7 +102,13 @@ namespace EHE.BoltBusters
             }
         }
 
-        private bool CustomJustPressedInput()
+        /// <summary>
+        /// Custom method to handle what happens when player has released the attack input and clicks it again.
+        /// This is complicated but purely for game feel purposes.
+        /// NOTE: does not ensure the _activeRailgun is not null!
+        /// </summary>
+        /// <returns><c>true</c> if active railgun was set and started to fire, <c>false</c> otherwise.</returns>
+        private bool HandleJustPressedAttackInput()
         {
             // Player must always wait for the discharge to finish before they can attempt to shoot again.
             if (_activeRailgun.CurrentState == Railgun2.RailgunState.Discharging)
@@ -126,6 +148,11 @@ namespace EHE.BoltBusters
             }
         }
 
+        /// <summary>
+        /// Goes through all railguns and if one is found that is ready to fire, sets it as active railgun. WILL NOT
+        /// CHECK IF ACTIVE IS NULL!
+        /// </summary>
+        /// <returns><c>true</c> if there was railgun ready to fire, <c>false</c> otherwise.</returns>
         private bool SetNextActiveRailgun()
         {
             foreach (BaseWeapon weapon in Weapons)
