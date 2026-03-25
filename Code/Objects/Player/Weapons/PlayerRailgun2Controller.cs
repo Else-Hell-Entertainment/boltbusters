@@ -10,6 +10,12 @@ namespace EHE.BoltBusters
 {
     public partial class PlayerRailgun2Controller : PlayerWeaponGroupController
     {
+        [Export]
+        private float _chargeEmissionModifier = 1f;
+
+        [Export]
+        private float _chargeBeamWidthModifier = 0.0005f;
+
         public override WeaponType WeaponType => WeaponType.Railgun;
 
         public bool IsActive = true;
@@ -247,9 +253,9 @@ namespace EHE.BoltBusters
         private void UpdateChargeEffect()
         {
             SetMeshToRaycastMidpoint(_chargeEffectInstanceBeam);
-            float strength = _activeRailgun.CurrentChargePercent;
-            _chargeEffectMeshBeam.Radius = 0.0005f * strength;
-            _chargeEffectMaterialBeam.EmissionEnergyMultiplier = strength;
+            float chargePercent = _activeRailgun.CurrentChargePercent;
+            _chargeEffectMeshBeam.Radius = _chargeBeamWidthModifier * chargePercent;
+            _chargeEffectMaterialBeam.EmissionEnergyMultiplier = _chargeEmissionModifier * chargePercent;
         }
 
         private void SetMeshToRaycastMidpoint(MeshInstance3D meshInstance)
