@@ -23,9 +23,9 @@ namespace EHE.BoltBusters
         private MeshInstance3D _laserSightInstance;
         private CylinderMesh _laserSightMesh;
 
-        private MeshInstance3D _chargeEffectInstance;
-        private CapsuleMesh _chargeEffectMesh;
-        private StandardMaterial3D _chargeEffectMaterial;
+        private MeshInstance3D _chargeEffectInstanceBeam;
+        private CapsuleMesh _chargeEffectMeshBeam;
+        private StandardMaterial3D _chargeEffectMaterialBeam;
 
         private bool _isAttackPressed;
         private int _physFramesCounter;
@@ -45,12 +45,12 @@ namespace EHE.BoltBusters
             {
                 if (_activeRailgun.CurrentState == Railgun2.RailgunState.Charging)
                 {
-                    _chargeEffectInstance.Visible = true;
+                    _chargeEffectInstanceBeam.Visible = true;
                     UpdateChargeEffect();
                 }
                 else
                 {
-                    _chargeEffectInstance.Visible = false;
+                    _chargeEffectInstanceBeam.Visible = false;
                     UpdateLaserSight();
                 }
             }
@@ -83,9 +83,9 @@ namespace EHE.BoltBusters
             _shapeCast3D.CollisionMask = COLLISION_MASK_LAYER;
             _laserSightInstance = GetNode<MeshInstance3D>("LaserSight");
             _laserSightMesh = (CylinderMesh)_laserSightInstance.Mesh;
-            _chargeEffectInstance = GetNode<MeshInstance3D>("ChargeEffect");
-            _chargeEffectMesh = (CapsuleMesh)_chargeEffectInstance.Mesh;
-            _chargeEffectMaterial = (StandardMaterial3D)_chargeEffectMesh.GetMaterial();
+            _chargeEffectInstanceBeam = GetNode<MeshInstance3D>("ChargeEffectBeam");
+            _chargeEffectMeshBeam = (CapsuleMesh)_chargeEffectInstanceBeam.Mesh;
+            _chargeEffectMaterialBeam = (StandardMaterial3D)_chargeEffectMeshBeam.GetMaterial();
         }
 
         /// <summary>
@@ -170,7 +170,6 @@ namespace EHE.BoltBusters
         /// </summary>
         private void ShootRailgun()
         {
-            GD.Print("RAILGUN GOES KEKEKEKEKEKKEKEKEKE");
             var collisions = _shapeCast3D.CollisionResult;
             foreach (Dictionary collision in collisions)
             {
@@ -221,21 +220,42 @@ namespace EHE.BoltBusters
         {
             if (_lastRaycastResult.ContainsKey("position"))
             {
-                Vector3 point = (Vector3)_lastRaycastResult["position"];
-                Vector3 direction = point - _muzzle.GlobalPosition;
-                float distance = direction.Length();
-                _laserSightMesh.Height = distance;
-                Vector3 midpoint = _muzzle.GlobalPosition + direction * 0.5f;
-                _laserSightInstance.GlobalPosition = midpoint;
+                SetMeshToRaycastMidpoint(_laserSightInstance);
+                // Vector3 point = (Vector3)_lastRaycastResult["position"];
+                // Vector3 direction = point - _muzzle.GlobalPosition;
+                // float distance = direction.Length();
+                // _laserSightMesh.Height = distance;
+                // Vector3 midpoint = _muzzle.GlobalPosition + direction * 0.5f;
+                // _laserSightInstance.GlobalPosition = midpoint;
                 _laserSightInstance.Show();
             }
         }
 
         private void UpdateChargeEffect()
         {
+            SetMeshToRaycastMidpoint(_chargeEffectInstanceBeam);
             float strength = _activeRailgun.CurrentChargePercent;
-            _chargeEffectMesh.Radius = 0.0005f * strength;
-            _chargeEffectMaterial.EmissionEnergyMultiplier = strength;
+            _chargeEffectMeshBeam.Radius = 0.0005f * strength;
+            _chargeEffectMaterialBeam.EmissionEnergyMultiplier = strength;
+        }
+
+        private void SetMeshToRaycastMidpoint(MeshInstance3D meshInstance)
+        {
+            Vector3 point = (Vector3)_lastRaycastResult["position"];
+            Vector3 direction = point - _muzzle.GlobalPosition;
+            float distance = direction.Length();
+            Vector3 midpoint = _muzzle.GlobalPosition + direction * 0.5f;
+            Mesh mesh = meshInstance.Mesh;
+            meshInstance.GlobalPosition = midpoint;
+            if (mesh is CapsuleMesh capsule)
+            {
+                capsule.Height = distance;
+            }
+
+            if (mesh is CylinderMesh cylinder)
+            {
+                cylinder.Height = distance;
+            }
         }
     }
 }

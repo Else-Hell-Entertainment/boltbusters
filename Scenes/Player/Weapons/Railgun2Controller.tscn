@@ -67,6 +67,6 @@ mesh = SubResource("CylinderMesh_my7ni")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1655865)
 mesh = SubResource("BoxMesh_tjti4")
 
-[node name="ChargeEffect" type="MeshInstance3D" parent="."]
+[node name="ChargeEffectBeam" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -50)
 mesh = SubResource("CapsuleMesh_my7ni")
