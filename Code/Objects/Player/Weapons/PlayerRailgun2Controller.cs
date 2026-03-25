@@ -129,6 +129,9 @@ namespace EHE.BoltBusters
             return true;
         }
 
+        /// <summary>
+        /// Handles the shooting process of the railgun.
+        /// </summary>
         private void ShootRailgun()
         {
             GD.Print("RAILGUN GOES KEKEKEKEKEKKEKEKEKE");

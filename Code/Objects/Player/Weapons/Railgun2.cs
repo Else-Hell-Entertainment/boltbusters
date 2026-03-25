@@ -38,9 +38,7 @@ namespace EHE.BoltBusters
         /// more than a fraction of a second.
         /// </summary>
         [Export]
-        private float _dischargeRate = 300f;
-
-        private int _physFramewWithoutChargeCmd;
+        private float _dischargeRate = 400f;
 
         public bool IsActive { get; set; }
 
@@ -79,6 +77,10 @@ namespace EHE.BoltBusters
             ProcessCurrentState();
         }
 
+        /// <summary>
+        /// Actual attack mechanic is handled in RailgunController. This method will ensure that the charging process
+        /// starts when attack is initiated.
+        /// </summary>
         public override void Attack()
         {
             base.Attack();
@@ -88,11 +90,19 @@ namespace EHE.BoltBusters
             }
         }
 
+        /// <summary>
+        /// Begins the discharging process.Discharge needs to be initiated manually to keep railgun behaviour control
+        /// within the controller.
+        /// The railgun must then reload again after it's finished (handled automatically).
+        /// </summary>
         public void Discharge()
         {
             ChangeState(RailgunState.Discharging);
         }
 
+        /// <summary>
+        /// Resets the railgun into it's neutral state. Used between rounds.
+        /// </summary>
         public void ResetState()
         {
             ChangeState(RailgunState.ReadyToFire);
