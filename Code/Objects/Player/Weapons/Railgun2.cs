@@ -76,22 +76,22 @@ namespace EHE.BoltBusters
         public override void _PhysicsProcess(double delta)
         {
             base._PhysicsProcess(delta);
-            // HACK: Assume here that there has been no attack command. If there's no attack command during 2 phys
-            // frames when charging, cancel the attack. This will be overriden and set to 0 if there is an attack
-            // command.
-            if (CurrentState is RailgunState.Charging)
-            {
-                _physFramewWithoutChargeCmd++;
-                if (_physFramewWithoutChargeCmd > 1)
-                {
-                    _physFramewWithoutChargeCmd = 0;
-                    ChangeState(RailgunState.Discharging);
-                }
-            }
-            else
-            {
-                _physFramewWithoutChargeCmd = 0;
-            }
+            // // HACK: Assume here that there has been no attack command. If there's no attack command during 2 phys
+            // // frames when charging, cancel the attack. This will be overriden and set to 0 if there is an attack
+            // // command.
+            // if (CurrentState is RailgunState.Charging)
+            // {
+            //     _physFramewWithoutChargeCmd++;
+            //     if (_physFramewWithoutChargeCmd > 1)
+            //     {
+            //         _physFramewWithoutChargeCmd = 0;
+            //         ChangeState(RailgunState.Discharging);
+            //     }
+            // }
+            // else
+            // {
+            //     _physFramewWithoutChargeCmd = 0;
+            // }
         }
 
         public override void _Process(double delta)
@@ -103,7 +103,7 @@ namespace EHE.BoltBusters
         public override void Attack()
         {
             base.Attack();
-            _physFramewWithoutChargeCmd = 0;
+            //_physFramewWithoutChargeCmd = 0;
             if (CurrentState is RailgunState.ReadyToFire)
             {
                 ChangeState(RailgunState.Charging);
@@ -133,6 +133,7 @@ namespace EHE.BoltBusters
 
         private void DecreaseCharge()
         {
+            GD.Print(CurrentChargePercent);
             float deltaTime = (float)GetProcessDeltaTime();
             CurrentChargePercent -= _dischargeRate * deltaTime;
             if (CurrentChargePercent < 0f)
@@ -146,7 +147,6 @@ namespace EHE.BoltBusters
                 }
             }
             EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.Discharging);
-            GD.Print(CurrentChargePercent);
         }
 
         private void ResetCharge()

@@ -15,6 +15,10 @@ namespace EHE.BoltBusters
         private ShapeCast3D _shapeCast3D;
         private DamageData _damageData;
 
+        private bool _isAttackPressed;
+        private int _physFramesCounter;
+        private int _attackFramesCounter;
+
         public override void _Ready()
         {
             base._Ready();
@@ -25,6 +29,18 @@ namespace EHE.BoltBusters
         public override void _PhysicsProcess(double delta)
         {
             base._PhysicsProcess(delta);
+            if (_isAttackPressed)
+            {
+                _physFramesCounter++;
+                if (_physFramesCounter - _attackFramesCounter > 1)
+                {
+                    GD.PrintErr("Attack released");
+                    _isAttackPressed = false;
+                    _physFramesCounter = 0;
+                    _attackFramesCounter = 0;
+                    _activeRailgun?.Discharge();
+                }
+            }
         }
 
         private void InitializeNodes()
@@ -38,19 +54,57 @@ namespace EHE.BoltBusters
         {
             if (_activeRailgun == null)
             {
-                _activeRailgun = GetNextActiveRailgun();
-                if (_activeRailgun == null)
+                if (!SetNextActiveRailgun())
                 {
                     return;
                 }
             }
-            _activeRailgun.Attack();
+
+            if (!_isAttackPressed && !CustomJustPressedInput())
+            {
+                return;
+            }
+
+            // Player must always wait for active railgun to finish discharging before they can attack again.
+            if (_activeRailgun.CurrentState == Railgun2.RailgunState.Discharging)
+            {
+                return;
+            }
+
+            if (_activeRailgun.CurrentState == Railgun2.RailgunState.ReadyToFire)
+            {
+                _activeRailgun.Attack();
+            }
+            _isAttackPressed = true;
+            _attackFramesCounter++;
+
             if (_activeRailgun.ChargeReady)
             {
                 _activeRailgun.Discharge();
                 ShootRailgun();
-                GetNextActiveRailgun();
+                _isAttackPressed = false;
             }
+        }
+
+        private bool CustomJustPressedInput()
+        {
+            // Player must always wait for the discharge to finish before they can attempt to shoot again.
+            if (_activeRailgun.CurrentState == Railgun2.RailgunState.Discharging)
+            {
+                return false;
+            }
+
+            if (SetNextActiveRailgun())
+            {
+                _activeRailgun.Attack();
+            }
+            else
+            {
+                return false;
+            }
+            _isAttackPressed = true;
+            _attackFramesCounter++;
+            return true;
         }
 
         private void ShootRailgun()
@@ -70,6 +124,19 @@ namespace EHE.BoltBusters
                     }
                 }
             }
+        }
+
+        private bool SetNextActiveRailgun()
+        {
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon is Railgun2 railgun && railgun.CurrentState == Railgun2.RailgunState.ReadyToFire)
+                {
+                    _activeRailgun = railgun;
+                    return true;
+                }
+            }
+            return false;
         }
 
         private Railgun2 GetNextActiveRailgun()
