@@ -559,7 +559,10 @@ namespace EHE.BoltBusters
             }
             else
             {
-                _collectibleCounts = (Dictionary<CollectibleType, int>)collectibleCounts;
+                foreach (var (type, count) in (Dictionary)collectibleCounts)
+                {
+                    SetCollectibleAmount((CollectibleType)(int)type, (int)count);
+                }
             }
 
             // Weapon counts.
@@ -574,7 +577,10 @@ namespace EHE.BoltBusters
             }
             else
             {
-                _weaponCounts = (Dictionary<WeaponType, int>)weaponCounts;
+                foreach (var (type, count) in (Dictionary)weaponCounts)
+                {
+                    SetNumberOfWeapons((WeaponType)(int)type, (int)count);
+                }
             }
         }
 
