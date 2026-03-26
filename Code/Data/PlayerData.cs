@@ -288,7 +288,7 @@ namespace EHE.BoltBusters
         /// </summary>
         ///
         /// <param name="collectibleType">
-        ///  The collectible whose count should be increased.
+        ///  The collectible whose count should be decreased.
         /// </param>
         /// <param name="decrement">
         ///  How much the amount should decrease. Default is 1.
@@ -338,7 +338,7 @@ namespace EHE.BoltBusters
         ///
         /// <returns>
         ///  The amount of the specified weapon type, or <c>-1</c> if the
-        ///  given collectible type is invalid.
+        ///  given weapon type is invalid.
         /// </returns>
         ///
         /// <seealso cref="WeaponType"/>
@@ -447,7 +447,7 @@ namespace EHE.BoltBusters
         /// </summary>
         ///
         /// <param name="weaponType">
-        ///  The type of the weapon whose count should be increased.
+        ///  The type of the weapon whose count should be decreased.
         /// </param>
         /// <param name="decrement">
         ///  How much the count should be decreased by. Default is 1.
