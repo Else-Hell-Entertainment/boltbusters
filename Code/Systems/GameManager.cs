@@ -277,6 +277,24 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
+        ///  Quits the game.
+        /// </summary>
+        public void Quit()
+        {
+            this.PrintDebug("Quitting game.");
+            GetTree().Quit();
+        }
+
+        /// <summary>
+        ///  Saves and quits the game.
+        /// </summary>
+        public void SaveAndQuit()
+        {
+            SaveGame();
+            Quit();
+        }
+
+        /// <summary>
         ///  <para>
         ///   Switches the active level by unloading the current level and
         ///   loading a new one.

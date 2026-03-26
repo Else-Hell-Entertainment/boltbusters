@@ -54,7 +54,7 @@ namespace EHE.BoltBusters.Ui
 
         private void OnBtnQuitPressed()
         {
-            GetTree().Quit();
+            GameManager.Instance.Quit();
         }
     }
 }
