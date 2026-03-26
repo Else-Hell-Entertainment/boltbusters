@@ -258,7 +258,7 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Starts a new game.
         /// </summary>
-        /// <seealso cref="OnNewGameStarted"/>
+        /// <seealso cref="StartFromRound"/>
         /// <seealso cref="OnLevelStartDelayTimeout"/>
         public void StartNewGame()
         {
@@ -268,7 +268,7 @@ namespace EHE.BoltBusters
             // signal seems to pass the references that are valid during this
             // frame. E.g., the linked method would call the StartRound method
             // on the background level that is no longer present. The timer is
-            // therefore created in the OnNewGameStarted method and the timeout
+            // therefore created in the StartFromRound method and the timeout
             // is connected to the OnLevelStartDelayTimeout method.
 
             CurrentPlayerData = (PlayerData)DefaultPlayerData.Duplicate(deep: true);
@@ -415,19 +415,29 @@ namespace EHE.BoltBusters
             }
             else
             {
-                CallDeferred(nameof(OnNewGameStarted));
+                CallDeferred(nameof(StartFromRound));
             }
         }
 
         /// <summary>
-        /// Called when a new game is started. Used specifically to add delay
-        /// between starting entering the level and starting the round. To know
-        /// why this is here, see the comments in <see cref="StartNewGame"/>.
+        ///  Called when the game should start from the round state.
         /// </summary>
+        ///
+        /// <remarks>
+        ///  Instructs the currently active <see cref="LevelManager"/> to
+        ///  initialize the round data and the player. After this, delays the
+        ///  starting of the round for 5 seconds.
+        /// </remarks>
+        ///
         /// <seealso cref="StartNewGame"/>
+        /// <seealso cref="StartGame"/>
+        /// <seealso cref="StartFromShop"/>
         /// <seealso cref="OnLevelStartDelayTimeout"/>
-        private void OnNewGameStarted() // TODO: Rename this to OnGameStarted!
+        private void StartFromRound()
         {
+            // Used specifically to add delay between starting entering the
+            // level and starting the round. To know why this separate method
+            // is necessary, see the comments in StartNewGame.
             LevelManager.Active.InitializeLevel(RoundIndex);
             LevelManager.Active.InitializePlayer(CurrentPlayerData);
             SceneTree.CreateTimer(5f).Timeout += OnLevelStartDelayTimeout;
@@ -446,7 +456,7 @@ namespace EHE.BoltBusters
         /// Starts the round.
         /// </summary>
         /// <seealso cref="StartNewGame"/>
-        /// <seealso cref="OnNewGameStarted"/>
+        /// <seealso cref="StartFromRound"/>
         private void OnLevelStartDelayTimeout()
         {
             LevelManager.Active.StartRound();
