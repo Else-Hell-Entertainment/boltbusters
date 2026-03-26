@@ -405,7 +405,7 @@ namespace EHE.BoltBusters
         /// </returns>
         public bool TogglePaused()
         {
-            SceneTree.Paused = SceneTree.Paused;
+            SceneTree.Paused = !SceneTree.Paused;
             return SceneTree.Paused;
         }
 
