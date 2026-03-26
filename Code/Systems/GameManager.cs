@@ -411,7 +411,7 @@ namespace EHE.BoltBusters
             this.PrintDebug($"Start from shop: {CurrentPlayerData.StartFromShop}");
             if (CurrentPlayerData.StartFromShop)
             {
-                StateMachine.TransitionTo(StateType.Shop);
+                CallDeferred(nameof(StartFromShop));
             }
             else
             {
@@ -429,7 +429,17 @@ namespace EHE.BoltBusters
         private void OnNewGameStarted() // TODO: Rename this to OnGameStarted!
         {
             LevelManager.Active.InitializeLevel(RoundIndex);
+            LevelManager.Active.InitializePlayer(CurrentPlayerData);
             SceneTree.CreateTimer(5f).Timeout += OnLevelStartDelayTimeout;
+        }
+
+        /// <summary>
+        ///  Called when the game should start from the shop state.
+        /// </summary>
+        private void StartFromShop()
+        {
+            StateMachine.TransitionTo(StateType.Shop);
+            LevelManager.Active.InitializePlayer(CurrentPlayerData);
         }
 
         /// <summary>

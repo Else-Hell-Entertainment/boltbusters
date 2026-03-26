@@ -196,6 +196,18 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
+        ///  Initializes the player using the provided <see cref="PlayerData"/>.
+        /// </summary>
+        ///
+        /// <param name="playerData">
+        ///  Data to use for initializing the player.
+        /// </param>
+        public void InitializePlayer(PlayerData playerData)
+        {
+            _player.Initialize(playerData);
+        }
+
+        /// <summary>
         /// WIP! NOT FULLY FUNCTIONAL YET!
         /// Starts the round timer and the enemy spawn manager.
         /// </summary>

@@ -319,6 +319,16 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
+        ///  Returns all weapon counts as a dictionary where
+        ///  <see cref="WeaponType"/>s are the keys and the number of weapons
+        ///  are the values.
+        /// </summary>
+        public Dictionary<WeaponType, int> GetWeaponCounts()
+        {
+            return _weaponCounts.Duplicate();
+        }
+
+        /// <summary>
         ///  Gets the current number of the specified weapons.
         /// </summary>
         ///
