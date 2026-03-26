@@ -155,19 +155,6 @@ namespace EHE.BoltBusters
         #region Public Methods
 
         /// <summary>
-        /// WIP! NOT FULLY FUNCTIONAL YET!
-        /// Initializes the round from provided <see cref="RoundData"/>.
-        /// </summary>
-        /// <param name="roundData">Data describing the round.</param>
-        [Obsolete]
-        public void InitializeLevel(RoundData roundData)
-        {
-            this.PrintDebug("Initializing level...");
-            _roundData = roundData;
-            _roundTimer.WaitTime = _roundData.RoundLength;
-        }
-
-        /// <summary>
         ///  Fetches the round data from a resource file using the given
         ///  <paramref name="roundIndex"/>, caches it, and sets up the round
         ///  timer.
