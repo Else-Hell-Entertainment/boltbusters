@@ -135,9 +135,6 @@ namespace EHE.BoltBusters
         /// </summary>
         public Camera3D Camera => _cameraRig.GetChild<Camera3D>(0);
 
-        [Obsolete]
-        public RoundData CurrentRoundData { get; private set; }
-
         /// <summary>
         ///  The index number for the current round.
         /// </summary>
