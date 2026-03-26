@@ -1,6 +1,7 @@
 // (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
+//            Pekka Heljakka <pekka.heljakka@tuni.fi>
 
 using System;
 using System.Collections.Generic;
@@ -13,21 +14,39 @@ using Godot;
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// Manages the overall game state, level transitions, camera setup, and
-    /// game loop control.
+    ///  Manages the overall game state, level transitions, camera setup, and
+    ///  game loop control.
     /// </summary>
     ///
     /// <remarks>
-    /// GameManager is a singleton that serves as the central hub for game
-    /// management. It handles:
-    /// <list type="bullet">
-    /// <item>Level loading and switching between different level types</item>
-    /// <item>Camera rig initialization and viewport management</item>
-    /// <item>Game state transitions via a finite state machine</item>
-    /// <item>Game pause/resume functionality</item>
-    /// <item>Input handling for pause actions</item>
-    /// </list>
+    ///  <para>
+    ///   GameManager is a singleton that serves as the central hub for game
+    ///   management. It handles:
+    ///  </para>
+    ///  <list type="bullet">
+    ///   <item>Level loading and switching between different level types</item>
+    ///   <item>Camera rig initialization and viewport management</item>
+    ///   <item>Game state transitions via a finite state machine</item>
+    ///   <item>Game pause/resume functionality</item>
+    ///   <item>Input handling for pause actions</item>
+    ///   <item>Game save and load operations</item>
+    ///  </list>
+    ///  <para>
+    ///   The GameManager is a singleton accessible via the
+    ///   <see cref="Instance"/> property, ensuring only one instance exists
+    ///   throughout the game's lifetime. It is automatically initialized
+    ///   during the tree entry phase and remains persistent across scene
+    ///   changes.
+    ///  </para>
+    ///  <para>
+    ///   <b>NOTE!</b> The GameManager is always processed regardless the
+    ///   paused state of the scene tree.
+    ///  </para>
     /// </remarks>
+    ///
+    /// <seealso cref="GameloopStateMachine"/>
+    /// <seealso cref="LevelManager"/>
+    /// <seealso cref="PlayerData"/>
     public partial class GameManager : Node
     {
         #region Signals
@@ -52,6 +71,9 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate bool RequestWeaponDowngradeEventHandler(int weaponType);
 
+        /// <summary>
+        ///  Emitted when the HUD should refresh its display.
+        /// </summary>
         [Signal]
         public delegate void RequestHudRefreshEventHandler();
 
@@ -82,12 +104,12 @@ namespace EHE.BoltBusters
         #region Properties
 
         /// <summary>
-        /// Reference to the GameManager singleton.
+        ///  Reference to the GameManager singleton.
         /// </summary>
         public static GameManager Instance { get; private set; }
 
         /// <summary>
-        /// Reference to the SceneTree of the game.
+        ///  Reference to the SceneTree of the game.
         /// </summary>
         public SceneTree SceneTree
         {
@@ -103,13 +125,13 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// A finite state machine responsible for controlling the transitions
-        /// between different <see cref="GameState"/>s.
+        ///  A finite state machine responsible for controlling the transitions
+        ///  between different <see cref="GameState"/>s.
         /// </summary>
         public GameloopStateMachine StateMachine { get; private set; }
 
         /// <summary>
-        /// Reference to the global camera.
+        ///  Reference to the global camera.
         /// </summary>
         public Camera3D Camera => _cameraRig.GetChild<Camera3D>(0);
 
@@ -117,7 +139,7 @@ namespace EHE.BoltBusters
         public RoundData CurrentRoundData { get; private set; }
 
         /// <summary>
-        /// The index number for the current round.
+        ///  The index number for the current round.
         /// </summary>
         public int RoundIndex
         {
@@ -140,6 +162,15 @@ namespace EHE.BoltBusters
 
         #region Overrides
 
+        /// <summary>
+        ///  <inheritdoc/>
+        /// </summary>
+        ///
+        /// <remarks>
+        ///  This method loads level managers, sets up the state machine, initializes
+        ///  the save manager, and loads default player data. The GameManager instance
+        ///  is registered as a singleton at the end of this method.
+        /// </remarks>
         public override void _EnterTree()
         {
             LoadLevelManagersIntoMemory();
@@ -153,16 +184,26 @@ namespace EHE.BoltBusters
             ProcessMode = ProcessModeEnum.Always;
         }
 
+        /// <summary>
+        ///  <inheritdoc/>
+        /// </summary>
+        ///
+        /// <remarks>
+        ///  Initializes the camera system when the node is ready.
+        /// </remarks>
         public override void _Ready()
         {
             CreateCamera();
         }
 
         /// <summary>
-        /// Handles non-movements inputs that happen during gameplay.
-        /// For example, pausing the game.
+        ///  Handles non-movements inputs that happen during gameplay.
+        ///  For example, pausing the game.
         /// </summary>
-        /// <param name="inputEvent">Input event that occurred.</param>
+        ///
+        /// <param name="inputEvent">
+        ///  Input event that occurred.
+        /// </param>
         public override void _Input(InputEvent inputEvent)
         {
             if (
@@ -256,9 +297,11 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Starts a new game.
+        ///  Starts a new game.
         /// </summary>
+        ///
         /// <seealso cref="StartFromRound"/>
+        /// <seealso cref="StartFromShop"/>
         /// <seealso cref="OnLevelStartDelayTimeout"/>
         public void StartNewGame()
         {
@@ -337,7 +380,7 @@ namespace EHE.BoltBusters
         #region Pause Control
 
         /// <summary>
-        /// Pauses the game.
+        ///  Pauses the game.
         /// </summary>
         public void Pause()
         {
@@ -345,7 +388,7 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Unpauses the game.
+        ///  Unpauses the game.
         /// </summary>
         public void Resume()
         {
@@ -353,10 +396,11 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Toggles the pause state of the game.
+        ///  Toggles the pause state of the game.
         /// </summary>
+        ///
         /// <returns>
-        ///  <c>true</c> if the game is currently paused,
+        ///  <c>true</c> if the game is currently paused after toggling,
         ///  <c>false</c> otherwise.
         /// </returns>
         public bool TogglePaused()
@@ -372,6 +416,12 @@ namespace EHE.BoltBusters
 
         #region Private Methods
 
+        /// <summary>
+        ///  Loads level scene resources from disk into memory and creates a
+        ///  mapping of level types to their corresponding
+        ///  <see cref="PackedScene"/> resources for fast lookup during level
+        ///  transitions.
+        /// </summary>
         private void LoadLevelManagersIntoMemory()
         {
             _backgroundLevelScene = GD.Load<PackedScene>(SceneFileConfig.BACKGROUND_LEVEL_PATH);
@@ -383,6 +433,9 @@ namespace EHE.BoltBusters
             };
         }
 
+        /// <summary>
+        ///  Initializes the game state machine with all available game states.
+        /// </summary>
         private void SetUpStateMachine()
         {
             StateMachine = new GameloopStateMachine(
@@ -396,8 +449,8 @@ namespace EHE.BoltBusters
 
         // TODO: Refactor this and make the parameters editable in the editor.
         /// <summary>
-        /// Instantiates the <see cref="CameraRig"/> from a file and adds it to
-        /// the <see cref="SceneTree"/>.
+        ///  Instantiates the <see cref="CameraRig"/> from a file and adds it
+        ///  to the <see cref="SceneTree"/>.
         /// </summary>
         private void CreateCamera()
         {
@@ -421,6 +474,24 @@ namespace EHE.BoltBusters
             SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _levelViewportContainer);
         }
 
+        /// <summary>
+        ///  Initiates game startup by transitioning to the
+        ///  <see cref="GameStateRound"/> state and determining whether to
+        ///  start from the shop or directly from a round.
+        /// </summary>
+        ///
+        /// <remarks>
+        ///  This method transitions the state machine to the Round state,
+        ///  then defers a call to either <see cref="StartFromShop"/> or
+        ///  <see cref="StartFromRound"/> based on the
+        ///  <see cref="PlayerData.StartFromShop"/> flag in
+        ///  <see cref="CurrentPlayerData"/>.
+        /// </remarks>
+        ///
+        /// <seealso cref="StartNewGame"/>
+        /// <seealso cref="LoadGame"/>
+        /// <seealso cref="StartFromRound"/>
+        /// <seealso cref="StartFromShop"/>
         private void StartGame()
         {
             this.PrintDebug("Starting game...");
@@ -464,6 +535,15 @@ namespace EHE.BoltBusters
         /// <summary>
         ///  Called when the game should start from the shop state.
         /// </summary>
+        ///
+        /// <remarks>
+        ///  Transitions the state machine to the Shop state and initializes the
+        ///  player with the current player data.
+        /// </remarks>
+        ///
+        /// <seealso cref="StartNewGame"/>
+        /// <seealso cref="StartGame"/>
+        /// <seealso cref="StartFromRound"/>
         private void StartFromShop()
         {
             StateMachine.TransitionTo(StateType.Shop);
@@ -471,10 +551,17 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Starts the round.
+        ///  Called when the level start delay timer expires.
         /// </summary>
-        /// <seealso cref="StartNewGame"/>
+        ///
+        /// <remarks>
+        ///  This method is invoked after the delay timer created in
+        ///  <see cref="StartFromRound"/> times out. It instructs the currently
+        ///  active <see cref="LevelManager"/> to begin the round.
+        /// </remarks>
+        ///
         /// <seealso cref="StartFromRound"/>
+        /// <seealso cref="StartGame"/>
         private void OnLevelStartDelayTimeout()
         {
             LevelManager.Active.StartRound();
