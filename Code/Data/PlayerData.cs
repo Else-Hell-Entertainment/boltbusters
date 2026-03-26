@@ -518,7 +518,23 @@ namespace EHE.BoltBusters
         /// </param>
         public void Load(Dictionary data)
         {
-            // Level index.
+            LoadLevelIndex(data);
+            LoadLevelClearedFlag(data);
+            LoadCollectibleCounts(data);
+            LoadWeaponCounts(data);
+        }
+
+        #endregion ISaveable
+
+
+        #region Private Load Helpers
+
+        /// <summary>
+        /// Tries to load the level index from save data.
+        /// </summary>
+        /// <param name="data">The save data.</param>
+        private void LoadLevelIndex(Dictionary data)
+        {
             if (
                 !data.TryGetValue(KEY_LEVEL_INDEX, out var levelIndex)
                 || (levelIndex.VariantType != Variant.Type.Float && levelIndex.VariantType != Variant.Type.Int)
@@ -532,8 +548,14 @@ namespace EHE.BoltBusters
             {
                 LevelIndex = (int)levelIndex;
             }
+        }
 
-            // Level cleared flag.
+        /// <summary>
+        /// Tries to load level cleared flag from save data.
+        /// </summary>
+        /// <param name="data">The save data.</param>
+        private void LoadLevelClearedFlag(Dictionary data)
+        {
             if (
                 !data.TryGetValue(KEY_START_FROM_SHOP, out var startFromShop)
                 || startFromShop.VariantType != Variant.Type.Bool
@@ -546,8 +568,14 @@ namespace EHE.BoltBusters
             {
                 StartFromShop = (bool)startFromShop;
             }
+        }
 
-            // Collectible counts.
+        /// <summary>
+        /// Tries to load collectible counts from save data.
+        /// </summary>
+        /// <param name="data">The save data.</param>
+        private void LoadCollectibleCounts(Dictionary data)
+        {
             if (
                 !data.TryGetValue(KEY_COLLECTIBLE_COUNTS, out var collectibleCounts)
                 || collectibleCounts.VariantType != Variant.Type.Dictionary
@@ -564,8 +592,14 @@ namespace EHE.BoltBusters
                     SetCollectibleAmount((CollectibleType)(int)type, (int)count);
                 }
             }
+        }
 
-            // Weapon counts.
+        /// <summary>
+        /// Tries to load weapon counts from save data.
+        /// </summary>
+        /// <param name="data">The save data.</param>
+        private void LoadWeaponCounts(Dictionary data)
+        {
             if (
                 !data.TryGetValue(KEY_WEAPON_COUNTS, out var weaponCounts)
                 || weaponCounts.VariantType != Variant.Type.Dictionary
@@ -584,6 +618,6 @@ namespace EHE.BoltBusters
             }
         }
 
-        #endregion ISaveable
+        #endregion Private Load Helpers
     }
 }
