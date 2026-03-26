@@ -188,6 +188,7 @@ namespace EHE.BoltBusters
         {
             if (!_collectibleCounts.TryGetValue(collectibleType, out var amount))
             {
+                GD.PushError($"Key not found '{collectibleType}'");
                 return -1;
             }
 
@@ -347,6 +348,7 @@ namespace EHE.BoltBusters
         {
             if (!_weaponCounts.TryGetValue(weaponType, out var amount))
             {
+                GD.PushError($"Key not found '{weaponType}'");
                 return -1;
             }
 

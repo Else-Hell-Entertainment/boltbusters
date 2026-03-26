@@ -173,7 +173,7 @@ namespace EHE.BoltBusters
             _roundTimer.Timeout += OnRoundEnded;
             AddChild(_roundTimer);
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
-            this.PrintDebug("Ready.");
+            this.PrintDebug($"{LevelType} level ready.");
         }
 
         #endregion Overrides
