@@ -401,7 +401,7 @@ namespace EHE.BoltBusters
 
             // TODO: Decide max value when designing UI.
             _weaponCounts[weaponType] = Mathf.Clamp(count, min: 0, max: int.MaxValue);
-            EmitSignal(SignalName.CollectibleAmountsChanged, (int)weaponType, count);
+            EmitSignal(SignalName.NumberOfWeaponsChanged, (int)weaponType, count);
             return true;
         }
 
