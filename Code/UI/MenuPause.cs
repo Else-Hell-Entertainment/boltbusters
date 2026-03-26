@@ -49,6 +49,7 @@ namespace EHE.BoltBusters.Ui
 
         private void OnBtnMainMenuPressed()
         {
+            GameManager.Instance.SaveGame();
             GameManager.Instance.StateMachine.TransitionTo(StateType.MainMenu);
         }
 
