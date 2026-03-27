@@ -584,7 +584,7 @@ namespace EHE.BoltBusters
                 || ((Dictionary)collectibleCounts).Count != 3 // TODO: Get dict length from default dict.
             )
             {
-                _collectibleCounts = _defaultCollectibleCounts; // TODO: Refactor, read from default player data
+                _collectibleCounts = _defaultCollectibleCounts.Duplicate();
                 GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_COLLECTIBLE_COUNTS, _collectibleCounts.Values));
             }
             else
@@ -608,7 +608,7 @@ namespace EHE.BoltBusters
                 || ((Dictionary)weaponCounts).Count != 3 // TODO: Get dict length from default dict.
             )
             {
-                _weaponCounts = _defaultWeaponCounts; // TODO: Refactor, read from default player data resource.
+                _weaponCounts = _defaultWeaponCounts.Duplicate();
                 GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_WEAPON_COUNTS, _weaponCounts.Values));
             }
             else
