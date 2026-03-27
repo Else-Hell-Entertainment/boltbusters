@@ -1,15 +1,27 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4w446hov1iq4"]
+[gd_scene load_steps=8 format=3 uid="uid://b4w446hov1iq4"]
 
-[ext_resource type="Script" uid="uid://csfsxcmayp2td" path="res://Code/Objects/PlayerRocketLauncherController.cs" id="1_qfr55"]
+[ext_resource type="Script" uid="uid://csfsxcmayp2td" path="res://Code/Objects/Player/Weapons/PlayerRocketLauncherController.cs" id="1_qfr55"]
 [ext_resource type="PackedScene" uid="uid://bweyw22j1yyt8" path="res://Scenes/Player/Weapons/RocketLauncher.tscn" id="2_qfr55"]
 [ext_resource type="Texture2D" uid="uid://ceqe6b24k56lo" path="res://Assets/Sprites/BombSight.png" id="3_qfr55"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qfr55"]
+albedo_color = Color(0.16862746, 0.4, 0.21960784, 1)
+metallic = 0.5
+roughness = 0.8
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_e0onp"]
+material = SubResource("StandardMaterial3D_qfr55")
 top_radius = 0.05
 bottom_radius = 0.05
 height = 0.1
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wnb2b"]
+albedo_color = Color(0.16862746, 0.4, 0.21960784, 1)
+metallic = 0.7
+roughness = 0.8
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_nfrcb"]
+material = SubResource("StandardMaterial3D_wnb2b")
 top_radius = 0.1
 bottom_radius = 0.1
 height = 0.2

@@ -19,10 +19,10 @@ namespace EHE.BoltBusters.States
     public enum StateType
     {
         None = 0,
-        MenuMain,
-        MenuPause,
-        MenuSettings,
-        MenuGameOver,
+        MainMenu,
+        Paused,
+        SettingsMenu,
+        GameOver,
         Round,
         Shop,
     }
@@ -192,6 +192,7 @@ namespace EHE.BoltBusters.States
                 _scene = _packedScene.Instantiate();
                 // TODO: Threaded level loading: https://docs.godotengine.org/en/latest/tutorials/io/background_loading.html
                 GameManager.Instance.SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _scene);
+                // TODO: Separate logic that is run each time the node is added vs each time the state is entered.
                 OnEntered();
             }
 
@@ -221,7 +222,7 @@ namespace EHE.BoltBusters.States
                 _scene = null;
             }
 
-            OnExited();
+            OnExited(keepLoaded);
         }
 
         /// <summary>
@@ -239,10 +240,16 @@ namespace EHE.BoltBusters.States
         /// Custom state deactivation logic. Executed at the end of the
         /// <see cref="Exit"/> method.
         /// </summary>
-        protected virtual void OnExited()
+        ///
+        /// <param name="keepLoaded">
+        ///  Tells if the next state is marked as additive.
+        /// </param>
+        ///
+        /// <seealso cref="GameState.IsAdditive"/>
+        protected virtual void OnExited(bool keepLoaded = false)
         {
 #if DEBUG
-            GD.Print($"Exited state '{StateType}'.");
+            GD.Print($"Exited state '{StateType}' (keepLoaded={keepLoaded}).");
 #endif
         }
     }

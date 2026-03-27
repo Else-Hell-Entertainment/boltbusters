@@ -1,4 +1,8 @@
-﻿using Godot;
+﻿// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
+
+using Godot;
 
 namespace EHE.BoltBusters
 {
@@ -27,7 +31,9 @@ namespace EHE.BoltBusters
         public bool AssignReceiver(object target)
         {
             if (target is not EntityMover mover)
+            {
                 return false;
+            }
             _mover = mover;
             return true;
         }
