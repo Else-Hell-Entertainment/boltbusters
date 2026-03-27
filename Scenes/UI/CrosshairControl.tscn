@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://mp4wv067kdgb"]
+[gd_scene load_steps=16 format=3 uid="uid://mp4wv067kdgb"]
 
 [ext_resource type="Texture2D" uid="uid://bh8x67xr0ok6g" path="res://Assets/Sprites/Crosshair/CHCenter.png" id="1_nmfnx"]
 [ext_resource type="Script" uid="uid://d52ufq5g8fl6" path="res://Code/UI/Crosshair/Crosshair.cs" id="1_tsfcn"]
@@ -9,13 +9,14 @@
 [ext_resource type="Texture2D" uid="uid://bmubdy50jw5qb" path="res://Assets/Sprites/Crosshair/CHRocket2.png" id="6_kcjip"]
 [ext_resource type="Script" uid="uid://d3ix3imfglil1" path="res://Code/UI/Crosshair/CHTempGauge.cs" id="6_n21jf"]
 [ext_resource type="Texture2D" uid="uid://cysms4evoe31" path="res://Assets/Sprites/Crosshair/CHRocket3.png" id="7_tt5jx"]
+[ext_resource type="Script" uid="uid://c1qon7adu6j50" path="res://Code/UI/Crosshair/CHRocketLauncher.cs" id="8_adiww"]
 [ext_resource type="Texture2D" uid="uid://b1xd47tov55ju" path="res://Assets/Sprites/Crosshair/CHRocket4.png" id="8_kqpya"]
 [ext_resource type="Texture2D" uid="uid://cfcgc5furut63" path="res://Assets/Sprites/Crosshair/CHRail1.png" id="9_bb8me"]
 [ext_resource type="Texture2D" uid="uid://bc5f3vj2wf5ch" path="res://Assets/Sprites/Crosshair/CHRail2.png" id="10_dfjue"]
 [ext_resource type="Texture2D" uid="uid://djig1l5vqvklt" path="res://Assets/Sprites/Crosshair/CHRail3.png" id="11_emqgf"]
 [ext_resource type="Texture2D" uid="uid://llsya2cxw46h" path="res://Assets/Sprites/Crosshair/CHRail4.png" id="12_4jc76"]
 
-[node name="Crosshair" type="Control" node_paths=PackedStringArray("_tempGauge")]
+[node name="Crosshair" type="Control" node_paths=PackedStringArray("_tempGauge", "_launcherUi0", "_launcherUi1", "_launcherUi2", "_launcherUi3")]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -29,8 +30,13 @@ grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("1_tsfcn")
 _tempGauge = NodePath("TempGauge")
+_launcherUi0 = NodePath("Rocket1")
+_launcherUi1 = NodePath("Rocket2")
+_launcherUi2 = NodePath("Rocket3")
+_launcherUi3 = NodePath("Rocket4")
 
 [node name="Center" type="TextureRect" parent="."]
+modulate = Color(1, 0.92850393, 0, 0.531)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -87,6 +93,7 @@ offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("5_60kvf")
+script = ExtResource("8_adiww")
 
 [node name="Rocket2" type="TextureRect" parent="."]
 layout_mode = 1
@@ -102,6 +109,7 @@ offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_kcjip")
+script = ExtResource("8_adiww")
 
 [node name="Rocket3" type="TextureRect" parent="."]
 layout_mode = 1
@@ -117,6 +125,7 @@ offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_tt5jx")
+script = ExtResource("8_adiww")
 
 [node name="Rocket4" type="TextureRect" parent="."]
 layout_mode = 1
@@ -132,6 +141,7 @@ offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("8_kqpya")
+script = ExtResource("8_adiww")
 
 [node name="Railgun1" type="TextureRect" parent="."]
 layout_mode = 1

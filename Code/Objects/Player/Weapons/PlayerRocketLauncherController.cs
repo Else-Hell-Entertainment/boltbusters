@@ -22,6 +22,9 @@ namespace EHE.BoltBusters
         /// </summary>
         public int SalvoSizeUpgradeCount { get; private set; }
 
+        [Signal]
+        public delegate void RocketLauncherConfigurationChangedEventHandler();
+
         public override void _Ready()
         {
             base._Ready();
@@ -41,6 +44,28 @@ namespace EHE.BoltBusters
             }
         }
 
+        public override bool AddWeapon()
+        {
+            if (base.AddWeapon())
+            {
+                EmitSignal(SignalName.RocketLauncherConfigurationChanged);
+                return true;
+            }
+
+            return false;
+        }
+
+        public override bool RemoveWeapon()
+        {
+            if (base.RemoveWeapon())
+            {
+                EmitSignal(SignalName.RocketLauncherConfigurationChanged);
+                return true;
+            }
+
+            return false;
+        }
+
         public void UpgradeSalvoSize()
         {
             SalvoSizeUpgradeCount++;
@@ -54,6 +79,8 @@ namespace EHE.BoltBusters
 #endif
                 }
             }
+
+            EmitSignal(SignalName.RocketLauncherConfigurationChanged);
         }
 
         public void DowngradeSalvoSize()
@@ -69,6 +96,7 @@ namespace EHE.BoltBusters
 #endif
                 }
             }
+            EmitSignal(SignalName.RocketLauncherConfigurationChanged);
         }
     }
 }

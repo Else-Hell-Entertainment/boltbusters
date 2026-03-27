@@ -1,6 +1,6 @@
 using Godot;
 
-namespace EHE.BoltBusters
+namespace EHE.BoltBusters.Ui
 {
     public partial class CHTempGauge : TextureProgressBar
     {

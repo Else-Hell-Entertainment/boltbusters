@@ -2,10 +2,10 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
 
-using System.ComponentModel;
+using System.Collections.Generic;
 using Godot;
 
-namespace EHE.BoltBusters
+namespace EHE.BoltBusters.Ui
 {
     public partial class Crosshair : Control
     {
@@ -14,8 +14,31 @@ namespace EHE.BoltBusters
 
         private PlayerChaingunController _chaingunController;
 
+        private PlayerRocketLauncherController _rocketLauncherController;
+
+        private List<RocketLauncher> _launcherList = new List<RocketLauncher>();
+
+        [Export]
+        private CHRocketLauncher _launcherUi0;
+
+        [Export]
+        private CHRocketLauncher _launcherUi1;
+
+        [Export]
+        private CHRocketLauncher _launcherUi2;
+
+        [Export]
+        private CHRocketLauncher _launcherUi3;
+
+        private CHRocketLauncher[] _launcherUiArray = new CHRocketLauncher[4];
+
         public override void _Ready()
         {
+            _launcherUiArray[0] = _launcherUi0;
+            _launcherUiArray[1] = _launcherUi1;
+            _launcherUiArray[2] = _launcherUi2;
+            _launcherUiArray[3] = _launcherUi3;
+
             CallDeferred(MethodName.Initialize);
         }
 
@@ -23,6 +46,9 @@ namespace EHE.BoltBusters
         {
             _chaingunController = LevelManager.Active.Player.ChaingunController;
             _chaingunController.ChaingunStateChanged += OnChaingunStateChanged;
+            _rocketLauncherController = LevelManager.Active.Player.RocketLauncherController;
+            _rocketLauncherController.RocketLauncherConfigurationChanged += RefreshLauncherList;
+            RefreshLauncherList();
         }
 
         private void OnChaingunStateChanged(int state)
@@ -43,6 +69,32 @@ namespace EHE.BoltBusters
                     break;
                 case PlayerChaingunController.ChaingunState.BarrelCountChanged:
                     break;
+            }
+        }
+
+        private void RefreshLauncherList()
+        {
+            foreach (CHRocketLauncher ch in _launcherUiArray)
+            {
+                ch.IsActive = false;
+                ch.ClearLauncher();
+            }
+
+            _launcherList.Clear();
+            foreach (BaseWeapon weapon in LevelManager.Active.Player.RocketLauncherController.Weapons)
+            {
+                if (weapon is RocketLauncher rl)
+                {
+                    _launcherList.Add(rl);
+                }
+            }
+
+            foreach (RocketLauncher launcher in _launcherList)
+            {
+                GD.Print(launcher.Name);
+                // TODO: VERY SCARY! CAN BREAK MUCH! FIX!
+                int index = _launcherList.IndexOf(launcher);
+                _launcherUiArray[index].SetLauncher(launcher);
             }
         }
     }
