@@ -102,6 +102,20 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
+        ///  Initializes the player using values from
+        ///  <paramref name="playerData"/>.
+        /// </summary>
+        ///
+        /// <param name="playerData">
+        ///  Current player data.
+        /// </param>
+        public void Initialize(PlayerData playerData)
+        {
+            // TODO: Init HP.
+            _upgradeHandler.InitializeWeaponCounts(playerData.GetWeaponCounts());
+        }
+
+        /// <summary>
         ///  Handles the <see cref="GameManager.RequestWeaponUpgrade"/> event.
         /// </summary>
         ///

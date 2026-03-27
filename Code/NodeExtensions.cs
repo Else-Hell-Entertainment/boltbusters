@@ -71,6 +71,7 @@ namespace EHE.Common.Godot.Extensions
         }
 
         // Documentation generated with GitHub Copilot.
+        // TODO: Convert this method to accept interfaces as type params well.
         /// <summary>
         ///  Finds all immediate child nodes of the specified
         ///  <typeparamref name="TNode"/> type and returns them as a

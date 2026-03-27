@@ -8,6 +8,7 @@ size = Vector3(0.7, 0.9992584, 2.1)
 
 [node name="Wrench" type="Area3D"]
 script = ExtResource("2_opc5u")
+CollectibleType = 3
 
 [node name="CollectionArea" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41962922, 0)

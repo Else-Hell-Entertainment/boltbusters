@@ -8,6 +8,7 @@ size = Vector3(0.8, 0.7, 1.2)
 
 [node name="Bolt" type="Area3D"]
 script = ExtResource("2_uugkp")
+CollectibleType = 2
 
 [node name="CollectionArea" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
