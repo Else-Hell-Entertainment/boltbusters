@@ -49,13 +49,13 @@ namespace EHE.BoltBusters.Ui
 
         private void OnBtnMainMenuPressed()
         {
+            GameManager.Instance.SaveGame();
             GameManager.Instance.StateMachine.TransitionTo(StateType.MainMenu);
         }
 
         private void OnBtnQuitPressed()
         {
-            // TODO: Move this to Game Manager!
-            GetTree().Quit();
+            GameManager.Instance.SaveAndQuit();
         }
     }
 }

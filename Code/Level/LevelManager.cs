@@ -1,6 +1,7 @@
 // (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
+//            Pekka Heljakka <pekka.heljakka@tuni.fi>
 
 using System;
 using EHE.BoltBusters.Config;
@@ -11,27 +12,48 @@ using Godot;
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// <para>Manages the overall state and lifecycle of a game level.</para>
-    ///
-    /// <para>
-    /// This class is responsible for:
-    /// <list type="bullet">
-    /// <item>Initializing and managing the game level structure</item>
-    /// <item>Controlling round timing and progression</item>
-    /// <item>Spawning and managing enemies through the <see cref="EnemySpawner"/></item>
-    /// </list>
+    ///  <para>Manages the overall state and lifecycle of a game level.</para>
+    ///  <para>
+    ///   This class is responsible for:
+    ///   <list type="bullet">
+    ///    <item>Initializing and managing the game level structure</item>
+    ///    <item>Controlling round timing and progression</item>
+    ///    <item>Keeping track of the player instance</item>
+    ///    <item>
+    ///     Spawning and managing enemies through the
+    ///     <see cref="EnemySpawnManager"/>
+    ///    </item>
+    ///    <item>
+    ///     Managing level objects (enemies, projectiles, collectibles) through
+    ///     dedicated root nodes
+    ///    </item>
+    ///    <item>Handling end-of-round transitions and level cleanup</item>
+    ///   </list>
     /// </para>
     ///
     /// <para>
-    /// The LevelManager maintains a static reference to the currently active
-    /// level instance, allowing other systems to access level data without
-    /// maintaining their own references.
-    /// </para>
+    ///   The LevelManager maintains a static reference to the currently active
+    ///   level instance via the <see cref="Active"/> property, allowing other
+    ///   systems to access level data without maintaining their own references.
+    ///  </para>
     /// </summary>
     ///
     /// <remarks>
-    /// Note: This class is marked as WIP (Work In Progress) with several
-    /// features not yet fully functional.
+    ///  <b>[WIP]</b> This class contains several unfinished features and
+    ///  planned refactorings:
+    ///  <list type="bullet">
+    ///   <item>
+    ///    Architecture: Planned to split into Background and Gameplay level
+    ///    manager subclasses
+    ///   </item>
+    ///   <item>
+    ///    ResetLevel: Method may become private; functionality is incomplete
+    ///   </item>
+    ///   <item>
+    ///    AddLevelObject: Needs validation for null root nodes and type
+    ///    checking
+    ///   </item>
+    ///  </list>
     /// </remarks>
     public partial class LevelManager : Node3D
     {
@@ -60,20 +82,26 @@ namespace EHE.BoltBusters
         #region Properties
 
         /// <summary>
-        /// Reference to the currently active LevelManager.
+        ///  Reference to the currently active <see cref="LevelManager"/>
+        ///  instance. Set automatically when <see cref="_Ready"/> is called.
         /// </summary>
         public static LevelManager Active { get; private set; }
 
         /// <summary>
-        /// The type of the level.
+        ///  Gets the type of the level (e.g., Arena, Training, etc.).
         /// </summary>
         public LevelType LevelType => _levelType;
 
         /// <summary>
-        /// Reference to the player.
+        ///  Gets a reference to the Player instance in this level.
         /// </summary>
         public Player Player => _player;
 
+        /// <summary>
+        ///  Gets a value indicating whether a round is currently in progress.
+        ///  <c>true</c> after <see cref="StartRound"/> is called,
+        ///  <c>false</c> after the round timer expires.
+        /// </summary>
         public bool RoundInProgress { get; private set; }
 
         #endregion Properties
@@ -81,8 +109,7 @@ namespace EHE.BoltBusters
 
         #region Overrides
 
-        // TODO: Create a base class for LevelManager.
-        // TODO: Create separate classes for Background and Gameplay level managers.
+        /// <inheritdoc/>
         public override void _Ready()
         {
             Active = this;
@@ -146,7 +173,7 @@ namespace EHE.BoltBusters
             _roundTimer.Timeout += OnRoundEnded;
             AddChild(_roundTimer);
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
-            this.PrintDebug("Ready.");
+            this.PrintDebug($"{LevelType} level ready.");
         }
 
         #endregion Overrides
@@ -155,31 +182,34 @@ namespace EHE.BoltBusters
         #region Public Methods
 
         /// <summary>
-        /// WIP! NOT FULLY FUNCTIONAL YET!
-        /// Initializes the round from provided <see cref="RoundData"/>.
-        /// </summary>
-        /// <param name="roundData">Data describing the round.</param>
-        [Obsolete]
-        public void InitializeLevel(RoundData roundData)
-        {
-            this.PrintDebug("Initializing level...");
-            _roundData = roundData;
-            _roundTimer.WaitTime = _roundData.RoundLength;
-        }
-
-        /// <summary>
-        ///  Fetches the round data from a resource file using the given
-        ///  <paramref name="roundIndex"/>, caches it, and sets up the round
-        ///  timer.
+        ///  Loads the round data from a resource file using the given
+        ///  <paramref name="roundIndex"/>, caches it, and configures the
+        ///  round accordingly to the loaded data.
         /// </summary>
         ///
         /// <param name="roundIndex">
-        ///  Numerical index for the round data.
+        ///  Numerical index for the round data file to load.
         /// </param>
+        ///
+        /// <remarks>
+        ///  <para>
+        ///   This method must be called after <see cref="_Ready"/> and before
+        ///   <see cref="StartRound"/> to properly initialize the level for a
+        ///   specific round.
+        ///  </para>
+        ///  <para>
+        ///   If the round data file cannot be found at the computed path, an
+        ///   error is logged and the method returns without completing
+        ///  initialization.
+        ///  </para>
+        /// </remarks>
+        ///
+        /// <seealso cref="FilePathConfig.ROUND_DATA_FILE_PATH_FORMAT"/>
         public void InitializeLevel(int roundIndex)
         {
-            this.PrintDebug("Initializing level...");
+            this.PrintDebug($"Initializing level '{roundIndex}'...");
             var roundDataPath = string.Format(DataConfig.ROUND_DATA_FILE_PATH_FORMAT, roundIndex);
+            this.PrintDebug($"Loading round data from '{roundDataPath}'...");
             _roundData = GD.Load<RoundData>(roundDataPath);
 
             if (_roundData == null)
@@ -188,15 +218,60 @@ namespace EHE.BoltBusters
                 return;
             }
 
+            GameManager.Instance.CurrentPlayerData.StartFromShop = false;
             DespawnLevelObjects();
             _roundTimer.WaitTime = _roundData.RoundLength;
-            GameManager.Instance.RoundIndex++;
+            GameManager.Instance.SaveGame();
         }
 
         /// <summary>
-        /// WIP! NOT FULLY FUNCTIONAL YET!
-        /// Starts the round timer and the enemy spawn manager.
+        ///  Initializes the player instance with the provided
+        ///  <see cref="PlayerData"/>.
         /// </summary>
+        ///
+        /// <param name="playerData">
+        ///  The object containing player data.
+        /// </param>
+        ///
+        /// <remarks>
+        ///  This method must be called after <see cref="_Ready"/> and
+        ///  typically before <see cref="StartRound"/>. It delegates the actual
+        ///  initialization logic to the <see cref="Player"/> instance's
+        ///  <see cref="Player.Initialize"/> method.
+        /// </remarks>
+        public void InitializePlayer(PlayerData playerData)
+        {
+            _player.Initialize(playerData);
+        }
+
+        /// <summary>
+        ///  Starts the round by activating the round timer and enemy spawn
+        ///  manager.
+        /// </summary>
+        ///
+        /// <remarks>
+        ///  <para>
+        ///   This method must be called after <see cref="InitializeLevel(int)"/>
+        ///   and <see cref="InitializePlayer(PlayerData)"/> to begin round
+        ///   execution.
+        ///  </para>
+        ///  <para>
+        ///   This method performs the following:
+        ///    <list type="bullet">
+        ///    <item>
+        ///     Sets the <see cref="RoundInProgress"/> flag to <c>true</c>
+        ///    </item>
+        ///    <item>
+        ///     Starts the round timer using the duration configured in
+        ///     <see cref="InitializeLevel(int)"/>
+        ///    </item>
+        ///    <item>
+        ///     Signals the <see cref="EnemySpawnManager"/> to begin spawning
+        ///     enemies
+        ///    </item>
+        ///   </list>
+        ///  </para>
+        /// </remarks>
         public void StartRound()
         {
             this.PrintDebug("Starting round...");
@@ -206,11 +281,24 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// THIS WILL LIKELY BECOME PRIVATE!
-        /// WIP! NOT FUNCTIONAL YET!
-        /// Despawns enemies, projectiles and collectible, and resets the
-        /// player.
+        ///  <b>[WIP]</b>
+        ///  Despawns enemies, projectiles, and collectibles. Resets the
+        ///  player position.
         /// </summary>
+        ///
+        /// <remarks>
+        ///  <para>
+        ///   <b>Status:</b> This method is a Work In Progress and not fully functional.
+        ///   It is likely to become a private method in a future refactoring.
+        ///  </para>
+        ///  <para>
+        ///   <b>Incomplete Features:</b>
+        ///   <list type="bullet">
+        ///    <item>Make player immobile during reset</item>
+        ///    <item>Reset player health to full</item>
+        ///   </list>
+        ///  </para>
+        /// </remarks>
         public void ResetLevel()
         {
             this.PrintDebug("Resetting level...");
@@ -222,10 +310,27 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// WIP! NOT FULLY FUNCTIONAL YET!
-        /// Adds the given level object to the level.
+        ///  <b>[WIP]</b> Adds the given level object to the appropriate root
+        ///  node in the level.
         /// </summary>
-        /// <param name="levelObject"></param>
+        ///
+        /// <param name="levelObject">
+        ///  The level object to add. Must be an <see cref="Enemy"/>,
+        ///  <see cref="Projectile"/>, or <see cref="Collectible"/>.
+        /// </param>
+        ///
+        /// <remarks>
+        ///  <b>Incomplete Features:</b>
+        ///  <list type="bullet">
+        ///   <item>
+        ///    Validate that root nodes are not null before adding children
+        ///   </item>
+        ///   <item>
+        ///    Add type checking and error handling for incompatible object
+        ///    types
+        ///   </item>
+        ///  </list>
+        /// </remarks>
         public void AddLevelObject(Node3D levelObject)
         {
             this.PrintDebug($"Adding level object '{levelObject.GetType()}'");
@@ -244,6 +349,14 @@ namespace EHE.BoltBusters
             // TODO: Check for null root nodes and incompatible levelObjects.
         }
 
+        /// <summary>
+        ///  Gets the remaining time in seconds for the current round.
+        /// </summary>
+        ///
+        /// <returns>
+        ///  The number of seconds remaining until the round timer expires.
+        ///  Returns 0 if the round is not in progress.
+        /// </returns>
         public double GetRemainingRoundTime()
         {
             return _roundTimer.GetTimeLeft();
@@ -258,26 +371,61 @@ namespace EHE.BoltBusters
         //       round data from a file.
 
         /// <summary>
-        /// WIP!
-        /// Called when the round timer runs out. Stops the round timer.
+        /// <b>[WIP]</b> Called when the round timer expires.
+        /// Handles round completion and transitions to the next state.
         /// </summary>
+        ///
+        /// <remarks>
+        ///  <para>
+        ///   <b>Status:</b>
+        ///   This method contains incomplete features and planned refactorings.
+        ///  </para>
+        ///  <para>
+        ///   <b>Current Functionality:</b>
+        ///   <list type="bullet">
+        ///    <item>Stops the round timer</item>
+        ///    <item>Sets <see cref="RoundInProgress"/> to <c>false</c></item>
+        ///    <item>Despawns all level objects via <see cref="ResetLevel"/></item>
+        ///    <item>Increments the round index in GameManager</item>
+        ///    <item>Saves the current game state</item>
+        ///    <item>Transitions to the Shop state</item>
+        ///   </list>
+        ///  </para>
+        ///  <para>
+        ///   <b>Incomplete Features:</b>
+        ///   <list type="bullet">
+        ///    <item>Disable player movement when round ends</item>
+        ///    <item>Disable enemy movement when round ends</item>
+        ///    <item>Add delay before transitioning to shop state</item>
+        ///   </list>
+        ///  </para>
+        /// </remarks>
         private void OnRoundEnded()
         {
             this.PrintDebug("Round ended.");
             _roundTimer.Stop();
             RoundInProgress = false;
             ResetLevel();
-            GameManager.Instance.StateMachine.TransitionTo(StateType.Shop);
             // TODO: Disable player movement.
             // TODO: Disable enemy movement.
-            // TODO: Instruct GameManager to save session to disk.
-            // TODO: Wait 5s and transition to shop state.
+            GameManager.Instance.CurrentPlayerData.StartFromShop = true;
+            GameManager.Instance.RoundIndex++;
+            GameManager.Instance.SaveGame();
+            // TODO: Wait 5s before transitioning to shop state.
+            GameManager.Instance.StateMachine.TransitionTo(StateType.Shop);
         }
 
         /// <summary>
         ///  Despawns all objects from the level that implement the
-        ///  <see cref="ISpawnable"/> interface.
+        ///  <see cref="ISpawnable"/> interface, excluding the
+        ///  <see cref="Player"/> instance.
         /// </summary>
+        ///
+        /// <remarks>
+        ///  This method recursively searches through all children in the
+        ///  level and calls <see cref="ISpawnable.OnDespawn"/>
+        ///  on objects that implement the <see cref="ISpawnable"/> interface.
+        /// </remarks>
         private void DespawnLevelObjects()
         {
             var children = this.GetChildrenOfType<Node>(recurse: true, recurseMatching: true);
