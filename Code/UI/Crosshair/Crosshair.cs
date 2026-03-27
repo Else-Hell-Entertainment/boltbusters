@@ -72,6 +72,7 @@ namespace EHE.BoltBusters.Ui
             _railgunController = LevelManager.Active.Player.RailgunController;
             _railgunController.RailgunConfigurationChanged += RefreshRailgunList;
             RefreshLauncherList();
+            RefreshRailgunList();
         }
 
         private void OnChaingunStateChanged(int state)
@@ -95,6 +96,7 @@ namespace EHE.BoltBusters.Ui
             }
         }
 
+        // TODO: Much repeat. Playtest coming too soon. Refactor later.
         private void RefreshLauncherList()
         {
             foreach (CHRocketLauncher ch in _launcherUiArray)

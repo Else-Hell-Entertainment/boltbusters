@@ -68,16 +68,13 @@ namespace EHE.BoltBusters.Ui
                     Modulate = _tempGaugeYellow;
                     break;
                 case RocketLauncher.LauncherState.RocketJustLaunched:
-                    GD.Print(_launcher + "Launched rockets");
                     break;
                 case RocketLauncher.LauncherState.NotReadyToFire:
                     Modulate = _tempGaugeOrange;
                     break;
                 case RocketLauncher.LauncherState.ReloadingStarted:
-                    GD.Print(_launcher + "Reloading started");
                     break;
                 case RocketLauncher.LauncherState.ReloadingFinished:
-                    GD.Print(_launcher + "Reloading finished");
                     break;
             }
         }
