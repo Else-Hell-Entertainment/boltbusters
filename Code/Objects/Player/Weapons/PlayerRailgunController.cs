@@ -18,6 +18,9 @@ namespace EHE.BoltBusters
         [Export]
         private PackedScene _railgunSparkEffect;
 
+        [Export]
+        private AudioStreamPlayer3D _shootingSound;
+
         public override WeaponType WeaponType => WeaponType.Railgun;
 
         public bool IsActive = true;
@@ -199,6 +202,7 @@ namespace EHE.BoltBusters
             {
                 _activeRailgun.Discharge();
                 ShootRailgun();
+                _shootingSound.Play();
                 _isAttackPressed = false;
             }
         }
