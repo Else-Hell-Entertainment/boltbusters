@@ -59,6 +59,8 @@ namespace EHE.BoltBusters
             // - Show a small UI popup ("+1", "+5", etc.)
             // - Trigger camera punch, screen shake, or other feedback effects
             OnCollected(collector);
+            // TODO: This should probably be done somewhere else. Maybe in the level manager via events?
+            GameManager.Instance.CurrentPlayerData?.IncreaseCollectibleAmount(CollectibleType);
             OnDespawn();
         }
 
