@@ -13,6 +13,15 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class PlayerChaingunController : PlayerWeaponGroupController
     {
+        [Export]
+        private float _range = 7f;
+
+        [Export]
+        private AudioStreamPlayer3D _shootingAudio;
+
+        [Export]
+        private Node3D _aimPoint;
+
         [ExportGroup("Heat mechanics")]
         // How many units are increased to _current heat per shot.
         [Export]
@@ -30,12 +39,6 @@ namespace EHE.BoltBusters
         // After overheating the weapon must cool down below this level to be able to fire again.
         [Export]
         private float _overheatRecoveryThreshold = 80f;
-
-        [Export]
-        private float _range = 7f;
-
-        [Export]
-        private AudioStreamPlayer3D _shootingAudio;
 
         private float _attackTimer;
         private float _attackInterval = 0.5f;
@@ -74,6 +77,10 @@ namespace EHE.BoltBusters
         {
             base._Ready();
             AddWeapon();
+            if (_aimPoint != null)
+            {
+                LookAt(_aimPoint.GlobalPosition);
+            }
             _reticle = GetNode<Sprite3D>("Reticle");
             _reticle.Position -= new Vector3(0, _reticle.GlobalPosition.Y - 0.2f, _range);
             CurrentPersistentState = ChaingunState.ReadyToFire;
