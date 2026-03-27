@@ -24,8 +24,8 @@ size = Vector3(0.1, 0.1, 0.1)
 
 [node name="RailgunController" type="Node3D" node_paths=PackedStringArray("_shootingSound")]
 script = ExtResource("1_x5un3")
-_shootingSound = NodePath("AudioStreamPlayer3D")
 _weaponScene = ExtResource("2_qcyao")
+_shootingSound = NodePath("AudioStreamPlayer3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.19756553)

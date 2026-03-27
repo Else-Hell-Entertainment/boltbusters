@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bta8cuhn6twxu"]
 
-[ext_resource type="Script" uid="uid://jat1wciut4il" path="res://Code/Objects/Player/Weapons/Railgun2.cs" id="1_0hp30"]
+[ext_resource type="Script" uid="uid://jat1wciut4il" path="res://Code/Objects/Player/Weapons/Railgun.cs" id="1_0hp30"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_vk13k"]
 

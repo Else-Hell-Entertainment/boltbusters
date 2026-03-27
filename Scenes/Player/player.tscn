@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://b4w446hov1iq4" path="res://Scenes/Player/Weapons/RocketLauncherController.tscn" id="3_jlvik"]
 [ext_resource type="Script" uid="uid://nv0ew2bqkcqb" path="res://Code/Objects/Player/InputHandler.cs" id="4_jlvik"]
 [ext_resource type="Script" uid="uid://cbgtfntk84sv1" path="res://Code/Objects/Player/PlayerController.cs" id="5_gk6dx"]
-[ext_resource type="PackedScene" uid="uid://cfcvy3x00knug" path="res://Scenes/Player/Weapons/Railgun2Controller.tscn" id="6_gk6dx"]
+[ext_resource type="PackedScene" uid="uid://cfcvy3x00knug" path="res://Scenes/Player/Weapons/RailgunController.tscn" id="6_gk6dx"]
 [ext_resource type="Script" uid="uid://d2knauna4hn3f" path="res://Code/Objects/Player/PlayerHealthComponent.cs" id="7_0u5uq"]
-[ext_resource type="PackedScene" uid="uid://bta8cuhn6twxu" path="res://Scenes/Player/Weapons/Railgun2.tscn" id="7_jhyir"]
+[ext_resource type="PackedScene" uid="uid://bta8cuhn6twxu" path="res://Scenes/Player/Weapons/Railgun.tscn" id="7_jhyir"]
 [ext_resource type="Script" uid="uid://ijwkg2xovq7l" path="res://Code/CollectArea.cs" id="8_jlvik"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gkvi4"]
