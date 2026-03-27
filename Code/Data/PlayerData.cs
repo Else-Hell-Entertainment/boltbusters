@@ -8,6 +8,31 @@ using Godot.Collections;
 
 namespace EHE.BoltBusters
 {
+    /// <summary>
+    ///  Manages and persists player stats (including health, level
+    ///  progression, collectibles, and weapons) throughout the game session.
+    ///  This class serves as the primary data container for player information
+    ///  and implements save/load functionality through the
+    ///  <see cref="ISaveable"/> interface.
+    /// </summary>
+    ///
+    /// <remarks>
+    ///  <para>
+    ///   PlayerData is a Godot Resource that can be serialized and exported to
+    ///   the Godot editor. It signals changes to health, collectibles, and
+    ///   weapons, allowing other systems to react to player state changes.
+    ///  </para>
+    ///  <para>
+    ///   All collectible and weapon counts are stored in dictionaries and are
+    ///   automatically clamped to valid ranges (0 to <see cref="int.MaxValue"/>).
+    ///   Health is similarly constrained and should not exceed the maximum
+    ///   value set in UI design.
+    ///  </para>
+    /// </remarks>
+    ///
+    /// <seealso cref="ISaveable"/>
+    /// <seealso cref="CollectibleType"/>
+    /// <seealso cref="WeaponType"/>
     [GlobalClass]
     public partial class PlayerData : Resource, ISaveable
     {
@@ -99,21 +124,6 @@ namespace EHE.BoltBusters
         private int _health = 100;
         private int _levelIndex = 1;
 
-        #endregion Fields
-
-
-        #region Properties (private/protected/public)
-
-        /// <summary>
-        ///  Tells if the player is currently alive or not.
-        /// </summary>
-        public bool IsAlive => Health > 0;
-
-        #endregion Properties (private/protected/public)
-
-
-        #region Exported Fields & Properties (private/protected/public)
-
         [Export]
         private Dictionary<CollectibleType, int> _collectibleCounts = new()
         {
@@ -130,15 +140,37 @@ namespace EHE.BoltBusters
             { WeaponType.Rocket, 0 },
         };
 
+        #endregion Fields
+
+
+        #region Properties
+
         /// <summary>
         ///  The current health of the player.
         /// </summary>
         ///
         /// <remarks>
-        ///  The <paramref name="value"/> is clamped between 0 and
-        ///  <see cref="int.MaxValue"/>. <b>Note</b>: The maximum value will
-        ///  be lowered when the UI is implemented.
+        ///  <list type="bullet">
+        ///   <item>
+        ///    The values are automatically clamped between 0 and
+        ///    <see cref="int.MaxValue"/>.
+        ///   </item>
+        ///   <item>
+        ///    When health reaches 0, the player is considered dead (see
+        ///    <see cref="IsAlive"/>).
+        ///   </item>
+        ///   <item>
+        ///    The maximum value will be adjusted during UI implementation.
+        ///   </item>
+        ///   <item>
+        ///    Changing this property emits the <see cref="HealthChanged"/>
+        ///    signal.
+        ///   </item>
+        ///  </list>
         /// </remarks>
+        ///
+        /// <seealso cref="HealthChanged"/>
+        /// <seealso cref="IsAlive"/>
         [Export(PropertyHint.Range, "0,2147483647,1")]
         public int Health
         {
@@ -152,8 +184,18 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
+        ///  Tells if the player is currently alive or not.
+        /// </summary>
+        public bool IsAlive => Health > 0;
+
+        /// <summary>
         ///  The index of the level the player is currently in.
         /// </summary>
+        ///
+        /// <remarks>
+        ///  Must be at least 1. The value is clamped between 1 and
+        ///  <see cref="int.MaxValue"/>.
+        /// </remarks>
         [Export(PropertyHint.Range, "1,2147483647,1")]
         public int LevelIndex
         {
@@ -165,10 +207,16 @@ namespace EHE.BoltBusters
         ///  Whether the player should start in shop when the save game is
         ///  loaded.
         /// </summary>
+        ///
+        /// <remarks>
+        ///  When true, the game will load directly into the shop instead of
+        ///  the main level. This is typically set to true after the player
+        ///  completes a level successfully.
+        /// </remarks>
         [Export]
         public bool StartFromShop { get; set; } = false;
 
-        #endregion Exported Fields & Properties (private/protected/public)
+        #endregion Properties
 
 
         #region Public Methods
@@ -176,11 +224,8 @@ namespace EHE.BoltBusters
 
         /// <summary>
         ///  <para>
-        ///  Initializes internal default values from the
-        ///  <see cref="GameManager.DefaultPlayerData"/> resource if possible.
-        ///  If the <see cref="GameManager.DefaultPlayerData"/> resource cannot
-        ///  be fetched, an error is logged and the hardcoded default values
-        ///  are retained.
+        ///  Initializes internal default values from the using the provided
+        ///  PlayerData object as reference.
         ///  </para>
         ///  <para>
         ///   <b>NOTE</b>: This method should be called only once during the
@@ -214,6 +259,26 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
+        ///  Returns all collectible counts as a dictionary where
+        ///  <see cref="CollectibleType"/>s are the keys and the amounts are
+        ///  the values.
+        /// </summary>
+        ///
+        /// <returns>
+        ///  A duplicate of the internal weapon counts dictionary.
+        ///  The returned dictionary is a copy and modifications will not
+        ///  affect the internal state; use <see cref="SetCollectibleCount"/>
+        ///  or <see cref="IncreaseCollectibleCount"/> to modify collectible
+        ///  counts.
+        /// </returns>
+        ///
+        /// <seealso cref="GetCollectibleCount"/>
+        public Dictionary<CollectibleType, int> GetCollectibleCounts()
+        {
+            return _collectibleCounts.Duplicate();
+        }
+
+        /// <summary>
         ///  Gets the current amount of the specified collectible.
         /// </summary>
         ///
@@ -226,8 +291,15 @@ namespace EHE.BoltBusters
         ///  given collectible type is invalid.
         /// </returns>
         ///
+        /// <remarks>
+        ///  Pushes an error to the console if the given
+        ///  <paramref name="collectibleType"/> cannot be found in the internal
+        ///  dictionary.
+        /// </remarks>
+        ///
         /// <seealso cref="CollectibleType"/>
         /// <seealso cref="SetCollectibleCount"/>
+        /// <seealso cref="GetCollectibleCounts"/>
         public int GetCollectibleCount(CollectibleType collectibleType)
         {
             if (!_collectibleCounts.TryGetValue(collectibleType, out var amount))
@@ -263,31 +335,33 @@ namespace EHE.BoltBusters
         ///  </para>
         ///  <para>
         ///   The <paramref name="amount"/> is clamped between 0 and
-        ///   <see cref="int.MaxValue"/>. <b>Note</b>: The maximum value will
-        ///   be lowered when the UI is implemented.
+        ///   <see cref="int.MaxValue"/>. The maximum value will be lowered
+        ///   when the UI is fully implemented.
         ///  </para>
         /// </remarks>
         ///
         /// <seealso cref="CollectibleType"/>
         /// <seealso cref="GetCollectibleCount"/>
+        /// <seealso cref="IncreaseCollectibleCount"/>
+        /// <seealso cref="DecreaseCollectibleCount"/>
         /// <seealso cref="CollectibleCountChanged"/>
         private bool SetCollectibleCount(CollectibleType collectibleType, int amount)
         {
             if (!_collectibleCounts.ContainsKey(collectibleType))
             {
-                GD.PushError($"Cannot set collectible amount: key '{collectibleType}' not found!");
+                GD.PushError($"Cannot set collectible count: key '{collectibleType}' not found!");
                 return false;
             }
 
             if (amount < 0)
             {
-                GD.PushError("Cannot set collectible amount: amount cannot be negative!");
+                GD.PushError("Cannot set collectible count: amount cannot be negative!");
                 return false;
             }
 
             // TODO: Decide max value when designing UI.
             _collectibleCounts[collectibleType] = Mathf.Clamp(amount, min: 0, max: int.MaxValue);
-            EmitSignal(SignalName.CollectibleAmountsChanged, (int)collectibleType, amount);
+            EmitSignal(SignalName.CollectibleCountChanged, (int)collectibleType, amount);
             return true;
         }
 
@@ -301,12 +375,21 @@ namespace EHE.BoltBusters
         /// </param>
         /// <param name="increment">
         ///  How much the amount should increase. Default is 1.
+        ///  Must be non-negative.
         /// </param>
         ///
         /// <returns>
         ///  <c>true</c> if increasing the amount was successful,
-        ///  <c>false</c> otherwise.
+        ///  <c>false</c> if the collectible type is invalid or if the
+        ///  increment is negative.
         /// </returns>
+        ///
+        /// <remarks>
+        ///  Emits the <see cref="CollectibleCountChanged"/> signal on success.
+        /// </remarks>
+        ///
+        /// <seealso cref="DecreaseCollectibleCount"/>
+        /// <seealso cref="SetCollectibleCount"/>
         public bool IncreaseCollectibleCount(CollectibleType collectibleType, int increment = 1)
         {
             var current = GetCollectibleCount(collectibleType);
@@ -337,12 +420,21 @@ namespace EHE.BoltBusters
         /// </param>
         /// <param name="decrement">
         ///  How much the amount should decrease. Default is 1.
+        ///  Must be non-negative.
         /// </param>
         ///
         /// <returns>
         ///  <c>true</c> if decreasing the amount was successful,
-        ///  <c>false</c> otherwise.
+        ///  <c>false</c> if the collectible type is invalid, the decrement
+        ///  is negative, or the decrement would make the value negative.
         /// </returns>
+        ///
+        /// <remarks>
+        ///  Emits the <see cref="CollectibleCountChanged"/> signal on success.
+        /// </remarks>
+        ///
+        /// <seealso cref="IncreaseCollectibleCount"/>
+        /// <seealso cref="SetCollectibleCount"/>
         public bool DecreaseCollectibleCount(CollectibleType collectibleType, int decrement = 1)
         {
             var current = GetCollectibleCount(collectibleType);
@@ -368,6 +460,15 @@ namespace EHE.BoltBusters
         ///  <see cref="WeaponType"/>s are the keys and the number of weapons
         ///  are the values.
         /// </summary>
+        ///
+        /// <returns>
+        ///  A duplicate of the internal weapon counts dictionary.
+        ///  The returned dictionary is a copy and modifications will not
+        ///  affect the internal state; use <see cref="SetWeaponCount"/> or
+        ///  <see cref="IncreaseWeaponCount"/> to modify weapon counts.
+        /// </returns>
+        ///
+        /// <seealso cref="GetWeaponCount"/>
         public Dictionary<WeaponType, int> GetWeaponCounts()
         {
             return _weaponCounts.Duplicate();
@@ -388,6 +489,7 @@ namespace EHE.BoltBusters
         ///
         /// <seealso cref="WeaponType"/>
         /// <seealso cref="SetWeaponCount"/>
+        /// <seealso cref="GetWeaponCounts"/>
         public int GetWeaponCount(WeaponType weaponType)
         {
             if (!_weaponCounts.TryGetValue(weaponType, out var amount))
@@ -423,13 +525,15 @@ namespace EHE.BoltBusters
         ///  </para>
         ///  <para>
         ///   The <paramref name="count"/> is clamped between 0 and
-        ///   <see cref="int.MaxValue"/>. <b>Note</b>: The maximum value will
-        ///   be set properly when this feature is fully implemented!
+        ///   <see cref="int.MaxValue"/>. The maximum value will be set
+        ///   properly when this feature is fully implemented.
         ///  </para>
         /// </remarks>
         ///
         /// <seealso cref="WeaponType"/>
         /// <seealso cref="GetWeaponCount"/>
+        /// <seealso cref="IncreaseWeaponCount"/>
+        /// <seealso cref="DecreaseWeaponCount"/>
         public bool SetWeaponCount(WeaponType weaponType, int count)
         {
             if (!_weaponCounts.ContainsKey(weaponType))
@@ -460,12 +564,21 @@ namespace EHE.BoltBusters
         /// </param>
         /// <param name="increment">
         ///  How much the count should be increased by. Default is 1.
+        ///  Must be non-negative.
         /// </param>
         ///
         /// <returns>
         ///  <c>true</c> if increasing the number of weapons was successful,
-        ///  <c>false</c> otherwise.
+        ///  <c>false</c> if the weapon type is invalid or if the increment
+        ///  is negative.
         /// </returns>
+        ///
+        /// <remarks>
+        ///  Emits the <see cref="WeaponCountChanged"/> signal on success.
+        /// </remarks>
+        ///
+        /// <seealso cref="DecreaseWeaponCount"/>
+        /// <seealso cref="SetWeaponCount"/>
         public bool IncreaseWeaponCount(WeaponType weaponType, int increment = 1)
         {
             var current = GetWeaponCount(weaponType);
@@ -496,12 +609,21 @@ namespace EHE.BoltBusters
         /// </param>
         /// <param name="decrement">
         ///  How much the count should be decreased by. Default is 1.
+        ///  Must be non-negative.
         /// </param>
         ///
         /// <returns>
         ///  <c>true</c> if decreasing the number of weapons was successful,
-        ///  <c>false</c> otherwise.
+        ///  <c>false</c> if the weapon type is invalid, the decrement
+        ///  is negative, or the decrement would make the value negative.
         /// </returns>
+        ///
+        /// <remarks>
+        ///  Emits the <see cref="WeaponCountChanged"/> signal on success.
+        /// </remarks>
+        ///
+        /// <seealso cref="IncreaseWeaponCount"/>
+        /// <seealso cref="SetWeaponCount"/>
         public bool DecreaseWeaponCount(WeaponType weaponType, int decrement = 1)
         {
             var current = GetWeaponCount(weaponType);
@@ -538,8 +660,18 @@ namespace EHE.BoltBusters
         /// </summary>
         ///
         /// <returns>
-        ///  <inheritdoc/>
+        ///  A <see cref="Godot.Collections.Dictionary"/> containing the
+        ///  serialized player data that can be persisted to storage.
         /// </returns>
+        ///
+        /// <remarks>
+        ///  Note: Health is not saved as it is intended to be reset between
+        ///  levels. This method is part of the <see cref="ISaveable"/>
+        ///  interface implementation.
+        /// </remarks>
+        ///
+        /// <seealso cref="Load"/>
+        /// <seealso cref="ISaveable"/>
         public Dictionary Save()
         {
             return new Dictionary()
@@ -552,13 +684,31 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        ///  <inheritdoc/>
-        ///  If reading the data fails, uses default values.
+        ///  Loads player data from a <see cref="Godot.Collections.Dictionary"/>
+        ///  dictionary. If reading the data fails, uses default values.
         /// </summary>
         ///
         /// <param name="data">
-        ///  <inheritdoc/>
+        ///  A <see cref="Godot.Collections.Dictionary"/> containing previously
+        ///  saved player data. Expected to contain keys: <c>LevelIndex</c>,
+        ///  <c>StartFromShop</c>, <c>CollectibleCounts</c>, and
+        ///  <c>WeaponCounts</c>.
         /// </param>
+        ///
+        /// <remarks>
+        ///  <para>
+        ///   If any required data is missing or invalid, this method will use
+        ///   default values and log an error message via
+        ///   <see cref="Godot.GD.PushError(string)"/>.
+        ///  </para>
+        ///  <para>
+        ///   This method is part of the <see cref="ISaveable"/> interface
+        ///   implementation.
+        ///  </para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Save"/>
+        /// <seealso cref="ISaveable"/>
         public void Load(Dictionary data)
         {
             LoadLevelIndex(data);
