@@ -50,7 +50,7 @@ namespace EHE.BoltBusters
         ///
         /// <seealso cref="CollectibleType"/>
         [Signal]
-        public delegate void CollectibleAmountsChangedEventHandler(int collectibleType, int newAmount);
+        public delegate void CollectibleCountChangedEventHandler(int collectibleType, int newAmount);
 
         /// <summary>
         ///  Emitted when the number of weapons changes.
@@ -68,7 +68,7 @@ namespace EHE.BoltBusters
         /// <seealso cref="PlayerData.SetWeaponCount"/>
         /// <seealso cref="PlayerData.GetWeaponCount"/>
         [Signal]
-        public delegate void NumberOfWeaponsChangedEventHandler(int weaponType, int newCount);
+        public delegate void WeaponCountChangedEventHandler(int weaponType, int newCount);
 
         #endregion Signals
 
@@ -207,14 +207,14 @@ namespace EHE.BoltBusters
         /// </param>
         ///
         /// <returns>
-        ///  <c>true</c> if the collectible amount was successfully set;
+        ///  <c>true</c> if the collectible count was successfully set;
         ///  <c>false</c> if the collectible type is invalid or if the amount
         ///  is negative.
         /// </returns>
         ///
         /// <remarks>
         ///  <para>
-        ///   This method emits the <see cref="CollectibleAmountsChanged"/>
+        ///   This method emits the <see cref="CollectibleCountChanged"/>
         ///   signal when the amount is successfully updated.
         ///  </para>
         ///  <para>
@@ -226,7 +226,7 @@ namespace EHE.BoltBusters
         ///
         /// <seealso cref="CollectibleType"/>
         /// <seealso cref="GetCollectibleCount"/>
-        /// <seealso cref="CollectibleAmountsChanged"/>
+        /// <seealso cref="CollectibleCountChanged"/>
         private bool SetCollectibleCount(CollectibleType collectibleType, int amount)
         {
             if (!_collectibleCounts.ContainsKey(collectibleType))
@@ -276,7 +276,7 @@ namespace EHE.BoltBusters
             // Invalid increment.
             if (increment < 0)
             {
-                GD.PrintErr($"Cannot increase collectible amount by a negative value ({increment}).");
+                GD.PushError($"Cannot increase collectible count by a negative value ({increment}).");
                 return false;
             }
 
@@ -312,7 +312,7 @@ namespace EHE.BoltBusters
             // Invalid decrement.
             if (decrement < 0)
             {
-                GD.PrintErr($"Cannot decrease collectible amount by a negative value ({decrement}).");
+                GD.PushError($"Cannot decrease collectible count by a negative value ({decrement}).");
                 return false;
             }
 
@@ -374,7 +374,7 @@ namespace EHE.BoltBusters
         ///
         /// <remarks>
         ///  <para>
-        ///   This method emits the <see cref="NumberOfWeaponsChanged"/>
+        ///   This method emits the <see cref="WeaponCountChanged"/>
         ///   signal when the number of weapons is successfully updated.
         ///  </para>
         ///  <para>
@@ -386,7 +386,6 @@ namespace EHE.BoltBusters
         ///
         /// <seealso cref="WeaponType"/>
         /// <seealso cref="GetWeaponCount"/>
-        /// <seealso cref="NumberOfWeaponsChanged"/>
         public bool SetWeaponCount(WeaponType weaponType, int count)
         {
             if (!_weaponCounts.ContainsKey(weaponType))
@@ -403,7 +402,7 @@ namespace EHE.BoltBusters
 
             // TODO: Decide max value when designing UI.
             _weaponCounts[weaponType] = Mathf.Clamp(count, min: 0, max: int.MaxValue);
-            EmitSignal(SignalName.NumberOfWeaponsChanged, (int)weaponType, count);
+            EmitSignal(SignalName.WeaponCountChanged, (int)weaponType, count);
             return true;
         }
 
