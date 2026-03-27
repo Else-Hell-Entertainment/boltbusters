@@ -65,8 +65,8 @@ namespace EHE.BoltBusters
         /// </param>
         ///
         /// <seealso cref="WeaponType"/>
-        /// <seealso cref="SetNumberOfWeapons"/>
-        /// <seealso cref="GetNumberOfWeapons"/>
+        /// <seealso cref="PlayerData.SetWeaponCount"/>
+        /// <seealso cref="PlayerData.GetWeaponCount"/>
         [Signal]
         public delegate void NumberOfWeaponsChangedEventHandler(int weaponType, int newCount);
 
@@ -183,8 +183,8 @@ namespace EHE.BoltBusters
         /// </returns>
         ///
         /// <seealso cref="CollectibleType"/>
-        /// <seealso cref="SetCollectibleAmount"/>
-        public int GetCollectibleAmount(CollectibleType collectibleType)
+        /// <seealso cref="SetCollectibleCount"/>
+        public int GetCollectibleCount(CollectibleType collectibleType)
         {
             if (!_collectibleCounts.TryGetValue(collectibleType, out var amount))
             {
@@ -225,9 +225,9 @@ namespace EHE.BoltBusters
         /// </remarks>
         ///
         /// <seealso cref="CollectibleType"/>
-        /// <seealso cref="GetCollectibleAmount"/>
+        /// <seealso cref="GetCollectibleCount"/>
         /// <seealso cref="CollectibleAmountsChanged"/>
-        public bool SetCollectibleAmount(CollectibleType collectibleType, int amount)
+        private bool SetCollectibleCount(CollectibleType collectibleType, int amount)
         {
             if (!_collectibleCounts.ContainsKey(collectibleType))
             {
@@ -263,9 +263,9 @@ namespace EHE.BoltBusters
         ///  <c>true</c> if increasing the amount was successful,
         ///  <c>false</c> otherwise.
         /// </returns>
-        public bool IncreaseCollectibleAmount(CollectibleType collectibleType, int increment = 1)
+        public bool IncreaseCollectibleCount(CollectibleType collectibleType, int increment = 1)
         {
-            var current = GetCollectibleAmount(collectibleType);
+            var current = GetCollectibleCount(collectibleType);
 
             // Invalid collectible type.
             if (current < 0)
@@ -280,7 +280,7 @@ namespace EHE.BoltBusters
                 return false;
             }
 
-            return SetCollectibleAmount(collectibleType, amount: current + increment);
+            return SetCollectibleCount(collectibleType, amount: current + increment);
         }
 
         /// <summary>
@@ -299,9 +299,9 @@ namespace EHE.BoltBusters
         ///  <c>true</c> if decreasing the amount was successful,
         ///  <c>false</c> otherwise.
         /// </returns>
-        public bool DecreaseCollectibleAmount(CollectibleType collectibleType, int decrement = 1)
+        public bool DecreaseCollectibleCount(CollectibleType collectibleType, int decrement = 1)
         {
-            var current = GetCollectibleAmount(collectibleType);
+            var current = GetCollectibleCount(collectibleType);
 
             // Invalid collectible type.
             if (current < 0)
@@ -316,7 +316,7 @@ namespace EHE.BoltBusters
                 return false;
             }
 
-            return SetCollectibleAmount(collectibleType, amount: current - decrement);
+            return SetCollectibleCount(collectibleType, amount: current - decrement);
         }
 
         /// <summary>
@@ -343,8 +343,8 @@ namespace EHE.BoltBusters
         /// </returns>
         ///
         /// <seealso cref="WeaponType"/>
-        /// <seealso cref="SetNumberOfWeapons"/>
-        public int GetNumberOfWeapons(WeaponType weaponType)
+        /// <seealso cref="SetWeaponCount"/>
+        public int GetWeaponCount(WeaponType weaponType)
         {
             if (!_weaponCounts.TryGetValue(weaponType, out var amount))
             {
@@ -385,9 +385,9 @@ namespace EHE.BoltBusters
         /// </remarks>
         ///
         /// <seealso cref="WeaponType"/>
-        /// <seealso cref="GetNumberOfWeapons"/>
+        /// <seealso cref="GetWeaponCount"/>
         /// <seealso cref="NumberOfWeaponsChanged"/>
-        public bool SetNumberOfWeapons(WeaponType weaponType, int count)
+        public bool SetWeaponCount(WeaponType weaponType, int count)
         {
             if (!_weaponCounts.ContainsKey(weaponType))
             {
@@ -423,9 +423,9 @@ namespace EHE.BoltBusters
         ///  <c>true</c> if increasing the number of weapons was successful,
         ///  <c>false</c> otherwise.
         /// </returns>
-        public bool IncreaseNumberOfWeapons(WeaponType weaponType, int increment = 1)
+        public bool IncreaseWeaponCount(WeaponType weaponType, int increment = 1)
         {
-            var current = GetNumberOfWeapons(weaponType);
+            var current = GetWeaponCount(weaponType);
 
             // Weapon type not found.
             if (current < 0)
@@ -440,7 +440,7 @@ namespace EHE.BoltBusters
                 return false;
             }
 
-            return SetNumberOfWeapons(weaponType, count: current + increment);
+            return SetWeaponCount(weaponType, count: current + increment);
         }
 
         /// <summary>
@@ -459,9 +459,9 @@ namespace EHE.BoltBusters
         ///  <c>true</c> if decreasing the number of weapons was successful,
         ///  <c>false</c> otherwise.
         /// </returns>
-        public bool DecreaseNumberOfWeapons(WeaponType weaponType, int decrement = 1)
+        public bool DecreaseWeaponCount(WeaponType weaponType, int decrement = 1)
         {
-            var current = GetNumberOfWeapons(weaponType);
+            var current = GetWeaponCount(weaponType);
 
             // Weapon type not found.
             if (current < 0)
@@ -476,7 +476,7 @@ namespace EHE.BoltBusters
                 return false;
             }
 
-            return SetNumberOfWeapons(weaponType, count: current - decrement);
+            return SetWeaponCount(weaponType, count: current - decrement);
         }
 
         #endregion Public Methods
@@ -591,7 +591,7 @@ namespace EHE.BoltBusters
             {
                 foreach (var (type, count) in (Dictionary)collectibleCounts)
                 {
-                    SetCollectibleAmount((CollectibleType)(int)type, (int)count);
+                    SetCollectibleCount((CollectibleType)(int)type, (int)count);
                 }
             }
         }
@@ -615,7 +615,7 @@ namespace EHE.BoltBusters
             {
                 foreach (var (type, count) in (Dictionary)weaponCounts)
                 {
-                    SetNumberOfWeapons((WeaponType)(int)type, (int)count);
+                    SetWeaponCount((WeaponType)(int)type, (int)count);
                 }
             }
         }
