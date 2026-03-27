@@ -134,6 +134,7 @@ namespace EHE.BoltBusters
                 {
                     _reloadTimer.Start();
                     ChangeState(RailgunState.Reloading);
+                    return;
                 }
             }
             EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.Discharging);

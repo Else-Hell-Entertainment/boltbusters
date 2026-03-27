@@ -41,6 +41,9 @@ namespace EHE.BoltBusters
         private int _attackFramesCounter;
         private Dictionary _lastRaycastResult = new Dictionary();
 
+        [Signal]
+        public delegate void RailgunConfigurationChangedEventHandler();
+
         public override void _Ready()
         {
             base._Ready();
@@ -93,6 +96,7 @@ namespace EHE.BoltBusters
             if (base.AddWeapon())
             {
                 SetNextActiveRailgun();
+                EmitSignal(SignalName.RailgunConfigurationChanged);
                 return true;
             }
 
@@ -104,6 +108,7 @@ namespace EHE.BoltBusters
             if (base.RemoveWeapon())
             {
                 SetNextActiveRailgun();
+                EmitSignal(SignalName.RailgunConfigurationChanged);
                 return true;
             }
 
@@ -117,6 +122,7 @@ namespace EHE.BoltBusters
                 if (weapon is Railgun railgun)
                 {
                     railgun.UpgradeChargingSpeed();
+                    EmitSignal(SignalName.RailgunConfigurationChanged);
                 }
             }
         }
@@ -128,6 +134,7 @@ namespace EHE.BoltBusters
                 if (weapon is Railgun railgun)
                 {
                     railgun.DowngradeChargingSpeed();
+                    EmitSignal(SignalName.RailgunConfigurationChanged);
                 }
             }
         }

@@ -16,7 +16,11 @@ namespace EHE.BoltBusters.Ui
 
         private PlayerRocketLauncherController _rocketLauncherController;
 
+        private PlayerRailgunController _railgunController;
+
         private List<RocketLauncher> _launcherList = new List<RocketLauncher>();
+
+        private List<Railgun> _railgunList = new List<Railgun>();
 
         [Export]
         private CHRocketLauncher _launcherUi0;
@@ -29,8 +33,20 @@ namespace EHE.BoltBusters.Ui
 
         [Export]
         private CHRocketLauncher _launcherUi3;
-
         private CHRocketLauncher[] _launcherUiArray = new CHRocketLauncher[4];
+
+        [Export]
+        private CHRailgun _railgunUi0;
+
+        [Export]
+        private CHRailgun _railgunUi1;
+
+        [Export]
+        private CHRailgun _railgunUi2;
+
+        [Export]
+        private CHRailgun _railgunUi3;
+        private CHRailgun[] _railgunUiArray = new CHRailgun[4];
 
         public override void _Ready()
         {
@@ -38,6 +54,11 @@ namespace EHE.BoltBusters.Ui
             _launcherUiArray[1] = _launcherUi1;
             _launcherUiArray[2] = _launcherUi2;
             _launcherUiArray[3] = _launcherUi3;
+
+            _railgunUiArray[0] = _railgunUi0;
+            _railgunUiArray[1] = _railgunUi1;
+            _railgunUiArray[2] = _railgunUi2;
+            _railgunUiArray[3] = _railgunUi3;
 
             CallDeferred(MethodName.Initialize);
         }
@@ -48,6 +69,8 @@ namespace EHE.BoltBusters.Ui
             _chaingunController.ChaingunStateChanged += OnChaingunStateChanged;
             _rocketLauncherController = LevelManager.Active.Player.RocketLauncherController;
             _rocketLauncherController.RocketLauncherConfigurationChanged += RefreshLauncherList;
+            _railgunController = LevelManager.Active.Player.RailgunController;
+            _railgunController.RailgunConfigurationChanged += RefreshRailgunList;
             RefreshLauncherList();
         }
 
@@ -95,6 +118,31 @@ namespace EHE.BoltBusters.Ui
                 // TODO: VERY SCARY! CAN BREAK MUCH! FIX!
                 int index = _launcherList.IndexOf(launcher);
                 _launcherUiArray[index].SetLauncher(launcher);
+            }
+        }
+
+        private void RefreshRailgunList()
+        {
+            foreach (CHRailgun ch in _railgunUiArray)
+            {
+                ch.IsActive = false;
+                ch.ClearRailgun();
+            }
+
+            _railgunList.Clear();
+            foreach (BaseWeapon weapon in LevelManager.Active.Player.RailgunController.Weapons)
+            {
+                if (weapon is Railgun rg)
+                {
+                    _railgunList.Add(rg);
+                }
+            }
+
+            foreach (Railgun railgun in _railgunList)
+            {
+                // TODO: VERY SCARY! CAN BREAK MUCH! FIX!
+                int index = _railgunList.IndexOf(railgun);
+                _railgunUiArray[index].SetRailgun(railgun);
             }
         }
     }
