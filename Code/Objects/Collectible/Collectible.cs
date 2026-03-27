@@ -15,6 +15,7 @@ namespace EHE.BoltBusters
     {
         private CollectibleType _collectibleType = CollectibleType.None;
 
+        /// <inheritdoc/>
         public CollectibleType CollectibleType
         {
             get { return _collectibleType; }

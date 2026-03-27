@@ -13,6 +13,12 @@ namespace EHE.BoltBusters
     public interface ICollectible
     {
         /// <summary>
+        ///  The type of this collectible. For possible values, refer to
+        ///  <see cref="CollectibleType"/>.
+        /// </summary>
+        CollectibleType CollectibleType { get; }
+
+        /// <summary>
         /// Called when the collectible is picked up by a character.
         /// Use this to apply effects, rewards, or any gameplay logic triggered by the collection event.
         /// </summary>
