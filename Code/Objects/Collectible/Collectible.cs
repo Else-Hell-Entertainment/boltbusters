@@ -13,15 +13,11 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class Collectible : Area3D, ISpawnable, ICollectible
     {
-        private CollectibleType _collectibleType = CollectibleType.None;
-
         /// <inheritdoc/>
-        public CollectibleType CollectibleType
-        {
-            get { return _collectibleType; }
-            protected set { _collectibleType = value; }
-        }
+        [Export]
+        public CollectibleType CollectibleType { get; private set; } = CollectibleType.None;
 
+        // TODO: This method can be removed since the CollectibleType is now editable in the editor.
         /// <summary>
         /// Initializes the collectible with a specific type.
         /// Called after the object is created but before it is spawned.
