@@ -2,7 +2,6 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
-using System;
 using EHE.Common.Godot;
 using Godot;
 using Godot.Collections;
@@ -14,12 +13,10 @@ namespace EHE.BoltBusters
     {
         #region Constants
 
-        private const string KEY_HEALTH = "Health";
         private const string KEY_COLLECTIBLE_COUNTS = "CollectibleCounts";
         private const string KEY_WEAPON_COUNTS = "WeaponCounts";
         private const string KEY_LEVEL_INDEX = "LevelIndex";
         private const string KEY_START_FROM_SHOP = "StartFromShop";
-
         private const string LOAD_ERROR_FORMAT = "Failed to load '{0}' from save data; using default value of '{1}'.";
 
         #endregion Constants
