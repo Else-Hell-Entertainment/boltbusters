@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://durb8v5qnbcln"]
+
+[ext_resource type="PackedScene" uid="uid://mp4wv067kdgb" path="res://Scenes/UI/CrosshairControl.tscn" id="1_yafma"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_yafma"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Crosshair" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+texture = SubResource("ViewportTexture_yafma")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(256, 256)
+
+[node name="Crosshair" parent="SubViewport" instance=ExtResource("1_yafma")]

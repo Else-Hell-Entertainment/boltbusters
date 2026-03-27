@@ -159,7 +159,7 @@ namespace EHE.BoltBusters
             // Null check at the beginning in case the list hasn't been refreshed.
             if (_activeRailgun == null)
             {
-                if (!SetNextActiveRailgun())
+                if (!SetNextActiveRailgun()) //If false, there's no active railgun -> abort.
                 {
                     return;
                 }
@@ -210,6 +210,12 @@ namespace EHE.BoltBusters
             if (_activeRailgun.CurrentState == Railgun.RailgunState.Discharging)
             {
                 return false;
+            }
+
+            if (_activeRailgun.CurrentState == Railgun.RailgunState.ReadyToFire)
+            {
+                _activeRailgun.Attack();
+                return true;
             }
 
             if (SetNextActiveRailgun())

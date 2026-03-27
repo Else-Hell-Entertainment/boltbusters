@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://c4h2yy8w0gt3l"]
+[gd_scene load_steps=22 format=4 uid="uid://c4h2yy8w0gt3l"]
 
 [ext_resource type="Script" uid="uid://d1dql4pbawoly" path="res://Code/Objects/Player/Player.cs" id="1_4wape"]
 [ext_resource type="PackedScene" uid="uid://4x3awqn6r5eh" path="res://Scenes/Player/Weapons/ChaingunController.tscn" id="2_0u5uq"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://d2knauna4hn3f" path="res://Code/Objects/Player/PlayerHealthComponent.cs" id="7_0u5uq"]
 [ext_resource type="PackedScene" uid="uid://bta8cuhn6twxu" path="res://Scenes/Player/Weapons/Railgun.tscn" id="7_jhyir"]
 [ext_resource type="Script" uid="uid://ijwkg2xovq7l" path="res://Code/CollectArea.cs" id="8_jlvik"]
+[ext_resource type="PackedScene" uid="uid://durb8v5qnbcln" path="res://Scenes/UI/Crosshair.tscn" id="10_jhyir"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gkvi4"]
 resource_name = "Material"
@@ -166,6 +167,9 @@ skeleton = NodePath("../..")
 
 [node name="Turret" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 0)
+
+[node name="Crosshair" parent="Turret" instance=ExtResource("10_jhyir")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.31205454, -6.2739906)
 
 [node name="Body" type="MeshInstance3D" parent="Turret"]
 transform = Transform3D(-2.8849515e-08, 0, 0.65999997, 0, 0.66, 0, -0.65999997, 0, -2.8849515e-08, 0, 0.93005335, 0)
