@@ -12,7 +12,7 @@ namespace EHE.BoltBusters
     /// "railgun" is a powerbank that contains a single charge. Adding more railguns means adding additional power
     /// banks.
     /// </summary>
-    public partial class Railgun2 : BaseWeapon
+    public partial class Railgun : BaseWeapon
     {
         [Export]
         private Timer _reloadTimer;

@@ -7,7 +7,7 @@ using Godot.Collections;
 
 namespace EHE.BoltBusters
 {
-    public partial class PlayerRailgun2Controller : PlayerWeaponGroupController
+    public partial class PlayerRailgunController : PlayerWeaponGroupController
     {
         [Export]
         private float _chargeEmissionModifier = 1f;
@@ -24,7 +24,7 @@ namespace EHE.BoltBusters
 
         private const int COLLISION_MASK_LAYER = 2;
 
-        private Railgun2 _activeRailgun;
+        private Railgun _activeRailgun;
         private Node3D _muzzle;
         private ShapeCast3D _shapeCast3D;
         private DamageData _damageData;
@@ -52,7 +52,7 @@ namespace EHE.BoltBusters
         {
             if (IsActive && _activeRailgun != null)
             {
-                if (_activeRailgun.CurrentState == Railgun2.RailgunState.Charging)
+                if (_activeRailgun.CurrentState == Railgun.RailgunState.Charging)
                 {
                     _laserSightInstance.Hide();
                     _chargeEffectInstanceBeam.Show();
@@ -114,7 +114,7 @@ namespace EHE.BoltBusters
         {
             foreach (BaseWeapon weapon in Weapons)
             {
-                if (weapon is Railgun2 railgun)
+                if (weapon is Railgun railgun)
                 {
                     railgun.UpgradeChargingSpeed();
                 }
@@ -125,7 +125,7 @@ namespace EHE.BoltBusters
         {
             foreach (BaseWeapon weapon in Weapons)
             {
-                if (weapon is Railgun2 railgun)
+                if (weapon is Railgun railgun)
                 {
                     railgun.DowngradeChargingSpeed();
                 }
@@ -178,12 +178,12 @@ namespace EHE.BoltBusters
             // Player must always wait for active railgun to finish discharging before they can attack again. Rider
             // complains about possible null reference exception but that's incorrect, it's checked earlier inside a
             // method.
-            if (_activeRailgun.CurrentState == Railgun2.RailgunState.Discharging)
+            if (_activeRailgun.CurrentState == Railgun.RailgunState.Discharging)
             {
                 return;
             }
 
-            if (_activeRailgun.CurrentState == Railgun2.RailgunState.ReadyToFire)
+            if (_activeRailgun.CurrentState == Railgun.RailgunState.ReadyToFire)
             {
                 _activeRailgun.Attack();
             }
@@ -207,7 +207,7 @@ namespace EHE.BoltBusters
             _isAttackPressed = true;
             _attackFramesCounter++;
             // Player must always wait for the discharge to finish before they can attempt to shoot again.
-            if (_activeRailgun.CurrentState == Railgun2.RailgunState.Discharging)
+            if (_activeRailgun.CurrentState == Railgun.RailgunState.Discharging)
             {
                 return false;
             }
@@ -256,7 +256,7 @@ namespace EHE.BoltBusters
         {
             foreach (BaseWeapon weapon in Weapons)
             {
-                if (weapon is Railgun2 railgun && railgun.CurrentState == Railgun2.RailgunState.ReadyToFire)
+                if (weapon is Railgun railgun && railgun.CurrentState == Railgun.RailgunState.ReadyToFire)
                 {
                     _activeRailgun = railgun;
                     return true;

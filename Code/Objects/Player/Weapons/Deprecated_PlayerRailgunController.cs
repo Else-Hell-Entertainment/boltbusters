@@ -8,7 +8,7 @@ using Godot;
 
 namespace EHE.BoltBusters
 {
-    public partial class PlayerRailgunController : PlayerWeaponGroupController
+    public partial class Deprecated_PlayerRailgunController : PlayerWeaponGroupController
     {
         [Export]
         private AudioStreamPlayer3D _shootingSound;
@@ -71,7 +71,7 @@ namespace EHE.BoltBusters
                 {
                     if (!_connectedRailguns.Contains(railgun))
                     {
-                        railgun.RailgunReloadReady += OnRailgunReloadReady;
+                        //railgun.RailgunReloadReady += OnRailgunReloadReady;
                         _connectedRailguns.Add(railgun);
                     }
                 }
@@ -82,7 +82,7 @@ namespace EHE.BoltBusters
             {
                 if (!Weapons.Contains(railgun))
                 {
-                    railgun.RailgunReloadReady -= OnRailgunReloadReady;
+                    //railgun.RailgunReloadReady -= OnRailgunReloadReady;
                     removeList.Add(railgun);
                 }
             }

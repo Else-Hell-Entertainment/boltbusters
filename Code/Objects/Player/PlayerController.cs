@@ -59,7 +59,7 @@ namespace EHE.BoltBusters
         private PlayerChaingunController _chaingunController;
 
         [Export]
-        private PlayerRailgun2Controller _railgunController;
+        private PlayerRailgunController _railgunController;
 
         [Export]
         private PlayerRocketLauncherController _rocketLauncherController;

@@ -8,7 +8,7 @@ namespace EHE.BoltBusters
     {
         public PlayerChaingunController ChaingunController { get; private set; }
 
-        public PlayerRailgun2Controller RailgunController { get; private set; }
+        public PlayerRailgunController RailgunController { get; private set; }
 
         public PlayerRocketLauncherController RocketLauncherController { get; private set; }
 
@@ -66,7 +66,7 @@ namespace EHE.BoltBusters
         public override void _Ready()
         {
             ChaingunController = this.GetFirstChildOfType<PlayerChaingunController>(true);
-            RailgunController = this.GetFirstChildOfType<PlayerRailgun2Controller>(true);
+            RailgunController = this.GetFirstChildOfType<PlayerRailgunController>(true);
             RocketLauncherController = this.GetFirstChildOfType<PlayerRocketLauncherController>(true);
             _upgradeHandler = new PlayerUpgradeHandler();
             _upgradeHandler.RegisterWeaponController(ChaingunController);

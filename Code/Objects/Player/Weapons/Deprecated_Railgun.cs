@@ -10,7 +10,7 @@ namespace EHE.BoltBusters
     /// <summary>
     /// Prototype Railgun. WIP.
     /// </summary>
-    public partial class Railgun : BaseWeapon
+    public partial class Deprecated_Railgun : BaseWeapon
     {
         public bool IsActive { get; set; }
 
