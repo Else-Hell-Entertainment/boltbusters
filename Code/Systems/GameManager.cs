@@ -175,6 +175,7 @@ namespace EHE.BoltBusters
 
             _saveManager = new SaveManager();
             DefaultPlayerData = GD.Load<PlayerData>(FilePathConfig.DEFAULT_PLAYER_DATA_RESOURCE_PATH);
+            PlayerData.UpdateDefaultValues(DefaultPlayerData);
 
             // All done.
             Instance = this;

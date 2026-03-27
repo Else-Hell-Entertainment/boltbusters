@@ -70,29 +70,36 @@ namespace EHE.BoltBusters
         #endregion Signals
 
 
-        #region Fields (private/protected)
+        #region Default Values
 
-        private int _health = 100;
-        private int _levelIndex = 1;
+        // Note: These values are updated to match those defined in the default
+        // player data resource when the game is initialized!
 
-        // TODO: Read these from the default player data in GameManager!
         private static int s_defaultHealth = 100;
-        private int _defaultLevelIndex = 1;
-        private bool _defaultStartFromShop = false;
-        private Dictionary<CollectibleType, int> _defaultCollectibleCounts = new()
+        private static int s_defaultLevelIndex = 1;
+        private static bool s_defaultStartFromShop = false;
+        private static Dictionary<CollectibleType, int> s_defaultCollectibleCounts = new()
         {
             { CollectibleType.Nut, 0 },
             { CollectibleType.Bolt, 0 },
             { CollectibleType.Wrench, 0 },
         };
-        private Dictionary<WeaponType, int> _defaultWeaponCounts = new()
+        private static Dictionary<WeaponType, int> s_defaultWeaponCounts = new()
         {
             { WeaponType.Chaingun, 1 },
             { WeaponType.Railgun, 0 },
             { WeaponType.Rocket, 0 },
         };
 
-        #endregion Private Fields
+        #endregion Default Values
+
+
+        #region Fields
+
+        private int _health = 100;
+        private int _levelIndex = 1;
+
+        #endregion Fields
 
 
         #region Properties (private/protected/public)
@@ -165,6 +172,46 @@ namespace EHE.BoltBusters
 
 
         #region Public Methods
+
+
+        /// <summary>
+        ///  <para>
+        ///  Initializes internal default values from the
+        ///  <see cref="GameManager.DefaultPlayerData"/> resource if possible.
+        ///  If the <see cref="GameManager.DefaultPlayerData"/> resource cannot
+        ///  be fetched, an error is logged and the hardcoded default values
+        ///  are retained.
+        ///  </para>
+        ///  <para>
+        ///   <b>NOTE</b>: This method should be called only once during the
+        ///   lifecycle of the game - right after the default player data
+        ///   resource is loaded from the file!
+        ///  </para>
+        /// </summary>
+        ///
+        /// <remarks>
+        ///  These default values are used as fallbacks during the
+        ///  <see cref="Load(Dictionary)"/> operation when deserializing
+        ///  player data fails or contains missing/invalid values.
+        /// </remarks>
+        ///
+        /// <seealso cref="GameManager"/>
+        /// <seealso cref="GameManager.DefaultPlayerData"/>
+        /// <seealso cref="Load(Dictionary)"/>
+        public static void UpdateDefaultValues(PlayerData defaultPlayerData)
+        {
+            if (defaultPlayerData == null)
+            {
+                GD.PushError("Failed to fetch default player data values, using hardcoded defaults instead.");
+                return;
+            }
+
+            s_defaultHealth = defaultPlayerData.Health;
+            s_defaultLevelIndex = defaultPlayerData.LevelIndex;
+            s_defaultStartFromShop = defaultPlayerData.StartFromShop;
+            s_defaultCollectibleCounts = defaultPlayerData._collectibleCounts;
+            s_defaultWeaponCounts = defaultPlayerData._weaponCounts;
+        }
 
         /// <summary>
         ///  Gets the current amount of the specified collectible.
@@ -504,11 +551,9 @@ namespace EHE.BoltBusters
             };
         }
 
-        // TODO: Refactor this.
         /// <summary>
         ///  <inheritdoc/>
         ///  If reading the data fails, uses default values.
-        ///  TODO: Provide defaults from GameManager!
         /// </summary>
         ///
         /// <param name="data">
@@ -528,18 +573,30 @@ namespace EHE.BoltBusters
         #region Private Load Helpers
 
         /// <summary>
-        /// Tries to load the level index from save data.
+        ///  Attempts to load the level index from save data with validation.
         /// </summary>
-        /// <param name="data">The save data.</param>
+        ///
+        /// <param name="data">
+        ///  The save data dictionary containing serialized player information.
+        /// </param>
+        ///
+        /// <remarks>
+        ///  If the level index is missing, invalid, or less than 1, this
+        ///  method will set it to the default value and log an error message.
+        ///  Valid level indices must be integers or floats and must be at
+        ///  least 1.
+        /// </remarks>
+        ///
+        /// <seealso cref="LevelIndex"/>
         private void LoadLevelIndex(Dictionary data)
         {
             if (
                 !data.TryGetValue(KEY_LEVEL_INDEX, out var levelIndex)
                 || (levelIndex.VariantType != Variant.Type.Float && levelIndex.VariantType != Variant.Type.Int)
-                || (int)levelIndex < 1 // TODO: Set min level index in config.
+                || (int)levelIndex < s_defaultLevelIndex
             )
             {
-                LevelIndex = _defaultLevelIndex; // TODO: Refactor, read from default player data resource.
+                LevelIndex = s_defaultLevelIndex;
                 GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_LEVEL_INDEX, LevelIndex));
             }
             else
@@ -549,9 +606,21 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Tries to load level cleared flag from save data.
+        ///  Attempts to load the "start from shop" flag from save data with
+        ///  validation.
         /// </summary>
-        /// <param name="data">The save data.</param>
+        ///
+        /// <param name="data">
+        ///  The save data dictionary containing serialized player information.
+        /// </param>
+        ///
+        /// <remarks>
+        ///  If the flag is missing or not a boolean value, this method will
+        ///  set it to the default value (<c>false</c>) and log an error
+        ///  message.
+        /// </remarks>
+        ///
+        /// <seealso cref="StartFromShop"/>
         private void LoadLevelClearedFlag(Dictionary data)
         {
             if (
@@ -559,7 +628,7 @@ namespace EHE.BoltBusters
                 || startFromShop.VariantType != Variant.Type.Bool
             )
             {
-                StartFromShop = _defaultStartFromShop; // TODO: Refactor, read from default player data resource.
+                StartFromShop = s_defaultStartFromShop;
                 GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_START_FROM_SHOP, StartFromShop));
             }
             else
@@ -569,18 +638,31 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Tries to load collectible counts from save data.
+        ///  Attempts to load collectible counts from save data with validation.
         /// </summary>
-        /// <param name="data">The save data.</param>
+        ///
+        /// <param name="data">
+        ///  The save data dictionary containing serialized player information.
+        /// </param>
+        ///
+        /// <remarks>
+        ///  If the collectible counts dictionary is missing, or invalid, this
+        ///  method will reset to default values and log an error message. Each
+        ///  entry is expected to have a <see cref="CollectibleType"/> key and
+        ///  an integer count value.
+        /// </remarks>
+        ///
+        /// <seealso cref="GetCollectibleCounts"/>
+        /// <seealso cref="CollectibleType"/>
         private void LoadCollectibleCounts(Dictionary data)
         {
             if (
                 !data.TryGetValue(KEY_COLLECTIBLE_COUNTS, out var collectibleCounts)
                 || collectibleCounts.VariantType != Variant.Type.Dictionary
-                || ((Dictionary)collectibleCounts).Count != 3 // TODO: Get dict length from default dict.
+                || ((Dictionary)collectibleCounts).Count != s_defaultCollectibleCounts.Count
             )
             {
-                _collectibleCounts = _defaultCollectibleCounts.Duplicate();
+                _collectibleCounts = s_defaultCollectibleCounts.Duplicate();
                 GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_COLLECTIBLE_COUNTS, _collectibleCounts.Values));
             }
             else
@@ -593,18 +675,31 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Tries to load weapon counts from save data.
+        ///  Attempts to load weapon counts from save data with validation.
         /// </summary>
-        /// <param name="data">The save data.</param>
+        ///
+        /// <param name="data">
+        ///  The save data dictionary containing serialized player information.
+        /// </param>
+        ///
+        /// <remarks>
+        ///  If the weapon counts dictionary is missing or invalid, this method
+        ///  will reset to default values and log an error message. Each entry
+        ///  is expected to have a <see cref="WeaponType"/> key and an integer
+        ///  count value.
+        /// </remarks>
+        ///
+        /// <seealso cref="GetWeaponCounts"/>
+        /// <seealso cref="WeaponType"/>
         private void LoadWeaponCounts(Dictionary data)
         {
             if (
                 !data.TryGetValue(KEY_WEAPON_COUNTS, out var weaponCounts)
                 || weaponCounts.VariantType != Variant.Type.Dictionary
-                || ((Dictionary)weaponCounts).Count != 3 // TODO: Get dict length from default dict.
+                || ((Dictionary)weaponCounts).Count != s_defaultWeaponCounts.Count
             )
             {
-                _weaponCounts = _defaultWeaponCounts.Duplicate();
+                _weaponCounts = s_defaultWeaponCounts.Duplicate();
                 GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_WEAPON_COUNTS, _weaponCounts.Values));
             }
             else
