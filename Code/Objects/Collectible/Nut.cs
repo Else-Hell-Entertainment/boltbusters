@@ -16,6 +16,7 @@ namespace EHE.BoltBusters
             // - Play a spawn sound
             // - Trigger a small appearance VFX
             // - Start idle motion such as bobbing or rotating
+            base.OnSpawn();
         }
 
         public override void OnCollect(CharacterBody3D collector)
