@@ -116,7 +116,7 @@ namespace EHE.BoltBusters
                     _cooldownTimer.Start();
                     _animationPlayer.Play(ATTACK_ANIMATION_NAME);
 
-                    _meleeOwner.SetMoveSpeed(_meleeOwner.AfterAttackSpeed);
+                    //_meleeOwner.SetMoveSpeed(_meleeOwner.AfterAttackSpeed);
                 }
             }
             // Player has exited the attack area so enemy stops attacking.
@@ -158,7 +158,7 @@ namespace EHE.BoltBusters
         private void OnCooldownTimerTimeout()
         {
             CanAttack = true;
-            _meleeOwner.SetMoveSpeed(_meleeOwner.NormalSpeed);
+            //_meleeOwner.SetMoveSpeed(_meleeOwner.NormalSpeed);
         }
 
         /// <summary>
