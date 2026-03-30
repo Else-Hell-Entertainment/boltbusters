@@ -17,6 +17,12 @@ namespace EHE.BoltBusters
         [Export]
         public CollectibleType CollectibleType { get; private set; } = CollectibleType.None;
 
+        [Export]
+        private CollectibleShaderComponent _collectibleShaderComponent;
+
+        [Export]
+        private AnimationPlayer _animationPlayer;
+
         // TODO: This method can be removed since the CollectibleType is now editable in the editor.
         /// <summary>
         /// Initializes the collectible with a specific type.
