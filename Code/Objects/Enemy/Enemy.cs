@@ -45,6 +45,9 @@ namespace EHE.BoltBusters
         private float _moveSpeed = 4.0f;
 
         [Export]
+        private float _afterAttackSpeed = 2.0f;
+
+        [Export]
         private float _acceleration = 18.0f;
 
         [Export]
@@ -101,6 +104,8 @@ namespace EHE.BoltBusters
 
         private float _currentYaw = 0f;
 
+        private float _normalSpeed;
+
         private EnemyType _enemyType;
         #endregion Fields
 
@@ -109,6 +114,30 @@ namespace EHE.BoltBusters
         {
             get => _moveSpeed;
             protected set => _moveSpeed = value;
+        }
+
+        public float AfterAttackSpeed
+        {
+            get => _afterAttackSpeed;
+            protected set => _afterAttackSpeed = value;
+        }
+
+        public float NormalSpeed
+        {
+            get => _normalSpeed;
+            private set => _normalSpeed = value;
+        }
+
+        public void SetMoveSpeed(float newSpeed)
+        {
+            if (newSpeed >= 0)
+            {
+                MoveSpeed = newSpeed;
+            }
+            else
+            {
+                GD.PushWarning($"{Name}: Attempted to set MoveSpeed to a negative value ({newSpeed}).");
+            }
         }
 
         public float Acceleration
@@ -225,6 +254,9 @@ namespace EHE.BoltBusters
                 TargetProvider.Instance.PlayerChanged += OnPlayerChanged;
                 OnPlayerChanged(TargetProvider.Instance.Player);
             }
+
+            // Save normal speed value
+            _normalSpeed = MoveSpeed;
         }
 
         public override void _ExitTree()

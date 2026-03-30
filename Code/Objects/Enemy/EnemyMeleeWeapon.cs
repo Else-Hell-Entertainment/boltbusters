@@ -21,7 +21,14 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Amount of damage dealt to the player per attack.
         /// </summary>
-        [Export] private int _attackDamage = 5;
+        [Export]
+        private int _attackDamage = 5;
+
+        /// <summary>
+        /// Where this weapon is connected to.
+        /// </summary>
+        [Export]
+        private Enemy _meleeOwner;
 
         /// <summary>
         /// Animation player for playing attack and idle animations.
@@ -108,6 +115,8 @@ namespace EHE.BoltBusters
                     CanAttack = false;
                     _cooldownTimer.Start();
                     _animationPlayer.Play(ATTACK_ANIMATION_NAME);
+
+                    _meleeOwner.SetMoveSpeed(_meleeOwner.AfterAttackSpeed);
                 }
             }
             // Player has exited the attack area so enemy stops attacking.
@@ -126,7 +135,7 @@ namespace EHE.BoltBusters
 
             if (_cooldownTimer == null || _attackArea == null || _hitParticles == null || _animationPlayer == null)
             {
-                GD.PrintErr("Some of EnemyMeleeWeapon nodes not found during init. Node is borken.");
+                GD.PrintErr("Some of EnemyMeleeWeapon nodes not found during init. Node is broken.");
                 return;
             }
             _cooldownTimer.WaitTime = _attackCooldown;
@@ -149,6 +158,7 @@ namespace EHE.BoltBusters
         private void OnCooldownTimerTimeout()
         {
             CanAttack = true;
+            _meleeOwner.SetMoveSpeed(_meleeOwner.NormalSpeed);
         }
 
         /// <summary>
@@ -162,7 +172,6 @@ namespace EHE.BoltBusters
             {
                 _isAttacking = true;
             }
-
         }
 
         private void OnAnimationFinished(StringName animationName)
@@ -171,7 +180,6 @@ namespace EHE.BoltBusters
             {
                 _animationPlayer.Play(IDLE_ANIMATION_NAME);
             }
-
         }
     }
 }
