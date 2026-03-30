@@ -34,6 +34,20 @@ namespace EHE.BoltBusters
 
         private HashSet<Rocket> _rockets;
 
+        public enum LauncherState
+        {
+            None = 0,
+            ReadyToFire,
+            NotReadyToFire,
+            LaunchingRockets,
+            RocketJustLaunched,
+            ReloadingStarted,
+            ReloadingFinished,
+        }
+
+        [Signal]
+        public delegate void RocketLauncherStateChangedEventHandler(int state);
+
         public override void _Ready()
         {
             Node3D points = GetNode<Node3D>("LaunchPoints");
@@ -59,6 +73,8 @@ namespace EHE.BoltBusters
             _cooldownTimer.OneShot = true;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
             CallDeferred(MethodName.InitializeRockets);
+
+            EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.ReadyToFire);
         }
 
         public override void Attack()
@@ -114,14 +130,19 @@ namespace EHE.BoltBusters
                 rocket.LaunchRocket(point, Vector3.Forward);
                 shotCounter++;
                 _intervalTimer.Start();
+                EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.NotReadyToFire);
+                EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.RocketJustLaunched);
                 await (ToSignal(_intervalTimer, "timeout"));
             }
 
+            EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.ReloadingStarted);
             _cooldownTimer.Start();
         }
 
         private void OnCooldownTimerTimeout()
         {
+            EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.ReadyToFire);
+            EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.ReloadingFinished);
             CanAttack = true;
         }
 

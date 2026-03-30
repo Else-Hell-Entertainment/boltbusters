@@ -73,6 +73,7 @@ _data = {
 
 [node name="Bolt" type="Area3D" node_paths=PackedStringArray("_collectibleShaderComponent", "_animationPlayer")]
 script = ExtResource("2_uugkp")
+CollectibleType = 2
 _collectibleShaderComponent = NodePath("CollectibleShaderComponent")
 _animationPlayer = NodePath("AnimationPlayer")
 

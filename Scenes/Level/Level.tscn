@@ -1,13 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://bledl4g0j55e6"]
+[gd_scene load_steps=11 format=3 uid="uid://bledl4g0j55e6"]
 
 [ext_resource type="Script" uid="uid://d0hobigx0gyeh" path="res://Code/Level/LevelManager.cs" id="1_k2uda"]
 [ext_resource type="PackedScene" uid="uid://tb0fhj8w73mc" path="res://Scenes/Enemies/EnemySpawnManager.tscn" id="2_k2uda"]
 [ext_resource type="MeshLibrary" uid="uid://c6xxp4aew2t3p" path="res://Assets/Models/Arena/MeshLibraryArena3.tres" id="2_t3e81"]
 [ext_resource type="PackedScene" uid="uid://c4h2yy8w0gt3l" path="res://Scenes/Player/player.tscn" id="4_8gphe"]
 [ext_resource type="PackedScene" uid="uid://d1v0b82d6dwda" path="res://Scenes/Enemies/EnemyHammerBot.tscn" id="4_t3e81"]
-[ext_resource type="PackedScene" uid="uid://b4ompibyuebev" path="res://Scenes/Enemies/EnemyHammerBot3.tscn" id="5_lvwdj"]
+[ext_resource type="PackedScene" uid="uid://dleoqwseq5x4p" path="res://Scenes/Enemies/EnemyCannonBot.tscn" id="5_t3e81"]
 [ext_resource type="PackedScene" uid="uid://bh3xawx4w08w2" path="res://Scenes/Collectible/CollectibleSpawnManager.tscn" id="6_ksici"]
-[ext_resource type="PackedScene" uid="uid://c8508sp5whysw" path="res://Scenes/Enemies/EnemyHammerBot2.tscn" id="6_lvwdj"]
 [ext_resource type="AudioStream" uid="uid://djijfckbs3y04" path="res://Assets/Music/MainTheme.wav" id="7_8gphe"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_x00a1"]
@@ -56,14 +55,14 @@ metadata/_editor_floor_ = Vector3(0, 2, 0)
 
 [node name="EnemySpawnManager" parent="." instance=ExtResource("2_k2uda")]
 _meleeScene = ExtResource("4_t3e81")
-_rangedScene = ExtResource("5_lvwdj")
-_shieldedScene = ExtResource("6_lvwdj")
+_rangedScene = ExtResource("5_t3e81")
+_shieldedScene = ExtResource("4_t3e81")
 
 [node name="Player" parent="." instance=ExtResource("4_8gphe")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 28)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.25, 28)
 
 [node name="PlayerSpawnPosition" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.951452, 0.17866802, 27.92754)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.951, 0.2, 27.928)
 
 [node name="CollectibleSpawnManager" parent="." instance=ExtResource("6_ksici")]
 

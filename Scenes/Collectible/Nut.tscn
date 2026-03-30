@@ -64,6 +64,7 @@ _data = {
 script = ExtResource("2_thefg")
 _collectibleShaderComponent = NodePath("CollectibleShaderComponent")
 _animationPlayer = NodePath("AnimationPlayer")
+CollectibleType = 1
 
 [node name="CollectionArea" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)

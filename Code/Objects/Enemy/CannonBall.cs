@@ -1,14 +1,17 @@
-using System;
+// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
+
 using Godot;
 
 namespace EHE.BoltBusters
 {
-    public partial class CannonBall : Node3D
+    public partial class CannonBall : Projectile
     {
         [Export]
         private float _speed = 20.0f;
 
-        private float _lifeTime = 10.0f;
+        private float _lifeTime = 3.0f;
         private Timer _despawnTimer;
         private Area3D _hitArea;
 
@@ -32,14 +35,12 @@ namespace EHE.BoltBusters
         private void OnDespawnTimerTimeout()
         {
             QueueFree();
-            GD.Print("CANNON BALL DESTROYED");
         }
 
         private void OnBodyEntered(Node3D body)
         {
             if (body is Player)
             {
-                GD.Print("CANNON BALL HIT PLAYER IN THE HEEEEEEEAAAADDDD");
                 QueueFree();
             }
         }

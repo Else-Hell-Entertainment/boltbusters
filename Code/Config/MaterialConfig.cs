@@ -2,10 +2,17 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using System;
+
 namespace EHE.BoltBusters.Config
 {
+    /// <summary>
+    /// <b>Deprecated</b>, use <see cref="FilePathConfig"/> instead.
+    /// </summary>
+    [Obsolete("Use FilePathConfig")]
     public static class MaterialConfig
     {
-        public const string CAMERA_SHADER_MATERIAL_FILE = "res://Assets/Materials/PS1CameraShaderMaterial.tres";
+        [Obsolete("Use FilePathConfig.CAMERA_SHADER_MATERIAL_PATH")]
+        public static string CAMERA_SHADER_MATERIAL_FILE => FilePathConfig.CAMERA_SHADER_MATERIAL_PATH;
     }
 }

@@ -13,20 +13,11 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class Collectible : Area3D, ISpawnable, ICollectible
     {
-        private CollectibleType _collectibleType = CollectibleType.None;
-
-        public CollectibleType CollectibleType
-        {
-            get { return _collectibleType; }
-            protected set { _collectibleType = value; }
-        }
-
+        /// <inheritdoc/>
         [Export]
-        private CollectibleShaderComponent _collectibleShaderComponent;
+        public CollectibleType CollectibleType { get; private set; } = CollectibleType.None;
 
-        [Export]
-        private AnimationPlayer _animationPlayer;
-
+        // TODO: This method can be removed since the CollectibleType is now editable in the editor.
         /// <summary>
         /// Initializes the collectible with a specific type.
         /// Called after the object is created but before it is spawned.
@@ -70,7 +61,7 @@ namespace EHE.BoltBusters
         /// such as granting currency, power-ups, or triggering effects.
         /// </summary>
         /// <param name="collector">The character that collected this item.</param>
-        public virtual void OnCollect(CharacterBody3D collector)
+        public void OnCollect(CharacterBody3D collector)
         {
             // TODO: Add general collect behavior for all collectible types.
             // Examples:
@@ -79,6 +70,8 @@ namespace EHE.BoltBusters
             // - Show a pickup VFX at the collectible position
             // - Show a small UI popup ("+1", "+5", etc.)
             // - Trigger camera punch, screen shake, or other feedback effects
+            OnCollected(collector);
+            OnDespawn();
         }
 
         /// <summary>
@@ -96,5 +89,11 @@ namespace EHE.BoltBusters
 
             QueueFree();
         }
+
+        /// <summary>
+        ///  Customizable collection logic.
+        /// </summary>
+        /// <param name="collector"></param>
+        protected virtual void OnCollected(CharacterBody3D collector) { }
     }
 }

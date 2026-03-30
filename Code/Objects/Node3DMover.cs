@@ -10,13 +10,13 @@ namespace EHE.BoltBusters
     /// Concrete implementation of EntityMover that operates on a Node3D.
     /// Handles movement and rotation for 3D node-based entities in the game world.
     /// </summary>
-    public class Node3DMover(Node3D node) : EntityMover
+    public partial class Node3DMover : EntityMover
     {
         /// <summary>
         /// The Node3D body that this mover controls.
         /// </summary>
         [Export]
-        private Node3D _body = node;
+        private Node3D _body;
 
         /// <summary>
         /// The speed at which the entity moves, measured in units per second.
@@ -92,6 +92,11 @@ namespace EHE.BoltBusters
         {
             Vector3 point = _body.GlobalPosition + direction;
             RotateTowards(point);
+        }
+
+        public void SetControlledNode(Node3D node)
+        {
+            _body = node;
         }
     }
 }

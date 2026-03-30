@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=4 uid="uid://d1v0b82d6dwda"]
 
-[ext_resource type="Script" uid="uid://be4qkv6x76unn" path="res://Code/Objects/Enemy/Enemy.cs" id="1_on8ld"]
+[ext_resource type="Script" uid="uid://cai3rjcjb1tw8" path="res://Code/Objects/Enemy/EnemyHammerBot.cs" id="1_5800e"]
 [ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="2_5800e"]
 [ext_resource type="Material" uid="uid://do048e2b52egy" path="res://Assets/Shaders/EffectShaderShaderMaterial.tres" id="2_lncp1"]
 [ext_resource type="Script" uid="uid://tk4ek7denot" path="res://Code/Objects/Enemy/EnemyMeleeWeapon.cs" id="3_7mpij"]
@@ -144,7 +144,7 @@ radius = 0.1
 height = 0.2
 
 [node name="EnemyHammerBot" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent")]
-script = ExtResource("1_on8ld")
+script = ExtResource("1_5800e")
 _healthComponent = NodePath("EnemyHealthComponent")
 
 [node name="BodyCollider" type="CollisionShape3D" parent="."]
