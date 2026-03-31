@@ -5,6 +5,7 @@
 
 using System;
 using EHE.BoltBusters.Config;
+using EHE.BoltBusters.EnemyAI;
 using EHE.BoltBusters.States;
 using EHE.Common.Godot.Extensions;
 using Godot;
@@ -75,6 +76,7 @@ namespace EHE.BoltBusters
         // Nodes that are created from the code.
         private Timer _roundTimer;
         private RoundData _roundData;
+        private EnemyGroupManager _enemyGroupManager;
 
         #endregion Fields
 
@@ -166,6 +168,11 @@ namespace EHE.BoltBusters
             AddChild(_enemyRoot);
             AddChild(_projectileRoot);
             AddChild(_collectibleRoot);
+
+            // Create enemy group AI manager
+            _enemyGroupManager = new EnemyGroupManager();
+            _enemyGroupManager.SetName("EnemyGroupManager");
+            AddChild(_enemyGroupManager);
 
             // Create round timer.
             // TODO: Create timer in separate method when round starts.
@@ -337,6 +344,7 @@ namespace EHE.BoltBusters
             if (levelObject is Enemy enemy)
             {
                 _enemyRoot.AddChild(enemy);
+                _enemyGroupManager.AddEnemy(enemy);
             }
             else if (levelObject is Projectile projectile)
             {
