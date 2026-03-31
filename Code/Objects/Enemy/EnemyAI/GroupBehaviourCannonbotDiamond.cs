@@ -1,7 +1,6 @@
-﻿using EHE.BoltBusters;
-using EHE.BoltBusters.EnemyAI;
+﻿using Godot;
 
-namespace BoltBusters.Code.Objects.Enemy.EnemyAI
+namespace EHE.BoltBusters.EnemyAI
 {
     public partial class GroupBehaviourCannonbotDiamond : BaseGroupBehaviour
     {
@@ -9,6 +8,61 @@ namespace BoltBusters.Code.Objects.Enemy.EnemyAI
 
         public override int GroupSize => 4;
 
-        protected override void ExecuteGroupBehaviour() { }
+        private float _distanceToPlayer;
+
+        private Player _player;
+
+        //TODO: Fetch dynamically. Hardcoded for testing purposes.
+        private Vector3 _levelCenter = new Vector3(25, 0, 25);
+
+        public override void _Ready()
+        {
+            base._Ready();
+            _player = LevelManager.Active.Player;
+        }
+
+        protected override void ExecuteGroupBehaviour()
+        {
+            int positionInGroup = 1;
+            foreach (Enemy enemy in Enemies)
+            {
+                if (!IsInstanceValid(enemy))
+                {
+                    Enemies.Remove(enemy);
+#if DEBUG
+                    GD.Print("Removing invalid enemy entry from " + this.Name);
+#endif
+                }
+                if (enemy is EnemyCannonBot bot)
+                {
+                    Vector3 point = GetNextPoint(positionInGroup, bot);
+
+                    bot.Controller.AddCommand(new MoveToPositionCommand(point));
+                }
+                positionInGroup++;
+            }
+        }
+
+        private Vector3 GetNextPoint(int pointCounter, Enemy enemy)
+        {
+            Vector3 direction = (_levelCenter - _player.GlobalPosition).Normalized();
+            Vector3 p1 = _player.GlobalPosition + direction * _distanceToPlayer;
+
+            //Vector3 point1 = _player.GlobalPosition + new Vector3(0, 0, -_distanceToPlayer);
+
+            switch (pointCounter)
+            {
+                case 1:
+                    return p1;
+                case 2:
+                    return p1 + new Vector3(0, 0, -_distanceToPlayer);
+                case 3:
+                    return p1 + new Vector3(-_distanceToPlayer / 2, 0, -_distanceToPlayer / 2);
+                case 4:
+                    return p1 + new Vector3(_distanceToPlayer / 2, 0, -_distanceToPlayer / 2);
+                default:
+                    return Vector3.Zero;
+            }
+        }
     }
 }
