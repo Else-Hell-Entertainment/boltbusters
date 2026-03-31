@@ -1,0 +1,48 @@
+﻿using Godot;
+
+namespace EHE.BoltBusters.EnemyAI
+{
+    public partial class EnemyGroupManager : Node3D
+    {
+        private GroupBehaviourCannonbotDiamond _diamondGroup;
+
+        private float _repathInterval = 0.2f;
+
+        private double _timer;
+
+        public bool IsActive { get; set; }
+
+        public override void _Ready()
+        {
+            base._Ready();
+            _diamondGroup = new GroupBehaviourCannonbotDiamond();
+            AddChild(_diamondGroup);
+        }
+
+        public override void _Process(double delta)
+        {
+            if (IsActive)
+            {
+                _timer += delta;
+                if (_timer >= _repathInterval)
+                {
+                    _timer = 0;
+                    ExecuteGroupBehaviours();
+                }
+            }
+        }
+
+        private void ExecuteGroupBehaviours()
+        {
+            GD.Print("Doing stuff");
+        }
+
+        public void AddEnemy(Enemy enemy)
+        {
+            if (_diamondGroup.RegisterBot(enemy))
+            {
+                GD.Print("Registered enemy " + enemy);
+            }
+        }
+    }
+}
