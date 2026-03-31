@@ -504,24 +504,17 @@ namespace EHE.BoltBusters
                 Marker3D marker = chosenMarkers[i];
 
                 Enemy enemy = entry.Scene.Instantiate<Enemy>();
-
                 LevelManager.Active.AddLevelObject(enemy);
-                enemy.GlobalPosition = marker.GlobalPosition;
+                spawnedCount++;
 
+                enemy.GlobalPosition = marker.GlobalPosition;
                 enemy.Initialize(entry.EnemyType);
+                enemy.OnSpawn();
 
                 if (_collectibleSpawnManager != null)
                 {
                     enemy.EnemyDied += _collectibleSpawnManager.OnEnemyDiedSignal;
                 }
-
-                ISpawnable spawnable = enemy as ISpawnable;
-                if (spawnable != null)
-                {
-                    spawnable.OnSpawn();
-                }
-
-                spawnedCount++;
             }
 
             return spawnedCount;

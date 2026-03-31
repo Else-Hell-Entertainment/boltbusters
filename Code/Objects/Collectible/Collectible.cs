@@ -17,6 +17,12 @@ namespace EHE.BoltBusters
         [Export]
         public CollectibleType CollectibleType { get; private set; } = CollectibleType.None;
 
+        [Export]
+        private CollectibleShaderComponent _collectibleShaderComponent;
+
+        [Export]
+        private AnimationPlayer _animationPlayer;
+
         // TODO: This method can be removed since the CollectibleType is now editable in the editor.
         /// <summary>
         /// Initializes the collectible with a specific type.
@@ -26,6 +32,16 @@ namespace EHE.BoltBusters
         public void Initialize(CollectibleType collectibleType)
         {
             CollectibleType = collectibleType;
+        }
+
+        public override void _Ready()
+        {
+            _collectibleShaderComponent.AcceleratingPulseFinished += OnPulseFinished;
+        }
+
+        private void OnPulseFinished()
+        {
+            OnDespawn();
         }
 
         /// <summary>
@@ -41,6 +57,8 @@ namespace EHE.BoltBusters
             // - Play a spawn sound effect
             // - Start a light bobbing or spinning animation
             // - Trigger a small particle effect (sparkle on appearance)
+            _collectibleShaderComponent.PlayCollectibleAcceleratingPulse();
+            _animationPlayer.Play("SpinAndBob");
         }
 
         /// <summary>
