@@ -5,33 +5,29 @@ namespace EHE.BoltBusters.EnemyAI
 {
     public abstract partial class BaseGroupBehaviour : Node3D
     {
-        private List<Enemy> _enemies = new List<Enemy>();
+        public List<Enemy> Enemies { get; private set; } = new List<Enemy>();
 
-        public virtual EnemyType AcceptedEnemyType { get; private set; }
+        public abstract EnemyType AcceptedEnemyType { get; }
 
-        public virtual int GroupSize { get; private set; }
+        public abstract int GroupSize { get; }
 
-        public BaseGroupBehaviour(int groupSize, EnemyType type)
-        {
-            GroupSize = groupSize;
-            AcceptedEnemyType = type;
-        }
+        public bool IsActive;
 
         public bool RegisterBot(Enemy bot)
         {
-            if (bot.EnemyType != AcceptedEnemyType && _enemies.Contains(bot))
+            if (bot.EnemyType != AcceptedEnemyType && Enemies.Contains(bot))
             {
                 return false;
             }
-            _enemies.Add(bot);
+            Enemies.Add(bot);
             return true;
         }
 
         public bool UnRegisterBot(Enemy bot)
         {
-            if (_enemies.Contains(bot))
+            if (Enemies.Contains(bot))
             {
-                _enemies.Remove(bot);
+                Enemies.Remove(bot);
                 return true;
             }
             return false;
@@ -39,7 +35,18 @@ namespace EHE.BoltBusters.EnemyAI
 
         public void ClearBots()
         {
-            _enemies.Clear();
+            Enemies.Clear();
         }
+
+        public void Execute()
+        {
+            if (!IsActive)
+            {
+                return;
+            }
+            ExecuteGroupBehaviour();
+        }
+
+        protected abstract void ExecuteGroupBehaviour();
     }
 }
