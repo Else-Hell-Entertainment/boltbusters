@@ -1,61 +1,79 @@
-[gd_scene load_steps=8 format=3 uid="uid://bfp2kgi6a16wi"]
+[gd_scene load_steps=10 format=3 uid="uid://cfcvy3x00knug"]
 
-[ext_resource type="Script" uid="uid://bub1el2qo1icj" path="res://Code/Objects/Player/Weapons/PlayerRailgunController.cs" id="1_43uyx"]
-[ext_resource type="PackedScene" uid="uid://cf5vqiflfwdvt" path="res://Scenes/Player/Weapons/railgun.tscn" id="2_m3cup"]
-[ext_resource type="AudioStream" uid="uid://d3apgvl2x6pdt" path="res://Assets/SFX/PROTORailgunShoot.mp3" id="3_m3cup"]
+[ext_resource type="Script" uid="uid://164vao156e32" path="res://Code/Objects/Player/Weapons/PlayerRailgunController.cs" id="1_my7ni"]
+[ext_resource type="PackedScene" uid="uid://dj0xgg1j51b1b" path="res://Assets/VFX/RailgunSparkEffect.tscn" id="2_pq4sq"]
+[ext_resource type="Material" uid="uid://u5hd3nb2o86u" path="res://Assets/SFX/ChargeEffectMaterial.tres" id="2_tjti4"]
+[ext_resource type="AudioStream" uid="uid://d3apgvl2x6pdt" path="res://Assets/SFX/PROTORailgunShoot.mp3" id="4_26770"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m3cup"]
-albedo_color = Color(0, 0.37254903, 0.6, 1)
-metallic = 0.5
-roughness = 0.8
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_my7ni"]
+radius = 0.3
+height = 100.0
 
-[sub_resource type="BoxMesh" id="BoxMesh_tktho"]
-material = SubResource("StandardMaterial3D_m3cup")
-size = Vector3(0.2, 0.2, 0.4)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1qj1a"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(0.95748645, 0.012920001, 0.17923622, 0.29900002)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_26770"]
-albedo_color = Color(0.1254902, 0.8156863, 1, 1)
-metallic = 0.7
-roughness = 0.78
+[sub_resource type="CylinderMesh" id="CylinderMesh_my7ni"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_1qj1a")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.001
+radial_segments = 6
+cap_top = false
+cap_bottom = false
 
-[sub_resource type="BoxMesh" id="BoxMesh_4c8oc"]
-material = SubResource("StandardMaterial3D_26770")
-size = Vector3(0.1, 0.1, 0.1)
+[sub_resource type="BoxMesh" id="BoxMesh_tjti4"]
+size = Vector3(0.09, 0.12, 0.245)
 
-[node name="RailgunController" type="Node3D" node_paths=PackedStringArray("_shootingSound")]
-script = ExtResource("1_43uyx")
-_shootingSound = NodePath("AudioStreamPlayer3D")
-_weaponScene = ExtResource("2_m3cup")
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_my7ni"]
+material = ExtResource("2_tjti4")
+radius = 0.01
+height = 100.0
+radial_segments = 8
+rings = 4
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.19756553)
-mesh = SubResource("BoxMesh_tktho")
+[node name="Railgun2Controller" type="Node3D" node_paths=PackedStringArray("_shootingSound")]
+script = ExtResource("1_my7ni")
+_railgunSparkEffect = ExtResource("2_pq4sq")
+_shootingSound = NodePath("ShootingSound")
 
 [node name="WeaponSlots" type="Node3D" parent="."]
 
 [node name="Slot1" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21429679, 0, -0.06518763)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot1"]
-mesh = SubResource("BoxMesh_4c8oc")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008195668, 0, 0.3427992)
 
 [node name="Slot2" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16549942, 0, -0.06518763)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot2"]
-mesh = SubResource("BoxMesh_4c8oc")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0033220053, 0, 0.4415773)
 
 [node name="Slot3" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16549942, 0.17114127, -0.06518763)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot3"]
-mesh = SubResource("BoxMesh_4c8oc")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.011555791, 0, 0.47908545)
 
 [node name="Slot4" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21218425, 0.17114127, -0.06518763)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.50990117)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot4"]
-mesh = SubResource("BoxMesh_4c8oc")
+[node name="Muzzle" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0046524405, 0, 0)
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("3_m3cup")
+[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -1, -50)
+shape = SubResource("CapsuleShape3D_my7ni")
+target_position = Vector3(0, 0, -1)
+
+[node name="LaserSight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_my7ni")
+
+[node name="Muzzle2" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1655865)
+mesh = SubResource("BoxMesh_tjti4")
+
+[node name="ChargeEffectBeam" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -50)
+mesh = SubResource("CapsuleMesh_my7ni")
+
+[node name="ShootingSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_26770")

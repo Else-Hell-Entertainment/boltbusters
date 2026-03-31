@@ -24,7 +24,7 @@ namespace EHE.BoltBusters
         private float _accuracy = 0.005f;
 
         [Export]
-        private float _range = 7f;
+        private float _range = 9f;
 
         [Export]
         private MeshInstance3D _bulletTrail;

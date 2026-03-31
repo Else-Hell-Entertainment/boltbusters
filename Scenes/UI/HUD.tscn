@@ -23,6 +23,7 @@ offset_bottom = 23.0
 text = "HUD"
 
 [node name="WeaponUi" type="Control" parent="." node_paths=PackedStringArray("_launcher1", "_launcher2", "_launcher3", "_launcher4", "_railgun1", "_railgun2", "_railgun3", "_railgun4", "_chaingunUi")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

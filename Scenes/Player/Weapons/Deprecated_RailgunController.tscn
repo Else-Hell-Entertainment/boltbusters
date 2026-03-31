@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://bfp2kgi6a16wi"]
+
+[ext_resource type="Script" uid="uid://bub1el2qo1icj" path="res://Code/Objects/Player/Weapons/Deprecated_PlayerRailgunController.cs" id="1_x5un3"]
+[ext_resource type="PackedScene" uid="uid://cf5vqiflfwdvt" path="res://Scenes/Player/Weapons/Deprecated_railgun.tscn" id="2_qcyao"]
+[ext_resource type="AudioStream" uid="uid://d3apgvl2x6pdt" path="res://Assets/SFX/PROTORailgunShoot.mp3" id="3_hl27y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m3cup"]
+albedo_color = Color(0, 0.37254903, 0.6, 1)
+metallic = 0.5
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_tktho"]
+material = SubResource("StandardMaterial3D_m3cup")
+size = Vector3(0.2, 0.2, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_26770"]
+albedo_color = Color(0.1254902, 0.8156863, 1, 1)
+metallic = 0.7
+roughness = 0.78
+
+[sub_resource type="BoxMesh" id="BoxMesh_4c8oc"]
+material = SubResource("StandardMaterial3D_26770")
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="RailgunController" type="Node3D" node_paths=PackedStringArray("_shootingSound")]
+script = ExtResource("1_x5un3")
+_weaponScene = ExtResource("2_qcyao")
+_shootingSound = NodePath("AudioStreamPlayer3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.19756553)
+mesh = SubResource("BoxMesh_tktho")
+
+[node name="WeaponSlots" type="Node3D" parent="."]
+
+[node name="Slot1" type="Node3D" parent="WeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21429679, 0, -0.06518763)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot1"]
+mesh = SubResource("BoxMesh_4c8oc")
+
+[node name="Slot2" type="Node3D" parent="WeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16549942, 0, -0.06518763)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot2"]
+mesh = SubResource("BoxMesh_4c8oc")
+
+[node name="Slot3" type="Node3D" parent="WeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16549942, 0.17114127, -0.06518763)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot3"]
+mesh = SubResource("BoxMesh_4c8oc")
+
+[node name="Slot4" type="Node3D" parent="WeaponSlots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21218425, 0.17114127, -0.06518763)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot4"]
+mesh = SubResource("BoxMesh_4c8oc")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_hl27y")

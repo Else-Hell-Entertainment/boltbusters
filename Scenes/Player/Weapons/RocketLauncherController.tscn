@@ -66,5 +66,6 @@ mesh = SubResource("CylinderMesh_nfrcb")
 
 [node name="Reticle" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+visible = false
 double_sided = false
 texture = ExtResource("3_qfr55")

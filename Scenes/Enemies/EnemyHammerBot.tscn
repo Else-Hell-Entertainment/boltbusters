@@ -144,6 +144,7 @@ radius = 0.1
 height = 0.2
 
 [node name="EnemyHammerBot" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent")]
+collision_layer = 3
 script = ExtResource("1_5800e")
 _healthComponent = NodePath("EnemyHealthComponent")
 
