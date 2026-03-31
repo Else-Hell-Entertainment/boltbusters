@@ -16,9 +16,10 @@ namespace EHE.BoltBusters
             // - Play a spawn sound
             // - Trigger a small appearance VFX
             // - Start idle motion such as bobbing or rotating
+            base.OnSpawn();
         }
 
-        public override void OnCollect(CharacterBody3D collector)
+        protected override void OnCollected(CharacterBody3D collector)
         {
             // TODO: Add pickup behavior for this collectible.
             // Examples:
@@ -26,8 +27,6 @@ namespace EHE.BoltBusters
             // - Play pickup sound
             // - Trigger pickup VFX at the collectible's position
             // - Display a UI feedback popup if needed
-
-            OnDespawn();
         }
 
         // TODO: Add despawn behavior for this collectible.

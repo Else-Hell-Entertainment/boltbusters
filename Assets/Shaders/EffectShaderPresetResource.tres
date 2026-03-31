@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="EffectShaderPreset" load_steps=2 format=3 uid="uid://3lqy08e6kbvp"]
+
+[ext_resource type="Script" uid="uid://cf7dtnecrln56" path="res://Code/EffectShaderPreset.cs" id="1_tmc5l"]
+
+[resource]
+script = ExtResource("1_tmc5l")
+metadata/_custom_type_script = "uid://cf7dtnecrln56"

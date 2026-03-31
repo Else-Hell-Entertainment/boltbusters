@@ -2,8 +2,9 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
-using System.Collections.Generic;
 using Godot;
+using GDCollections = Godot.Collections;
+using GenSysCollections = System.Collections.Generic;
 
 namespace EHE.BoltBusters
 {
@@ -12,11 +13,11 @@ namespace EHE.BoltBusters
     /// </summary>
     public class PlayerUpgradeHandler
     {
-        private Dictionary<WeaponType, IUpgradeable> _weaponControllers = null;
+        private GenSysCollections.Dictionary<WeaponType, PlayerWeaponGroupController> _weaponControllers = null;
 
         public PlayerUpgradeHandler()
         {
-            _weaponControllers = new Dictionary<WeaponType, IUpgradeable>();
+            _weaponControllers = new GenSysCollections.Dictionary<WeaponType, PlayerWeaponGroupController>();
         }
 
         /// <summary>
@@ -70,7 +71,9 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        ///  Upgrades the given weapon controller if possible.
+        ///  Upgrades the given weapon controller if possible. If the upgrade
+        ///  is performed successfully, records the new number of weapons to
+        ///  <see cref="PlayerData"/>.
         /// </summary>
         ///
         /// <param name="weaponType">
@@ -89,11 +92,20 @@ namespace EHE.BoltBusters
                 return false;
             }
 
-            return weaponController.Upgrade();
+            var isUpgraded = weaponController.Upgrade();
+
+            if (isUpgraded)
+            {
+                GameManager.Instance.CurrentPlayerData.IncreaseWeaponCount(weaponType);
+            }
+
+            return isUpgraded;
         }
 
         /// <summary>
-        ///  Downgrades the given weapon controller if possible.
+        ///  Downgrades the given weapon controller if possible. If the
+        ///  downgrade is performed successfully, records the new number of
+        ///  weapons to <see cref="PlayerData"/>.
         /// </summary>
         ///
         /// <param name="weaponType">
@@ -112,7 +124,30 @@ namespace EHE.BoltBusters
                 return false;
             }
 
-            return weaponController.Downgrade();
+            var isDowngraded = weaponController.Downgrade();
+
+            if (isDowngraded)
+            {
+                GameManager.Instance.CurrentPlayerData.DecreaseWeaponCount(weaponType);
+            }
+
+            return isDowngraded;
+        }
+
+        /// <summary>
+        ///  Initializes the player's weapon controllers by setting the number
+        ///  of weapons in each one of them.
+        /// </summary>
+        ///
+        /// <param name="weaponCounts">
+        ///  Dictionary containing the counts for each weapon type.
+        /// </param>
+        public void InitializeWeaponCounts(GDCollections.Dictionary<WeaponType, int> weaponCounts)
+        {
+            foreach (var (weaponType, count) in weaponCounts)
+            {
+                _weaponControllers[weaponType].Initialize(count);
+            }
         }
     }
 }

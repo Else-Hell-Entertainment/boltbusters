@@ -17,15 +17,19 @@ namespace EHE.BoltBusters
 
         public override WeaponType WeaponType => WeaponType.Rocket;
 
+        /// <summary>
+        /// Counter for how many salvo size upgrades have been bought. Use Upgrade/DowngradeSalvoSize to change.
+        /// </summary>
+        public int SalvoSizeUpgradeCount { get; private set; }
+
+        [Signal]
+        public delegate void RocketLauncherConfigurationChangedEventHandler();
+
         public override void _Ready()
         {
             base._Ready();
             _reticle = GetNode<Sprite3D>("Reticle");
             _reticle.Position -= new Vector3(0, _reticle.GlobalPosition.Y - 0.2f, _range);
-            // AddWeapon();
-            // AddWeapon();
-            // AddWeapon();
-            // AddWeapon();
         }
 
         public override void Attack()
@@ -38,6 +42,61 @@ namespace EHE.BoltBusters
                     return;
                 }
             }
+        }
+
+        public override bool AddWeapon()
+        {
+            if (base.AddWeapon())
+            {
+                EmitSignal(SignalName.RocketLauncherConfigurationChanged);
+                return true;
+            }
+
+            return false;
+        }
+
+        public override bool RemoveWeapon()
+        {
+            if (base.RemoveWeapon())
+            {
+                EmitSignal(SignalName.RocketLauncherConfigurationChanged);
+                return true;
+            }
+
+            return false;
+        }
+
+        public void UpgradeSalvoSize()
+        {
+            SalvoSizeUpgradeCount++;
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon is RocketLauncher launcher)
+                {
+                    launcher.IncreaseSalvoSize();
+#if Debug
+                    GD.Print("Increasing rocket launcher salvo size");
+#endif
+                }
+            }
+
+            EmitSignal(SignalName.RocketLauncherConfigurationChanged);
+        }
+
+        public void DowngradeSalvoSize()
+        {
+            SalvoSizeUpgradeCount--;
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon is RocketLauncher launcher)
+                {
+                    launcher.DecreaseSalvoSize();
+#if Debug
+                    GD.Print("Decreasing rocket launcher salvo size");
+#endif
+                }
+            }
+            EmitSignal(SignalName.RocketLauncherConfigurationChanged);
         }
     }
 }

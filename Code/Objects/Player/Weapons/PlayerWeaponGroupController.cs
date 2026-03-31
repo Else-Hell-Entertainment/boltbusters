@@ -4,6 +4,7 @@
 //            Miska Rihu <miska.rihu@tuni.fi>
 
 using System.Collections.Generic;
+using EHE.Common.Godot.Extensions;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -21,6 +22,16 @@ namespace EHE.BoltBusters
         private PackedScene _weaponScene;
 
         public List<BaseWeapon> Weapons { get; } = new List<BaseWeapon>();
+
+        /// <summary>
+        /// The maximum number of weapons the controller can hold.
+        /// </summary>
+        public int MaxWeaponCount => _weaponSlots.Count;
+
+        /// <summary>
+        /// The number of weapons currently equipped.
+        /// </summary>
+        public int CurrentWeaponCount => Weapons.Count;
 
         /// <summary>
         /// The type of weapons added to this controller.
@@ -93,6 +104,43 @@ namespace EHE.BoltBusters
             return false;
         }
 
+        /// <summary>
+        ///  Initializes the weapon controller by setting the weapon count.
+        /// </summary>
+        ///
+        /// <param name="weaponCount">
+        ///  The desired number of weapons.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> initialization is performed successfully,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        public bool Initialize(int weaponCount)
+        {
+            this.PrintDebug($"Initializing {WeaponType} controller");
+            if (weaponCount > MaxWeaponCount)
+            {
+                GD.PushError($"Cannot initialize controller for {WeaponType}, weapon count exceeded.");
+                return false;
+            }
+
+            // Ensure that there are no weapons before adding new ones.
+            if (CurrentWeaponCount > 0)
+            {
+                RemoveAllWeapons();
+            }
+
+            // Add new weapons.
+            for (int i = 0; i < weaponCount; i++)
+            {
+                this.PrintDebug($"Adding weapons {i + 1}/{weaponCount} ");
+                AddWeapon();
+            }
+
+            return true;
+        }
+
         public virtual bool Upgrade()
         {
 #if DEBUG
@@ -107,6 +155,18 @@ namespace EHE.BoltBusters
             GD.Print($"Downgrading {Name} ({GetType()})");
 #endif
             return RemoveWeapon();
+        }
+
+        /// <summary>
+        ///  Removes all weapons from the controller.
+        /// </summary>
+        private void RemoveAllWeapons()
+        {
+            for (int i = CurrentWeaponCount; i > 0; i--)
+            {
+                this.PrintDebug("Removing all weapons.");
+                RemoveWeapon();
+            }
         }
     }
 }

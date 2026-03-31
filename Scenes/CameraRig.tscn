@@ -9,6 +9,7 @@ MinX = -8.0
 MaxX = 56.0
 MinZ = 1.0
 MaxZ = 41.0
+FocusOffsetZ = 2.0
 CameraNode = NodePath("Camera3D")
 HeightAboveGround = 10.0
 

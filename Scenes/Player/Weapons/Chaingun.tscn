@@ -107,6 +107,7 @@ script = ExtResource("1_gvsop")
 _cooldownTimer = NodePath("CooldownTimer")
 _cooldown = 0.1
 _accuracy = 0.01
+_range = 10.0
 _bulletTrail = NodePath("BulletTrail")
 
 [node name="CooldownTimer" type="Timer" parent="."]

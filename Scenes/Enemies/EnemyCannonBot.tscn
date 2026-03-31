@@ -114,6 +114,7 @@ radius = 0.68867385
 height = 1.3773477
 
 [node name="EnemyCannonBot" type="CharacterBody3D" node_paths=PackedStringArray("_rayCaster", "Controller", "_healthComponent")]
+collision_layer = 3
 script = ExtResource("1_k6seb")
 _cannonBallScene = ExtResource("1_mqbn8")
 _range = 12.0
