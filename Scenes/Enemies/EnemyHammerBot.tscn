@@ -1,9 +1,12 @@
-[gd_scene load_steps=17 format=4 uid="uid://d1v0b82d6dwda"]
+[gd_scene load_steps=20 format=4 uid="uid://d1v0b82d6dwda"]
 
 [ext_resource type="Script" uid="uid://cai3rjcjb1tw8" path="res://Code/Objects/Enemy/EnemyHammerBot.cs" id="1_5800e"]
 [ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="2_5800e"]
+[ext_resource type="Material" uid="uid://do048e2b52egy" path="res://Assets/Shaders/EffectShaderShaderMaterial.tres" id="2_lncp1"]
 [ext_resource type="Script" uid="uid://tk4ek7denot" path="res://Code/Objects/Enemy/EnemyMeleeWeapon.cs" id="3_7mpij"]
 [ext_resource type="AnimationLibrary" uid="uid://daif2hrjdta3p" path="res://Assets/Animations/HammerBotAnimations.tres" id="4_5800e"]
+[ext_resource type="Script" uid="uid://dn3xdtkt00s1k" path="res://Code/Components/EnemyShaderComponent.cs" id="6_57rxb"]
+[ext_resource type="Resource" uid="uid://d1rygoxvve6o4" path="res://Assets/Shaders/EnemyShaderPreset.tres" id="7_0ad1w"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aundc"]
 size = Vector3(1, 1.9749222, 1.3820648)
@@ -45,7 +48,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_hkdgn")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_08ptf"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mpij"]
 albedo_color = Color(0.23137255, 0.23921569, 0.25882354, 1)
 metallic = 0.5
 roughness = 0.7
@@ -71,7 +74,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 606,
 "index_data": PackedByteArray("AAABAAIAAQAAAAMAAQADAAQAAAAFAAYABQAAAAcABQAHAAgACQAKAAsACQAMAAoADQAOAA8ADgANABAADgAQABEADQASABMAEgANABQAEgAUABUAFgAXABgAFgAZABcAGgAbABwAGgAdABsAHgAaAB0AHgAdAB8AHQAaACAAHQAgACEAIgAjACQAIgAlACMAJgAnACgAJgApACcAKgArACwAKgAtACsALgAvADAALgAxAC8AMgAzADQAMgA1ADMANgA3ADgANgA5ADcAOgA7ADwAOgA9ADsAPgA/AEAAPgBBAD8AQgBDAEQAQgBFAEMARgBHAEgARgBJAEcASgBLAEwASgBNAEsATgBPAFAATgBRAE8AUgBTAFQAUgBVAFMAVgBXAFgAVgBZAFcAWgBbAFwAWgBdAFsAXgBfAGAAXgBhAF8AYgBjAGQAYgBlAGMAZgBnAGgAZgBpAGcAagBrAGwAagBtAGsAbgBvAHAAbgBxAG8AcgBzAHQAcgB1AHMAdgB3AHgAdgB5AHcAegB7AHwAegB9AHsAfgB/AIAAfgCBAH8AggCDAIQAggCFAIMAhgCHAIgAhgCJAIcAigCLAIwAigCNAIsAjgCPAJAAjgCRAI8AkgCTAJQAkgCVAJMAlgCXAJgAlgCZAJcAmgCbAJwAmgCdAJsAngCfAKAAngChAJ8AnwChAKIAoQCeAKMAowCeAKQAoQCjAKUApgCnAKgApgCpAKcAqgCrAKwAqgCtAKsArgCvALAArgCxAK8ArwCxALIAsQCuALMAswCuALQAsQCzALUAtgC3ALgAtgC5ALcAugC7ALwAugC9ALsAvgC/AMAAvgDBAL8AwgDDAMQAwgDFAMMAxgDHAMgAxgDJAMcAygDLAMwAygDNAMsAzgDPANAAzgDRAM8A0gDTANQA0gDVANMA1gDXANgA1gDZANcA2gDbANwA2gDdANsA3gDfAOAA3gDhAN8A4gDjAOQA4gDlAOMA5gDnAOgA5gDpAOcA6gDrAOwA6gDtAOsA7gDvAPAA7gDxAO8A8gDzAPQA8gD1APMA9gD3APgA9gD5APcA+gD7APwA+gD9APsA/gD/AAAB/gABAf8AAgEDAQQBAgEFAQMBBgEHAQgBBgEJAQcBCgELAQwBCgENAQsBDgEPARABDgERAQ8BDwERARIBEQEOARMBEwEOARQBEQETARUBFgEXARgBFgEZARcBFwEZARoBGQEWARsBGwEWARwBGQEbAR0BHgEfASABHgEhAR8BHwEhASIBIQEeASMBIwEeASQBIQEjASUBJgEnASgBJgEpAScBJwEpASoBKQEmASsBKwEmASwBKQErAS0BLgEvATABLgExAS8BMgEzATQBMgE1ATMBNgE3ATgBNgE5ATcBOgE7ATwBOgE9ATsBPgE/AUABPgFBAT8BQgFDAUQBQgFFAUMBRgFHAUgBRgFJAUcBSgFLAUwBSgFNAUsBTgFPAVABTgFRAU8BUgFTAVQBUgFVAVMBUwFVAVYBVQFSAVcBVwFSAVgBVQFXAVkBWgFbAVwBWgFdAVsBXgFfAWABXgFhAV8BYgFjAWQBYgFlAWMBYwFlAWYBZQFiAWcBZwFiAWgBZQFnAWkB"),
-"material": SubResource("StandardMaterial3D_08ptf"),
+"material": SubResource("StandardMaterial3D_7mpij"),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 362,
@@ -154,6 +157,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0)
 
 [node name="Cube" type="MeshInstance3D" parent="BodyNode"]
 transform = Transform3D(-0.261, 0, -3.774895e-08, 0, 0.315, 0, 3.9409905e-08, 0, -0.25, 0, 0.44016513, 0.3561785)
+material_overlay = ExtResource("2_lncp1")
 mesh = SubResource("ArrayMesh_iv0vp")
 skeleton = NodePath("")
 
@@ -162,18 +166,21 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -
 
 [node name="Cylinder" type="MeshInstance3D" parent="HammerNode"]
 transform = Transform3D(0.08559429, -0.00017201352, 0.2060127, -0.20240523, 0.061813764, 0.08411876, -0.038384285, -0.3263355, 0.015825003, 3.2171603e-05, 0.8248757, -0.008932114)
+material_overlay = ExtResource("2_lncp1")
 mesh = SubResource("ArrayMesh_hku7k")
 skeleton = NodePath("")
 
-[node name="EnemyHealthComponent" type="Node" parent="."]
+[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent")]
 script = ExtResource("2_5800e")
+_enemyShaderComponent = NodePath("../EnemyShaderComponent")
 metadata/_custom_type_script = "uid://b620lyqticbmf"
 
-[node name="MeleeWeapon" type="Node3D" parent="."]
+[node name="MeleeWeapon" type="Node3D" parent="." node_paths=PackedStringArray("_meleeOwner")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.87726426, -0.61224896)
 script = ExtResource("3_7mpij")
 _attackCooldown = 2.5
 _attackDamage = 10
+_meleeOwner = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MeleeWeapon"]
 root_node = NodePath("../..")
@@ -205,3 +212,9 @@ process_material = SubResource("ParticleProcessMaterial_57rxb")
 draw_pass_1 = SubResource("SphereMesh_0ad1w")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="EnemyShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
+script = ExtResource("6_57rxb")
+_effectsPreset = ExtResource("7_0ad1w")
+_meshes = [NodePath("../BodyNode/Cube"), NodePath("../HammerNode/Cylinder")]
+metadata/_custom_type_script = "uid://dn3xdtkt00s1k"

@@ -1,15 +1,29 @@
+<<<<<<< player/weapon-mechanics
 [gd_scene load_steps=22 format=4 uid="uid://c4h2yy8w0gt3l"]
+=======
+[gd_scene load_steps=23 format=4 uid="uid://c4h2yy8w0gt3l"]
+>>>>>>> dev
 
 [ext_resource type="Script" uid="uid://d1dql4pbawoly" path="res://Code/Objects/Player/Player.cs" id="1_4wape"]
 [ext_resource type="PackedScene" uid="uid://4x3awqn6r5eh" path="res://Scenes/Player/Weapons/ChaingunController.tscn" id="2_0u5uq"]
 [ext_resource type="PackedScene" uid="uid://b4w446hov1iq4" path="res://Scenes/Player/Weapons/RocketLauncherController.tscn" id="3_jlvik"]
+<<<<<<< player/weapon-mechanics
+=======
+[ext_resource type="PackedScene" uid="uid://bfp2kgi6a16wi" path="res://Scenes/Player/Weapons/RailgunController.tscn" id="4_0u5uq"]
+[ext_resource type="Material" uid="uid://do048e2b52egy" path="res://Assets/Shaders/EffectShaderShaderMaterial.tres" id="4_jhyir"]
+>>>>>>> dev
 [ext_resource type="Script" uid="uid://nv0ew2bqkcqb" path="res://Code/Objects/Player/InputHandler.cs" id="4_jlvik"]
 [ext_resource type="Script" uid="uid://cbgtfntk84sv1" path="res://Code/Objects/Player/PlayerController.cs" id="5_gk6dx"]
 [ext_resource type="PackedScene" uid="uid://cfcvy3x00knug" path="res://Scenes/Player/Weapons/RailgunController.tscn" id="6_gk6dx"]
 [ext_resource type="Script" uid="uid://d2knauna4hn3f" path="res://Code/Objects/Player/PlayerHealthComponent.cs" id="7_0u5uq"]
 [ext_resource type="PackedScene" uid="uid://bta8cuhn6twxu" path="res://Scenes/Player/Weapons/Railgun.tscn" id="7_jhyir"]
 [ext_resource type="Script" uid="uid://ijwkg2xovq7l" path="res://Code/CollectArea.cs" id="8_jlvik"]
+<<<<<<< player/weapon-mechanics
 [ext_resource type="PackedScene" uid="uid://durb8v5qnbcln" path="res://Scenes/UI/Crosshair.tscn" id="10_jhyir"]
+=======
+[ext_resource type="Script" uid="uid://15bogyux3w3m" path="res://Code/Components/PlayerShaderComponent.cs" id="10_74mp2"]
+[ext_resource type="Resource" uid="uid://cwashgb0tg3w3" path="res://Assets/Shaders/PlayerShaderPreset.tres" id="11_oikmp"]
+>>>>>>> dev
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gkvi4"]
 resource_name = "Material"
@@ -150,6 +164,7 @@ script = ExtResource("4_jlvik")
 
 [node name="Foot" type="MeshInstance3D" parent="PlayerBody"]
 transform = Transform3D(-2.8849517e-08, 0, 0.66, 0, 0.66, 0, -0.66, 0, -2.8849517e-08, 0, 0, 0)
+material_overlay = ExtResource("4_jhyir")
 mesh = SubResource("ArrayMesh_0u5uq")
 skeleton = NodePath("")
 
@@ -173,6 +188,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.31205454, -6.2739906)
 
 [node name="Body" type="MeshInstance3D" parent="Turret"]
 transform = Transform3D(-2.8849515e-08, 0, 0.65999997, 0, 0.66, 0, -0.65999997, 0, -2.8849515e-08, 0, 0.93005335, 0)
+material_overlay = ExtResource("4_jhyir")
 mesh = SubResource("ArrayMesh_jlvik")
 skeleton = NodePath("")
 
@@ -204,8 +220,9 @@ _weaponScene = ExtResource("7_jhyir")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1967016, 0)
 shape = SubResource("CapsuleShape3D_jlvik")
 
-[node name="PlayerHealthComponent" type="Node" parent="."]
+[node name="PlayerHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_playerShaderComponent")]
 script = ExtResource("7_0u5uq")
+_playerShaderComponent = NodePath("../PlayerShaderComponent")
 metadata/_custom_type_script = "uid://d2knauna4hn3f"
 
 [node name="CollectArea" type="Area3D" parent="."]
@@ -214,5 +231,11 @@ script = ExtResource("8_jlvik")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CollectArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_jlvik")
+
+[node name="PlayerShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
+script = ExtResource("10_74mp2")
+_effectsPreset = ExtResource("11_oikmp")
+_meshes = [NodePath("../PlayerBody/Foot"), NodePath("../Turret/Body")]
+metadata/_custom_type_script = "uid://15bogyux3w3m"
 
 [editable path="Turret/RocketLauncherController"]

@@ -96,7 +96,7 @@ namespace EHE.BoltBusters
 
             if (isUpgraded)
             {
-                GameManager.Instance.CurrentPlayerData.IncreaseNumberOfWeapons(weaponType);
+                GameManager.Instance.CurrentPlayerData.IncreaseWeaponCount(weaponType);
             }
 
             return isUpgraded;
@@ -128,7 +128,7 @@ namespace EHE.BoltBusters
 
             if (isDowngraded)
             {
-                GameManager.Instance.CurrentPlayerData.DecreaseNumberOfWeapons(weaponType);
+                GameManager.Instance.CurrentPlayerData.DecreaseWeaponCount(weaponType);
             }
 
             return isDowngraded;
