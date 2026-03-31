@@ -15,11 +15,14 @@ namespace EHE.BoltBusters.EnemyAI
 
         public bool RegisterBot(Enemy bot)
         {
-            if (bot.EnemyType != AcceptedEnemyType && Enemies.Contains(bot))
+            GD.Print("Registering " + bot + " of type " + bot.EnemyType);
+            if (bot.EnemyType != AcceptedEnemyType || Enemies.Contains(bot))
             {
+                GD.Print("Bot " + bot + " was not accepted.");
                 return false;
             }
             Enemies.Add(bot);
+            GD.Print("Registered " + bot);
             return true;
         }
 
