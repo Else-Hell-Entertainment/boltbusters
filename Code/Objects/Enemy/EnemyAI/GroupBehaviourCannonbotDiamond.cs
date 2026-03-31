@@ -38,6 +38,7 @@ namespace EHE.BoltBusters.EnemyAI
                     Vector3 point = GetNextPoint(positionInGroup, bot);
 
                     bot.Controller.AddCommand(new MoveToPositionCommand(point));
+                    bot.Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
                 }
                 positionInGroup++;
             }
@@ -61,6 +62,7 @@ namespace EHE.BoltBusters.EnemyAI
                 case 4:
                     return p1 + new Vector3(_distanceToPlayer / 2, 0, -_distanceToPlayer / 2);
                 default:
+                    GD.PrintErr("Diamond group attempting to assign position over group size.");
                     return Vector3.Zero;
             }
         }
