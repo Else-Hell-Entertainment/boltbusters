@@ -17,6 +17,9 @@ namespace EHE.BoltBusters.EnemyAI
             base._Ready();
             _diamondGroup = new GroupBehaviourCannonbotDiamond();
             AddChild(_diamondGroup);
+
+            IsActive = true;
+            _diamondGroup.IsActive = true;
         }
 
         public override void _Process(double delta)
@@ -34,14 +37,14 @@ namespace EHE.BoltBusters.EnemyAI
 
         private void ExecuteGroupBehaviours()
         {
-            GD.Print("Doing stuff");
+            _diamondGroup.Execute();
         }
 
         public void AddEnemy(Enemy enemy)
         {
             if (_diamondGroup.RegisterBot(enemy))
             {
-                GD.Print("Registered enemy " + enemy);
+                GD.Print("Manager found the bot.");
             }
         }
     }

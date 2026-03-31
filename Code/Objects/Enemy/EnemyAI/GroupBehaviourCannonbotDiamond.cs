@@ -24,11 +24,13 @@ namespace EHE.BoltBusters.EnemyAI
         protected override void ExecuteGroupBehaviour()
         {
             int positionInGroup = 1;
-            foreach (Enemy enemy in Enemies)
+            for (int i = 0; i < Enemies.Count; i++)
             {
+                Enemy enemy = Enemies[i];
                 if (!IsInstanceValid(enemy))
                 {
                     Enemies.Remove(enemy);
+                    continue;
 #if DEBUG
                     GD.Print("Removing invalid enemy entry from " + this.Name);
 #endif
