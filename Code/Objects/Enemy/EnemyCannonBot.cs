@@ -43,8 +43,9 @@ namespace EHE.BoltBusters
             _muzzle = GetNode<Node3D>("Turret/Muzzle");
         }
 
-        public override void _Process(double delta)
-        {
+        public override void _Process(
+            double delta
+        ) { /*
             if (!IsInstanceValid(_player))
             {
                 GD.Print("Player not found");
@@ -76,6 +77,7 @@ namespace EHE.BoltBusters
             }
 
             Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
+            */
         }
 
         public override void _PhysicsProcess(double delta)
