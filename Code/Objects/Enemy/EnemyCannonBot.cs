@@ -82,6 +82,12 @@ namespace EHE.BoltBusters
 
         public override void _PhysicsProcess(double delta)
         {
+            // Autorotate towards player always unless overriden from somewhere else.
+            if (LevelManager.Active.Player != null)
+            {
+                Controller.AddCommand(new RotateTowardsCommand(LevelManager.Active.Player.GlobalPosition));
+            }
+
             if (_canFire && IsInstanceValid(_player) && IsPlayerInLineOfSight())
             {
                 Attack();
