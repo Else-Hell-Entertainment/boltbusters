@@ -18,17 +18,16 @@ namespace EHE.BoltBusters.EnemyAI
             _diamondGroup = new GroupBehaviourCannonbotDiamond();
             AddChild(_diamondGroup);
 
-            IsActive = true;
             _diamondGroup.IsActive = true;
             GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
         }
 
         private void OnRoundStateChanged(bool inProgress)
         {
+            IsActive = inProgress;
             if (!inProgress)
             {
                 _diamondGroup.ClearBots();
-                GD.Print("Clearing bots");
             }
         }
 
@@ -52,10 +51,7 @@ namespace EHE.BoltBusters.EnemyAI
 
         public void AddEnemy(Enemy enemy)
         {
-            if (_diamondGroup.RegisterBot(enemy))
-            {
-                GD.Print("Manager found the bot.");
-            }
+            if (_diamondGroup.RegisterBot(enemy)) { }
         }
     }
 }
