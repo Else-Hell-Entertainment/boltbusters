@@ -17,7 +17,9 @@ namespace EHE.BoltBusters.EnemyAI
         {
             if (bot.EnemyType != AcceptedEnemyType || Enemies.Count >= GroupSize || Enemies.Contains(bot))
             {
+#if DEBUG
                 GD.Print("Bot " + bot + " was not accepted.");
+#endif
                 return false;
             }
             Enemies.Add(bot);
