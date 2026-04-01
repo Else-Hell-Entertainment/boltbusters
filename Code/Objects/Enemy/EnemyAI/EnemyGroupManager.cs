@@ -1,7 +1,14 @@
-﻿using Godot;
+﻿// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
+
+using Godot;
 
 namespace EHE.BoltBusters.EnemyAI
 {
+    /// <summary>
+    /// Coordinates enemy group behaviours and routes enemies to groups.
+    /// </summary>
     public partial class EnemyGroupManager : Node3D
     {
         private GroupBehaviourCannonbotDiamond _diamondGroup;
@@ -57,6 +64,10 @@ namespace EHE.BoltBusters.EnemyAI
             _standoffGroup.Execute();
         }
 
+        /// <summary>
+        /// Registers an enemy to the first group that accepts it.
+        /// </summary>
+        /// <param name="enemy">Enemy to register.</param>
         public void AddEnemy(Enemy enemy)
         {
             if (_diamondGroup.RegisterBot(enemy))

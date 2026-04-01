@@ -1,13 +1,23 @@
-﻿using Godot;
+﻿// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
+
+using Godot;
 
 namespace EHE.BoltBusters.EnemyAI
 {
+    /// <summary>
+    /// Moves ranged cannonbots into a diamond formation near the player.
+    /// </summary>
     public partial class GroupBehaviourCannonbotDiamond : BaseGroupBehaviour
     {
-        public override EnemyType AcceptedEnemyType => EnemyType.Ranged;
+        protected override EnemyType AcceptedEnemyType => EnemyType.Ranged;
 
-        public override int GroupSize => 4;
+        protected override int GroupSize => 4;
 
+        /// <summary>
+        /// Preferred spacing from the player for this formation.
+        /// </summary>
         private float _distanceToPlayer = 6;
 
         private Player _player;
@@ -15,21 +25,18 @@ namespace EHE.BoltBusters.EnemyAI
         //TODO: Fetch dynamically. Hardcoded for testing purposes.
         private Vector3 _levelCenter = new Vector3(25, 0, 25);
 
+        /// <summary>
+        /// Caches player reference for formation calculations.
+        /// </summary>
         public override void _Ready()
         {
             base._Ready();
             _player = LevelManager.Active.Player;
         }
 
-        public override void _Process(double delta)
-        {
-            base._Process(delta);
-            if (IsActive)
-            {
-                RotateBots();
-            }
-        }
-
+        /// <summary>
+        /// Assigns formation targets to all valid group members.
+        /// </summary>
         protected override void ExecuteGroupBehaviour()
         {
             int positionInGroup = 1;
@@ -41,23 +48,17 @@ namespace EHE.BoltBusters.EnemyAI
                     Vector3 point = GetNextPoint(positionInGroup, bot);
 
                     bot.Controller.AddCommand(new MoveToPositionCommand(point));
-                    bot.Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
                 }
                 positionInGroup++;
             }
         }
 
-        private void RotateBots()
-        {
-            foreach (Enemy enemy in Enemies)
-            {
-                if (enemy is EnemyCannonBot bot)
-                {
-                    bot.Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
-                }
-            }
-        }
-
+        /// <summary>
+        /// Returns the next formation slot world position.
+        /// </summary>
+        /// <param name="pointCounter">Slot index in the formation.</param>
+        /// <param name="enemy">Enemy requesting the slot.</param>
+        /// <returns>Target world position for the slot.</returns>
         private Vector3 GetNextPoint(int pointCounter, Enemy enemy)
         {
             Vector3 leadBotPos = _levelCenter;
@@ -69,8 +70,6 @@ namespace EHE.BoltBusters.EnemyAI
             Vector3 direction = (leadBotPos - _player.GlobalPosition).Normalized();
             Vector3 p1 = _player.GlobalPosition + (direction * _distanceToPlayer);
             Vector3 ortho = direction.Cross(Vector3.Up);
-
-            //Vector3 point1 = _player.GlobalPosition + new Vector3(0, 0, -_distanceToPlayer);
 
             switch (pointCounter)
             {
