@@ -20,6 +20,16 @@ namespace EHE.BoltBusters.EnemyAI
 
             IsActive = true;
             _diamondGroup.IsActive = true;
+            GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
+        }
+
+        private void OnRoundStateChanged(bool inProgress)
+        {
+            if (!inProgress)
+            {
+                _diamondGroup.ClearBots();
+                GD.Print("Clearing bots");
+            }
         }
 
         public override void _Process(double delta)
