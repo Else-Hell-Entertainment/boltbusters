@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://do048e2b52egy"]
+
+[ext_resource type="Shader" uid="uid://bopx7f8xnbkgy" path="res://Assets/Shaders/EffectShader.gdshader" id="1_xnldl"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_xnldl")
+shader_parameter/effect_mode = 0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_strength = 0.0
+shader_parameter/flash_value = 0.0
+shader_parameter/pulse_color = Color(1, 1, 1, 1)
+shader_parameter/pulse_strength = 0.0
+shader_parameter/pulse_speed = 0.0
+shader_parameter/accelerating_pulse_color = Color(1, 1, 1, 1)
+shader_parameter/accelerating_pulse_start_strength = 0.0
+shader_parameter/accelerating_pulse_finish_strength = 0.0
+shader_parameter/accelerating_pulse_speed = 0.0
+shader_parameter/acceleration_speed_factor = 0.0
+shader_parameter/acceleration_delay = 0.0
+shader_parameter/accelerating_pulse_duration = 0.0
+shader_parameter/accelerating_pulse_time = 0.0
+shader_parameter/accelerating_pulse_progress = 0.0

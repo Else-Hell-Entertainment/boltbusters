@@ -68,14 +68,11 @@ namespace EHE.BoltBusters.Ui
                 case Railgun.RailgunState.ReadyToFire:
                     ToggleReadyIndicator(true);
                     break;
-                case Railgun.RailgunState.NotReadyToFire:
-                    ToggleReadyIndicator(false);
+                case Railgun.RailgunState.Reloading:
                     break;
-                case Railgun.RailgunState.ReloadingStarted:
-                    ToggleReloadingIndicator(true);
+                case Railgun.RailgunState.Charging:
                     break;
-                case Railgun.RailgunState.ReloadingFinished:
-                    ToggleReloadingIndicator(false);
+                case Railgun.RailgunState.Discharging:
                     break;
             }
         }

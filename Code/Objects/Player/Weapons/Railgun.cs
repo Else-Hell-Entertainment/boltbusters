@@ -1,6 +1,6 @@
-﻿// (c) 2026 Else Hell Entertainment
+// (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
-// Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
+// Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
 
 using Godot;
 using Godot.Collections;
@@ -8,230 +8,169 @@ using Godot.Collections;
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// Prototype Railgun. WIP.
+    /// Second iteration of the railgun. This version uses the controller as the actual weapon and each individual
+    /// "railgun" is a powerbank that contains a single charge. Adding more railguns means adding additional power
+    /// banks.
     /// </summary>
     public partial class Railgun : BaseWeapon
     {
+        [Export]
+        private Timer _reloadTimer;
+
+        [Export]
+        private float _reloadTime = 5f;
+
+        /// <summary>
+        /// How many % per second the charge meter fills up when player keeps fire button pressed.
+        /// </summary>
+        [Export]
+        private float _baseChargingRate = 50f;
+
+        /// <summary>
+        /// How much the base charging rate is increased per bought upgrade.
+        /// </summary>
+        [Export]
+        private float _chargingUpgradeIncrease = 5f;
+
+        /// <summary>
+        /// How many % per second the charge meter drops if the weapon is not charging. Both after firing or if the
+        /// player cancels the charging action. This value should be several hundred as the discharges shouldn't last
+        /// more than a fraction of a second.
+        /// </summary>
+        [Export]
+        private float _dischargeRate = 400f;
+
         public bool IsActive { get; set; }
 
-        [Export]
-        private Timer _cooldownTimer;
+        public bool ChargeReady => CurrentChargePercent >= 100f;
 
-        [Export]
-        private float _cooldown = 5f;
+        public float CurrentChargePercent { get; private set; }
 
-        private MeshInstance3D _laserSightInstance;
-        private CylinderMesh _laserSightMesh;
+        public int ChargingUpgradeCount = 0;
 
-        private MeshInstance3D _bulletEffect;
-        private MeshInstance3D _bulletTravel;
-        private Node3D _muzzle;
-        private DamageData _damageData;
-        private GpuParticles3D _hitParticles;
-
-        private Dictionary _lastRaycastResult = new Dictionary();
+        public RailgunState CurrentState { get; private set; }
 
         public enum RailgunState
         {
             None,
             ReadyToFire,
-            NotReadyToFire,
-            ReloadingStarted,
-            ReloadingFinished,
+            Reloading,
+            Charging,
+            Discharging,
         }
 
         [Signal]
         public delegate void RailgunStateChangedEventHandler(int state);
 
-        [Signal]
-        public delegate void RailgunReloadReadyEventHandler(Railgun railgun);
-
         public override void _Ready()
         {
-            _cooldownTimer = GetNode<Timer>("CooldownTimer");
-            _cooldownTimer.WaitTime = _cooldown;
-            _cooldownTimer.OneShot = true;
-            _cooldownTimer.Timeout += OnCooldownTimerTimeout;
-            _muzzle = GetNode<Node3D>("Muzzle");
-            _damageData = new DamageData(150, DamageType.Sniper);
-            _hitParticles = GetNode<GpuParticles3D>("HitParticles");
-            _bulletEffect = GetNode<MeshInstance3D>("BulletEffect");
-            _bulletTravel = GetNode<MeshInstance3D>("BulletTravel");
-            _bulletEffect.Visible = false;
-            _bulletTravel.Visible = false;
-
-            _laserSightInstance = GetNode<MeshInstance3D>("LaserSight");
-            _laserSightMesh = (CylinderMesh)_laserSightInstance.Mesh;
-            EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.ReadyToFire);
+            _reloadTimer = GetNode<Timer>("ReloadTimer");
+            _reloadTimer.OneShot = true;
+            _reloadTimer.WaitTime = _reloadTime;
+            _reloadTimer.Timeout += OnReloadTimerTimeOut;
+            ChangeState(RailgunState.ReadyToFire);
         }
 
-        public override void _PhysicsProcess(double delta)
+        public override void _Process(double delta)
         {
-            if (IsActive)
-            {
-                _lastRaycastResult = RayCastForward();
-                UpdateLaserSight();
-            }
+            base._Process(delta);
+            ProcessCurrentState();
         }
 
-        private void UpdateLaserSight()
-        {
-            if (_lastRaycastResult.ContainsKey("position"))
-            {
-                Vector3 point = (Vector3)_lastRaycastResult["position"];
-                Vector3 direction = point - _muzzle.GlobalPosition;
-                float distance = direction.Length();
-                _laserSightMesh.Height = distance;
-                Vector3 midpoint = _muzzle.GlobalPosition + direction * 0.5f;
-                _laserSightInstance.GlobalPosition = midpoint;
-                _laserSightInstance.Show();
-            }
-        }
-
-        private void OnCooldownTimerTimeout()
-        {
-            CanAttack = true;
-            // TODO: Old signal left here for now, refactor the controller to use new signal
-            EmitSignal(SignalName.RailgunReloadReady, this);
-            EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.ReloadingFinished);
-            EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.ReadyToFire);
-        }
-
+        /// <summary>
+        /// Actual attack mechanic is handled in RailgunController. This method will ensure that the charging process
+        /// starts when attack is initiated.
+        /// </summary>
         public override void Attack()
         {
-            if (!CanAttack)
+            base.Attack();
+            if (CurrentState is RailgunState.ReadyToFire)
             {
-                return;
+                ChangeState(RailgunState.Charging);
             }
-            CanAttack = false;
-            _cooldownTimer.Start();
-            _laserSightInstance.Hide();
-            EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.NotReadyToFire);
-            EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.ReloadingStarted);
-            ResolveAttack();
-            //DoRayCast();
-            DrawBulletEffect();
         }
 
-        private void ResolveAttack()
+        /// <summary>
+        /// Begins the discharging process.Discharge needs to be initiated manually to keep railgun behaviour control
+        /// within the controller.
+        /// The railgun must then reload again after it's finished (handled automatically).
+        /// </summary>
+        public void Discharge()
         {
-            Vector3 origin = _muzzle.GlobalPosition;
-            Vector3 direction = -_muzzle.GlobalBasis.Z;
-            int maxPierceCount = 5;
+            ChangeState(RailgunState.Discharging);
+        }
 
-            for (int i = 0; i < maxPierceCount; i++)
+        /// <summary>
+        /// Resets the railgun into it's neutral state. Used between rounds.
+        /// </summary>
+        public void ResetState()
+        {
+            ChangeState(RailgunState.ReadyToFire);
+            ResetCharge();
+            _reloadTimer.Stop();
+        }
+
+        public void UpgradeChargingSpeed() { }
+
+        public void DowngradeChargingSpeed() { }
+
+        private void IncreaseCharge()
+        {
+            float deltaTime = (float)GetProcessDeltaTime();
+            CurrentChargePercent += (_baseChargingRate + ChargingUpgradeCount * _chargingUpgradeIncrease) * deltaTime;
+            CurrentChargePercent = Mathf.Clamp(CurrentChargePercent, 0f, 100f);
+            EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.Charging);
+        }
+
+        private void DecreaseCharge()
+        {
+            float deltaTime = (float)GetProcessDeltaTime();
+            CurrentChargePercent -= _dischargeRate * deltaTime;
+            if (CurrentChargePercent < 0f)
             {
-                var result = Raycast(origin, direction);
-                if (result.ContainsKey("position"))
+                CurrentChargePercent = 0f;
+                // Weapon was discharging and is now at zero -> change state is required to start cooldown.
+                if (CurrentState == RailgunState.Discharging)
                 {
-                    var collider = result["collider"];
-                    Node target = (Node)collider;
-                    Vector3 hit = (Vector3)result["position"];
-                    _hitParticles.GlobalPosition = hit;
-                    _hitParticles.Emitting = true;
-                    if (target is IDamageable damageable)
-                    {
-                        ApplyDamage(damageable);
-                    }
-                    GD.Print("Hit target " + target.Name);
-                    origin = hit + direction * 0.1f;
+                    _reloadTimer.Start();
+                    ChangeState(RailgunState.Reloading);
+                    return;
                 }
             }
+            EmitSignal(SignalName.RailgunStateChanged, (int)RailgunState.Discharging);
+        }
 
-            if (_lastRaycastResult.ContainsKey("position"))
+        private void ResetCharge()
+        {
+            CurrentChargePercent = 0;
+        }
+
+        private void OnReloadTimerTimeOut()
+        {
+            ChangeState(RailgunState.ReadyToFire);
+        }
+
+        private void ChangeState(RailgunState newState)
+        {
+            CurrentState = newState;
+            EmitSignal(SignalName.RailgunStateChanged, (int)newState);
+        }
+
+        private void ProcessCurrentState()
+        {
+            switch (CurrentState)
             {
-                var collider = _lastRaycastResult["collider"];
-                Node target = (Node)collider;
-                Vector3 point = (Vector3)_lastRaycastResult["position"];
-                _hitParticles.GlobalPosition = point;
-                _hitParticles.Emitting = true;
-                if (target is IDamageable damageable)
-                {
-                    ApplyDamage(damageable);
-                }
+                case RailgunState.ReadyToFire:
+                    break;
+                case RailgunState.Reloading:
+                    break;
+                case RailgunState.Charging:
+                    IncreaseCharge();
+                    break;
+                case RailgunState.Discharging:
+                    DecreaseCharge();
+                    break;
             }
-        }
-
-        private Dictionary Raycast(Vector3 start, Vector3 direction)
-        {
-            var spaceState = GetWorld3D().DirectSpaceState;
-            Vector3 end = start + direction.Normalized() * 1000f;
-            var query = PhysicsRayQueryParameters3D.Create(start, end);
-            query.CollideWithAreas = true;
-            var result = spaceState.IntersectRay(query);
-            return result;
-        }
-
-        private Dictionary RayCastForward()
-        {
-            var spaceState = GetWorld3D().DirectSpaceState;
-            Vector3 start = _muzzle.GlobalPosition;
-            Vector3 direction = -_muzzle.GlobalBasis.Z;
-            Vector3 end = start + direction.Normalized() * 1000f;
-            var query = PhysicsRayQueryParameters3D.Create(start, end);
-            query.CollideWithAreas = true;
-            var result = spaceState.IntersectRay(query);
-            return result;
-        }
-
-        private void DoRayCast()
-        {
-            var spaceState = GetWorld3D().DirectSpaceState;
-            Vector3 start = _muzzle.GlobalPosition;
-            Vector3 direction = -_muzzle.GlobalBasis.Z;
-            Vector3 end = start + direction.Normalized() * 1000f;
-            var query = PhysicsRayQueryParameters3D.Create(start, end);
-            query.CollideWithAreas = true;
-            var result = spaceState.IntersectRay(query);
-
-            if (result.ContainsKey("position"))
-            {
-                var collider = result["collider"];
-
-                Node target = (Node)collider;
-                Vector3 point = (Vector3)result["position"];
-                _hitParticles.GlobalPosition = point;
-                _hitParticles.Emitting = true;
-                if (target is IDamageable damageable)
-                {
-                    ApplyDamage(damageable);
-                }
-            }
-        }
-
-        private void DisableEffect()
-        {
-            _bulletEffect.Visible = false;
-            _bulletTravel.Visible = false;
-        }
-
-        private void DrawBulletEffect()
-        {
-            _bulletEffect.Visible = true;
-            _bulletTravel.Visible = true;
-            Tween railgunTween = CreateTween();
-            Material material = _bulletEffect.GetActiveMaterial(0);
-            CylinderMesh mesh = (CylinderMesh)_bulletEffect.Mesh;
-            float effectLength = mesh.Height;
-            Vector3 startPosition = _bulletEffect.Position;
-            startPosition.Z += effectLength / 2;
-            Vector3 endPosition = startPosition;
-            endPosition.Z -= effectLength;
-
-            railgunTween.TweenProperty(material, "emission_energy_multiplier", 32f, 0.05f);
-            railgunTween.Parallel().TweenProperty(mesh, "bottom_radius", 0.01f, 0.05f);
-            railgunTween.Parallel().TweenProperty(mesh, "top_radius", 0.01f, 0.05f);
-            railgunTween.Parallel().TweenProperty(_bulletTravel, "position", endPosition, 0.1f);
-            railgunTween.TweenProperty(mesh, "bottom_radius", 0.05f, 0.15f);
-            railgunTween.Parallel().TweenProperty(mesh, "top_radius", 0.05f, 0.15f);
-            railgunTween.Parallel().TweenProperty(material, "emission_energy_multiplier", 0f, 0.15f);
-            railgunTween.TweenCallback(Callable.From(DisableEffect));
-            railgunTween.TweenProperty(_bulletTravel, "position", startPosition, 0.05f);
-        }
-
-        private void ApplyDamage(IDamageable damageable)
-        {
-            damageable.TakeDamage(_damageData);
         }
     }
 }

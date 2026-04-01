@@ -23,7 +23,7 @@ namespace EHE.BoltBusters
         private AudioStreamPlayer3D _launchSound;
 
         [Export]
-        private AudioStreamPlayer3D _exlosionSound;
+        private AudioStreamPlayer3D _explosionSound;
 
         private CharacterBody3D _rocketBody;
 
@@ -112,7 +112,7 @@ namespace EHE.BoltBusters
         {
             CallDeferred(MethodName.ResolveExplosionDamage);
             _vfxAnimationPlayer.Play("Explode");
-            _exlosionSound.Play();
+            _explosionSound.Play();
             DeactivateRocketBody();
         }
 

@@ -1,0 +1,213 @@
+[gd_scene load_steps=17 format=3 uid="uid://mp4wv067kdgb"]
+
+[ext_resource type="Texture2D" uid="uid://bh8x67xr0ok6g" path="res://Assets/Sprites/Crosshair/CHCenter.png" id="1_nmfnx"]
+[ext_resource type="Script" uid="uid://d52ufq5g8fl6" path="res://Code/UI/Crosshair/Crosshair.cs" id="1_tsfcn"]
+[ext_resource type="Texture2D" uid="uid://c5v1b5y06rom0" path="res://Assets/Sprites/Crosshair/CHGaugeUnder.png" id="2_tsfcn"]
+[ext_resource type="Texture2D" uid="uid://ntvfc1mkr3jl" path="res://Assets/Sprites/Crosshair/CHGaugeOver.png" id="3_n21jf"]
+[ext_resource type="Texture2D" uid="uid://cy81wxv4w0o7o" path="res://Assets/Sprites/Crosshair/CHGaugeProgress.png" id="4_adiww"]
+[ext_resource type="Texture2D" uid="uid://dl1tjad58mfb1" path="res://Assets/Sprites/Crosshair/CHRocket1.png" id="5_60kvf"]
+[ext_resource type="Texture2D" uid="uid://bmubdy50jw5qb" path="res://Assets/Sprites/Crosshair/CHRocket2.png" id="6_kcjip"]
+[ext_resource type="Script" uid="uid://d3ix3imfglil1" path="res://Code/UI/Crosshair/CHTempGauge.cs" id="6_n21jf"]
+[ext_resource type="Texture2D" uid="uid://cysms4evoe31" path="res://Assets/Sprites/Crosshair/CHRocket3.png" id="7_tt5jx"]
+[ext_resource type="Script" uid="uid://c1qon7adu6j50" path="res://Code/UI/Crosshair/CHRocketLauncher.cs" id="8_adiww"]
+[ext_resource type="Texture2D" uid="uid://b1xd47tov55ju" path="res://Assets/Sprites/Crosshair/CHRocket4.png" id="8_kqpya"]
+[ext_resource type="Texture2D" uid="uid://cfcgc5furut63" path="res://Assets/Sprites/Crosshair/CHRail1.png" id="9_bb8me"]
+[ext_resource type="Texture2D" uid="uid://bc5f3vj2wf5ch" path="res://Assets/Sprites/Crosshair/CHRail2.png" id="10_dfjue"]
+[ext_resource type="Texture2D" uid="uid://djig1l5vqvklt" path="res://Assets/Sprites/Crosshair/CHRail3.png" id="11_emqgf"]
+[ext_resource type="Texture2D" uid="uid://llsya2cxw46h" path="res://Assets/Sprites/Crosshair/CHRail4.png" id="12_4jc76"]
+[ext_resource type="Script" uid="uid://bul8ksqv2l3i4" path="res://Code/UI/Crosshair/CHRailgun.cs" id="13_60kvf"]
+
+[node name="Crosshair" type="Control" node_paths=PackedStringArray("_tempGauge", "_launcherUi0", "_launcherUi1", "_launcherUi2", "_launcherUi3", "_railgunUi0", "_railgunUi1", "_railgunUi2", "_railgunUi3")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_tsfcn")
+_tempGauge = NodePath("TempGauge")
+_launcherUi0 = NodePath("Rocket1")
+_launcherUi1 = NodePath("Rocket2")
+_launcherUi2 = NodePath("Rocket3")
+_launcherUi3 = NodePath("Rocket4")
+_railgunUi0 = NodePath("Railgun1")
+_railgunUi1 = NodePath("Railgun2")
+_railgunUi2 = NodePath("Railgun3")
+_railgunUi3 = NodePath("Railgun4")
+
+[node name="Center" type="TextureRect" parent="."]
+modulate = Color(1, 0.92850393, 0, 0.531)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_nmfnx")
+
+[node name="TempGauge" type="TextureProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+step = 0.1
+value = 33.0
+fill_mode = 4
+radial_initial_angle = 235.0
+radial_fill_degrees = 70.0
+texture_under = ExtResource("2_tsfcn")
+texture_over = ExtResource("3_n21jf")
+texture_progress = ExtResource("4_adiww")
+tint_under = Color(0.61420286, 0.6142028, 0.6142027, 0.347)
+tint_over = Color(1, 0, 0, 0)
+tint_progress = Color(0, 0.5549158, 0.051626503, 1)
+script = ExtResource("6_n21jf")
+_tempGaugeGreen = Color(0, 0.67263305, 0, 1)
+_tempGaugeRed = Color(0.7062913, 0, 0, 1)
+
+[node name="Rocket1" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_60kvf")
+script = ExtResource("8_adiww")
+
+[node name="Rocket2" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_kcjip")
+script = ExtResource("8_adiww")
+
+[node name="Rocket3" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_tt5jx")
+script = ExtResource("8_adiww")
+
+[node name="Rocket4" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_kqpya")
+script = ExtResource("8_adiww")
+
+[node name="Railgun1" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_bb8me")
+script = ExtResource("13_60kvf")
+
+[node name="Railgun2" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_dfjue")
+script = ExtResource("13_60kvf")
+
+[node name="Railgun3" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_emqgf")
+script = ExtResource("13_60kvf")
+
+[node name="Railgun4" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("12_4jc76")
+script = ExtResource("13_60kvf")

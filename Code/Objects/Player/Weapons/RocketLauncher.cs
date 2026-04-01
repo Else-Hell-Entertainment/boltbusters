@@ -18,7 +18,7 @@ namespace EHE.BoltBusters
         private PackedScene _rocketScene;
 
         [Export]
-        private int _salvoSize = 4;
+        private int _baseSalvoSize = 4;
 
         // Interval between rocket launches within a salvo.
         [Export]
@@ -31,8 +31,9 @@ namespace EHE.BoltBusters
         private Timer _cooldownTimer;
         private Timer _intervalTimer;
         private List<Node3D> _launchPoints = new List<Node3D>();
-
         private HashSet<Rocket> _rockets;
+
+        public int SalvoSizeUpgrades { get; private set; } = 0;
 
         public enum LauncherState
         {
@@ -82,21 +83,40 @@ namespace EHE.BoltBusters
             if (CanAttack)
             {
                 CanAttack = false;
-                // Not awaiting for async completion on purpose.
+                // Not awaiting for async completion here on purpose.
                 LaunchRockets();
             }
         }
 
+        /// <summary>
+        /// Increases the SalvoSizeUpgrade count by one and adds a new rocket to the rocket pool.
+        /// </summary>
         public void IncreaseSalvoSize()
         {
-            _salvoSize++;
+            SalvoSizeUpgrades++;
             AddNewRocket();
+        }
+
+        /// <summary>
+        /// Removes one upgrade from salvo size. The count can never go below the base value set in code. Will not
+        /// remove the corresponding rocket from the rocket pool.
+        /// </summary>
+        public void DecreaseSalvoSize()
+        {
+            if (SalvoSizeUpgrades > 0)
+            {
+                SalvoSizeUpgrades--;
+            }
+            else
+            {
+                GD.PrintErr("Attempting to remove non-existing salvo size upgrade from rocket launcher " + this);
+            }
         }
 
         private void InitializeRockets()
         {
             _rockets = new HashSet<Rocket>();
-            for (int i = 0; i < _salvoSize; i++)
+            for (int i = 0; i < _baseSalvoSize; i++)
             {
                 AddNewRocket();
             }
@@ -113,7 +133,7 @@ namespace EHE.BoltBusters
         {
             int shotCounter = 0;
             int launchPointIndex = 0;
-            while (shotCounter < _salvoSize)
+            while (shotCounter < _baseSalvoSize + SalvoSizeUpgrades)
             {
                 var rocket = FindNextAvailableRocket();
                 if (rocket == null)
@@ -155,7 +175,6 @@ namespace EHE.BoltBusters
                     return rocket;
                 }
             }
-
             return null;
         }
     }
