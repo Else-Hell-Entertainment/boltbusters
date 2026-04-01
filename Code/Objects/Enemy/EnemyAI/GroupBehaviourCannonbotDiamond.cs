@@ -21,6 +21,15 @@ namespace EHE.BoltBusters.EnemyAI
             _player = LevelManager.Active.Player;
         }
 
+        public override void _Process(double delta)
+        {
+            base._Process(delta);
+            if (IsActive)
+            {
+                RotateBots();
+            }
+        }
+
         protected override void ExecuteGroupBehaviour()
         {
             int positionInGroup = 1;
@@ -43,6 +52,17 @@ namespace EHE.BoltBusters.EnemyAI
                     bot.Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
                 }
                 positionInGroup++;
+            }
+        }
+
+        private void RotateBots()
+        {
+            foreach (Enemy enemy in Enemies)
+            {
+                if (enemy is EnemyCannonBot bot)
+                {
+                    bot.Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
+                }
             }
         }
 
