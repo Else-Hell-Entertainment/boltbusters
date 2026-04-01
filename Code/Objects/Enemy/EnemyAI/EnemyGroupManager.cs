@@ -14,6 +14,7 @@ namespace EHE.BoltBusters.EnemyAI
         private GroupBehaviourCannonbotDiamond _diamondGroup;
         private GroupBehaviourCannonbotStandoff _standoffGroup;
 
+        // How often does the pathfinding run. Same interval for all groups.
         private float _repathInterval = 0.05f;
 
         private double _timer;
@@ -65,7 +66,8 @@ namespace EHE.BoltBusters.EnemyAI
         }
 
         /// <summary>
-        /// Registers an enemy to the first group that accepts it.
+        /// Registers an enemy to the first group that accepts it. Cascades down and finally assigns any stragglers
+        /// to Standoff group.
         /// </summary>
         /// <param name="enemy">Enemy to register.</param>
         public void AddEnemy(Enemy enemy)

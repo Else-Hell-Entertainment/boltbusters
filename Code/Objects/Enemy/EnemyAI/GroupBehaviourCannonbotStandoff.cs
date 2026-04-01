@@ -21,17 +21,29 @@ namespace EHE.BoltBusters.EnemyAI
         /// </summary>
         private float _distanceToPlayer = 12;
 
+        private Player _player;
+
+        public override void _Ready()
+        {
+            base._Ready();
+            _player = LevelManager.Active.Player;
+        }
+
         /// <summary>
         /// Updates movement targets to preserve standoff spacing.
         /// </summary>
         protected override void ExecuteGroupBehaviour()
         {
+            if (!IsInstanceValid(_player))
+            {
+                return;
+            }
             foreach (Enemy enemy in Enemies)
             {
                 if (enemy is EnemyCannonBot bot)
                 {
-                    Vector3 direction = (bot.GlobalPosition - LevelManager.Active.Player.GlobalPosition).Normalized();
-                    Vector3 target = LevelManager.Active.Player.GlobalPosition + direction * _distanceToPlayer;
+                    Vector3 direction = (bot.GlobalPosition - _player.GlobalPosition).Normalized();
+                    Vector3 target = _player.GlobalPosition + direction * _distanceToPlayer;
                     bot.Controller.AddCommand(new MoveToPositionCommand(target));
                 }
             }

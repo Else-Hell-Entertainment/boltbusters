@@ -89,6 +89,9 @@ namespace EHE.BoltBusters.EnemyAI
             ExecuteGroupBehaviour();
         }
 
+        /// <summary>
+        /// Removes any references to disposed enemies. This
+        /// </summary>
         private void ValidateGroup()
         {
             for (int i = Enemies.Count - 1; i >= 0; i--)
