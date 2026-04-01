@@ -8,7 +8,7 @@ namespace EHE.BoltBusters.EnemyAI
 
         public override int GroupSize => 4;
 
-        private float _distanceToPlayer = 7;
+        private float _distanceToPlayer = 6;
 
         private Player _player;
 
@@ -48,8 +48,15 @@ namespace EHE.BoltBusters.EnemyAI
 
         private Vector3 GetNextPoint(int pointCounter, Enemy enemy)
         {
-            Vector3 direction = (_levelCenter - _player.GlobalPosition).Normalized();
+            Vector3 leadBotPos = _levelCenter;
+            if (Enemies.Count > 0)
+            {
+                leadBotPos = Enemies[0].GlobalPosition;
+            }
+
+            Vector3 direction = (leadBotPos - _player.GlobalPosition).Normalized();
             Vector3 p1 = _player.GlobalPosition + (direction * _distanceToPlayer);
+            Vector3 ortho = direction.Cross(Vector3.Up);
 
             //Vector3 point1 = _player.GlobalPosition + new Vector3(0, 0, -_distanceToPlayer);
 
@@ -58,11 +65,12 @@ namespace EHE.BoltBusters.EnemyAI
                 case 1:
                     return p1;
                 case 2:
-                    return p1 + new Vector3(0, 0, -_distanceToPlayer);
+                    return p1 + (direction * _distanceToPlayer) / 2 + ortho * _distanceToPlayer / 2;
                 case 3:
-                    return p1 + new Vector3(-_distanceToPlayer / 2, 0, -_distanceToPlayer / 2);
+                    return p1 + (direction * _distanceToPlayer) / 2 - ortho * _distanceToPlayer / 2;
                 case 4:
-                    return p1 + new Vector3(_distanceToPlayer / 2, 0, -_distanceToPlayer / 2);
+                    return p1 + direction * _distanceToPlayer;
+
                 default:
                     GD.PrintErr("Diamond group attempting to assign position over group size.");
                     return Vector3.Zero;
