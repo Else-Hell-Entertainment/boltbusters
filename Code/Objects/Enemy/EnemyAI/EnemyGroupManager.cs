@@ -5,6 +5,7 @@ namespace EHE.BoltBusters.EnemyAI
     public partial class EnemyGroupManager : Node3D
     {
         private GroupBehaviourCannonbotDiamond _diamondGroup;
+        private GroupBehaviourCannonbotStandoff _standoffGroup;
 
         private float _repathInterval = 0.05f;
 
@@ -16,9 +17,15 @@ namespace EHE.BoltBusters.EnemyAI
         {
             base._Ready();
             _diamondGroup = new GroupBehaviourCannonbotDiamond();
+            _diamondGroup.Name = "Diamond Group";
+            _standoffGroup = new GroupBehaviourCannonbotStandoff();
+            _standoffGroup.Name = "Standoff Group";
+
             AddChild(_diamondGroup);
+            AddChild(_standoffGroup);
 
             _diamondGroup.IsActive = true;
+            _standoffGroup.IsActive = true;
             GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
         }
 
@@ -47,11 +54,17 @@ namespace EHE.BoltBusters.EnemyAI
         private void ExecuteGroupBehaviours()
         {
             _diamondGroup.Execute();
+            _standoffGroup.Execute();
         }
 
         public void AddEnemy(Enemy enemy)
         {
-            if (_diamondGroup.RegisterBot(enemy)) { }
+            if (_diamondGroup.RegisterBot(enemy))
+            {
+                return;
+            }
+
+            _standoffGroup.RegisterBot(enemy);
         }
     }
 }
