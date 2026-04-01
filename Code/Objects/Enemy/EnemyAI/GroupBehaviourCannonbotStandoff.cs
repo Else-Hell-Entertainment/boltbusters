@@ -11,7 +11,7 @@ namespace EHE.BoltBusters.EnemyAI
         // Basically infinite.
         public override int GroupSize => 500;
 
-        private float _distanceToPlayer = 6;
+        private float _distanceToPlayer = 7;
 
         protected override void ExecuteGroupBehaviour()
         {
@@ -19,7 +19,7 @@ namespace EHE.BoltBusters.EnemyAI
             {
                 if (enemy is EnemyCannonBot bot)
                 {
-                    Vector3 direction = (GlobalPosition - LevelManager.Active.Player.GlobalPosition).Normalized();
+                    Vector3 direction = (bot.GlobalPosition - LevelManager.Active.Player.GlobalPosition).Normalized();
                     Vector3 target = LevelManager.Active.Player.GlobalPosition + direction * _distanceToPlayer;
                     bot.Controller.AddCommand(new MoveToPositionCommand(target));
                 }
