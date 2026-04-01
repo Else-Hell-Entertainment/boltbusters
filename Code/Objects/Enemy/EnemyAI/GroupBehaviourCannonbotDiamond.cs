@@ -8,7 +8,7 @@ namespace EHE.BoltBusters.EnemyAI
 
         public override int GroupSize => 4;
 
-        private float _distanceToPlayer;
+        private float _distanceToPlayer = 7;
 
         private Player _player;
 
@@ -49,7 +49,7 @@ namespace EHE.BoltBusters.EnemyAI
         private Vector3 GetNextPoint(int pointCounter, Enemy enemy)
         {
             Vector3 direction = (_levelCenter - _player.GlobalPosition).Normalized();
-            Vector3 p1 = _player.GlobalPosition + direction * _distanceToPlayer;
+            Vector3 p1 = _player.GlobalPosition + (direction * _distanceToPlayer);
 
             //Vector3 point1 = _player.GlobalPosition + new Vector3(0, 0, -_distanceToPlayer);
 
