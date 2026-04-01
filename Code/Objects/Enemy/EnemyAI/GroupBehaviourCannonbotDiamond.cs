@@ -36,14 +36,6 @@ namespace EHE.BoltBusters.EnemyAI
             for (int i = 0; i < Enemies.Count; i++)
             {
                 Enemy enemy = Enemies[i];
-                if (!IsInstanceValid(enemy))
-                {
-                    Enemies.Remove(enemy);
-                    continue;
-#if DEBUG
-                    GD.Print("Removing invalid enemy entry from " + this.Name);
-#endif
-                }
                 if (enemy is EnemyCannonBot bot)
                 {
                     Vector3 point = GetNextPoint(positionInGroup, bot);

@@ -50,7 +50,22 @@ namespace EHE.BoltBusters.EnemyAI
             {
                 return;
             }
+            ValidateGroup();
             ExecuteGroupBehaviour();
+        }
+
+        private void ValidateGroup()
+        {
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                if (!IsInstanceValid(Enemies[i]))
+                {
+                    Enemies.RemoveAt(i);
+#if DEBUG
+                    GD.Print("Removing invalid enemy entry from " + Name);
+#endif
+                }
+            }
         }
 
         protected abstract void ExecuteGroupBehaviour();

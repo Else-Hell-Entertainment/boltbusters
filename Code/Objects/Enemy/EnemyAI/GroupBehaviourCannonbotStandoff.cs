@@ -11,7 +11,7 @@ namespace EHE.BoltBusters.EnemyAI
         // Basically infinite.
         public override int GroupSize => 500;
 
-        private float _distanceToPlayer = 7;
+        private float _distanceToPlayer = 12;
 
         protected override void ExecuteGroupBehaviour()
         {
