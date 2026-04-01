@@ -6,7 +6,7 @@ namespace EHE.BoltBusters.EnemyAI
     {
         private GroupBehaviourCannonbotDiamond _diamondGroup;
 
-        private float _repathInterval = 0.2f;
+        private float _repathInterval = 0.05f;
 
         private double _timer;
 
