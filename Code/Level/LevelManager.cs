@@ -285,6 +285,7 @@ namespace EHE.BoltBusters
             _roundTimer.Start();
             RoundInProgress = true;
             _enemySpawnManager.StartRound(_roundData);
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, true);
         }
 
         /// <summary>
@@ -310,6 +311,7 @@ namespace EHE.BoltBusters
         {
             this.PrintDebug("Resetting level...");
             DespawnLevelObjects();
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, false);
 
             // TODO: Make player immobile.
             Player.GlobalPosition = _playerSpawnPosition.GlobalPosition; // TODO: Is this too hacky?
