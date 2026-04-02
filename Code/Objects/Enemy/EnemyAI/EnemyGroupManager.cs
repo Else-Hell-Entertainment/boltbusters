@@ -13,6 +13,7 @@ namespace EHE.BoltBusters.EnemyAI
     {
         private GroupBehaviourCannonbotDiamond _diamondGroup;
         private GroupBehaviourCannonbotStandoff _standoffGroup;
+        private GroupBehaviourCannonbotSurround _surroundGroup;
 
         // How often does the pathfinding run. Same interval for all groups.
         private float _repathInterval = 0.05f;
@@ -26,14 +27,18 @@ namespace EHE.BoltBusters.EnemyAI
             base._Ready();
             _diamondGroup = new GroupBehaviourCannonbotDiamond();
             _diamondGroup.Name = "Diamond Group";
+            _surroundGroup = new GroupBehaviourCannonbotSurround();
+            _surroundGroup.Name = "Surround Group";
             _standoffGroup = new GroupBehaviourCannonbotStandoff();
             _standoffGroup.Name = "Standoff Group";
 
             AddChild(_diamondGroup);
             AddChild(_standoffGroup);
+            AddChild(_surroundGroup);
 
             _diamondGroup.IsActive = true;
             _standoffGroup.IsActive = true;
+            _surroundGroup.IsActive = true;
             GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
         }
 
@@ -43,6 +48,8 @@ namespace EHE.BoltBusters.EnemyAI
             if (!inProgress)
             {
                 _diamondGroup.ClearBots();
+                _standoffGroup.ClearBots();
+                _surroundGroup.ClearBots();
             }
         }
 
@@ -63,6 +70,7 @@ namespace EHE.BoltBusters.EnemyAI
         {
             _diamondGroup.Execute();
             _standoffGroup.Execute();
+            _surroundGroup.Execute();
         }
 
         /// <summary>
@@ -72,6 +80,10 @@ namespace EHE.BoltBusters.EnemyAI
         /// <param name="enemy">Enemy to register.</param>
         public void AddEnemy(Enemy enemy)
         {
+            if (_surroundGroup.RegisterBot(enemy))
+            {
+                return;
+            }
             if (_diamondGroup.RegisterBot(enemy))
             {
                 return;

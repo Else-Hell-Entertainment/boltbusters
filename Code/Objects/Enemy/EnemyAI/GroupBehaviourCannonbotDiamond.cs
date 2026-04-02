@@ -25,9 +25,6 @@ namespace EHE.BoltBusters.EnemyAI
         //TODO: Fetch dynamically. Hardcoded for testing purposes.
         private Vector3 _levelCenter = new Vector3(25, 0, 25);
 
-        /// <summary>
-        /// Caches player reference for formation calculations.
-        /// </summary>
         public override void _Ready()
         {
             base._Ready();
