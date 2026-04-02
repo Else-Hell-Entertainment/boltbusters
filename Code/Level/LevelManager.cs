@@ -57,6 +57,9 @@ namespace EHE.BoltBusters
     /// </remarks>
     public partial class LevelManager : Node3D
     {
+        [Signal]
+        public delegate void InitializedEventHandler();
+
         #region Fields
 
         // Fields that are editable in the inspector.
@@ -222,6 +225,8 @@ namespace EHE.BoltBusters
             DespawnLevelObjects();
             _roundTimer.WaitTime = _roundData.RoundLength;
             GameManager.Instance.SaveGame();
+            this.PrintDebug("Initialized.");
+            EmitSignal(SignalName.Initialized);
         }
 
         /// <summary>
