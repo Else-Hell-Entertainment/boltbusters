@@ -13,10 +13,14 @@ namespace EHE.BoltBusters.EnemyAI
     {
         private GroupBehaviourCannonbotDiamond _diamondGroup;
         private GroupBehaviourCannonbotStandoff _standoffGroup;
+        private GroupBehaviourCannonbotStandoff _berserkGroup;
         private GroupBehaviourCannonbotSurround _surroundGroup;
 
         // How often does the pathfinding run. Same interval for all groups.
         private float _repathInterval = 0.05f;
+
+        // Sometimes the straggler bots just get very angry.
+        private float _berserkChance = 0.1f;
 
         private double _timer;
 
@@ -31,14 +35,19 @@ namespace EHE.BoltBusters.EnemyAI
             _surroundGroup.Name = "Surround Group";
             _standoffGroup = new GroupBehaviourCannonbotStandoff();
             _standoffGroup.Name = "Standoff Group";
+            _berserkGroup = new GroupBehaviourCannonbotStandoff();
+            _berserkGroup.Name = "Berserk Group";
+            _berserkGroup.DistanceToPlayer = 2f;
 
             AddChild(_diamondGroup);
             AddChild(_standoffGroup);
             AddChild(_surroundGroup);
+            AddChild(_berserkGroup);
 
             _diamondGroup.IsActive = true;
             _standoffGroup.IsActive = true;
             _surroundGroup.IsActive = true;
+            _berserkGroup.IsActive = true;
             GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
         }
 
@@ -50,6 +59,7 @@ namespace EHE.BoltBusters.EnemyAI
                 _diamondGroup.ClearBots();
                 _standoffGroup.ClearBots();
                 _surroundGroup.ClearBots();
+                _berserkGroup.ClearBots();
             }
         }
 
@@ -71,6 +81,7 @@ namespace EHE.BoltBusters.EnemyAI
             _diamondGroup.Execute();
             _standoffGroup.Execute();
             _surroundGroup.Execute();
+            _berserkGroup.Execute();
         }
 
         /// <summary>
@@ -89,6 +100,10 @@ namespace EHE.BoltBusters.EnemyAI
                 return;
             }
 
+            if (GD.Randf() < _berserkChance && _berserkGroup.RegisterBot(enemy))
+            {
+                return;
+            }
             _standoffGroup.RegisterBot(enemy);
         }
     }

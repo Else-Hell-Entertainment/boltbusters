@@ -19,7 +19,7 @@ namespace EHE.BoltBusters.EnemyAI
         /// <summary>
         /// Preferred distance to maintain from the player.
         /// </summary>
-        private float _distanceToPlayer = 12;
+        public float DistanceToPlayer = 12;
 
         private Player _player;
 
@@ -43,7 +43,7 @@ namespace EHE.BoltBusters.EnemyAI
                 if (enemy is EnemyCannonBot bot)
                 {
                     Vector3 direction = (bot.GlobalPosition - _player.GlobalPosition).Normalized();
-                    Vector3 target = _player.GlobalPosition + direction * _distanceToPlayer;
+                    Vector3 target = _player.GlobalPosition + direction * DistanceToPlayer;
                     bot.Controller.AddCommand(new MoveToPositionCommand(target));
                 }
             }
