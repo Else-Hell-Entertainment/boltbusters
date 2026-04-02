@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dibuxv5a07sr1"]
+[gd_scene load_steps=10 format=3 uid="uid://dibuxv5a07sr1"]
 
 [ext_resource type="Script" uid="uid://b0wwj8jxnwn6r" path="res://Code/UI/WeaponHud.cs" id="1_4bm6u"]
 [ext_resource type="Texture2D" uid="uid://h5iw764dh18q" path="res://icon.svg" id="1_omqfp"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://buhou76aa4uxs" path="res://Code/UI/WeaponUiChaingun.cs" id="5_ykvyr"]
 [ext_resource type="Script" uid="uid://sv650skqn02e" path="res://Code/UI/HealthUi.cs" id="6_lelo4"]
 [ext_resource type="Script" uid="uid://cmyu4wbi217m2" path="res://Code/UI/RoundTimerUi.cs" id="7_1ree7"]
+[ext_resource type="Script" uid="uid://ghaghpjeecs5" path="res://Code/UI/CollectibleUi.cs" id="9_pydgx"]
+[ext_resource type="PackedScene" uid="uid://c3on2c58of0pi" path="res://Scenes/UI/CollectibleCounter.tscn" id="10_yenib"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -486,3 +488,23 @@ text = "Time Remaining: "
 
 [node name="RoundTimeLabel" type="Label" parent="RoundTimerUi/HBoxContainer"]
 layout_mode = 2
+
+[node name="CollectibleUi" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 947.0
+offset_top = 7.0
+offset_right = 1144.0
+offset_bottom = 39.0
+script = ExtResource("9_pydgx")
+
+[node name="NutCounter" parent="CollectibleUi" instance=ExtResource("10_yenib")]
+layout_mode = 2
+CollectibleType = 1
+
+[node name="BoltCounter" parent="CollectibleUi" instance=ExtResource("10_yenib")]
+layout_mode = 2
+CollectibleType = 2
+
+[node name="WrenchCounter" parent="CollectibleUi" instance=ExtResource("10_yenib")]
+layout_mode = 2
+CollectibleType = 3
