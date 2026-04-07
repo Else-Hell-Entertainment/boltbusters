@@ -14,6 +14,8 @@ namespace EHE.BoltBusters
     /// </summary>
     public abstract partial class EntityController : Node3D
     {
+        public bool AcceptCommands = true;
+
         /// <summary>
         /// Stack of commands to be executed. Commands are processed in LIFO (Last In, First Out) order.
         /// </summary>
@@ -26,7 +28,7 @@ namespace EHE.BoltBusters
         /// <param name="command">The command to add to the stack.</param>
         public void AddCommand(ICommand command)
         {
-            if (ValidateCommand(command))
+            if (AcceptCommands && ValidateCommand(command))
             {
                 _commands.Push(command);
             }
@@ -39,7 +41,10 @@ namespace EHE.BoltBusters
         /// <param name="command">The pre-validated command to add to the stack.</param>
         protected void AddValidatedCommand(ICommand command)
         {
-            _commands.Push(command);
+            if (AcceptCommands)
+            {
+                _commands.Push(command);
+            }
         }
 
         /// <summary>
