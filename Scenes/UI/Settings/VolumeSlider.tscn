@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxmu5ywjuuagx"]
+
+[ext_resource type="Script" uid="uid://cxpdinlyrko0n" path="res://Code/UI/Settings/VolumeSlider.cs" id="1_rjdey"]
+
+[node name="VolumeSlider" type="GridContainer" node_paths=PackedStringArray("_titleLabel", "_valueLabel", "_slider")]
+offset_right = 57.0
+offset_bottom = 23.0
+size_flags_horizontal = 3
+columns = 3
+script = ExtResource("1_rjdey")
+_titleLabel = NodePath("Title")
+_valueLabel = NodePath("Value")
+_slider = NodePath("VolumeSlider")
+
+[node name="Title" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Audio"
+
+[node name="VolumeSlider" type="HSlider" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.0
+
+[node name="Value" type="Label" parent="."]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "100 %"
+horizontal_alignment = 2
