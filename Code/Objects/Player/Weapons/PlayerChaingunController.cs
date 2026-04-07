@@ -245,9 +245,9 @@ namespace EHE.BoltBusters
         public void ResetChaingun()
         {
             CurrentPersistentState = ChaingunState.ReadyToFire;
-            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.ReadyToFire);
+            //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.ReadyToFire);
             _currentHeat = 0;
-            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
+            //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
         }
 
         /// <summary>

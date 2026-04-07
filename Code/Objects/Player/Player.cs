@@ -77,6 +77,15 @@ namespace EHE.BoltBusters
 
             // Signal to let other elements (mainly UI) know the player is now ready.
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
+            GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
+        }
+
+        private void OnRoundStateChanged(bool inProgress)
+        {
+            if (!inProgress)
+            {
+                ResetWeapons();
+            }
         }
 
         /// <summary>
@@ -137,9 +146,9 @@ namespace EHE.BoltBusters
 
         public void ResetWeapons()
         {
-            ChaingunController.ResetWeapons();
             RailgunController.ResetWeapons();
             RocketLauncherController.ResetWeapons();
+            ChaingunController.ResetWeapons();
         }
 
         /// <summary>
