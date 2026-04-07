@@ -4,6 +4,7 @@
 
 using EHE.Common.Godot.Extensions;
 using Godot;
+using GDCollections = Godot.Collections;
 
 namespace EHE.BoltBusters.Ui
 {
@@ -44,6 +45,7 @@ namespace EHE.BoltBusters.Ui
 
             GameManager.Instance.CurrentPlayerData.CollectibleCountChanged += UpdateCollectibleUi;
             GameManager.Instance.RequestHudRefresh += UpdateWeaponUi;
+            GameManager.Instance.RequestHudRefreshWithPlayerData += UpdateAllUi;
         }
 
         /// <summary>
@@ -55,6 +57,7 @@ namespace EHE.BoltBusters.Ui
             {
                 GameManager.Instance.CurrentPlayerData.CollectibleCountChanged -= UpdateCollectibleUi;
                 GameManager.Instance.RequestHudRefresh -= UpdateWeaponUi;
+                GameManager.Instance.RequestHudRefreshWithPlayerData -= UpdateAllUi;
             }
         }
 
@@ -74,14 +77,33 @@ namespace EHE.BoltBusters.Ui
             }
         }
 
+        private void UpdateCollectibleUi(CollectibleType type, int value)
+        {
+            _collectibleUi.SetCollectibleCount(type, value);
+        }
+
         private void UpdateCollectibleUi(int type, int value)
         {
-            _collectibleUi.SetCollectibleCount((CollectibleType)type, value);
+            UpdateCollectibleUi((CollectibleType)type, value);
+        }
+
+        private void UpdateCollectibleUi(GDCollections.Dictionary<CollectibleType, int> collectibleCounts)
+        {
+            foreach (var (type, value) in collectibleCounts)
+            {
+                UpdateCollectibleUi(type, value);
+            }
         }
 
         private void UpdateWeaponUi()
         {
             _weaponUi.RefreshUi();
+        }
+
+        private void UpdateAllUi(PlayerData playerData)
+        {
+            UpdateCollectibleUi(playerData.GetCollectibleCounts());
+            UpdateWeaponUi();
         }
     }
 }

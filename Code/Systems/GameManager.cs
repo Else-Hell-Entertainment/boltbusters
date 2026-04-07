@@ -576,10 +576,22 @@ namespace EHE.BoltBusters
             LevelManager.Active.StartRound();
         }
 
+        /// <summary>
+        ///  Called when the active <see cref="LevelManager"/> emits its
+        ///  <see cref="LevelManager.Initialized"/> signal.
+        ///  Used to refresh the HUD when a new round is loaded.
+        /// </summary>
         private void OnLevelInitialized()
         {
             this.PrintDebug("Level initialized.");
-            EmitSignal(SignalName.RequestHudRefreshWithPlayerData, CurrentPlayerData);
+
+            // Deferred call fixes the issue where the UI is not refresher when
+            // entering subsequent rounds after the first one.
+            CallDeferred(
+                GodotObject.MethodName.EmitSignal,
+                SignalName.RequestHudRefreshWithPlayerData,
+                CurrentPlayerData
+            );
         }
 
         #endregion Private Methods
