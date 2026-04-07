@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://d1sb8fjsr2to3"]
+[gd_scene load_steps=5 format=3 uid="uid://d1sb8fjsr2to3"]
 
 [ext_resource type="Script" uid="uid://cwx42huthal8k" path="res://Code/UI/Settings/MenuSettings.cs" id="1_ptpw3"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Settings/ScrollTabControls.tscn" id="2_eosn1"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Settings/ScrollTabAudio.tscn" id="3_55yqh"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Settings/ScrollTabVideo.tscn" id="4_6f75i"]
 
 [node name="MenuSettings" type="Control" node_paths=PackedStringArray("_btnBack")]
 layout_mode = 3
@@ -20,8 +23,30 @@ text = "Settings"
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_left = 34.0
-offset_top = 47.0
-offset_right = 79.0
-offset_bottom = 78.0
+offset_left = 14.0
+offset_top = 602.0
+offset_right = 59.0
+offset_bottom = 633.0
 text = "Back"
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 42.0
+offset_right = 1136.0
+offset_bottom = 592.0
+current_tab = 0
+
+[node name="Controls" parent="TabContainer" instance=ExtResource("2_eosn1")]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Audio" parent="TabContainer" instance=ExtResource("3_55yqh")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Video" parent="TabContainer" instance=ExtResource("4_6f75i")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
