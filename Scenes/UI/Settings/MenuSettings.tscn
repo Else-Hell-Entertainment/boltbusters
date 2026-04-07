@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://d1sb8fjsr2to3"]
 
 [ext_resource type="Script" uid="uid://cwx42huthal8k" path="res://Code/UI/Settings/MenuSettings.cs" id="1_ptpw3"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/Settings/ScrollTabControls.tscn" id="2_eosn1"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/Settings/ScrollTabAudio.tscn" id="3_55yqh"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/Settings/ScrollTabVideo.tscn" id="4_6f75i"]
+[ext_resource type="PackedScene" uid="uid://b7v60fhs1ur2a" path="res://Scenes/UI/Settings/ScrollTabControls.tscn" id="2_eosn1"]
+[ext_resource type="PackedScene" uid="uid://c6ql2g8m5j170" path="res://Scenes/UI/Settings/ScrollTabAudio.tscn" id="3_55yqh"]
+[ext_resource type="PackedScene" uid="uid://0vyw0rynbi4t" path="res://Scenes/UI/Settings/ScrollTabVideo.tscn" id="4_6f75i"]
 
 [node name="MenuSettings" type="Control" node_paths=PackedStringArray("_btnBack")]
 layout_mode = 3
