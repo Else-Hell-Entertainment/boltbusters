@@ -14,6 +14,9 @@ namespace EHE.BoltBusters
     /// </summary>
     public abstract partial class EntityController : Node3D
     {
+        /// <summary>
+        /// Flag to determine if new commands are accepted to the controller at all. Checked before command validation.
+        /// </summary>
         public bool AcceptCommands = true;
 
         /// <summary>
