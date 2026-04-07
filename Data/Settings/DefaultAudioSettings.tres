@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="AudioSettingsData" load_steps=2 format=3 uid="uid://txafsqqqcxf2"]
+
+[ext_resource type="Script" uid="uid://dhgthe6tyred4" path="res://Code/Data/Settings/AudioSettingsData.cs" id="1_paxoe"]
+
+[resource]
+script = ExtResource("1_paxoe")
+metadata/_custom_type_script = "uid://dhgthe6tyred4"
