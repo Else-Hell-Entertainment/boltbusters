@@ -2,6 +2,8 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using System;
+using EHE.BoltBusters.Config;
 using EHE.BoltBusters.Data;
 using Godot;
 using Godot.Collections;
@@ -17,7 +19,7 @@ namespace EHE.BoltBusters
         ///  Instance of SettingsData containing the default values for the
         ///  settings.
         /// </summary>
-        public readonly SettingsData DefaultSettingsData;
+        public SettingsData DefaultSettingsData { get; private set; }
 
         /// <summary>
         ///  Settings data that is currently store in memory. Note! This data is
@@ -32,9 +34,31 @@ namespace EHE.BoltBusters
         /// </summary>
         ///
         /// <param name="defaults"></param>
+        [Obsolete("Use `new SettingsManager()` and `Initialize()` instead.")]
         public SettingsManager(SettingsData defaults)
         {
             DefaultSettingsData = defaults;
+        }
+
+        /// <summary>
+        ///  Initializes the SettingsManager by loading default settings.
+        /// </summary>
+        ///
+        /// <param name="defaultPathOverride">
+        ///  Path to the resource file to use for default settings. Default is
+        ///  <c>null</c>.
+        /// </param>
+        ///
+        /// <remarks>
+        ///  If a value for <paramref name="defaultPathOverride"/> is provided,
+        ///  loads the default setting from the resource file located at that
+        ///  path. If no value is provided, uses the default path defined by
+        ///  <see cref="SettingsConfig.DEFAULT_SETTINGS_FILE_PATH"/>.
+        /// </remarks>
+        public void Initialize(string defaultPathOverride = null)
+        {
+            LoadDefaultsFromFile(defaultPathOverride ?? SettingsConfig.DEFAULT_SETTINGS_FILE_PATH);
+            CurrentSettingsData = LoadSettingsFromFile(SettingsConfig.USER_SETTINGS_FILE_PATH);
         }
 
         /// <summary>
@@ -138,6 +162,31 @@ namespace EHE.BoltBusters
         public void ResetSettings()
         {
             CurrentSettingsData = (SettingsData)DefaultSettingsData.Duplicate(deep: true);
+        }
+
+        /// <summary>
+        ///  Loads the default settings into memory from the given path.
+        /// </summary>
+        ///
+        /// <param name="filePath">
+        ///  Path to the default settings resource file.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if default settings were loaded successfully,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        private bool LoadDefaultsFromFile(string filePath)
+        {
+            DefaultSettingsData = GD.Load<SettingsData>(filePath);
+
+            if (DefaultSettingsData == null)
+            {
+                GD.PushError($"Failed to load default settings from path '{filePath}'!");
+                return false;
+            }
+
+            return true;
         }
     }
 }
