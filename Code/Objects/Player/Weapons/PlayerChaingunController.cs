@@ -233,6 +233,12 @@ namespace EHE.BoltBusters
             return Weapons.Count;
         }
 
+        public override void ResetWeapons()
+        {
+            base.ResetWeapons();
+            ResetChaingun();
+        }
+
         /// <summary>
         /// Resets the chaingun state to zero heat buildup, sets the state to ReadyToFire and notifies the UI.
         /// </summary>

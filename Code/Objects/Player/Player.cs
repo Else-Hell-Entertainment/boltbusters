@@ -135,6 +135,13 @@ namespace EHE.BoltBusters
             return _playerController.AcceptCommands;
         }
 
+        public void ResetWeapons()
+        {
+            ChaingunController.ResetWeapons();
+            RailgunController.ResetWeapons();
+            RocketLauncherController.ResetWeapons();
+        }
+
         /// <summary>
         ///  Handles the <see cref="GameManager.RequestWeaponUpgrade"/> event.
         /// </summary>
