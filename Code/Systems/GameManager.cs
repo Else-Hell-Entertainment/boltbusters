@@ -77,6 +77,9 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void RequestHudRefreshEventHandler();
 
+        [Signal]
+        public delegate void RequestHudRefreshWithPlayerDataEventHandler(PlayerData playerData);
+
         #endregion Signals
 
 
@@ -371,7 +374,15 @@ namespace EHE.BoltBusters
                 return;
             }
 
-            LevelManager.Active?.QueueFree();
+            var activeLevelManager = LevelManager.Active;
+
+            if (activeLevelManager != null)
+            {
+                activeLevelManager.Initialized -= OnLevelInitialized;
+                activeLevelManager.QueueFree();
+            }
+
+            levelScene.Initialized += OnLevelInitialized;
             SceneTree.Root.CallDeferred(Node.MethodName.AddChild, levelScene);
         }
 
@@ -563,6 +574,12 @@ namespace EHE.BoltBusters
         private void OnLevelStartDelayTimeout()
         {
             LevelManager.Active.StartRound();
+        }
+
+        private void OnLevelInitialized()
+        {
+            this.PrintDebug("Level initialized.");
+            EmitSignal(SignalName.RequestHudRefreshWithPlayerData, CurrentPlayerData);
         }
 
         #endregion Private Methods
