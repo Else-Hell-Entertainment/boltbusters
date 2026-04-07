@@ -90,5 +90,16 @@ namespace EHE.BoltBusters.Config
             /// </summary>
             public const bool DEFAULT_IS_FULLSCREEN = false;
         }
+
+        /// <summary>
+        ///  The path to the default settings resource file.
+        /// </summary>
+        public const string DEFAULT_SETTINGS_FILE_PATH = "res://Data/Settings/DefaultSettings.tres";
+
+        /// <summary>
+        ///  The path to the JSON file containing the settings saved by the
+        ///  user.
+        /// </summary>
+        public const string USER_SETTINGS_FILE_PATH = "user://settings.json";
     }
 }
