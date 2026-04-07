@@ -45,6 +45,8 @@ namespace EHE.BoltBusters
 
         public override void _Process(double delta)
         {
+            // Leaving old implementation here just in case.
+            /*
             if (!IsInstanceValid(_player))
             {
                 GD.Print("Player not found");
@@ -76,10 +78,17 @@ namespace EHE.BoltBusters
             }
 
             Controller.AddCommand(new RotateTowardsCommand(_player.GlobalPosition));
+            */
         }
 
         public override void _PhysicsProcess(double delta)
         {
+            // Autorotate towards player always unless overriden from somewhere else.
+            if (LevelManager.Active.Player != null)
+            {
+                Controller.AddCommand(new RotateTowardsCommand(LevelManager.Active.Player.GlobalPosition));
+            }
+
             if (_canFire && IsInstanceValid(_player) && IsPlayerInLineOfSight())
             {
                 Attack();

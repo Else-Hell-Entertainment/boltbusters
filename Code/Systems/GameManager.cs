@@ -77,6 +77,9 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void RequestHudRefreshEventHandler();
 
+        [Signal]
+        public delegate void RoundStateChangedEventHandler(bool inProgress);
+
         #endregion Signals
 
 

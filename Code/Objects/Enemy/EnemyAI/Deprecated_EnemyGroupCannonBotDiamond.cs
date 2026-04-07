@@ -4,16 +4,16 @@ using Godot;
 
 namespace EHE.BoltBusters
 {
-    public partial class EnemyGroupCannonBotSurroundPlayer : Node3D, IEnemyGroup
+    public partial class Deprecated_EnemyGroupCannonBotDiamond : Node3D, IEnemyGroup
     {
         public bool IsActive { get; set; }
 
         private List<EnemyCannonBot> _botGroup = new List<EnemyCannonBot>();
 
-        public int GroupSize { get; private set; } = 8;
+        public int GroupSize { get; private set; } = 4;
 
         [Export]
-        public float DistanceToPlayer { get; private set; } = 8f;
+        public float DistanceToPlayer { get; private set; } = 7;
 
         private CharacterBody3D _player;
 
@@ -31,16 +31,20 @@ namespace EHE.BoltBusters
             }
             else
             {
-                GD.PrintErr("Invalid attempt to register CannonBot to SurroundPlayer Group");
+                GD.PrintErr("Invalid attempt to register CannonBot to Diamond Group");
             }
+        }
+
+        public void UnRegisterBot(EnemyCannonBot bot)
+        {
+            _botGroup.Remove(bot);
         }
 
         public void ExecuteInternal()
         {
-            int pointCounter = 0;
+            int pointCounter = 1;
             foreach (EnemyCannonBot bot in _botGroup)
             {
-                pointCounter++;
                 if (!IsInstanceValid(bot))
                 {
                     _botGroup.Remove(bot);
@@ -49,33 +53,24 @@ namespace EHE.BoltBusters
                 }
                 BotCommands.MoveTowardsPoint(bot, GetNextPoint(pointCounter));
                 BotCommands.TurnTowardsPoint(bot, _player.GlobalPosition);
+                pointCounter++;
             }
         }
 
         private Vector3 GetNextPoint(int pointCounter)
         {
-            Vector3 playerPosition = _player.GlobalPosition;
-            float quarterPosition = Mathf.Sin(45) * DistanceToPlayer;
+            Vector3 point1 = _player.GlobalPosition + new Vector3(0, 0, -DistanceToPlayer);
 
             switch (pointCounter)
             {
                 case 1:
-                    return playerPosition + new Vector3(0, 0, DistanceToPlayer);
+                    return point1;
                 case 2:
-                    return playerPosition + new Vector3(0, 0, -DistanceToPlayer);
+                    return point1 + new Vector3(0, 0, -DistanceToPlayer);
                 case 3:
-                    return playerPosition + new Vector3(-DistanceToPlayer, 0, 0);
+                    return point1 + new Vector3(-DistanceToPlayer / 2, 0, -DistanceToPlayer / 2);
                 case 4:
-                    return playerPosition + new Vector3(DistanceToPlayer, 0, 0);
-                case 5:
-                    return playerPosition + new Vector3(quarterPosition, 0, quarterPosition);
-                case 6:
-                    return playerPosition + new Vector3(-quarterPosition, 0, -quarterPosition);
-                case 7:
-                    return playerPosition + new Vector3(quarterPosition, 0, -quarterPosition);
-                case 8:
-                    return playerPosition + new Vector3(-quarterPosition, 0, quarterPosition);
-
+                    return point1 + new Vector3(DistanceToPlayer / 2, 0, -DistanceToPlayer / 2);
                 default:
                     return Vector3.Zero;
             }
