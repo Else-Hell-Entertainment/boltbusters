@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d1sb8fjsr2to3"]
 
-[ext_resource type="Script" uid="uid://cwx42huthal8k" path="res://Code/UI/MenuSettings.cs" id="1_ptpw3"]
+[ext_resource type="Script" uid="uid://cwx42huthal8k" path="res://Code/UI/Settings/MenuSettings.cs" id="1_ptpw3"]
 
 [node name="MenuSettings" type="Control" node_paths=PackedStringArray("_btnBack")]
 layout_mode = 3
