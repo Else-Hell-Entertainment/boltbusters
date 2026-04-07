@@ -76,11 +76,11 @@ namespace EHE.BoltBusters.Data
                 defaults = new VideoSettingsData();
             }
 
-            ResolutionMultiplier = data.TryGetValue(SettingsConfig.Video.KeyResolutionMultiplier, out var multiplier)
+            ResolutionMultiplier = data.TryGetValue(SettingsConfig.Video.KEY_RESOLUTION_MULTIPLIER, out var multiplier)
                 ? (int)multiplier
                 : defaults.ResolutionMultiplier;
 
-            IsFullscreen = data.TryGetValue(SettingsConfig.Video.KeyIsFullscreen, out var isFullscreen)
+            IsFullscreen = data.TryGetValue(SettingsConfig.Video.KEY_IS_FULLSCREEN, out var isFullscreen)
                 ? (bool)isFullscreen
                 : defaults.IsFullscreen;
         }
@@ -115,8 +115,8 @@ namespace EHE.BoltBusters.Data
         /// </summary>
         public override void ResetValues()
         {
-            ResolutionMultiplier = SettingsConfig.Video.DefaultResolutionMultiplier;
-            IsFullscreen = SettingsConfig.Video.DefaultIsFullscreen;
+            ResolutionMultiplier = SettingsConfig.Video.DEFAULT_RESOLUTION_MULTIPLIER;
+            IsFullscreen = SettingsConfig.Video.DEFAULT_IS_FULLSCREEN;
             ApplyValues();
         }
 

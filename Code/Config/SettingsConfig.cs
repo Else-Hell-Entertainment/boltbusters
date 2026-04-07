@@ -17,40 +17,40 @@ namespace EHE.BoltBusters.Config
             /// <summary>
             ///  The key used to store audio settings in the settings JSON file.
             /// </summary>
-            public static readonly string SettingsFileSectionName = "Audio";
+            public const string SETTINGS_FILE_SECTION_NAME = "Audio";
 
             /// <summary>
             ///  Name of the master audio bus.
             /// </summary>
-            public static readonly string MasterBusName = "Master";
+            public const string MASTER_BUS_NAME = "Master";
 
             /// <summary>
             ///  Name of the music audio bus.
             /// </summary>
-            public static readonly string MusicBusName = "Music";
+            public const string MUSIC_BUS_NAME = "Music";
 
             /// <summary>
             ///  Name of the sound effects bus.
             /// </summary>
-            public static readonly string SfxBusName = "Sfx";
+            public const string SFX_BUS_NAME = "Sfx";
 
             /// <summary>
             ///  Default master volume on a linear scale,
             ///  0 = silent, 1 = max volume.
             /// </summary>
-            public const float DefaultMasterVolume = 1.0f;
+            public const float DEFAULT_MASTER_VOLUME = 1.0f;
 
             /// <summary>
             ///  Default music volume on a linear scale,
             ///  0 = silent, 1 = max volume.
             /// </summary>
-            public const float DefaultMusicVolume = 1.0f;
+            public const float DEFAULT_MUSIC_VOLUME = 1.0f;
 
             /// <summary>
             ///  Default sound effects volume on a linear scale,
             ///  0 = silent, 1 = max volume.
             /// </summary>
-            public const float DefaultSfxVolume = 1.0f;
+            public const float DEFAULT_SFX_VOLUME = 1.0f;
         }
 
         /// <summary>
@@ -61,18 +61,18 @@ namespace EHE.BoltBusters.Config
             /// <summary>
             ///  The key used to store video settings in the settings JSON file.
             /// </summary>
-            public static readonly string SettingsFileSectionName = "Video";
+            public const string SETTINGS_FILE_SECTION_NAME = "Video";
 
             /// <summary>
             ///  Key for the resolution multiplier setting in the settings JSON
             ///  file.
             /// </summary>
-            public static readonly string KeyResolutionMultiplier = "ResolutionMultiplier";
+            public const string KEY_RESOLUTION_MULTIPLIER = "ResolutionMultiplier";
 
             /// <summary>
             ///  Key for the fullscreen setting in the settings JSON file.
             /// </summary>
-            public static readonly string KeyIsFullscreen = "IsFullscreen";
+            public const string KEY_IS_FULLSCREEN = "IsFullscreen";
 
             /// <summary>
             ///  Base resolution of the game. Should be the same as defined in
@@ -83,12 +83,12 @@ namespace EHE.BoltBusters.Config
             /// <summary>
             ///  Default resolution multiplier. Recommended value is 1.
             /// </summary>
-            public const int DefaultResolutionMultiplier = 1;
+            public const int DEFAULT_RESOLUTION_MULTIPLIER = 1;
 
             /// <summary>
             ///  Default state of fullscreen toggle. Typically false.
             /// </summary>
-            public const bool DefaultIsFullscreen = false;
+            public const bool DEFAULT_IS_FULLSCREEN = false;
         }
     }
 }

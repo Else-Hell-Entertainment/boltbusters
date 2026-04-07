@@ -20,13 +20,13 @@ namespace EHE.BoltBusters.Data
             ISerializable<AudioSettingsData>
     {
         [Export]
-        private float _masterVolume = SettingsConfig.Audio.DefaultMasterVolume;
+        private float _masterVolume = SettingsConfig.Audio.DEFAULT_MASTER_VOLUME;
 
         [Export]
-        private float _musicVolume = SettingsConfig.Audio.DefaultMusicVolume;
+        private float _musicVolume = SettingsConfig.Audio.DEFAULT_MUSIC_VOLUME;
 
         [Export]
-        private float _sfxVolume = SettingsConfig.Audio.DefaultSfxVolume;
+        private float _sfxVolume = SettingsConfig.Audio.DEFAULT_SFX_VOLUME;
 
         /// <summary>
         ///  Linear volume of the master bus.
@@ -68,9 +68,9 @@ namespace EHE.BoltBusters.Data
                 defaults = new AudioSettingsData();
             }
 
-            RefLoadVolume(ref _masterVolume, data, SettingsConfig.Audio.MasterBusName, defaults.MasterVolume);
-            RefLoadVolume(ref _musicVolume, data, SettingsConfig.Audio.MusicBusName, defaults.MusicVolume);
-            RefLoadVolume(ref _sfxVolume, data, SettingsConfig.Audio.SfxBusName, defaults.SfxVolume);
+            RefLoadVolume(ref _masterVolume, data, SettingsConfig.Audio.MASTER_BUS_NAME, defaults.MasterVolume);
+            RefLoadVolume(ref _musicVolume, data, SettingsConfig.Audio.MUSIC_BUS_NAME, defaults.MusicVolume);
+            RefLoadVolume(ref _sfxVolume, data, SettingsConfig.Audio.SFX_BUS_NAME, defaults.SfxVolume);
         }
 
         /// <summary>
@@ -79,9 +79,9 @@ namespace EHE.BoltBusters.Data
         /// </summary>
         public override void StoreValues()
         {
-            RefStoreVolume(ref _masterVolume, SettingsConfig.Audio.MasterBusName);
-            RefStoreVolume(ref _musicVolume, SettingsConfig.Audio.MusicBusName);
-            RefStoreVolume(ref _sfxVolume, SettingsConfig.Audio.SfxBusName);
+            RefStoreVolume(ref _masterVolume, SettingsConfig.Audio.MASTER_BUS_NAME);
+            RefStoreVolume(ref _musicVolume, SettingsConfig.Audio.MUSIC_BUS_NAME);
+            RefStoreVolume(ref _sfxVolume, SettingsConfig.Audio.SFX_BUS_NAME);
         }
 
         /// <summary>
@@ -96,9 +96,9 @@ namespace EHE.BoltBusters.Data
             GD.Print("[AudioSettingsData] MusicVolume: " + MusicVolume);
             GD.Print("[AudioSettingsData] SfxVolume: " + SfxVolume);
 #endif
-            SetBusVolume(SettingsConfig.Audio.MasterBusName, MasterVolume);
-            SetBusVolume(SettingsConfig.Audio.MusicBusName, MusicVolume);
-            SetBusVolume(SettingsConfig.Audio.SfxBusName, SfxVolume);
+            SetBusVolume(SettingsConfig.Audio.MASTER_BUS_NAME, MasterVolume);
+            SetBusVolume(SettingsConfig.Audio.MUSIC_BUS_NAME, MusicVolume);
+            SetBusVolume(SettingsConfig.Audio.SFX_BUS_NAME, SfxVolume);
         }
 
         /// <summary>
@@ -110,9 +110,9 @@ namespace EHE.BoltBusters.Data
 #if DEBUG
             GD.Print("[AudioSettingsData] Resetting audio settings to default values.");
 #endif
-            MasterVolume = SettingsConfig.Audio.DefaultMasterVolume;
-            MusicVolume = SettingsConfig.Audio.DefaultMusicVolume;
-            SfxVolume = SettingsConfig.Audio.DefaultSfxVolume;
+            MasterVolume = SettingsConfig.Audio.DEFAULT_MASTER_VOLUME;
+            MusicVolume = SettingsConfig.Audio.DEFAULT_MUSIC_VOLUME;
+            SfxVolume = SettingsConfig.Audio.DEFAULT_SFX_VOLUME;
             ApplyValues();
         }
 
@@ -124,9 +124,9 @@ namespace EHE.BoltBusters.Data
         public override Dictionary Serialize()
         {
             var dict = new Dictionary();
-            dict.Add(SettingsConfig.Audio.MasterBusName, MasterVolume);
-            dict.Add(SettingsConfig.Audio.MusicBusName, MusicVolume);
-            dict.Add(SettingsConfig.Audio.SfxBusName, SfxVolume);
+            dict.Add(SettingsConfig.Audio.MASTER_BUS_NAME, MasterVolume);
+            dict.Add(SettingsConfig.Audio.MUSIC_BUS_NAME, MusicVolume);
+            dict.Add(SettingsConfig.Audio.SFX_BUS_NAME, SfxVolume);
             return dict;
         }
 
