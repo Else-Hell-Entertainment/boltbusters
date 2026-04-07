@@ -140,6 +140,11 @@ namespace EHE.BoltBusters
         public Camera3D Camera => _cameraContainer.Camera;
 
         /// <summary>
+        ///  Reference to the viewport of the global camera.
+        /// </summary>
+        public Viewport Viewport => _cameraContainer.Viewport;
+
+        /// <summary>
         ///  The index number for the current round.
         /// </summary>
         public int RoundIndex

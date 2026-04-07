@@ -11,13 +11,17 @@ namespace EHE.BoltBusters
     {
         private const string NO_SUITABLE_NODE = "No suitable node for {0} found in the scene!";
 
-        private SubViewport _viewport;
         private CameraRig _cameraRig;
 
         /// <summary>
         ///  Reference to the global camera in the camera rig.
         /// </summary>
         public Camera3D Camera { get; private set; }
+
+        /// <summary>
+        ///  Reference to the sub-viewport in the camera container.
+        /// </summary>
+        public SubViewport Viewport { get; private set; }
 
         /// <summary>
         ///  Sets the viewport, camera rig, and camera. If any of these steps
@@ -27,7 +31,7 @@ namespace EHE.BoltBusters
         {
             if (!SetViewport())
             {
-                GD.PushError(string.Format(NO_SUITABLE_NODE, nameof(_viewport)));
+                GD.PushError(string.Format(NO_SUITABLE_NODE, nameof(Viewport)));
                 return;
             }
 
@@ -48,15 +52,15 @@ namespace EHE.BoltBusters
 
         private bool SetViewport()
         {
-            _viewport = this.GetFirstChildOfType<SubViewport>();
+            Viewport = this.GetFirstChildOfType<SubViewport>();
 
-            if (_viewport == null)
+            if (Viewport == null)
             {
                 return false;
             }
 
-            // _viewport.Size = (Vector2I)GetViewport().GetWindow().GetVisibleRect().Size;
-            _viewport.AudioListenerEnable3D = true;
+            // Viewport.Size = (Vector2I)GetViewport().GetWindow().GetVisibleRect().Size;
+            Viewport.AudioListenerEnable3D = true;
 
             this.PrintDebug("Set viewport.");
             return true;
@@ -64,7 +68,7 @@ namespace EHE.BoltBusters
 
         private bool SetCameraRig()
         {
-            _cameraRig = _viewport.GetFirstChildOfType<CameraRig>();
+            _cameraRig = Viewport.GetFirstChildOfType<CameraRig>();
 
             if (_cameraRig == null)
             {
