@@ -6,6 +6,8 @@ namespace EHE.BoltBusters
 {
     public partial class Player : Character
     {
+        [Export]
+        private EntityController _playerController;
         public PlayerChaingunController ChaingunController { get; private set; }
 
         public PlayerRailgunController RailgunController { get; private set; }
@@ -113,6 +115,24 @@ namespace EHE.BoltBusters
         {
             // TODO: Init HP.
             _upgradeHandler.InitializeWeaponCounts(playerData.GetWeaponCounts());
+        }
+
+        /// <summary>
+        /// Toggle true/false to listen/ignore all inputs from InputHandler.
+        /// </summary>
+        /// <param name="isListening">Are player inputs being listened at all.</param>
+        public void ToggleInputListening(bool isListening)
+        {
+            _playerController.AcceptCommands = isListening;
+        }
+
+        /// <summary>
+        /// Is player currently taking in input commands at all.
+        /// </summary>
+        /// <returns>The assigned EntityController's AcceptCommand state.</returns>
+        public bool IsPlayerListeningInput()
+        {
+            return _playerController.AcceptCommands;
         }
 
         /// <summary>

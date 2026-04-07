@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://c4h2yy8w0gt3l"]
+[gd_scene load_steps=25 format=4 uid="uid://c4h2yy8w0gt3l"]
 
 [ext_resource type="Script" uid="uid://d1dql4pbawoly" path="res://Code/Objects/Player/Player.cs" id="1_4wape"]
 [ext_resource type="PackedScene" uid="uid://4x3awqn6r5eh" path="res://Scenes/Player/Weapons/ChaingunController.tscn" id="2_0u5uq"]
@@ -10,8 +10,8 @@
 [ext_resource type="Script" uid="uid://d2knauna4hn3f" path="res://Code/Objects/Player/PlayerHealthComponent.cs" id="7_0u5uq"]
 [ext_resource type="PackedScene" uid="uid://bta8cuhn6twxu" path="res://Scenes/Player/Weapons/Railgun.tscn" id="7_jhyir"]
 [ext_resource type="Script" uid="uid://ijwkg2xovq7l" path="res://Code/CollectArea.cs" id="8_jlvik"]
-[ext_resource type="PackedScene" uid="uid://durb8v5qnbcln" path="res://Scenes/UI/Crosshair.tscn" id="10_jhyir"]
 [ext_resource type="Script" uid="uid://15bogyux3w3m" path="res://Code/Components/PlayerShaderComponent.cs" id="10_74mp2"]
+[ext_resource type="PackedScene" uid="uid://durb8v5qnbcln" path="res://Scenes/UI/Crosshair.tscn" id="10_jhyir"]
 [ext_resource type="Resource" uid="uid://cwashgb0tg3w3" path="res://Assets/Shaders/PlayerShaderPreset.tres" id="11_oikmp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gkvi4"]
@@ -130,9 +130,10 @@ height = 2.4870558
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_jlvik"]
 radius = 1.5
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_playerController", "_healthComponent")]
 axis_lock_linear_y = true
 script = ExtResource("1_4wape")
+_playerController = NodePath("PlayerController")
 _healthComponent = NodePath("PlayerHealthComponent")
 
 [node name="PlayerController" type="Node3D" parent="." node_paths=PackedStringArray("_playerBody", "_bodyNode", "_turretNode", "_inputHandler", "_chaingunController", "_railgunController", "_rocketLauncherController")]
