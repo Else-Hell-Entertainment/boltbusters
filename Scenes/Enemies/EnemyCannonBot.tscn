@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://dleoqwseq5x4p"]
+[gd_scene load_steps=21 format=4 uid="uid://dleoqwseq5x4p"]
 
 [ext_resource type="Script" uid="uid://yb7yelbnmfj5" path="res://Code/Objects/Enemy/EnemyCannonBot.cs" id="1_k6seb"]
 [ext_resource type="PackedScene" uid="uid://t3nx0bltkocl" path="res://Scenes/Enemies/CannonBall.tscn" id="1_mqbn8"]
@@ -6,6 +6,9 @@
 [ext_resource type="Script" uid="uid://ce6qc6u3q0hiv" path="res://Code/Objects/Enemy/EnemyCannonController.cs" id="3_oyasw"]
 [ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="4_vqqcb"]
 [ext_resource type="Script" uid="uid://dsnd2h8pgyhvi" path="res://Code/Objects/Node3DMover.cs" id="5_6314t"]
+[ext_resource type="Shader" uid="uid://bopx7f8xnbkgy" path="res://Assets/Shaders/EffectShader.gdshader" id="6_wagaa"]
+[ext_resource type="Script" uid="uid://dn3xdtkt00s1k" path="res://Code/Components/EnemyShaderComponent.cs" id="7_82su2"]
+[ext_resource type="Resource" uid="uid://d1rygoxvve6o4" path="res://Assets/Shaders/EnemyShaderPreset.tres" id="8_wagaa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rqpuh"]
 
@@ -75,7 +78,30 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_f01wl")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iocbx"]
+render_priority = 0
+shader = ExtResource("6_wagaa")
+shader_parameter/effect_mode = 0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_strength = 0.0
+shader_parameter/flash_value = 0.0
+shader_parameter/pulse_color = Color(1, 1, 1, 1)
+shader_parameter/pulse_strength = 0.0
+shader_parameter/pulse_speed = 0.0
+shader_parameter/accelerating_pulse_color = Color(1, 1, 1, 1)
+shader_parameter/accelerating_pulse_start_strength = 0.0
+shader_parameter/accelerating_pulse_finish_strength = 0.0
+shader_parameter/accelerating_pulse_speed = 0.0
+shader_parameter/acceleration_speed_factor = 0.0
+shader_parameter/acceleration_delay = 0.0
+shader_parameter/accelerating_pulse_duration = 0.0
+shader_parameter/accelerating_pulse_time = 0.0
+shader_parameter/accelerating_pulse_progress = 0.0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_he0gg"]
+albedo_color = Color(2.2621452e-06, 0, 0.64683646, 1)
+metallic = 0.5
+roughness = 0.48
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_p28l2"]
 _surfaces = [{
@@ -167,6 +193,7 @@ target_position = Vector3(0, 0, -15)
 
 [node name="Cylinder_002" type="MeshInstance3D" parent="Turret"]
 transform = Transform3D(-0.3056622, 0, -2.6721837e-08, 0, 0.30566218, 0, 2.6721839e-08, 0, -0.30566218, 0, 2.1959326, 0)
+material_overlay = SubResource("ShaderMaterial_iocbx")
 mesh = SubResource("ArrayMesh_sy30m")
 skeleton = NodePath("")
 
@@ -176,6 +203,12 @@ shape = SubResource("CapsuleShape3D_mqbn8")
 
 [node name="ReloadTimer" type="Timer" parent="."]
 
-[node name="EnemyHealthComponent" type="Node" parent="."]
+[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent")]
 script = ExtResource("4_vqqcb")
+_enemyShaderComponent = NodePath("../EnemyShaderComponent")
 metadata/_custom_type_script = "uid://b620lyqticbmf"
+
+[node name="EnemyShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
+script = ExtResource("7_82su2")
+_effectsPreset = ExtResource("8_wagaa")
+_meshes = [NodePath("../Turret/Cylinder_002")]

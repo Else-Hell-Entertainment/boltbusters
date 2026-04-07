@@ -80,6 +80,9 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void RequestHudRefreshWithPlayerDataEventHandler(PlayerData playerData);
 
+        [Signal]
+        public delegate void RoundStateChangedEventHandler(bool inProgress);
+
         #endregion Signals
 
 
@@ -94,9 +97,7 @@ namespace EHE.BoltBusters
         private Dictionary<LevelType, PackedScene> _levelScenes;
 
         // Camera-related stuff.
-        private SubViewportContainer _levelViewportContainer;
-        private SubViewport _levelViewport;
-        private CameraRig _cameraRig;
+        private CameraContainer _cameraContainer;
 
         // Other.
         private SceneTree _sceneTree;
@@ -136,7 +137,7 @@ namespace EHE.BoltBusters
         /// <summary>
         ///  Reference to the global camera.
         /// </summary>
-        public Camera3D Camera => _cameraRig.GetChild<Camera3D>(0);
+        public Camera3D Camera => _cameraContainer.Camera;
 
         /// <summary>
         ///  The index number for the current round.
@@ -456,31 +457,31 @@ namespace EHE.BoltBusters
             );
         }
 
-        // TODO: Refactor this and make the parameters editable in the editor.
         /// <summary>
-        ///  Instantiates the <see cref="CameraRig"/> from a file and adds it
-        ///  to the <see cref="SceneTree"/>.
+        ///  Instantiates the <see cref="CameraContainer"/> from a file and
+        ///  adds it to the <see cref="SceneTree"/>.
         /// </summary>
         private void CreateCamera()
         {
-            // Create container and assign shader material.
-            _levelViewportContainer = new SubViewportContainer();
-            _levelViewportContainer.Material = GD.Load<Material>(MaterialConfig.CAMERA_SHADER_MATERIAL_FILE);
+            const string path = FilePathConfig.CAMERA_CONTAINER_SCENE_PATH;
+            var cameraContainerScene = GD.Load<PackedScene>(path);
 
-            // Create viewport, set its size, and add it to the container.
-            _levelViewport = new SubViewport();
-            _levelViewport.Size = (Vector2I)GetViewport().GetWindow().GetVisibleRect().Size;
-            _levelViewport.AudioListenerEnable3D = true;
-            _levelViewportContainer.CallDeferred(Node.MethodName.AddChild, _levelViewport);
+            if (cameraContainerScene == null)
+            {
+                GD.PushError($"Could not load camera container scene from '{path}'!");
+                return;
+            }
 
-            // Create camera rig and add it to the viewport.
-            _cameraRig = GD.Load<PackedScene>(SceneFileConfig.CAMERA_FILE).Instantiate<CameraRig>();
-            _cameraRig.HeightAboveGround = 10f;
-            _cameraRig.UseSmoothFollow = false;
-            _levelViewport.CallDeferred(Node.MethodName.AddChild, _cameraRig);
+            _cameraContainer = cameraContainerScene.Instantiate<CameraContainer>();
 
-            // Add the container to the scene tree.
-            SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _levelViewportContainer);
+            if (_cameraContainer == null)
+            {
+                GD.PushError($"No valid camera container found at path '{path}'!");
+                return;
+            }
+
+            SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _cameraContainer);
+            this.PrintDebug("Deferred adding camera node to next frame.");
         }
 
         /// <summary>
