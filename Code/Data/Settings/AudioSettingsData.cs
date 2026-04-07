@@ -12,7 +12,7 @@ namespace EHE.BoltBusters.Data
     /// <summary>
     ///  Settings resource that holds audio-related settings such as
     ///  volume levels for different audio buses. Requires the
-    ///  <see cref="AudioSettingsConfig"/> config module.
+    ///  <see cref="SettingsConfig.Audio"/> config module.
     /// </summary>
     [GlobalClass]
     public sealed partial class AudioSettingsData
@@ -20,13 +20,13 @@ namespace EHE.BoltBusters.Data
             ISerializable<AudioSettingsData>
     {
         [Export]
-        private float _masterVolume = AudioSettingsConfig.DefaultMasterVolume;
+        private float _masterVolume = SettingsConfig.Audio.DefaultMasterVolume;
 
         [Export]
-        private float _musicVolume = AudioSettingsConfig.DefaultMusicVolume;
+        private float _musicVolume = SettingsConfig.Audio.DefaultMusicVolume;
 
         [Export]
-        private float _sfxVolume = AudioSettingsConfig.DefaultSfxVolume;
+        private float _sfxVolume = SettingsConfig.Audio.DefaultSfxVolume;
 
         /// <summary>
         ///  Linear volume of the master bus.
@@ -68,9 +68,9 @@ namespace EHE.BoltBusters.Data
                 defaults = new AudioSettingsData();
             }
 
-            RefLoadVolume(ref _masterVolume, data, AudioSettingsConfig.MasterBusName, defaults.MasterVolume);
-            RefLoadVolume(ref _musicVolume, data, AudioSettingsConfig.MusicBusName, defaults.MusicVolume);
-            RefLoadVolume(ref _sfxVolume, data, AudioSettingsConfig.SfxBusName, defaults.SfxVolume);
+            RefLoadVolume(ref _masterVolume, data, SettingsConfig.Audio.MasterBusName, defaults.MasterVolume);
+            RefLoadVolume(ref _musicVolume, data, SettingsConfig.Audio.MusicBusName, defaults.MusicVolume);
+            RefLoadVolume(ref _sfxVolume, data, SettingsConfig.Audio.SfxBusName, defaults.SfxVolume);
         }
 
         /// <summary>
@@ -79,9 +79,9 @@ namespace EHE.BoltBusters.Data
         /// </summary>
         public override void StoreValues()
         {
-            RefStoreVolume(ref _masterVolume, AudioSettingsConfig.MasterBusName);
-            RefStoreVolume(ref _musicVolume, AudioSettingsConfig.MusicBusName);
-            RefStoreVolume(ref _sfxVolume, AudioSettingsConfig.SfxBusName);
+            RefStoreVolume(ref _masterVolume, SettingsConfig.Audio.MasterBusName);
+            RefStoreVolume(ref _musicVolume, SettingsConfig.Audio.MusicBusName);
+            RefStoreVolume(ref _sfxVolume, SettingsConfig.Audio.SfxBusName);
         }
 
         /// <summary>
@@ -96,37 +96,37 @@ namespace EHE.BoltBusters.Data
             GD.Print("[AudioSettingsData] MusicVolume: " + MusicVolume);
             GD.Print("[AudioSettingsData] SfxVolume: " + SfxVolume);
 #endif
-            SetBusVolume(AudioSettingsConfig.MasterBusName, MasterVolume);
-            SetBusVolume(AudioSettingsConfig.MusicBusName, MusicVolume);
-            SetBusVolume(AudioSettingsConfig.SfxBusName, SfxVolume);
+            SetBusVolume(SettingsConfig.Audio.MasterBusName, MasterVolume);
+            SetBusVolume(SettingsConfig.Audio.MusicBusName, MusicVolume);
+            SetBusVolume(SettingsConfig.Audio.SfxBusName, SfxVolume);
         }
 
         /// <summary>
         ///  Sets all volume settings to their default values as specified in
-        ///  <see cref="AudioSettingsConfig"/> and applies them.
+        ///  <see cref="SettingsConfig.Audio"/> and applies them.
         /// </summary>
         public override void ResetValues()
         {
 #if DEBUG
             GD.Print("[AudioSettingsData] Resetting audio settings to default values.");
 #endif
-            MasterVolume = AudioSettingsConfig.DefaultMasterVolume;
-            MusicVolume = AudioSettingsConfig.DefaultMusicVolume;
-            SfxVolume = AudioSettingsConfig.DefaultSfxVolume;
+            MasterVolume = SettingsConfig.Audio.DefaultMasterVolume;
+            MusicVolume = SettingsConfig.Audio.DefaultMusicVolume;
+            SfxVolume = SettingsConfig.Audio.DefaultSfxVolume;
             ApplyValues();
         }
 
         /// <summary>
         ///  Returns the audio settings as a <see cref="Dictionary"/> where keys
-        ///  are the bus names defined in <see cref="AudioSettingsConfig"/>
+        ///  are the bus names defined in <see cref="SettingsConfig.Audio"/>
         ///  and values are the corresponding linear volume levels.
         /// </summary>
         public override Dictionary Serialize()
         {
             var dict = new Dictionary();
-            dict.Add(AudioSettingsConfig.MasterBusName, MasterVolume);
-            dict.Add(AudioSettingsConfig.MusicBusName, MusicVolume);
-            dict.Add(AudioSettingsConfig.SfxBusName, SfxVolume);
+            dict.Add(SettingsConfig.Audio.MasterBusName, MasterVolume);
+            dict.Add(SettingsConfig.Audio.MusicBusName, MusicVolume);
+            dict.Add(SettingsConfig.Audio.SfxBusName, SfxVolume);
             return dict;
         }
 

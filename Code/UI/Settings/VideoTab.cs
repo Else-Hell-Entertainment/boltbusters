@@ -13,7 +13,7 @@ namespace EHE.BoltBusters.Ui
     /// </summary>
     public partial class VideoTab : Control
     {
-        private Vector2I _baseResolution = VideoSettingsConfig.BaseResolution;
+        private Vector2I _baseResolution = SettingsConfig.Video.BaseResolution;
         private int _maxResolutionMultiplier = 1;
         private int ResolutionMultiplier => _resolutionDropdown.Selected + 1;
         private int WindowId => (int)DisplayServer.MainWindowId;

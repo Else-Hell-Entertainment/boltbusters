@@ -36,8 +36,8 @@ namespace EHE.BoltBusters.Data
                 defaults = new SettingsData();
             }
 
-            var audioDict = (Dictionary)data[AudioSettingsConfig.SettingsFileSectionName];
-            var videoDict = (Dictionary)data[VideoSettingsConfig.SettingsFileSectionName];
+            var audioDict = (Dictionary)data[SettingsConfig.Audio.SettingsFileSectionName];
+            var videoDict = (Dictionary)data[SettingsConfig.Video.SettingsFileSectionName];
 
             AudioSettingsData = AudioSettingsData.Deserialize(audioDict);
             VideoSettingsData = VideoSettingsData.Deserialize(videoDict);
@@ -67,8 +67,8 @@ namespace EHE.BoltBusters.Data
         public override Dictionary Serialize()
         {
             var dict = new Dictionary();
-            dict.Add(AudioSettingsConfig.SettingsFileSectionName, AudioSettingsData.Serialize());
-            dict.Add(VideoSettingsConfig.SettingsFileSectionName, VideoSettingsData.Serialize());
+            dict.Add(SettingsConfig.Audio.SettingsFileSectionName, AudioSettingsData.Serialize());
+            dict.Add(SettingsConfig.Video.SettingsFileSectionName, VideoSettingsData.Serialize());
             return dict;
         }
     }

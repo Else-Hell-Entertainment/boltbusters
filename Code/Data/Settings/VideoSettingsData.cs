@@ -12,7 +12,7 @@ namespace EHE.BoltBusters.Data
     /// <summary>
     ///  Settings resource that holds video-related settings such as
     ///  resolution and fullscreen mode. Requires the
-    ///  <see cref="VideoSettingsConfig"/> config module.
+    ///  <see cref="SettingsConfig.Video"/> config module.
     /// </summary>
     [GlobalClass]
     public partial class VideoSettingsData : SettingsResource<VideoSettingsData>
@@ -25,9 +25,9 @@ namespace EHE.BoltBusters.Data
 
         /// <summary>
         ///  Base resolution of the game as defined in the project settings.
-        ///  Equivalent to <c>VideoSettingsConfig.BaseResolution</c>.
+        ///  Equivalent to <c>Video.BaseResolution</c>.
         /// </summary>
-        public Vector2I BaseResolution => VideoSettingsConfig.BaseResolution;
+        public Vector2I BaseResolution => SettingsConfig.Video.BaseResolution;
 
         /// <summary>
         ///  Maximum allowed resolution multiplier based on the current
@@ -76,11 +76,11 @@ namespace EHE.BoltBusters.Data
                 defaults = new VideoSettingsData();
             }
 
-            ResolutionMultiplier = data.TryGetValue(VideoSettingsConfig.KeyResolutionMultiplier, out var multiplier)
+            ResolutionMultiplier = data.TryGetValue(SettingsConfig.Video.KeyResolutionMultiplier, out var multiplier)
                 ? (int)multiplier
                 : defaults.ResolutionMultiplier;
 
-            IsFullscreen = data.TryGetValue(VideoSettingsConfig.KeyIsFullscreen, out var isFullscreen)
+            IsFullscreen = data.TryGetValue(SettingsConfig.Video.KeyIsFullscreen, out var isFullscreen)
                 ? (bool)isFullscreen
                 : defaults.IsFullscreen;
         }
@@ -111,12 +111,12 @@ namespace EHE.BoltBusters.Data
 
         /// <summary>
         ///  Resets the video settings to the default values specified in the
-        ///  config module <see cref="VideoSettingsConfig"/>.
+        ///  config module <see cref="SettingsConfig.Video"/>.
         /// </summary>
         public override void ResetValues()
         {
-            ResolutionMultiplier = VideoSettingsConfig.DefaultResolutionMultiplier;
-            IsFullscreen = VideoSettingsConfig.DefaultIsFullscreen;
+            ResolutionMultiplier = SettingsConfig.Video.DefaultResolutionMultiplier;
+            IsFullscreen = SettingsConfig.Video.DefaultIsFullscreen;
             ApplyValues();
         }
 

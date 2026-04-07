@@ -36,9 +36,9 @@ namespace EHE.BoltBusters.Ui
 
         public void Initialize()
         {
-            SetupVolumeSlider(_masterVolumeSlider, AudioSettingsConfig.MasterBusName, _masterDisplayName);
-            SetupVolumeSlider(_musicVolumeSlider, AudioSettingsConfig.MusicBusName, _musicDisplayName);
-            SetupVolumeSlider(_sfxVolumeSlider, AudioSettingsConfig.SfxBusName, _sfxDisplayName);
+            SetupVolumeSlider(_masterVolumeSlider, SettingsConfig.Audio.MasterBusName, _masterDisplayName);
+            SetupVolumeSlider(_musicVolumeSlider, SettingsConfig.Audio.MusicBusName, _musicDisplayName);
+            SetupVolumeSlider(_sfxVolumeSlider, SettingsConfig.Audio.SfxBusName, _sfxDisplayName);
         }
 
         public override void _EnterTree()
