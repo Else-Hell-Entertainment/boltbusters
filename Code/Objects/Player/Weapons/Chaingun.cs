@@ -19,14 +19,14 @@ namespace EHE.BoltBusters
         [Export]
         private Timer _cooldownTimer;
 
-        [Export]
         private float _cooldown = 0.5f;
 
-        [Export]
         private float _accuracy = 0.005f;
 
-        [Export]
-        private float _range = 9f;
+        private int _damage = 6;
+
+        //[Export]
+        //private float _range = 9f;
 
         [Export]
         private MeshInstance3D _bulletTrail;
@@ -41,6 +41,22 @@ namespace EHE.BoltBusters
         {
             get => _cooldown;
             set => _cooldown = Mathf.Clamp(value, 0.034f, _cooldown);
+        }
+
+        public float Accuracy
+        {
+            get => _accuracy;
+            set => _accuracy = value;
+        }
+
+        public int Damage
+        {
+            get => _damage;
+            set
+            {
+                _damage = Mathf.Max(0, value);
+                _damageData = new DamageData(_damage, DamageType.Chaingun);
+            }
         }
 
         private GpuParticles3D _hitParticles;
@@ -58,7 +74,7 @@ namespace EHE.BoltBusters
             _cooldownTimer.WaitTime = _cooldown;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
             _cooldownTimer.OneShot = true;
-            SetTarget();
+            //SetTarget();
 
             _bulletMesh = (CylinderMesh)_bulletTrail.GetMesh();
             if (_bulletMesh == null)
@@ -67,6 +83,7 @@ namespace EHE.BoltBusters
             }
         }
 
+        /*
         private void SetTarget()
         {
             Vector3 targetPos = _muzzle.GlobalPosition;
@@ -79,6 +96,7 @@ namespace EHE.BoltBusters
             // to the player's default facing direction.
             _muzzle.Rotation = new Vector3(_muzzle.Rotation.X, 0, 0);
         }
+        */
 
         private void OnCooldownTimerTimeout()
         {
