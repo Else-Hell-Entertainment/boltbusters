@@ -85,6 +85,7 @@ namespace EHE.BoltBusters
             if (!inProgress)
             {
                 ResetWeapons();
+                // TODO: Add Health reset.
             }
         }
 
