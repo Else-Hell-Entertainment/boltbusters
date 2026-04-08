@@ -52,7 +52,7 @@ namespace EHE.BoltBusters
         #endregion Nested types
 
         #region Constants
-        private const float WAVE_SPAWN_OVERFLOW_DELAY = 0.1f;
+        private const float WAVE_SPAWN_OVERFLOW_DELAY = 0.5f;
         #endregion Constants
 
         #region Exported fields
@@ -280,7 +280,7 @@ namespace EHE.BoltBusters
                     time = _roundLength;
                 }
 
-                SceneTreeTimer timer = GetTree().CreateTimer((float)time);
+                SceneTreeTimer timer = GetTree().CreateTimer((float)time, false);
                 timer.Timeout += () => OnWaveTimerTimeout(wave);
             }
         }
@@ -538,7 +538,7 @@ namespace EHE.BoltBusters
                 return;
             }
 
-            SceneTreeTimer timer = GetTree().CreateTimer(WAVE_SPAWN_OVERFLOW_DELAY);
+            SceneTreeTimer timer = GetTree().CreateTimer(WAVE_SPAWN_OVERFLOW_DELAY, false);
             int capturedNextStartIndex = nextStartIndex;
             timer.Timeout += () => SpawnWaveBatch(wave, roster, capturedNextStartIndex);
         }
