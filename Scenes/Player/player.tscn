@@ -439,6 +439,7 @@ _playerShaderComponent = NodePath("../PlayerShaderComponent")
 metadata/_custom_type_script = "uid://d2knauna4hn3f"
 
 [node name="CollectArea" type="Area3D" parent="."]
+collision_mask = 5
 script = ExtResource("8_jlvik")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CollectArea"]
