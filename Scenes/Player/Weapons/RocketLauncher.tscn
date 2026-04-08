@@ -1,11 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bweyw22j1yyt8"]
+[gd_scene load_steps=5 format=3 uid="uid://bweyw22j1yyt8"]
 
 [ext_resource type="Script" uid="uid://cudatx3chwyeu" path="res://Code/Objects/Player/Weapons/RocketLauncher.cs" id="1_g72lr"]
 [ext_resource type="PackedScene" uid="uid://bjnc7ni0pla1w" path="res://Scenes/Player/Weapons/Rocket.tscn" id="2_prav5"]
-[ext_resource type="PackedScene" uid="uid://drtgc53ebour2" path="res://Assets/Models/Weapons/PlayerRocketL1.glb" id="3_prav5"]
-[ext_resource type="PackedScene" uid="uid://72jsxf4j3unv" path="res://Assets/Models/Weapons/PlayerRocketL2.glb" id="4_a6c28"]
-[ext_resource type="PackedScene" uid="uid://cik5ei25kqkvv" path="res://Assets/Models/Weapons/PlayerRocketR1.glb" id="5_lh0wc"]
-[ext_resource type="PackedScene" uid="uid://cks5t587g6hld" path="res://Assets/Models/Weapons/PlayerRocketR2.glb" id="6_j18a5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g72lr"]
 albedo_color = Color(0.16685283, 0.16685283, 0.16685283, 1)
@@ -21,14 +17,6 @@ height = 0.5
 [node name="RocketLauncher" type="Node3D"]
 script = ExtResource("1_g72lr")
 _rocketScene = ExtResource("2_prav5")
-
-[node name="PlayerRocketL1" parent="." instance=ExtResource("3_prav5")]
-
-[node name="PlayerRocketL2" parent="." instance=ExtResource("4_a6c28")]
-
-[node name="PlayerRocketR1" parent="." instance=ExtResource("5_lh0wc")]
-
-[node name="PlayerRocketR2" parent="." instance=ExtResource("6_j18a5")]
 
 [node name="CooldownTimer" type="Timer" parent="."]
 
