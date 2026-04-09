@@ -13,14 +13,21 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class PlayerChaingunController : PlayerWeaponGroupController
     {
+        [ExportGroup("Damage mechanics")]
         [Export]
-        private float _range = 7f;
+        private float _range = 9f;
 
         [Export]
-        private AudioStreamPlayer3D _shootingAudio;
+        private int _damage = 6;
 
         [Export]
-        private Node3D _aimPoint;
+        private float _accuracy = 0.005f;
+
+        [Export]
+        private float _cooldown = 0.5f;
+
+        //[Export]
+        //private Node3D _aimPoint;
 
         [ExportGroup("Heat mechanics")]
         // How many units are increased to _current heat per shot.
@@ -39,6 +46,10 @@ namespace EHE.BoltBusters
         // After overheating the weapon must cool down below this level to be able to fire again.
         [Export]
         private float _overheatRecoveryThreshold = 80f;
+
+        [ExportGroup("References")]
+        [Export]
+        private AudioStreamPlayer3D _shootingAudio;
 
         private float _attackTimer;
         private float _attackInterval = 0.5f;
@@ -77,10 +88,14 @@ namespace EHE.BoltBusters
         {
             base._Ready();
             AddWeapon();
+            /*
             if (_aimPoint != null)
             {
                 LookAt(_aimPoint.GlobalPosition);
-            }
+            }*/
+            Vector3 aimpoint = GlobalPosition + new Vector3(0, 0, -_range);
+            aimpoint.Y = 0;
+            LookAt(aimpoint);
             _reticle = GetNode<Sprite3D>("Reticle");
             _reticle.Position -= new Vector3(0, _reticle.GlobalPosition.Y - 0.2f, _range);
             CurrentPersistentState = ChaingunState.ReadyToFire;
@@ -95,6 +110,7 @@ namespace EHE.BoltBusters
             }
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.BarrelCountChanged);
             SetAttackInterval();
+            SetChaingunStats();
             return true;
         }
 
@@ -233,15 +249,21 @@ namespace EHE.BoltBusters
             return Weapons.Count;
         }
 
+        public override void ResetWeapons()
+        {
+            base.ResetWeapons();
+            ResetChaingun();
+        }
+
         /// <summary>
         /// Resets the chaingun state to zero heat buildup, sets the state to ReadyToFire and notifies the UI.
         /// </summary>
         public void ResetChaingun()
         {
             CurrentPersistentState = ChaingunState.ReadyToFire;
-            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.ReadyToFire);
+            //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.ReadyToFire);
             _currentHeat = 0;
-            EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
+            //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
         }
 
         /// <summary>
@@ -258,6 +280,19 @@ namespace EHE.BoltBusters
             {
                 float gunCooldown = chaingun.Cooldown;
                 _attackInterval = gunCooldown / numberOfGuns; // Denominator is confirmed to be > 0.
+            }
+        }
+
+        private void SetChaingunStats()
+        {
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon is Chaingun chaingun)
+                {
+                    chaingun.Accuracy = _accuracy;
+                    chaingun.Cooldown = _cooldown;
+                    chaingun.Damage = _damage;
+                }
             }
         }
     }

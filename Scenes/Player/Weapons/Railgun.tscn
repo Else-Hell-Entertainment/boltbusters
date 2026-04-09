@@ -4,11 +4,13 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_vk13k"]
 
-[node name="Railgun2" type="Node3D"]
+[node name="Railgun2" type="Node3D" node_paths=PackedStringArray("_reloadTimer")]
 script = ExtResource("1_0hp30")
+_reloadTimer = NodePath("ReloadTimer")
 
 [node name="BodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.41, 0, 0, 0, -1.792167e-08, 0.41, 0, -0.41, -1.792167e-08, 0, 0, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_vk13k")
 
 [node name="ReloadTimer" type="Timer" parent="."]
