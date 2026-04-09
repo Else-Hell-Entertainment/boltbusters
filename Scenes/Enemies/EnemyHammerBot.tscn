@@ -354,6 +354,78 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector3(0, 3.1415925, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BodyNode/EnemyMelee/Head_Wheels:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.44016513, 0.3561785)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BodyNode/EnemyMelee/Track:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.3808058, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BodyNode/EnemyMelee/Track_001:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.38612062, 0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("BodyNode/EnemyMelee/Head_Wheels:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("BodyNode/EnemyMelee/Track:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.5707964, 1.5707964, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("BodyNode/EnemyMelee/Track_001:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.5707964, 1.5707964, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7mpij"]
 _data = {
@@ -392,19 +464,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0)
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.25, 0)
 
 [node name="Head_Wheels" type="MeshInstance3D" parent="BodyNode/EnemyMelee"]
-transform = Transform3D(0.23772654, 0, 0, 0, 0.28714886, 0, 0, 0, 0.2282728, 0, 0.44016513, 0.3561785)
+transform = Transform3D(0.23772654, 0, 0, 0, 0.28714886, 0, 0, 0, 0.22827278, 0, 0.44016513, 0.3561785)
 material_overlay = SubResource("ShaderMaterial_lncp1")
 mesh = SubResource("ArrayMesh_0cvss")
 skeleton = NodePath("")
 
 [node name="Track" type="MeshInstance3D" parent="BodyNode/EnemyMelee"]
-transform = Transform3D(0, 1, 0, 0, 0, -1, -1, 0, 0, 0.3808058, 0, 0)
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, 0.3808058, 0, 0)
 material_overlay = SubResource("ShaderMaterial_0ad1w")
 mesh = SubResource("ArrayMesh_t6oqg")
 skeleton = NodePath("")
 
 [node name="Track_001" type="MeshInstance3D" parent="BodyNode/EnemyMelee"]
-transform = Transform3D(0, 1, 0, 0, 0, -1, -1, 0, 0, -0.38612062, 0, 0)
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, -0.38612062, 0, 0)
 material_overlay = SubResource("ShaderMaterial_lxnnb")
 mesh = SubResource("ArrayMesh_546hp")
 skeleton = NodePath("")
