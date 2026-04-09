@@ -33,6 +33,10 @@ namespace EHE.BoltBusters
         private List<Node3D> _launchPoints = new List<Node3D>();
         private HashSet<Rocket> _rockets;
 
+        private int _shotCounter = 0;
+        private int _launchPointIndex = 0;
+        private bool _launchInProgress;
+
         public int SalvoSizeUpgrades { get; private set; } = 0;
 
         public enum LauncherState
@@ -68,6 +72,7 @@ namespace EHE.BoltBusters
             _intervalTimer = GetNode<Timer>("IntervalTimer");
             _intervalTimer.WaitTime = _launchInterval;
             _intervalTimer.OneShot = true;
+            _intervalTimer.Timeout += OnIntervalTimerTimeout;
 
             _cooldownTimer = GetNode<Timer>("CooldownTimer");
             _cooldownTimer.WaitTime = _cooldown;
@@ -83,9 +88,17 @@ namespace EHE.BoltBusters
             if (CanAttack)
             {
                 CanAttack = false;
+                StartLaunching();
                 // Not awaiting for async completion here on purpose.
-                LaunchRockets();
+                //LaunchRockets();
             }
+        }
+
+        public override void Reset()
+        {
+            _cooldownTimer.Stop();
+            _launchInProgress = false;
+            OnCooldownTimerTimeout();
         }
 
         /// <summary>
@@ -129,12 +142,14 @@ namespace EHE.BoltBusters
             _rockets.Add(rocket);
         }
 
+        /*
         private async Task LaunchRockets()
         {
             int shotCounter = 0;
             int launchPointIndex = 0;
             while (shotCounter < _baseSalvoSize + SalvoSizeUpgrades)
             {
+                _launchInProgress = true;
                 var rocket = FindNextAvailableRocket();
                 if (rocket == null)
                 {
@@ -154,9 +169,60 @@ namespace EHE.BoltBusters
                 EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.RocketJustLaunched);
                 await (ToSignal(_intervalTimer, "timeout"));
             }
+            _launchInProgress = false;
 
             EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.ReloadingStarted);
             _cooldownTimer.Start();
+        }
+        */
+
+        private void StartLaunching()
+        {
+            _launchInProgress = true;
+            CanAttack = false;
+            LaunchRocket();
+        }
+
+        private void LaunchRocket()
+        {
+            // This is used when launching is in progress, but weapon state is reset suddenly (for example round ends).
+            if (!_launchInProgress)
+            {
+                return;
+            }
+            if (_shotCounter < _baseSalvoSize + SalvoSizeUpgrades)
+            {
+                var rocket = FindNextAvailableRocket();
+                if (rocket == null)
+                {
+                    GD.PushError(
+                        "Rocket launcher did not have available rocket when one was expected. \n"
+                            + "Adding new rocket to pool. Please report this error. "
+                    );
+                    AddNewRocket();
+                    _intervalTimer.Start();
+                    return;
+                }
+                Node3D point = _launchPoints[_launchPointIndex];
+                _launchPointIndex = (_launchPointIndex + 1) % _launchPoints.Count;
+                rocket.LaunchRocket(point, Vector3.Forward);
+                _shotCounter++;
+                _intervalTimer.Start();
+                EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.NotReadyToFire);
+                EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.RocketJustLaunched);
+            }
+            else
+            {
+                _launchInProgress = false;
+                _shotCounter = 0;
+                EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.ReloadingStarted);
+                _cooldownTimer.Start();
+            }
+        }
+
+        private void OnIntervalTimerTimeout()
+        {
+            LaunchRocket();
         }
 
         private void OnCooldownTimerTimeout()

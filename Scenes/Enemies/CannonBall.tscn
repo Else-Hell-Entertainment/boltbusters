@@ -11,7 +11,6 @@ radius = 0.25
 
 [node name="CannonBall" type="Node3D"]
 script = ExtResource("1_fx4c4")
-_speed = 35.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_8ulpy")

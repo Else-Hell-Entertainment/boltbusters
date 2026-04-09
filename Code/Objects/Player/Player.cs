@@ -6,6 +6,8 @@ namespace EHE.BoltBusters
 {
     public partial class Player : Character
     {
+        [Export]
+        private EntityController _playerController;
         public PlayerChaingunController ChaingunController { get; private set; }
 
         public PlayerRailgunController RailgunController { get; private set; }
@@ -75,6 +77,16 @@ namespace EHE.BoltBusters
 
             // Signal to let other elements (mainly UI) know the player is now ready.
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
+            GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
+        }
+
+        private void OnRoundStateChanged(bool inProgress)
+        {
+            if (!inProgress)
+            {
+                ResetWeapons();
+                // TODO: Add Health reset.
+            }
         }
 
         /// <summary>
@@ -113,6 +125,31 @@ namespace EHE.BoltBusters
         {
             // TODO: Init HP.
             _upgradeHandler.InitializeWeaponCounts(playerData.GetWeaponCounts());
+        }
+
+        /// <summary>
+        /// Toggle true/false to listen/ignore all inputs from InputHandler.
+        /// </summary>
+        /// <param name="isListening">Are player inputs being listened at all.</param>
+        public void ToggleInputListening(bool isListening)
+        {
+            _playerController.AcceptCommands = isListening;
+        }
+
+        /// <summary>
+        /// Is player currently taking in input commands at all.
+        /// </summary>
+        /// <returns>The assigned EntityController's AcceptCommand state.</returns>
+        public bool IsPlayerListeningInput()
+        {
+            return _playerController.AcceptCommands;
+        }
+
+        public void ResetWeapons()
+        {
+            RailgunController.ResetWeapons();
+            RocketLauncherController.ResetWeapons();
+            ChaingunController.ResetWeapons();
         }
 
         /// <summary>
