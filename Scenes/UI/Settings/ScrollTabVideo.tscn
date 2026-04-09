@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://0vyw0rynbi4t"]
 
-[ext_resource type="PackedScene" path="res://Scenes/UI/Settings/ScrollTab.tscn" id="1_n4oxa"]
+[ext_resource type="PackedScene" uid="uid://bividsk1nutuf" path="res://Scenes/UI/Settings/ScrollTab.tscn" id="1_n4oxa"]
 [ext_resource type="Script" uid="uid://dif3pk1aaf1l0" path="res://Code/UI/Settings/VideoTab.cs" id="2_xg78t"]
 
 [node name="Video" node_paths=PackedStringArray("_resolutionDropdown", "_fullscreenToggle") instance=ExtResource("1_n4oxa")]
@@ -27,7 +27,6 @@ popup/item_0/text = "640x360"
 popup/item_0/id = 0
 
 [node name="Fullscreen" type="GridContainer" parent="MarginContainer/VBoxContainer" index="1"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 2

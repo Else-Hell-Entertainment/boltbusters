@@ -123,8 +123,8 @@ namespace EHE.BoltBusters.Data
         public override Dictionary Serialize()
         {
             Dictionary saveDict = new();
-            saveDict.Add("ResolutionMultiplier", _resolutionMultiplier);
-            saveDict.Add("FullscreenMode", _isFullscreen);
+            saveDict.Add(SettingsConfig.Video.KEY_RESOLUTION_MULTIPLIER, _resolutionMultiplier);
+            saveDict.Add(SettingsConfig.Video.KEY_IS_FULLSCREEN, _isFullscreen);
             return saveDict;
         }
     }
