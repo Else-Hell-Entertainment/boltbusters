@@ -476,6 +476,7 @@ namespace EHE.BoltBusters
         {
             SettingsManager = new SettingsManager();
             SettingsManager.Initialize();
+            SettingsManager.ApplySettings(SettingsManager.LoadSettingsFromFile(SettingsConfig.USER_SETTINGS_FILE_PATH));
         }
 
         /// <summary>

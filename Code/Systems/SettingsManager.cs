@@ -58,7 +58,7 @@ namespace EHE.BoltBusters
         public void Initialize(string defaultPathOverride = null)
         {
             LoadDefaultsFromFile(defaultPathOverride ?? SettingsConfig.DEFAULT_SETTINGS_FILE_PATH);
-            CurrentSettingsData = LoadSettingsFromFile(SettingsConfig.USER_SETTINGS_FILE_PATH);
+            ApplySettings(DefaultSettingsData);
         }
 
         /// <summary>
