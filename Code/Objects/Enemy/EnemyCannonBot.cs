@@ -8,20 +8,28 @@ namespace EHE.BoltBusters
 {
     public partial class EnemyCannonBot : Enemy
     {
-        [Export]
-        private PackedScene _cannonBallScene;
-
+        [ExportGroup("Enemy stats")]
         [Export]
         private float _range = 16f;
+
+        [Export]
+        private float _projectileSpeed = 15f;
 
         [Export]
         private float _reloadTime = 5;
 
         [Export]
+        private int _damage = 5;
+
+        [ExportGroup("References")]
+        [Export]
         private RayCast3D _rayCaster;
 
         [Export]
         public EntityController Controller { get; private set; }
+
+        [Export]
+        private PackedScene _cannonBallScene;
 
         private CharacterBody3D _player;
         private Timer _reloadTimer;
@@ -30,6 +38,8 @@ namespace EHE.BoltBusters
 
         private double _repathTimer = 0.25;
         private double _repathInterval = 0.3;
+
+        private CannonBall _cannonBall;
 
         public override void _Ready()
         {
@@ -41,6 +51,10 @@ namespace EHE.BoltBusters
             _reloadTimer.Timeout += OnReloadTimerTimeout;
             _reloadTimer.OneShot = true;
             _muzzle = GetNode<Node3D>("Turret/Muzzle");
+            _cannonBall = _cannonBallScene.Instantiate<CannonBall>();
+            _cannonBall.Initialize(_damage, _projectileSpeed);
+            LevelManager.Active.AddLevelObject(_cannonBall);
+            _cannonBall.Reset();
         }
 
         public override void _Process(double delta)
@@ -99,10 +113,13 @@ namespace EHE.BoltBusters
         {
             _canFire = false;
             _reloadTimer.Start();
-            CannonBall ball = _cannonBallScene.Instantiate<CannonBall>();
-            LevelManager.Active.AddLevelObject(ball);
-            ball.GlobalPosition = _muzzle.GlobalPosition;
-            ball.GlobalRotation = _muzzle.GlobalRotation;
+            _cannonBall.GlobalPosition = _muzzle.GlobalPosition;
+            _cannonBall.GlobalRotation = _muzzle.GlobalRotation;
+            _cannonBall.Activate();
+            //CannonBall ball = _cannonBallScene.Instantiate<CannonBall>();
+            //LevelManager.Active.AddLevelObject(ball);
+            //ball.GlobalPosition = _muzzle.GlobalPosition;
+            //ball.GlobalRotation = _muzzle.GlobalRotation;
         }
 
         /// <summary>
@@ -119,6 +136,10 @@ namespace EHE.BoltBusters
             _canFire = true;
         }
 
-        public override void OnSpawn() { }
+        public override void OnDespawn()
+        {
+            base.OnDespawn();
+            _cannonBall.QueueFree();
+        }
     }
 }

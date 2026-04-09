@@ -14,7 +14,7 @@ namespace EHE.BoltBusters
     {
         public bool IsAvailable { get; private set; } = true;
 
-        private const int COLLISION_MASK_LAYER = 1;
+        private const int COLLISION_MASK_LAYER = 2;
 
         [Export]
         private float _speed = 50.0f;

@@ -14,5 +14,7 @@ namespace EHE.BoltBusters
         public bool CanAttack { get; protected set; } = true;
 
         public virtual void Attack() { }
+
+        public virtual void Reset() { }
     }
 }

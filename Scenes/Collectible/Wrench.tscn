@@ -72,10 +72,12 @@ _data = {
 }
 
 [node name="Wrench" type="Area3D" node_paths=PackedStringArray("_collectibleShaderComponent", "_animationPlayer")]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("2_opc5u")
+CollectibleType = 3
 _collectibleShaderComponent = NodePath("CollectibleShaderComponent")
 _animationPlayer = NodePath("AnimationPlayer")
-CollectibleType = 3
 
 [node name="CollectionArea" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41962922, 0)

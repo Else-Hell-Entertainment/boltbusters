@@ -2,59 +2,11 @@
 
 [sub_resource type="Animation" id="Animation_hku7k"]
 resource_name = "Attack"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HammerNode/Cylinder:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.13333334, 1),
-"transitions": PackedFloat32Array(0.5, 1, 2),
-"update": 0,
-"values": [Vector3(-0.38714084, 1.5029751, -1.3915997), Vector3(0.019886257, 1.1785328, 0.04921492), Vector3(-0.38714084, 1.5029751, -1.3915997)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("BodyNode/Cube:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.39999998),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, -3.1415925, 0), Vector3(-0.35845572, -3.1415925, -5.656919e-08), Vector3(0, -3.1415927, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("BodyNode/Cube:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0.44016513, 0.3561785), Vector3(0, 0.5668427, 0.33399817), Vector3(0, 0.44016513, 0.3561785)]
-}
 
 [sub_resource type="Animation" id="Animation_iv0vp"]
 resource_name = "Idle"
 length = 3.0
 loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HammerNode/Cylinder:rotation")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(-0.38662833, 1.4941312, -1.3684781), Vector3(-0.39242938, 1.6042687, -1.656781)]
-}
 
 [resource]
 resource_local_to_scene = true
