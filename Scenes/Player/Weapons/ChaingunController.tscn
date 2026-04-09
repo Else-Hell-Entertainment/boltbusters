@@ -1,9 +1,9 @@
 [gd_scene load_steps=12 format=3 uid="uid://4x3awqn6r5eh"]
 
 [ext_resource type="Script" uid="uid://do4klngwttl5f" path="res://Code/Objects/Player/Weapons/PlayerChaingunController.cs" id="1_tlj4s"]
-[ext_resource type="AudioStream" uid="uid://d2mqs1diw8k3m" path="res://Assets/SFX/PROTOChaingunShoot.mp3" id="2_bb0os"]
 [ext_resource type="PackedScene" uid="uid://dbokno8n21haj" path="res://Scenes/Player/Weapons/Chaingun.tscn" id="2_qirdc"]
 [ext_resource type="Texture2D" uid="uid://dtblk75g7f1k5" path="res://Assets/Sprites/Reticle.png" id="3_5ym2k"]
+[ext_resource type="AudioStream" uid="uid://b3cu3yhwvmd2j" path="res://Assets/SFX/ChaingunShoot.ogg" id="3_qirdc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qirdc"]
 albedo_color = Color(0.54901963, 0.23137255, 0.1764706, 1)
@@ -39,10 +39,9 @@ material = SubResource("StandardMaterial3D_bb0os")
 radius = 0.025
 height = 0.1
 
-[node name="ChaingunController" type="Node3D" node_paths=PackedStringArray("_shootingAudio")]
+[node name="ChaingunController" type="Node3D"]
 script = ExtResource("1_tlj4s")
 _range = 10.0
-_shootingAudio = NodePath("AudioStreamPlayer3D")
 _weaponScene = ExtResource("2_qirdc")
 
 [node name="WeaponSlots" type="Node3D" parent="."]
@@ -109,7 +108,8 @@ mesh = SubResource("CylinderMesh_bb0os")
 skeleton = NodePath("")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_bb0os")
+stream = ExtResource("3_qirdc")
+bus = &"SFX"
 
 [node name="MuzzleParticles" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.20794114)
