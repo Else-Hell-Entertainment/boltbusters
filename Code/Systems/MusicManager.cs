@@ -31,12 +31,12 @@ public partial class MusicManager : Node
         AddChild(CurrentPlayer);
         AddChild(NextPlayer);
 
-        _music[Song.MainTheme] = GD.Load<AudioStream>("res://Assets/Music/MainTheme.wav");
-        _music[Song.EndTheme] = GD.Load<AudioStream>("res://Assets/Music/EndTheme.wav");
-        _music[Song.StageTheme1] = GD.Load<AudioStream>("res://Assets/Music/StageTheme1.wav");
-        _music[Song.StageTheme2] = GD.Load<AudioStream>("res://Assets/Music/StageTheme2.wav");
-        _music[Song.StageTheme3] = GD.Load<AudioStream>("res://Assets/Music/StageTheme3.wav");
-        _music[Song.StageTheme4] = GD.Load<AudioStream>("res://Assets/Music/StageTheme4.wav");
+        _music[Song.MainTheme] = GD.Load<AudioStream>("res://Assets/Music/MainTheme.ogg");
+        _music[Song.EndTheme] = GD.Load<AudioStream>("res://Assets/Music/EndTheme.ogg");
+        _music[Song.StageTheme1] = GD.Load<AudioStream>("res://Assets/Music/StageTheme1.ogg");
+        _music[Song.StageTheme2] = GD.Load<AudioStream>("res://Assets/Music/StageTheme2.ogg");
+        _music[Song.StageTheme3] = GD.Load<AudioStream>("res://Assets/Music/StageTheme3.ogg");
+        _music[Song.StageTheme4] = GD.Load<AudioStream>("res://Assets/Music/StageTheme4.ogg");
     }
 
     public void PlayMusic(AudioStreamPlayer player, Song title)

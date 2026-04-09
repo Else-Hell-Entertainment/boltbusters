@@ -78,6 +78,9 @@ namespace EHE.BoltBusters
         public delegate void RequestHudRefreshEventHandler();
 
         [Signal]
+        public delegate void RequestHudRefreshWithPlayerDataEventHandler(PlayerData playerData);
+
+        [Signal]
         public delegate void RoundStateChangedEventHandler(bool inProgress);
 
         #endregion Signals
@@ -135,6 +138,11 @@ namespace EHE.BoltBusters
         ///  Reference to the global camera.
         /// </summary>
         public Camera3D Camera => _cameraContainer.Camera;
+
+        /// <summary>
+        ///  Reference to the viewport of the global camera.
+        /// </summary>
+        public Viewport Viewport => _cameraContainer.Viewport;
 
         /// <summary>
         ///  The index number for the current round.
@@ -372,7 +380,15 @@ namespace EHE.BoltBusters
                 return;
             }
 
-            LevelManager.Active?.QueueFree();
+            var activeLevelManager = LevelManager.Active;
+
+            if (activeLevelManager != null)
+            {
+                activeLevelManager.Initialized -= OnLevelInitialized;
+                activeLevelManager.QueueFree();
+            }
+
+            levelScene.Initialized += OnLevelInitialized;
             SceneTree.Root.CallDeferred(Node.MethodName.AddChild, levelScene);
         }
 
@@ -564,6 +580,24 @@ namespace EHE.BoltBusters
         private void OnLevelStartDelayTimeout()
         {
             LevelManager.Active.StartRound();
+        }
+
+        /// <summary>
+        ///  Called when the active <see cref="LevelManager"/> emits its
+        ///  <see cref="LevelManager.Initialized"/> signal.
+        ///  Used to refresh the HUD when a new round is loaded.
+        /// </summary>
+        private void OnLevelInitialized()
+        {
+            this.PrintDebug("Level initialized.");
+
+            // Deferred call fixes the issue where the UI is not refresher when
+            // entering subsequent rounds after the first one.
+            CallDeferred(
+                GodotObject.MethodName.EmitSignal,
+                SignalName.RequestHudRefreshWithPlayerData,
+                CurrentPlayerData
+            );
         }
 
         #endregion Private Methods

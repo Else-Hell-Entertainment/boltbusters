@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://4x3awqn6r5eh"]
 
 [ext_resource type="Script" uid="uid://do4klngwttl5f" path="res://Code/Objects/Player/Weapons/PlayerChaingunController.cs" id="1_tlj4s"]
-[ext_resource type="AudioStream" uid="uid://d2mqs1diw8k3m" path="res://Assets/SFX/PROTOChaingunShoot.mp3" id="2_bb0os"]
 [ext_resource type="PackedScene" uid="uid://dbokno8n21haj" path="res://Scenes/Player/Weapons/Chaingun.tscn" id="2_qirdc"]
 [ext_resource type="Texture2D" uid="uid://dtblk75g7f1k5" path="res://Assets/Sprites/Reticle.png" id="3_5ym2k"]
+[ext_resource type="AudioStream" uid="uid://b3cu3yhwvmd2j" path="res://Assets/SFX/ChaingunShoot.ogg" id="5_6uqcx"]
 [ext_resource type="PackedScene" uid="uid://bijmca1h1saq6" path="res://Assets/Models/Weapons/Chaingun.glb" id="5_7t1ee"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tlj4s"]
@@ -23,7 +23,7 @@ height = 0.1
 [node name="ChaingunController" type="Node3D" node_paths=PackedStringArray("_shootingAudio")]
 script = ExtResource("1_tlj4s")
 _range = 10.0
-_shootingAudio = NodePath("AudioStreamPlayer3D")
+_shootingAudio = NodePath("ChaingunShootingSound")
 _weaponScene = ExtResource("2_qirdc")
 
 [node name="Chaingun" parent="." instance=ExtResource("5_7t1ee")]
@@ -56,9 +56,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0.06, -0.9)
 [node name="Slot8" type="Node3D" parent="WeaponSlots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, -0.06, -0.9)
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_bb0os")
-
 [node name="MuzzleParticles" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.20794114)
 emitting = false
@@ -76,5 +73,9 @@ transparency = 0.2
 cast_shadow = 0
 double_sided = false
 texture = ExtResource("3_5ym2k")
+
+[node name="ChaingunShootingSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_6uqcx")
+bus = &"SFX"
 
 [editable path="Chaingun"]

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dj0xgg1j51b1b" path="res://Assets/VFX/RailgunSparkEffect.tscn" id="2_pq4sq"]
 [ext_resource type="Material" uid="uid://u5hd3nb2o86u" path="res://Assets/SFX/ChargeEffectMaterial.tres" id="2_tjti4"]
 [ext_resource type="PackedScene" uid="uid://bta8cuhn6twxu" path="res://Scenes/Player/Weapons/Railgun.tscn" id="3_0euta"]
-[ext_resource type="AudioStream" uid="uid://d3apgvl2x6pdt" path="res://Assets/SFX/PROTORailgunShoot.mp3" id="4_26770"]
+[ext_resource type="AudioStream" uid="uid://d1dbgtu0eyym8" path="res://Assets/SFX/RailgunShoot.ogg" id="5_0euta"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_my7ni"]
 radius = 0.3
@@ -327,7 +327,7 @@ shadow_mesh = SubResource("ArrayMesh_i4wd5")
 [node name="Railgun2Controller" type="Node3D" node_paths=PackedStringArray("_shootingSound")]
 script = ExtResource("1_my7ni")
 _railgunSparkEffect = ExtResource("2_pq4sq")
-_shootingSound = NodePath("ShootingSound")
+_shootingSound = NodePath("RailgunShootingSound")
 _weaponScene = ExtResource("3_0euta")
 
 [node name="WeaponSlots" type="Node3D" parent="."]
@@ -367,9 +367,6 @@ mesh = SubResource("BoxMesh_tjti4")
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -50)
 mesh = SubResource("CapsuleMesh_my7ni")
 
-[node name="ShootingSound" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("4_26770")
-
 [node name="Railgun_Rev1" type="Node3D" parent="."]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 
@@ -400,3 +397,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.13999999, 0, 0, 0, 0.19999999, 0, 0, 0, 0.19999999, 0.6714525, 0, -2.625)
 mesh = SubResource("ArrayMesh_x5nga")
 skeleton = NodePath("")
+
+[node name="RailgunShootingSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_0euta")
+bus = &"SFX"
