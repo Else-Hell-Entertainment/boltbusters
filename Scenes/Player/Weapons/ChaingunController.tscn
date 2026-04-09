@@ -76,6 +76,6 @@ texture = ExtResource("3_5ym2k")
 
 [node name="ChaingunShootingSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("5_6uqcx")
-bus = &"SFX"
+bus = &"Sfx"
 
 [editable path="Chaingun"]

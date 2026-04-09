@@ -1,0 +1,24 @@
+[gd_scene load_steps=0 format=3 uid="uid://4aokyi2vqwpn"]
+
+[node name="ControlDisplay" type="GridContainer"]
+offset_right = 48.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+columns = 3
+
+[node name="ControlName" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="KeyboardControlSelection" type="Button" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Q"
+
+[node name="ControllerControlSelection" type="Button" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "X"

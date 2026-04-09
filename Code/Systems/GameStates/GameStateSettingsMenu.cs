@@ -9,7 +9,7 @@ namespace EHE.BoltBusters.States
     public class GameStateSettingsMenu : GameState
     {
         public override StateType StateType => StateType.SettingsMenu;
-        public override StringName ScenePath => "res://Scenes/UI/MenuSettings.tscn";
+        public override StringName ScenePath => "res://Scenes/UI/Settings/MenuSettings.tscn";
         public override bool IsAdditive => true;
 
         public GameStateSettingsMenu()

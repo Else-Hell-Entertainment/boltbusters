@@ -7,8 +7,8 @@
 
 [node name="RailgunShootingSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("1_ofkk6")
-bus = &"SFX"
+bus = &"Sfx"
 
 [node name="ChaingunShootingSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_k7bqj")
-bus = &"SFX"
+bus = &"Sfx"

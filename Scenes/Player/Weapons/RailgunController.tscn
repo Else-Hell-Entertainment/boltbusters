@@ -400,4 +400,4 @@ skeleton = NodePath("")
 
 [node name="RailgunShootingSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("5_0euta")
-bus = &"SFX"
+bus = &"Sfx"

@@ -1,0 +1,11 @@
+[gd_scene load_steps=0 format=3 uid="uid://bjpoaw6uqd7yg"]
+
+[node name="VolumeSlider" type="GridContainer"]
+offset_right = 57.0
+offset_bottom = 23.0
+size_flags_horizontal = 3
+columns = 2
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+text = "Label"
