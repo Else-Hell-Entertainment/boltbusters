@@ -1,10 +1,10 @@
-[gd_scene load_steps=33 format=4 uid="uid://c4h2yy8w0gt3l"]
+[gd_scene load_steps=30 format=4 uid="uid://c4h2yy8w0gt3l"]
 
 [ext_resource type="Script" uid="uid://d1dql4pbawoly" path="res://Code/Objects/Player/Player.cs" id="1_4wape"]
 [ext_resource type="PackedScene" uid="uid://4x3awqn6r5eh" path="res://Scenes/Player/Weapons/ChaingunController.tscn" id="2_0u5uq"]
+[ext_resource type="Material" uid="uid://do048e2b52egy" path="res://Assets/Shaders/EffectShaderShaderMaterial.tres" id="2_06tpx"]
 [ext_resource type="PackedScene" uid="uid://b4w446hov1iq4" path="res://Scenes/Player/Weapons/RocketLauncherController.tscn" id="3_jlvik"]
 [ext_resource type="Script" uid="uid://nv0ew2bqkcqb" path="res://Code/Objects/Player/InputHandler.cs" id="4_jlvik"]
-[ext_resource type="Shader" uid="uid://bopx7f8xnbkgy" path="res://Assets/Shaders/EffectShader.gdshader" id="4_oikmp"]
 [ext_resource type="Script" uid="uid://cbgtfntk84sv1" path="res://Code/Objects/Player/PlayerController.cs" id="5_gk6dx"]
 [ext_resource type="PackedScene" uid="uid://cfcvy3x00knug" path="res://Scenes/Player/Weapons/RailgunController.tscn" id="6_gk6dx"]
 [ext_resource type="Script" uid="uid://d2knauna4hn3f" path="res://Code/Objects/Player/PlayerHealthComponent.cs" id="7_0u5uq"]
@@ -119,26 +119,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_pfb56")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_06tpx"]
-render_priority = 0
-shader = ExtResource("4_oikmp")
-shader_parameter/effect_mode = 0
-shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_strength = 0.0
-shader_parameter/flash_value = 0.0
-shader_parameter/pulse_color = Color(1, 1, 1, 1)
-shader_parameter/pulse_strength = 0.0
-shader_parameter/pulse_speed = 0.0
-shader_parameter/accelerating_pulse_color = Color(1, 1, 1, 1)
-shader_parameter/accelerating_pulse_start_strength = 0.0
-shader_parameter/accelerating_pulse_finish_strength = 0.0
-shader_parameter/accelerating_pulse_speed = 0.0
-shader_parameter/acceleration_speed_factor = 0.0
-shader_parameter/acceleration_delay = 0.0
-shader_parameter/accelerating_pulse_duration = 0.0
-shader_parameter/accelerating_pulse_time = 0.0
-shader_parameter/accelerating_pulse_progress = 0.0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sxbw5"]
 resource_name = "Rusty Metal"
 cull_mode = 2
@@ -222,26 +202,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_6fisd")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7g0yx"]
-render_priority = 0
-shader = ExtResource("4_oikmp")
-shader_parameter/effect_mode = 0
-shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_strength = 0.0
-shader_parameter/flash_value = 0.0
-shader_parameter/pulse_color = Color(1, 1, 1, 1)
-shader_parameter/pulse_strength = 0.0
-shader_parameter/pulse_speed = 0.0
-shader_parameter/accelerating_pulse_color = Color(1, 1, 1, 1)
-shader_parameter/accelerating_pulse_start_strength = 0.0
-shader_parameter/accelerating_pulse_finish_strength = 0.0
-shader_parameter/accelerating_pulse_speed = 0.0
-shader_parameter/acceleration_speed_factor = 0.0
-shader_parameter/acceleration_delay = 0.0
-shader_parameter/accelerating_pulse_duration = 0.0
-shader_parameter/accelerating_pulse_time = 0.0
-shader_parameter/accelerating_pulse_progress = 0.0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yo4km"]
 resource_name = "Glass"
 transparency = 4
@@ -307,26 +267,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_t6egw")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dey5f"]
-render_priority = 0
-shader = ExtResource("4_oikmp")
-shader_parameter/effect_mode = 0
-shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_strength = 0.0
-shader_parameter/flash_value = 0.0
-shader_parameter/pulse_color = Color(1, 1, 1, 1)
-shader_parameter/pulse_strength = 0.0
-shader_parameter/pulse_speed = 0.0
-shader_parameter/accelerating_pulse_color = Color(1, 1, 1, 1)
-shader_parameter/accelerating_pulse_start_strength = 0.0
-shader_parameter/accelerating_pulse_finish_strength = 0.0
-shader_parameter/accelerating_pulse_speed = 0.0
-shader_parameter/acceleration_speed_factor = 0.0
-shader_parameter/acceleration_delay = 0.0
-shader_parameter/accelerating_pulse_duration = 0.0
-shader_parameter/accelerating_pulse_time = 0.0
-shader_parameter/accelerating_pulse_progress = 0.0
-
 [sub_resource type="ArrayMesh" id="ArrayMesh_nv43w"]
 _surfaces = [{
 "aabb": AABB(-1.3499997, -0.90000015, -0.9999997, 2.6999993, 1.7999991, 1.9999994),
@@ -375,6 +315,7 @@ _healthComponent = NodePath("PlayerHealthComponent")
 [node name="PlayerBody" type="Node3D" parent="."]
 
 [node name="Legs" type="MeshInstance3D" parent="PlayerBody"]
+material_overlay = ExtResource("2_06tpx")
 mesh = SubResource("ArrayMesh_b3bgk")
 skeleton = NodePath("")
 
@@ -400,19 +341,19 @@ script = ExtResource("4_jlvik")
 [node name="Turret" type="Node3D" parent="."]
 
 [node name="Body" type="MeshInstance3D" parent="Turret"]
-material_overlay = SubResource("ShaderMaterial_06tpx")
+material_overlay = ExtResource("2_06tpx")
 mesh = SubResource("ArrayMesh_aewgg")
 skeleton = NodePath("")
 
 [node name="Head" type="MeshInstance3D" parent="Turret"]
 transform = Transform3D(1.7881393e-07, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, 1.7881393e-07, 0, 1.6, -0.7)
-material_overlay = SubResource("ShaderMaterial_7g0yx")
+material_overlay = ExtResource("2_06tpx")
 mesh = SubResource("ArrayMesh_dgnbk")
 skeleton = NodePath("")
 
 [node name="RocketStand" type="MeshInstance3D" parent="Turret"]
 transform = Transform3D(0.4000001, 0, 0, 0, 0.100000024, 0, 0, 0, 0.30000007, 0, 1.89, 0)
-material_overlay = SubResource("ShaderMaterial_dey5f")
+material_overlay = ExtResource("2_06tpx")
 mesh = SubResource("ArrayMesh_pvtea")
 skeleton = NodePath("")
 
@@ -447,8 +388,8 @@ shape = SubResource("CylinderShape3D_jlvik")
 
 [node name="PlayerShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
 script = ExtResource("10_74mp2")
-_effectsPreset = ExtResource("11_oikmp")
-_meshes = [NodePath("../Turret/Body"), NodePath("../Turret/Head"), NodePath("../Turret/RocketStand")]
+_playerEffectShaderPreset = ExtResource("11_oikmp")
+_meshes = [NodePath("../PlayerBody/Legs"), NodePath("../Turret/Body"), NodePath("../Turret/Head"), NodePath("../Turret/RocketStand")]
 metadata/_custom_type_script = "uid://15bogyux3w3m"
 
 [editable path="Turret/RocketLauncherController"]

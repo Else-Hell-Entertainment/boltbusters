@@ -108,9 +108,15 @@ namespace EHE.BoltBusters
 
         public override void OnSpawn() { }
 
+        public override void HandleDeath()
+        {
+            OnDespawn();
+        }
+
+        // Add additional logic if it differs from default (Node.QueueFree) method.
         public override void OnDespawn()
         {
-            QueueFree();
+            base.OnDespawn();
         }
 
         /// <summary>
