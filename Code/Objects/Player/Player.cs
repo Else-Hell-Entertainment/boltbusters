@@ -85,7 +85,7 @@ namespace EHE.BoltBusters
             if (!inProgress)
             {
                 ResetWeapons();
-                // TODO: Add Health reset.
+                HealthComponent.RestoreToInitial();
             }
         }
 
@@ -123,7 +123,7 @@ namespace EHE.BoltBusters
         /// </param>
         public void Initialize(PlayerData playerData)
         {
-            // TODO: Init HP.
+            HealthComponent.RestoreToInitial();
             _upgradeHandler.InitializeWeaponCounts(playerData.GetWeaponCounts());
         }
 
