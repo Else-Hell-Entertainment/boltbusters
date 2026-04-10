@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_add;
+render_mode blend_add, cull_disabled;
 
 // ------------------------------------------------------------
 // EFFECT MODE
@@ -79,7 +79,7 @@ void fragment()
 	{
 		// None: no effect
 	}
-	
+
     // --------------------------------------------------------
     // FLASH
     // --------------------------------------------------------
