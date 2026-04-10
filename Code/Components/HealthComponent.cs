@@ -146,12 +146,21 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
+        ///  Sets the <see cref="CurrentHealth"/> to the given value.
+        ///  The value will be clamped between 0 and <see cref="MaxHealth"/>.
+        /// </summary>
+        public virtual void RestoreTo(int amount)
+        {
+            CurrentHealth = amount;
+        }
+
+        /// <summary>
         ///  Sets the <see cref="CurrentHealth"/> back to
         ///  <see cref="InitialHealth"/>.
         /// </summary>
         public virtual void RestoreToInitial()
         {
-            CurrentHealth = InitialHealth;
+            RestoreTo(InitialHealth);
         }
 
         #endregion Public Methods
