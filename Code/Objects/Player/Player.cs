@@ -80,6 +80,7 @@ namespace EHE.BoltBusters
             GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
         }
 
+        // TODO: Convert this to a public Reset method that can be called from LevelManager.
         private void OnRoundStateChanged(bool inProgress)
         {
             if (!inProgress)
@@ -123,6 +124,7 @@ namespace EHE.BoltBusters
         /// </param>
         public void Initialize(PlayerData playerData)
         {
+            // TODO: Move these to a Reset method?
             HealthComponent.RestoreToInitial();
             _upgradeHandler.InitializeWeaponCounts(playerData.GetWeaponCounts());
         }
