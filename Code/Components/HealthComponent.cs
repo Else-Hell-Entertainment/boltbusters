@@ -128,37 +128,32 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Decreases <see cref="CurrentHealth"/> by the given amount if
-        /// <see cref="IsImmortal"/> is <c>false</c>.
+        ///  Decreases <see cref="CurrentHealth"/> byt the given amount if
+        ///  applicable. The given amount must be positive.
         /// </summary>
         ///
         /// <param name="amount">The amount to decrease health by.</param>
         ///
         /// <returns>
-        /// <c>true</c> if the entity is still alive after taking damage,
-        /// <c>false</c> otherwise.
+        ///  <c>true</c> if damage was taken,
+        ///  <c>false</c> if <see cref="IsImmortal"/> is set to <c>true</c> OR
+        ///  if the given amount is negative.
         /// </returns>
-        ///
-        /// <remarks>
-        /// The amount must be a positive integer. If a negative value is
-        /// provided, prints an error message and returns.
-        /// </remarks>
-        ///
-        /// <seealso cref="IsAlive"/>
         public virtual bool Decrease(int amount)
         {
-            if (!IsImmortal)
+            if (IsImmortal)
             {
-                if (amount < 0)
-                {
-                    GD.PrintErr($"Cannot decrease health by negative amount ({amount}).");
-                    return IsAlive;
-                }
-
-                CurrentHealth -= amount;
+                return false;
             }
 
-            return IsAlive;
+            if (amount < 0)
+            {
+                GD.PrintErr($"Cannot decrease health by negative amount ({amount}).");
+                return false;
+            }
+
+            CurrentHealth -= amount;
+            return true;
         }
 
         #endregion Public Methods
