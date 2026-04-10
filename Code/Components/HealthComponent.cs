@@ -6,54 +6,46 @@ namespace EHE.BoltBusters
     [GlobalClass]
     public abstract partial class HealthComponent : Node
     {
-        ///////////////////////////////////////////////////////////////////////
-        // Signals
-        ///////////////////////////////////////////////////////////////////////
+        #region Signals
+        // MARK: Signals
 
         /// <summary>
-        /// Emitted when <see cref="CurrentHealth"/> changes.
+        ///  Emitted when <see cref="CurrentHealth"/> changes.
         /// </summary>
         ///
         /// <param name="newHealth">
-        /// The new value of <see cref="HealthComponent.CurrentHealth"/> after
-        /// the change.
+        ///  The new value of <see cref="HealthComponent.CurrentHealth"/> after
+        ///  the change.
         /// </param>
         [Signal]
         public delegate void CurrentHealthChangedEventHandler(int oldHealth, int newHealth);
 
-        ///////////////////////////////////////////////////////////////////////
-        // Exports
-        ///////////////////////////////////////////////////////////////////////
+        #endregion Signals
 
-        // Maximum allowed health.
-        [Export(PropertyHint.Range, "0,100,or_greater")]
-        private int _maxHealth = 100;
 
-        // Initial health when the scene is loaded.
-        [Export(PropertyHint.Range, "0,100,or_greater")]
-        private int _initialHealth = 100;
-
-        ///////////////////////////////////////////////////////////////////////
-        // Fields
-        ///////////////////////////////////////////////////////////////////////
+        #region Fields
+        // MARK: Fields
 
         private int _currentHealth;
-        private bool _isImmortal;
 
-        ///////////////////////////////////////////////////////////////////////
-        // Properties
-        ///////////////////////////////////////////////////////////////////////
+        #endregion Fields
 
-        /// <summary>
-        /// The maximum health the entity can have.
-        /// </summary>
-        public int MaxHealth => _maxHealth;
+
+        #region Properties
+        // MARK: Properties
 
         /// <summary>
-        /// The amount of health the entity had when it was added to the node
-        /// scene.
+        ///  The maximum health the entity can have.
         /// </summary>
-        public int InitialHealth => _initialHealth;
+        [Export(PropertyHint.Range, "0,100,or_greater")]
+        public int MaxHealth { get; protected set; } = 100;
+
+        /// <summary>
+        ///  The amount of health the entity had when it was added to the node
+        ///  scene.
+        /// </summary>
+        [Export(PropertyHint.Range, "0,100,or_greater")]
+        public int InitialHealth { get; protected set; } = 100;
 
         /// <summary>
         /// The current health of the entity.
@@ -67,7 +59,7 @@ namespace EHE.BoltBusters
             protected set
             {
                 int oldHealth = _currentHealth;
-                _currentHealth = Math.Clamp(value, min: 0, max: _maxHealth);
+                _currentHealth = Math.Clamp(value, min: 0, max: MaxHealth);
 
                 if (_currentHealth != oldHealth)
                 {
@@ -77,44 +69,41 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// Equivalent to <c><see cref="CurrentHealth"/> > 0</c>.
+        ///  Equivalent to <c><see cref="CurrentHealth"/> > 0</c>.
         /// </summary>
         public bool IsAlive => CurrentHealth > 0;
 
         /// <summary>
-        /// If the entity can take damage or not.
+        ///  If the entity can take damage or not.
         /// </summary>
-        public bool IsImmortal
-        {
-            get => _isImmortal;
-            protected set => _isImmortal = value;
-        }
+        [Export]
+        public bool IsImmortal { get; protected set; }
 
-        ///////////////////////////////////////////////////////////////////////
-        // Methods
-        ///////////////////////////////////////////////////////////////////////
+        #endregion Properties
+
 
         #region Public Methods
+        // MARK: Public Methods
 
         /// <summary>
-        /// Initializes <see cref="CurrentHealth"/> with the initial value set
-        /// in inspector.
+        ///  Initializes <see cref="CurrentHealth"/> with the initial value set
+        ///  in inspector.
         /// </summary>
         public override void _Ready()
         {
-            CurrentHealth = _initialHealth;
+            CurrentHealth = InitialHealth;
             GD.Print($"CurrentHealth initialized to {CurrentHealth}.");
         }
 
         /// <summary>
-        /// Increases <see cref="CurrentHealth"/> by the given amount.
+        ///  Increases <see cref="CurrentHealth"/> by the given amount.
         /// </summary>
         ///
         /// <param name="amount">The amount to increase health by.</param>
         ///
         /// <remarks>
-        /// The amount must be a positive integer. If a negative value is
-        /// provided, prints an error message and returns.
+        ///  The amount must be a positive integer. If a negative value is
+        ///  provided, prints an error message and returns.
         /// </remarks>
         public virtual void Increase(int amount)
         {
