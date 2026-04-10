@@ -145,6 +145,15 @@ namespace EHE.BoltBusters
             return true;
         }
 
+        /// <summary>
+        ///  Sets the <see cref="CurrentHealth"/> back to
+        ///  <see cref="InitialHealth"/>.
+        /// </summary>
+        public virtual void RestoreToInitial()
+        {
+            CurrentHealth = InitialHealth;
+        }
+
         #endregion Public Methods
     }
 }
