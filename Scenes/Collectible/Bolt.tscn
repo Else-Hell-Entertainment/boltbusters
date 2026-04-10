@@ -95,7 +95,7 @@ libraries = {
 
 [node name="CollectibleShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
 script = ExtResource("6_gnfpm")
-_effectsPreset = ExtResource("5_gnfpm")
+_collectibleEffectShaderPreset = ExtResource("5_gnfpm")
 _meshes = [NodePath("../Bolt/Screw")]
 metadata/_custom_type_script = "uid://c5pxbv07ymkvh"
 

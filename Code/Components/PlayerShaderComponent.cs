@@ -8,90 +8,54 @@ using Godot;
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// ShaderComponent specialization for the player.
+    /// Plays the player damage flash effect.
+    /// When awaited, completes when the flash finishes or is overridden,
+    /// depending on the selected await policy.
     /// </summary>
     [GlobalClass]
-    public partial class PlayerShaderComponent : ShaderComponent
+    public partial class PlayerShaderComponent : ShaderComponent, IFlashEffect
     {
         [Export]
-        private EffectShaderPreset _effectsPreset;
+        private EffectShaderPreset _playerEffectShaderPreset;
 
-        /// <summary>
-        /// Effect preset used by this player instance.
-        /// Configure Flash (damage) and Pulse (healing) values here.
-        /// </summary>
-        private EffectShaderPreset EffectsPreset
+        #region IFlashEffect Implementation
+
+        void IFlashEffect.Flash()
         {
-            get { return _effectsPreset; }
+            PlayPlayerDamageFlash();
         }
 
-        #region Damage Flash
-
-        /// <summary>
-        /// Plays the player's damage flash effect. Returns a Task that completes
-        /// when this flash finishes its timeline or is overridden by another effect.
-        /// </summary>
-        public Task PlayPlayerDamageFlashAsync()
+        Task IFlashEffect.FlashAsync(EffectAwaitPolicy policy)
         {
-            if (_effectsPreset == null)
-            {
-                GD.PushWarning($"{Name}: PlayerShaderComponent has no EffectShaderPreset assigned.");
-                return Task.CompletedTask;
-            }
-
-            return PlayFlashAsync(_effectsPreset);
+            return PlayPlayerDamageFlashAsync(policy);
         }
 
-        /// <summary>
-        /// Starts the player's damage flash effect without awaiting its completion.
-        /// Use this in gameplay code when sequencing is not required.
-        /// </summary>
+        #endregion IFlashEffect Implementation
+
+        #region Flash
+
         public void PlayPlayerDamageFlash()
         {
-            if (_effectsPreset == null)
+            if (_playerEffectShaderPreset == null)
             {
                 GD.PushWarning($"{Name}: PlayerShaderComponent has no EffectShaderPreset assigned.");
                 return;
             }
 
-            _ = PlayFlashAsync(_effectsPreset);
+            _ = PlayFlashAsync(_playerEffectShaderPreset, EffectAwaitPolicy.Interruptible);
         }
 
-        #endregion Damage Flash
-
-        #region Healing Pulse
-
-        /// <summary>
-        /// Plays the player's healing pulse effect using the Pulse settings in the
-        /// assigned EffectShaderPreset. Returns a Task that completes when the pulse
-        /// finishes its timeline or is overridden by another effect.
-        /// </summary>
-        public Task PlayPlayerHealingPulseAsync()
+        public Task PlayPlayerDamageFlashAsync(EffectAwaitPolicy policy = EffectAwaitPolicy.Interruptible)
         {
-            if (_effectsPreset == null)
+            if (_playerEffectShaderPreset == null)
             {
                 GD.PushWarning($"{Name}: PlayerShaderComponent has no EffectShaderPreset assigned.");
                 return Task.CompletedTask;
             }
 
-            return PlayPulseAsync(_effectsPreset);
+            return PlayFlashAsync(_playerEffectShaderPreset, policy);
         }
 
-        /// <summary>
-        /// Starts the player's healing pulse effect without awaiting its completion.
-        /// Use this when a simple visual trigger is sufficient.
-        /// </summary>
-        public void PlayPlayerHealingPulse()
-        {
-            if (_effectsPreset == null)
-            {
-                GD.PushWarning($"{Name}: PlayerShaderComponent has no EffectShaderPreset assigned.");
-                return;
-            }
-
-            _ = PlayPulseAsync(_effectsPreset);
-        }
-
-        #endregion Healing Pulse
+        #endregion Flash
     }
 }

@@ -73,9 +73,9 @@ _data = {
 
 [node name="Wrench" type="Area3D" node_paths=PackedStringArray("_collectibleShaderComponent", "_animationPlayer")]
 script = ExtResource("2_opc5u")
+CollectibleType = 3
 _collectibleShaderComponent = NodePath("CollectibleShaderComponent")
 _animationPlayer = NodePath("AnimationPlayer")
-CollectibleType = 3
 
 [node name="CollectionArea" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41962922, 0)
@@ -95,7 +95,7 @@ libraries = {
 
 [node name="CollectibleShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
 script = ExtResource("4_58xis")
-_effectsPreset = ExtResource("4_3lkc1")
+_collectibleEffectShaderPreset = ExtResource("4_3lkc1")
 _meshes = [NodePath("../Wrench/Cube")]
 metadata/_custom_type_script = "uid://c5pxbv07ymkvh"
 

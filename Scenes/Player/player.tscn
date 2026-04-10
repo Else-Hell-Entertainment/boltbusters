@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://c4h2yy8w0gt3l"]
+[gd_scene load_steps=25 format=4 uid="uid://c4h2yy8w0gt3l"]
 
 [ext_resource type="Script" uid="uid://d1dql4pbawoly" path="res://Code/Objects/Player/Player.cs" id="1_4wape"]
 [ext_resource type="PackedScene" uid="uid://4x3awqn6r5eh" path="res://Scenes/Player/Weapons/ChaingunController.tscn" id="2_0u5uq"]
@@ -10,8 +10,8 @@
 [ext_resource type="Script" uid="uid://d2knauna4hn3f" path="res://Code/Objects/Player/PlayerHealthComponent.cs" id="7_0u5uq"]
 [ext_resource type="PackedScene" uid="uid://bta8cuhn6twxu" path="res://Scenes/Player/Weapons/Railgun.tscn" id="7_jhyir"]
 [ext_resource type="Script" uid="uid://ijwkg2xovq7l" path="res://Code/CollectArea.cs" id="8_jlvik"]
-[ext_resource type="PackedScene" uid="uid://durb8v5qnbcln" path="res://Scenes/UI/Crosshair.tscn" id="10_jhyir"]
 [ext_resource type="Script" uid="uid://15bogyux3w3m" path="res://Code/Components/PlayerShaderComponent.cs" id="10_74mp2"]
+[ext_resource type="PackedScene" uid="uid://durb8v5qnbcln" path="res://Scenes/UI/Crosshair.tscn" id="10_jhyir"]
 [ext_resource type="Resource" uid="uid://cwashgb0tg3w3" path="res://Assets/Shaders/PlayerShaderPreset.tres" id="11_oikmp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gkvi4"]
@@ -223,7 +223,7 @@ shape = SubResource("CylinderShape3D_jlvik")
 
 [node name="PlayerShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
 script = ExtResource("10_74mp2")
-_effectsPreset = ExtResource("11_oikmp")
+_playerEffectShaderPreset = ExtResource("11_oikmp")
 _meshes = [NodePath("../PlayerBody/Foot"), NodePath("../Turret/Body")]
 metadata/_custom_type_script = "uid://15bogyux3w3m"
 
