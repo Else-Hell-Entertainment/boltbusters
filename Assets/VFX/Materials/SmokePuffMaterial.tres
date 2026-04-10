@@ -20,6 +20,6 @@ shader_parameter/noise_scale = 1.80100008228762
 shader_parameter/time_scale = 0.5
 shader_parameter/fade_progress = 0.0
 shader_parameter/fade_sharpness = 0.10000000149012
-shader_parameter/base_color = Color(0.65341085, 0.653411, 0.6534107, 1)
+shader_parameter/base_color = Color(0.37867534, 0.37867534, 0.37867534, 1)
 shader_parameter/color_contrast = 0.906000043035
 shader_parameter/noise_color_scale = 3.91700018279762

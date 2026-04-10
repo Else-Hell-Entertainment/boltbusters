@@ -8,11 +8,12 @@ point_count = 3
 curve = SubResource("Curve_43t2x")
 
 [resource]
-lifetime_randomness = 0.5
+resource_local_to_scene = true
 angle_min = -89.99999
 angle_max = 90.000015
 direction = Vector3(0, 0, -1)
-initial_velocity_min = 2.0
-initial_velocity_max = 3.0
+spread = 30.0
+initial_velocity_min = 4.0
+initial_velocity_max = 4.0
 gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_q5hek")
