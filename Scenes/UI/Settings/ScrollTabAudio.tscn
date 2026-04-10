@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6ql2g8m5j170"]
+
+[ext_resource type="PackedScene" path="res://Scenes/UI/Settings/ScrollTab.tscn" id="1_3vlmt"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Settings/VolumeSlider.tscn" id="2_rj785"]
+[ext_resource type="Script" uid="uid://bldheaiav6k66" path="res://Code/UI/Settings/AudioTab.cs" id="2_tc702"]
+
+[node name="Audio" node_paths=PackedStringArray("_masterVolumeSlider", "_musicVolumeSlider", "_sfxVolumeSlider") instance=ExtResource("1_3vlmt")]
+script = ExtResource("2_tc702")
+_masterVolumeSlider = NodePath("MarginContainer/VBoxContainer/Master")
+_musicVolumeSlider = NodePath("MarginContainer/VBoxContainer/Music")
+_sfxVolumeSlider = NodePath("MarginContainer/VBoxContainer/SFX")
+_masterDisplayName = "Master"
+_musicDisplayName = "Music"
+_sfxDisplayName = "SFX"
+
+[node name="Master" parent="MarginContainer/VBoxContainer" index="0" instance=ExtResource("2_rj785")]
+layout_mode = 2
+
+[node name="Title" parent="MarginContainer/VBoxContainer/Master" index="0"]
+text = "Master"
+
+[node name="Music" parent="MarginContainer/VBoxContainer" index="1" instance=ExtResource("2_rj785")]
+layout_mode = 2
+
+[node name="Title" parent="MarginContainer/VBoxContainer/Music" index="0"]
+text = "Music"
+
+[node name="SFX" parent="MarginContainer/VBoxContainer" index="2" instance=ExtResource("2_rj785")]
+layout_mode = 2
+
+[node name="Title" parent="MarginContainer/VBoxContainer/SFX" index="0"]
+text = "Effects"
+
+[editable path="MarginContainer/VBoxContainer/Master"]
+[editable path="MarginContainer/VBoxContainer/Music"]
+[editable path="MarginContainer/VBoxContainer/SFX"]

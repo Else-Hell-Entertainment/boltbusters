@@ -6,5 +6,7 @@
 script = ExtResource("1_iysw5")
 
 [node name="CurrentPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
 
 [node name="NextPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Music"

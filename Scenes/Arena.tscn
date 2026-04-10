@@ -2,7 +2,7 @@
 
 [ext_resource type="MeshLibrary" uid="uid://43rio2xy10fd" path="res://Assets/Models/Arena/MeshLibraryArena1.tres" id="1_0g2wx"]
 [ext_resource type="PackedScene" uid="uid://tb0fhj8w73mc" path="res://Scenes/Enemies/EnemySpawnManager.tscn" id="2_pyk7t"]
-[ext_resource type="PackedScene" uid="uid://d2pwdhbrhlwgr" path="res://Scenes/CameraRig.tscn" id="4_4f205"]
+[ext_resource type="PackedScene" uid="uid://d2pwdhbrhlwgr" path="res://Scenes/Camera/CameraRig.tscn" id="4_4f205"]
 [ext_resource type="PackedScene" uid="uid://c4h2yy8w0gt3l" path="res://Scenes/Player/player.tscn" id="4_x00a1"]
 [ext_resource type="PackedScene" uid="uid://bh3xawx4w08w2" path="res://Scenes/Collectible/CollectibleSpawnManager.tscn" id="6_dpcf1"]
 

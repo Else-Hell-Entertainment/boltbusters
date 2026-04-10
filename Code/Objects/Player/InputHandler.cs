@@ -110,7 +110,7 @@ namespace EHE.BoltBusters
             }
 
             // Cast ray from camera through mouse position
-            Vector2 mousePos = GetViewport().GetMousePosition();
+            Vector2 mousePos = GameManager.Instance.Viewport.GetMousePosition();
             Vector3 rayStart = _camera.ProjectRayOrigin(mousePos);
             Vector3 rayDirection = _camera.ProjectRayNormal(mousePos);
 

@@ -1,0 +1,99 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7v60fhs1ur2a"]
+
+[ext_resource type="PackedScene" uid="uid://bividsk1nutuf" path="res://Scenes/UI/Settings/ScrollTab.tscn" id="1_q6y72"]
+[ext_resource type="PackedScene" uid="uid://4aokyi2vqwpn" path="res://Scenes/UI/Settings/ControlDisplay.tscn" id="2_gq3ie"]
+
+[node name="Controls" instance=ExtResource("1_q6y72")]
+
+[node name="Boost" parent="MarginContainer/VBoxContainer" index="0" instance=ExtResource("2_gq3ie")]
+layout_mode = 2
+
+[node name="ControlName" parent="MarginContainer/VBoxContainer/Boost" index="0"]
+text = "Boost"
+
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Boost" index="1"]
+text = "LShift
+"
+
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Boost" index="2"]
+text = "Right Trigger"
+
+[node name="Accelerate" parent="MarginContainer/VBoxContainer" index="1" instance=ExtResource("2_gq3ie")]
+layout_mode = 2
+
+[node name="ControlName" parent="MarginContainer/VBoxContainer/Accelerate" index="0"]
+text = "Accelerate"
+
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Accelerate" index="1"]
+text = "D"
+
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Accelerate" index="2"]
+text = "Gamepad R"
+
+[node name="Decelerate" parent="MarginContainer/VBoxContainer" index="2" instance=ExtResource("2_gq3ie")]
+layout_mode = 2
+
+[node name="ControlName" parent="MarginContainer/VBoxContainer/Decelerate" index="0"]
+text = "Decelerate"
+
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Decelerate" index="1"]
+text = "A"
+
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Decelerate" index="2"]
+text = "Gamepad L"
+
+[node name="Jump" parent="MarginContainer/VBoxContainer" index="3" instance=ExtResource("2_gq3ie")]
+layout_mode = 2
+
+[node name="ControlName" parent="MarginContainer/VBoxContainer/Jump" index="0"]
+text = "Jump"
+
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Jump" index="1"]
+text = "SPACE"
+
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Jump" index="2"]
+text = "Bottom Action"
+
+[node name="Melee" parent="MarginContainer/VBoxContainer" index="4" instance=ExtResource("2_gq3ie")]
+layout_mode = 2
+
+[node name="ControlName" parent="MarginContainer/VBoxContainer/Melee" index="0"]
+text = "Melee"
+
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Melee" index="1"]
+text = "RMB / H"
+
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Melee" index="2"]
+text = "Top Action"
+
+[node name="ShootUp" parent="MarginContainer/VBoxContainer" index="5" instance=ExtResource("2_gq3ie")]
+layout_mode = 2
+
+[node name="ControlName" parent="MarginContainer/VBoxContainer/ShootUp" index="0"]
+text = "Shoot Up"
+
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/ShootUp" index="1"]
+text = "W / K"
+
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/ShootUp" index="2"]
+text = "Right Action"
+
+[node name="ShootFront" parent="MarginContainer/VBoxContainer" index="6" instance=ExtResource("2_gq3ie")]
+layout_mode = 2
+
+[node name="ControlName" parent="MarginContainer/VBoxContainer/ShootFront" index="0"]
+text = "Shoot Front"
+
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/ShootFront" index="1"]
+text = "LMB / J"
+
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/ShootFront" index="2"]
+text = "Left Action"
+
+[editable path="MarginContainer/VBoxContainer/Boost"]
+[editable path="MarginContainer/VBoxContainer/Accelerate"]
+[editable path="MarginContainer/VBoxContainer/Decelerate"]
+[editable path="MarginContainer/VBoxContainer/Jump"]
+[editable path="MarginContainer/VBoxContainer/Melee"]
+[editable path="MarginContainer/VBoxContainer/ShootUp"]
+[editable path="MarginContainer/VBoxContainer/ShootFront"]

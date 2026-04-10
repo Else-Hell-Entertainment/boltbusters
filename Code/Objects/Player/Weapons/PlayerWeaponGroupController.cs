@@ -158,6 +158,19 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
+        /// Resets all weapons to their default state by calling BaseWeapon.Reset().
+        /// If the controller has any custom behaviours that also need to be reset, override the method and add the
+        /// mechanics. Note that base implementation for Reset() is empty and needs to be also implemented.
+        /// </summary>
+        public virtual void ResetWeapons()
+        {
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                weapon.Reset();
+            }
+        }
+
+        /// <summary>
         ///  Removes all weapons from the controller.
         /// </summary>
         private void RemoveAllWeapons()

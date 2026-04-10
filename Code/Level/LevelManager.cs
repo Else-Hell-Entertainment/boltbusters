@@ -5,6 +5,7 @@
 
 using System;
 using EHE.BoltBusters.Config;
+using EHE.BoltBusters.EnemyAI;
 using EHE.BoltBusters.States;
 using EHE.Common.Godot.Extensions;
 using Godot;
@@ -57,6 +58,9 @@ namespace EHE.BoltBusters
     /// </remarks>
     public partial class LevelManager : Node3D
     {
+        [Signal]
+        public delegate void InitializedEventHandler();
+
         #region Fields
 
         // Fields that are editable in the inspector.
@@ -75,6 +79,7 @@ namespace EHE.BoltBusters
         // Nodes that are created from the code.
         private Timer _roundTimer;
         private RoundData _roundData;
+        private EnemyGroupManager _enemyGroupManager;
 
         #endregion Fields
 
@@ -167,6 +172,11 @@ namespace EHE.BoltBusters
             AddChild(_projectileRoot);
             AddChild(_collectibleRoot);
 
+            // Create enemy group AI manager
+            _enemyGroupManager = new EnemyGroupManager();
+            _enemyGroupManager.SetName("EnemyGroupManager");
+            AddChild(_enemyGroupManager);
+
             // Create round timer.
             // TODO: Create timer in separate method when round starts.
             _roundTimer = new Timer();
@@ -222,6 +232,8 @@ namespace EHE.BoltBusters
             DespawnLevelObjects();
             _roundTimer.WaitTime = _roundData.RoundLength;
             GameManager.Instance.SaveGame();
+            this.PrintDebug("Initialized.");
+            EmitSignal(SignalName.Initialized);
         }
 
         /// <summary>
@@ -278,6 +290,7 @@ namespace EHE.BoltBusters
             _roundTimer.Start();
             RoundInProgress = true;
             _enemySpawnManager.StartRound(_roundData);
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, true);
         }
 
         /// <summary>
@@ -303,6 +316,7 @@ namespace EHE.BoltBusters
         {
             this.PrintDebug("Resetting level...");
             DespawnLevelObjects();
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, false);
 
             // TODO: Make player immobile.
             Player.GlobalPosition = _playerSpawnPosition.GlobalPosition; // TODO: Is this too hacky?
@@ -337,6 +351,7 @@ namespace EHE.BoltBusters
             if (levelObject is Enemy enemy)
             {
                 _enemyRoot.AddChild(enemy);
+                _enemyGroupManager.AddEnemy(enemy);
             }
             else if (levelObject is Projectile projectile)
             {

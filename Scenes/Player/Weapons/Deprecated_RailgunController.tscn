@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bub1el2qo1icj" path="res://Code/Objects/Player/Weapons/Deprecated_PlayerRailgunController.cs" id="1_x5un3"]
 [ext_resource type="PackedScene" uid="uid://cf5vqiflfwdvt" path="res://Scenes/Player/Weapons/Deprecated_railgun.tscn" id="2_qcyao"]
-[ext_resource type="AudioStream" uid="uid://d3apgvl2x6pdt" path="res://Assets/SFX/PROTORailgunShoot.mp3" id="3_hl27y"]
+[ext_resource type="AudioStream" uid="uid://d1dbgtu0eyym8" path="res://Assets/SFX/RailgunShoot.ogg" id="3_x5un3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m3cup"]
 albedo_color = Color(0, 0.37254903, 0.6, 1)
@@ -58,4 +58,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21218425, 0.17114127, -0.06
 mesh = SubResource("BoxMesh_4c8oc")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("3_hl27y")
+stream = ExtResource("3_x5un3")
+bus = &"Sfx"

@@ -46,7 +46,6 @@ namespace EHE.BoltBusters.Ui
 
         public override void _Ready()
         {
-            GameManager.Instance.RequestHudRefresh += RefreshUi;
             _launchers.Add(_launcher1);
             _launchers.Add(_launcher2);
             _launchers.Add(_launcher3);
@@ -58,12 +57,10 @@ namespace EHE.BoltBusters.Ui
             RefreshUi();
         }
 
-        public override void _ExitTree()
-        {
-            GameManager.Instance.RequestHudRefresh -= RefreshUi;
-        }
-
-        private void RefreshUi()
+        /// <summary>
+        ///  Refreshes the weapon UI.
+        /// </summary>
+        public void RefreshUi()
         {
             ClearWeaponUiList();
             UpdateLauncherList();
