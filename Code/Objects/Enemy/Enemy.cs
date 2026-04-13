@@ -20,7 +20,6 @@ namespace EHE.BoltBusters
         public delegate void EnemyDiedEventHandler(int enemyType, Vector3 deathPosition);
         #endregion EnemyInfo
 
-
         #region Public methods
         public void Initialize(EnemyType enemyType)
         {
@@ -29,10 +28,16 @@ namespace EHE.BoltBusters
 
         public override void OnSpawn() { }
 
-        public override void OnDespawn()
+        public override void HandleDeath()
         {
             EmitSignal(SignalName.EnemyDied, (int)_enemyType, GlobalPosition);
-            QueueFree();
+            OnDespawn();
+        }
+
+        // Add additional logic if it differs from default (Node.QueueFree) method.
+        public override void OnDespawn()
+        {
+            base.OnDespawn();
         }
         #endregion Public methods
     }

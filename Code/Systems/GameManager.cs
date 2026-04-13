@@ -113,6 +113,11 @@ namespace EHE.BoltBusters
         public static GameManager Instance { get; private set; }
 
         /// <summary>
+        ///  Reference to the settings manager.
+        /// </summary>
+        public SettingsManager SettingsManager { get; private set; }
+
+        /// <summary>
         ///  Reference to the SceneTree of the game.
         /// </summary>
         public SceneTree SceneTree
@@ -181,6 +186,7 @@ namespace EHE.BoltBusters
         {
             LoadLevelManagersIntoMemory();
             SetUpStateMachine();
+            SetUpSettingsManager();
 
             _saveManager = new SaveManager();
             DefaultPlayerData = GD.Load<PlayerData>(FilePathConfig.DEFAULT_PLAYER_DATA_RESOURCE_PATH);
@@ -460,6 +466,17 @@ namespace EHE.BoltBusters
                 new GameStatePaused(),
                 new ShopState()
             );
+        }
+
+        /// <summary>
+        ///  Creates a new instance of <see cref="SettingsManager"/> and
+        ///  initializes it.
+        /// </summary>
+        private void SetUpSettingsManager()
+        {
+            SettingsManager = new SettingsManager();
+            SettingsManager.Initialize();
+            SettingsManager.ApplySettings(SettingsManager.LoadSettingsFromFile(SettingsConfig.USER_SETTINGS_FILE_PATH));
         }
 
         /// <summary>

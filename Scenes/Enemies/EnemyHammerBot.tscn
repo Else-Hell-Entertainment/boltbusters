@@ -1,7 +1,7 @@
-[gd_scene load_steps=31 format=4 uid="uid://d1v0b82d6dwda"]
+[gd_scene load_steps=28 format=4 uid="uid://d1v0b82d6dwda"]
 
 [ext_resource type="Script" uid="uid://cai3rjcjb1tw8" path="res://Code/Objects/Enemy/EnemyHammerBot.cs" id="1_5800e"]
-[ext_resource type="Shader" uid="uid://bopx7f8xnbkgy" path="res://Assets/Shaders/EffectShader.gdshader" id="2_0ad1w"]
+[ext_resource type="Material" uid="uid://do048e2b52egy" path="res://Assets/Shaders/EffectShaderShaderMaterial.tres" id="2_0ad1w"]
 [ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="2_5800e"]
 [ext_resource type="Script" uid="uid://tk4ek7denot" path="res://Code/Objects/Enemy/EnemyMeleeWeapon.cs" id="3_7mpij"]
 [ext_resource type="AnimationLibrary" uid="uid://daif2hrjdta3p" path="res://Assets/Animations/HammerBotAnimations.tres" id="4_5800e"]
@@ -10,26 +10,6 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aundc"]
 size = Vector3(1.14, 2, 2.287)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lncp1"]
-render_priority = 0
-shader = ExtResource("2_0ad1w")
-shader_parameter/effect_mode = 0
-shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_strength = 0.0
-shader_parameter/flash_value = 0.0
-shader_parameter/pulse_color = Color(1, 1, 1, 1)
-shader_parameter/pulse_strength = 0.0
-shader_parameter/pulse_speed = 0.0
-shader_parameter/accelerating_pulse_color = Color(1, 1, 1, 1)
-shader_parameter/accelerating_pulse_start_strength = 0.0
-shader_parameter/accelerating_pulse_finish_strength = 0.0
-shader_parameter/accelerating_pulse_speed = 0.0
-shader_parameter/acceleration_speed_factor = 0.0
-shader_parameter/acceleration_delay = 0.0
-shader_parameter/accelerating_pulse_duration = 0.0
-shader_parameter/accelerating_pulse_time = 0.0
-shader_parameter/accelerating_pulse_progress = 0.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vmk05"]
 resource_name = "Material.009"
@@ -99,26 +79,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_k1wru")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0ad1w"]
-render_priority = 0
-shader = ExtResource("2_0ad1w")
-shader_parameter/effect_mode = 0
-shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_strength = 0.0
-shader_parameter/flash_value = 0.0
-shader_parameter/pulse_color = Color(1, 1, 1, 1)
-shader_parameter/pulse_strength = 0.0
-shader_parameter/pulse_speed = 0.0
-shader_parameter/accelerating_pulse_color = Color(1, 1, 1, 1)
-shader_parameter/accelerating_pulse_start_strength = 0.0
-shader_parameter/accelerating_pulse_finish_strength = 0.0
-shader_parameter/accelerating_pulse_speed = 0.0
-shader_parameter/acceleration_speed_factor = 0.0
-shader_parameter/acceleration_delay = 0.0
-shader_parameter/accelerating_pulse_duration = 0.0
-shader_parameter/accelerating_pulse_time = 0.0
-shader_parameter/accelerating_pulse_progress = 0.0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y7xda"]
 resource_name = "Tela"
 cull_mode = 2
@@ -186,26 +146,6 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_md340")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lxnnb"]
-render_priority = 0
-shader = ExtResource("2_0ad1w")
-shader_parameter/effect_mode = 0
-shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_strength = 0.0
-shader_parameter/flash_value = 0.0
-shader_parameter/pulse_color = Color(1, 1, 1, 1)
-shader_parameter/pulse_strength = 0.0
-shader_parameter/pulse_speed = 0.0
-shader_parameter/accelerating_pulse_color = Color(1, 1, 1, 1)
-shader_parameter/accelerating_pulse_start_strength = 0.0
-shader_parameter/accelerating_pulse_finish_strength = 0.0
-shader_parameter/accelerating_pulse_speed = 0.0
-shader_parameter/acceleration_speed_factor = 0.0
-shader_parameter/acceleration_delay = 0.0
-shader_parameter/accelerating_pulse_duration = 0.0
-shader_parameter/accelerating_pulse_time = 0.0
-shader_parameter/accelerating_pulse_progress = 0.0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_g1xrc"]
 _surfaces = [{
@@ -330,102 +270,6 @@ shadow_mesh = SubResource("ArrayMesh_xs8oo")
 
 [sub_resource type="Animation" id="Animation_5800e"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HammerNode/Hammer:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-6.4101265e-08, 1.0126531, 0.73323303)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HammerNode/Hammer:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 3.1415925, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("BodyNode/EnemyMelee/Head_Wheels:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0.44016513, 0.3561785)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("BodyNode/EnemyMelee/Track:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.3808058, 0, 0)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("BodyNode/EnemyMelee/Track_001:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-0.38612062, 0, 0)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("BodyNode/EnemyMelee/Head_Wheels:rotation")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("BodyNode/EnemyMelee/Track:rotation")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(1.5707964, 1.5707964, 0)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("BodyNode/EnemyMelee/Track_001:rotation")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(1.5707964, 1.5707964, 0)]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7mpij"]
 _data = {
@@ -445,8 +289,8 @@ initial_velocity_max = 10.0
 gravity = Vector3(0, 0, 0)
 
 [sub_resource type="SphereMesh" id="SphereMesh_0ad1w"]
-radius = 0.05
-height = 0.1
+radius = 0.1
+height = 0.2
 
 [node name="EnemyHammerBot" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent")]
 collision_layer = 3
@@ -464,20 +308,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0)
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.25, 0)
 
 [node name="Head_Wheels" type="MeshInstance3D" parent="BodyNode/EnemyMelee"]
-transform = Transform3D(0.23772654, 0, 0, 0, 0.28714886, 0, 0, 0, 0.22827278, 0, 0.44016513, 0.3561785)
-material_overlay = SubResource("ShaderMaterial_lncp1")
+transform = Transform3D(0.23772654, 0, 0, 0, 0.28714886, 0, 0, 0, 0.2282728, 0, 0.44016513, 0.3561785)
+material_overlay = ExtResource("2_0ad1w")
 mesh = SubResource("ArrayMesh_0cvss")
 skeleton = NodePath("")
 
 [node name="Track" type="MeshInstance3D" parent="BodyNode/EnemyMelee"]
-transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, 0.3808058, 0, 0)
-material_overlay = SubResource("ShaderMaterial_0ad1w")
+transform = Transform3D(0, 1, 0, 0, 0, -1, -1, 0, 0, 0.3808058, 0, 0)
+material_overlay = ExtResource("2_0ad1w")
 mesh = SubResource("ArrayMesh_t6oqg")
 skeleton = NodePath("")
 
 [node name="Track_001" type="MeshInstance3D" parent="BodyNode/EnemyMelee"]
-transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, -0.38612062, 0, 0)
-material_overlay = SubResource("ShaderMaterial_lxnnb")
+transform = Transform3D(0, 1, 0, 0, 0, -1, -1, 0, 0, -0.38612062, 0, 0)
+material_overlay = ExtResource("2_0ad1w")
 mesh = SubResource("ArrayMesh_546hp")
 skeleton = NodePath("")
 
@@ -485,7 +329,7 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14, -0.73)
 
 [node name="Hammer" type="MeshInstance3D" parent="HammerNode"]
-transform = Transform3D(-0.22308668, 0, 3.3685154e-08, 0, 0.33213818, 0, -3.3685154e-08, 0, -0.2230867, -6.4101265e-08, 1.0126531, 0.73323303)
+transform = Transform3D(-0.22308668, 0, 1.9502858e-08, 0, 0.3321382, 0, -1.9502858e-08, 0, -0.22308668, -6.4101265e-08, 1.0126531, 0.73323303)
 mesh = SubResource("ArrayMesh_g6g5b")
 skeleton = NodePath("")
 
@@ -523,9 +367,10 @@ shape = SubResource("CapsuleShape3D_on8ld")
 [node name="HitParticles" type="GPUParticles3D" parent="MeleeWeapon"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4816972, -0.15241164)
 emitting = false
-lifetime = 0.2
+amount = 16
+lifetime = 0.3
 one_shot = true
-explosiveness = 1.0
+explosiveness = 0.39
 process_material = SubResource("ParticleProcessMaterial_57rxb")
 draw_pass_1 = SubResource("SphereMesh_0ad1w")
 
@@ -533,6 +378,6 @@ draw_pass_1 = SubResource("SphereMesh_0ad1w")
 
 [node name="EnemyShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
 script = ExtResource("6_57rxb")
-_effectsPreset = ExtResource("7_0ad1w")
+_enemyEffectShaderPreset = ExtResource("7_0ad1w")
 _meshes = [NodePath("../BodyNode/EnemyMelee/Head_Wheels"), NodePath("../BodyNode/EnemyMelee/Track"), NodePath("../BodyNode/EnemyMelee/Track_001")]
 metadata/_custom_type_script = "uid://dn3xdtkt00s1k"

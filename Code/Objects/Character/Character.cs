@@ -34,17 +34,6 @@ namespace EHE.BoltBusters
             }
         }
 
-        /// <summary>
-        /// <b>WIP!</b>
-        /// Handles the death of a character. By default, this simply deletes
-        /// the character node from the scene using its <see cref="Node.QueueFree"/>
-        /// method.
-        /// </summary>
-        public void HandleDeath()
-        {
-            OnDespawn();
-        }
-
         public int GetCurrentHealth()
         {
             return _healthComponent.CurrentHealth;
@@ -58,10 +47,28 @@ namespace EHE.BoltBusters
         public abstract void OnSpawn();
 
         /// <summary>
+        /// <b>WIP!</b>
+        /// Handles the death of a character independently from despawn logic.
+        /// This allows death-related events to trigger only on actual death,
+        /// not when an entity is forcefully despawned (e.g., during level cleanup).
+        /// By default, this simply deletes the character node from the scene
+        /// using its <see cref="Node.QueueFree"/> method.
+        /// </summary>
+        public virtual void HandleDeath()
+        {
+            OnDespawn();
+        }
+
+        /// <summary>
         /// Called when the character is to be removed from the scene.
         /// Use this to clean up timers, animations, effects,
         /// or return the character to an object pool.
+        /// By default, this simply deletes the character node from the scene
+        /// using its <see cref="Node.QueueFree"/> method.
         /// </summary>
-        public abstract void OnDespawn();
+        public virtual void OnDespawn()
+        {
+            QueueFree();
+        }
     }
 }

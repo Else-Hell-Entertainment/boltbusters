@@ -59,4 +59,4 @@ mesh = SubResource("BoxMesh_4c8oc")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_x5un3")
-bus = &"SFX"
+bus = &"Sfx"
