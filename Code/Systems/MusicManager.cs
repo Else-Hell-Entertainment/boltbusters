@@ -43,6 +43,8 @@ public partial class MusicManager : Node
         Instance = this;
         CurrentPlayer = new AudioStreamPlayer();
         NextPlayer = new AudioStreamPlayer();
+        CurrentPlayer.SetName("CurrentPlayer");
+        NextPlayer.SetName("NextPlayer");
         AddChild(CurrentPlayer);
         AddChild(NextPlayer);
 
