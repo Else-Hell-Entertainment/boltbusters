@@ -26,8 +26,11 @@ namespace EHE.BoltBusters.States
 
         protected override async void OnExited(bool keepLoaded = false)
         {
-            GD.Print("[ShopState] Fading in level music.");
-            MusicManager.Instance.FadeInCurrentSong(1.0f);
+            if (!keepLoaded)
+            {
+                GD.Print("[ShopState] Fading in level music.");
+                MusicManager.Instance.FadeInCurrentSong(1.0f);
+            }
         }
     }
 }
