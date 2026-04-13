@@ -20,7 +20,7 @@ namespace EHE.BoltBusters.States
         /// <summary>
         /// Switches the level to the background level if necessary.
         /// </summary>
-        protected override void OnEntered()
+        protected override async void OnEntered()
         {
             base.OnEntered();
 
@@ -30,6 +30,9 @@ namespace EHE.BoltBusters.States
             if (levelManager == null || levelManager.LevelType != targetLevelType)
             {
                 GameManager.Instance.SwitchToLevelType(targetLevelType);
+                GD.Print("[MainMenuState] Switching music.");
+                MusicManager.Instance.StopCurrentSong();
+                MusicManager.Instance.PlaySong(MusicManager.Song.MainTheme);
             }
         }
 
