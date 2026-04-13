@@ -20,14 +20,19 @@ namespace EHE.BoltBusters.States
 
         protected override void OnEntered()
         {
+            // Await is not needed since there is nothing done afterward.
             GD.Print("[ShopState] Fading out level music.");
             MusicManager.Instance.FadeOutCurrentSong(5.0f);
         }
 
-        protected override async void OnExited(bool keepLoaded = false)
+        protected override void OnExited(bool keepLoaded = false)
         {
+            // Only executed when the shop menu is removed. This prevents
+            // the music from fading in/out when pause menu is
+            // opened/closed.
             if (!keepLoaded)
             {
+                // Await is not needed since there is nothing done afterward.
                 GD.Print("[ShopState] Fading in level music.");
                 MusicManager.Instance.FadeInCurrentSong(1.0f);
             }

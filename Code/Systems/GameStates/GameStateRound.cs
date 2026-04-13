@@ -35,11 +35,13 @@ namespace EHE.BoltBusters.States
 
                 if (levelManager == null)
                 {
+                    // Instantly play music if this is the first level manager to be loaded.
                     GD.Print("[RoundState] Playing music instantly.");
                     MusicManager.Instance.PlaySong(song);
                 }
                 else
                 {
+                    // When transitioning to another level manager, fade out the music.
                     GD.Print("[RoundState] Stopping music with fade out.");
                     await MusicManager.Instance.StopCurrentSongWithFadeOut(5.0f);
                 }
