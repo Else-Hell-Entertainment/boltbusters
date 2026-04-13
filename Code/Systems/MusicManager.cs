@@ -29,7 +29,7 @@ public partial class MusicManager : Node
     private const float MIN_VOLUME_DB = -80.0f;
     private const float MAX_VOLUME_DB = 0.0f;
 
-    private string CurrentSongName => CurrentPlayer.Stream?.ResourcePath;
+    private string CurrentSongFile => CurrentPlayer.Stream?.ResourcePath;
 
     public override void _Ready()
     {
@@ -122,7 +122,7 @@ public partial class MusicManager : Node
         CurrentPlayer.Stream = _music[song];
         CurrentPlayer.VolumeDb = MAX_VOLUME_DB;
         CurrentPlayer.Play();
-        GD.Print($"[MusicManager] Started playing '{CurrentSongName}'.");
+        GD.Print($"[MusicManager] Started playing '{CurrentSongFile}'.");
     }
 
     /// <summary>
@@ -160,7 +160,7 @@ public partial class MusicManager : Node
     {
         _currentAudioTween?.Kill();
         CurrentPlayer.Stop();
-        GD.Print($"[MusicManager] Stopped playing '{CurrentSongName}'.");
+        GD.Print($"[MusicManager] Stopped playing '{CurrentSongFile}'.");
     }
 
     /// <summary>
@@ -196,7 +196,7 @@ public partial class MusicManager : Node
     {
         _currentAudioTween?.Pause();
         CurrentPlayer.StreamPaused = true;
-        GD.Print($"[MusicManager] Pause '{CurrentSongName}'.");
+        GD.Print($"[MusicManager] Pause '{CurrentSongFile}'.");
     }
 
     /// <summary>
@@ -206,7 +206,7 @@ public partial class MusicManager : Node
     {
         _currentAudioTween?.Play();
         CurrentPlayer.StreamPaused = false;
-        GD.Print($"[MusicManager] Resumed '{CurrentSongName}'.");
+        GD.Print($"[MusicManager] Resumed '{CurrentSongFile}'.");
     }
 
     /// <summary>
@@ -225,7 +225,7 @@ public partial class MusicManager : Node
     /// </remarks>
     public async Task FadeInCurrentSong(float fadeDuration)
     {
-        GD.Print($"[MusicManager] Fading IN '{CurrentSongName}'.");
+        GD.Print($"[MusicManager] Fading IN '{CurrentSongFile}'.");
         _currentAudioTween?.Kill();
         _currentAudioTween = CurrentPlayer.CreateTween();
         await FadeIn(CurrentPlayer, fadeDuration, _currentAudioTween);
@@ -247,7 +247,7 @@ public partial class MusicManager : Node
     /// </remarks>
     public async Task FadeOutCurrentSong(float fadeDuration)
     {
-        GD.Print($"[MusicManager] Fading OUT '{CurrentSongName}'.");
+        GD.Print($"[MusicManager] Fading OUT '{CurrentSongFile}'.");
         _currentAudioTween?.Kill();
         _currentAudioTween = CurrentPlayer.CreateTween();
         await FadeOut(CurrentPlayer, fadeDuration, _currentAudioTween);
