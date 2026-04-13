@@ -17,5 +17,17 @@ namespace EHE.BoltBusters.States
             AddTargetState(StateType.Paused);
             AddTargetState(StateType.Round);
         }
+
+        protected override void OnEntered()
+        {
+            GD.Print("[ShopState] Fading out level music.");
+            MusicManager.Instance.FadeOutCurrentSong(5.0f);
+        }
+
+        protected override async void OnExited(bool keepLoaded = false)
+        {
+            GD.Print("[ShopState] Fading in level music.");
+            MusicManager.Instance.FadeInCurrentSong(1.0f);
+        }
     }
 }
