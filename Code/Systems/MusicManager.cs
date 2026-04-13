@@ -33,6 +33,13 @@ public partial class MusicManager : Node
 
     public override void _Ready()
     {
+        // Singleton pattern, prevents multiple instances from being created.
+        if (Instance != null)
+        {
+            GD.PushWarning("[MusicManager] Music manager is already present. Deleting this instance.");
+            QueueFree();
+        }
+
         Instance = this;
         CurrentPlayer = new AudioStreamPlayer();
         NextPlayer = new AudioStreamPlayer();
