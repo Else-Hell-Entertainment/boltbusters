@@ -185,7 +185,7 @@ namespace EHE.BoltBusters
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
             this.PrintDebug($"{LevelType} level ready.");
 
-            MusicManager.Instance.PlayMusic(MusicManager.Instance.CurrentPlayer, MusicManager.Song.MainTheme);
+            //MusicManager.Instance.PlayMusic(MusicManager.Instance.CurrentPlayer, MusicManager.Song.MainTheme);
         }
 
         #endregion Overrides
@@ -289,7 +289,7 @@ namespace EHE.BoltBusters
         public void StartRound()
         {
             this.PrintDebug("Starting round...");
-            MusicManager.Instance.FadeInPlayer(MusicManager.Instance.CurrentPlayer);
+            //MusicManager.Instance.FadeInPlayer(MusicManager.Instance.CurrentPlayer);
             _roundTimer.Start();
             RoundInProgress = true;
             _enemySpawnManager.StartRound(_roundData);
@@ -421,7 +421,7 @@ namespace EHE.BoltBusters
         private void OnRoundEnded()
         {
             this.PrintDebug("Round ended.");
-            MusicManager.Instance.FadeOutPlayer(MusicManager.Instance.CurrentPlayer);
+            //MusicManager.Instance.FadeOutPlayer(MusicManager.Instance.CurrentPlayer);
             _roundTimer.Stop();
             RoundInProgress = false;
             ResetLevel();
