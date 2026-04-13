@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://tifq3kah83v1"]
+[gd_scene load_steps=20 format=4 uid="uid://tifq3kah83v1"]
 
 [ext_resource type="Script" uid="uid://cai3rjcjb1tw8" path="res://Code/Objects/Enemy/EnemyHammerBot.cs" id="1_1a4lf"]
 [ext_resource type="Script" uid="uid://cfac2mdj6up2d" path="res://Code/Objects/Enemy/BossMeleeWeapon.cs" id="2_h2luo"]
@@ -225,6 +225,8 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_esxiv")
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0u0g7"]
+
 [sub_resource type="ArrayMesh" id="ArrayMesh_ouqvm"]
 _surfaces = [{
 "aabb": AABB(-0.9568688, -2.5717945, -0.8632334, 1.9668014, 2.1087115, 1.7264668),
@@ -258,15 +260,55 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ouqvm")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wa2ls"]
-size = Vector3(1, 2.1939697, 2.9213867)
+size = Vector3(1.3747864, 2.1939697, 2.9213867)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g4dv0"]
+[sub_resource type="Animation" id="Animation_h2luo"]
+resource_name = "Attack"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.43333334),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"SetAttackState"
+}, {
+"args": [false],
+"method": &"SetAttackState"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../TorsoNode/Torso:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.53333336),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -1.1335913, 0), Vector3(0, 0.99288267, 0), Vector3(0, 0, 0)]
+}
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0u0g7"]
+[sub_resource type="Animation" id="Animation_g4dv0"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g4dv0"]
+_data = {
+&"Attack": SubResource("Animation_h2luo"),
+&"RESET": SubResource("Animation_g4dv0")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h2luo"]
+size = Vector3(1, 1.7110596, 1.6173096)
 
 [node name="EnemyBoss" type="CharacterBody3D"]
-collision_layer = 0
-collision_mask = 0
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_1a4lf")
 
 [node name="TorsoNode" type="Node3D" parent="."]
@@ -277,6 +319,13 @@ transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, -0.257191, 
 mesh = SubResource("ArrayMesh_d8bjd")
 skeleton = NodePath("")
 
+[node name="AttackArea" type="Area3D" parent="TorsoNode/Torso"]
+transform = Transform3D(-4.3711374e-08, 0, -0.99999964, 0, 1, 0, 0.99999964, 0, -4.3711374e-08, 0.80726516, -0.5521034, 1.3179235)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TorsoNode/Torso/AttackArea"]
+shape = SubResource("CapsuleShape3D_0u0g7")
+
 [node name="BodyNode" type="Node3D" parent="."]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 
@@ -286,33 +335,29 @@ mesh = SubResource("ArrayMesh_x1nyi")
 skeleton = NodePath("")
 
 [node name="Collider" type="CollisionShape3D" parent="."]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 1.0968329, 0.23510742)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -8.191217e-09, 1.0968329, 0.047714233)
 shape = SubResource("BoxShape3D_wa2ls")
 
 [node name="MeleeWeapon" type="Node3D" parent="." node_paths=PackedStringArray("_triggerArea", "_attackArea", "_cooldownTimer", "_animationPlayer")]
 script = ExtResource("2_h2luo")
-_meleeCooldown = 5.0
 _triggerArea = NodePath("../TriggerArea")
-_attackArea = NodePath("../AttackArea")
+_attackArea = NodePath("../TorsoNode/Torso/AttackArea")
 _cooldownTimer = NodePath("CooldownTimer")
 _animationPlayer = NodePath("AnimationPlayer")
 
 [node name="CooldownTimer" type="Timer" parent="MeleeWeapon"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MeleeWeapon"]
+libraries = {
+&"": SubResource("AnimationLibrary_g4dv0")
+}
 
 [node name="TriggerArea" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.706, -1.459)
 collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerArea"]
-shape = SubResource("CapsuleShape3D_g4dv0")
-
-[node name="AttackArea" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.622, -0.913)
-collision_layer = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AttackArea"]
-shape = SubResource("CapsuleShape3D_0u0g7")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3555298, 0.3086548)
+shape = SubResource("BoxShape3D_h2luo")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
