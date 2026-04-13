@@ -110,9 +110,17 @@ public partial class MusicManager : Node
     /// </summary>
     ///
     /// <param name="song">The song to play.</param>
+    ///
+    /// <remarks>
+    ///  Calling this method will kill the internal <see cref="Tween"/> used
+    ///  for fading the music in and out. This prevents the previously active
+    ///  fading effect from changing the volume for the newly stated song.
+    /// </remarks>
     public void PlaySong(Song song)
     {
+        _currentAudioTween?.Kill();
         CurrentPlayer.Stream = _music[song];
+        CurrentPlayer.VolumeDb = MAX_VOLUME_DB;
         CurrentPlayer.Play();
         GD.Print($"[MusicManager] Started playing '{CurrentSongName}'.");
     }
@@ -126,6 +134,12 @@ public partial class MusicManager : Node
     /// <param name="fadeDuration">
     ///  The duration of the fade in effect in seconds.
     /// </param>
+    ///
+    /// <remarks>
+    ///  Calling this method will kill the internal <see cref="Tween"/> used
+    ///  for fading the music in and out. This prevents the previously active
+    ///  fading effect from changing the volume for the newly stated song.
+    /// </remarks>
     public async Task PlaySongWithFadeIn(Song song, float fadeDuration)
     {
         PlaySong(song);
@@ -136,8 +150,15 @@ public partial class MusicManager : Node
     ///  Stops playing the current song immediately. This will also set the
     ///  playback head to the beginning of the song.
     /// </summary>
+    ///
+    /// <remarks>
+    ///  Calling this method will kill the internal <see cref="Tween"/> used
+    ///  for fading the music in and out. This prevents executing fading
+    ///  effects on the stopped player.
+    /// </remarks>
     public void StopCurrentSong()
     {
+        _currentAudioTween?.Kill();
         CurrentPlayer.Stop();
         GD.Print($"[MusicManager] Stopped playing '{CurrentSongName}'.");
     }
@@ -146,34 +167,34 @@ public partial class MusicManager : Node
     ///  Fades out the current song and stops playback. This will also set the
     ///  playback head back to the beginning of the song.
     /// </summary>
-    /// <param name="fadeDuration"></param>
+    ///
+    /// <param name="fadeDuration">
+    ///  The duration of the fade in effect in seconds.
+    /// </param>
+    ///
+    /// <remarks>
+    ///  Calling this method will kill the internal <see cref="Tween"/> used
+    ///  for fading the music in and out. This prevents executing fading
+    ///  effects on the stopped player.
+    /// </remarks>
     public async Task StopCurrentSongWithFadeOut(float fadeDuration)
     {
-        await FadeOut(CurrentPlayer, fadeDuration);
+        await FadeOutCurrentSong(fadeDuration);
         StopCurrentSong();
-    }
-
-    /// <summary>
-    ///  Mutes the current song and keeps playing it in the background.
-    /// </summary>
-    public void MuteCurrentSong()
-    {
-        MutePlayer(CurrentPlayer);
-    }
-
-    /// <summary>
-    ///  Unmutes the current song.
-    /// </summary>
-    public void UnmuteCurrentSong()
-    {
-        RestorePlayerVolume(CurrentPlayer, MAX_VOLUME_DB);
     }
 
     /// <summary>
     ///  Pauses the playback of the current song.
     /// </summary>
+    ///
+    /// <remarks>
+    ///  Calling this method will also pause the internal <see cref="Tween"/>
+    ///  used by the current music player. I.e., this method will also pause
+    ///  fade in/out effects.
+    /// </remarks>
     public void PauseCurrentSong()
     {
+        _currentAudioTween?.Pause();
         CurrentPlayer.StreamPaused = true;
         GD.Print($"[MusicManager] Pause '{CurrentSongName}'.");
     }
@@ -183,6 +204,7 @@ public partial class MusicManager : Node
     /// </summary>
     public void ResumeCurrentSong()
     {
+        _currentAudioTween?.Play();
         CurrentPlayer.StreamPaused = false;
         GD.Print($"[MusicManager] Resumed '{CurrentSongName}'.");
     }
@@ -190,11 +212,23 @@ public partial class MusicManager : Node
     /// <summary>
     ///  Fades in the currently played song. This can be used after
     /// </summary>
-    /// <param name="fadeDuration"></param>
+    ///
+    /// <param name="fadeDuration">
+    ///  The duration of the fade in effect in seconds.
+    /// </param>
+    ///
+    /// <remarks>
+    ///  Calling this method will kill the internal <see cref="Tween"/> used
+    ///  for fading in/out the currently playing music. I.e., if this method is
+    ///  called while there already is fading in progress, that fade will be
+    ///  canceled before the new fade in is started.
+    /// </remarks>
     public async Task FadeInCurrentSong(float fadeDuration)
     {
         GD.Print($"[MusicManager] Fading IN '{CurrentSongName}'.");
-        await FadeIn(CurrentPlayer, fadeDuration);
+        _currentAudioTween?.Kill();
+        _currentAudioTween = CurrentPlayer.CreateTween();
+        await FadeIn(CurrentPlayer, fadeDuration, _currentAudioTween);
     }
 
     /// <summary>
@@ -204,54 +238,61 @@ public partial class MusicManager : Node
     /// <param name="fadeDuration">
     ///  The duration of the fade out effect in seconds.
     /// </param>
+    ///
+    /// <remarks>
+    ///  Calling this method will kill the internal <see cref="Tween"/> used
+    ///  for fading in/out the currently playing music. I.e., if this method is
+    ///  called while there already is fading in progress, that fade will be
+    ///  canceled before the new fade out is started.
+    /// </remarks>
     public async Task FadeOutCurrentSong(float fadeDuration)
     {
         GD.Print($"[MusicManager] Fading OUT '{CurrentSongName}'.");
-        await FadeOut(CurrentPlayer, fadeDuration);
+        _currentAudioTween?.Kill();
+        _currentAudioTween = CurrentPlayer.CreateTween();
+        await FadeOut(CurrentPlayer, fadeDuration, _currentAudioTween);
     }
 
-    private void MutePlayer(AudioStreamPlayer player)
-    {
-        player.VolumeDb = MIN_VOLUME_DB;
-        GD.Print($"[MusicManager] Muted player '{player.Name}'.");
-    }
-
-    private void RestorePlayerVolume(AudioStreamPlayer player, float volumeDb)
-    {
-        player.VolumeDb = volumeDb;
-        GD.Print($"[MusicManager] Restored volume of player '{player.Name}' to {volumeDb} dB.");
-    }
-
-    private async Task FadeIn(AudioStreamPlayer player, float duration, bool startFromCurrentVolume = false)
+    private async Task FadeIn(
+        AudioStreamPlayer player,
+        float duration,
+        Tween tween,
+        bool startFromCurrentVolume = false
+    )
     {
         GD.Print($"[MusicManager] Fading IN player '{player.Name}' ({duration} s)");
 
         if (!startFromCurrentVolume)
         {
-            MutePlayer(player);
+            player.VolumeDb = MIN_VOLUME_DB;
         }
 
-        var tween = player.CreateTween();
+        //var tween = player.CreateTween();
         tween.SetTrans(Tween.TransitionType.Linear);
         tween.TweenProperty(player, AudioStreamPlayer.PropertyName.VolumeDb.ToString(), MAX_VOLUME_DB, duration);
         await ToSignal(tween, Tween.SignalName.Finished);
         GD.Print("[MusicManager] Fade in finished.");
     }
 
-    private async Task FadeOut(AudioStreamPlayer player, float duration, bool startFromCurrentVolume = false)
+    private async Task FadeOut(
+        AudioStreamPlayer player,
+        float duration,
+        Tween tween,
+        bool startFromCurrentVolume = false
+    )
     {
         GD.Print($"[MusicManager] Fading OUT player '{player.Name}' ({duration} s)");
 
         if (!startFromCurrentVolume)
         {
-            RestorePlayerVolume(player, MAX_VOLUME_DB);
+            player.VolumeDb = MAX_VOLUME_DB;
         }
 
-        var tween = player.CreateTween();
+        //var tween = player.CreateTween();
         tween.SetTrans(Tween.TransitionType.Linear);
         tween.TweenProperty(player, AudioStreamPlayer.PropertyName.VolumeDb.ToString(), MIN_VOLUME_DB, duration);
         await ToSignal(tween, Tween.SignalName.Finished);
-        tween.Dispose();
+        //tween.Dispose();
         GD.Print("[MusicManager] Fade out finished.");
     }
 }
