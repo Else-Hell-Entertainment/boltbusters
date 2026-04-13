@@ -21,22 +21,60 @@ namespace EHE.BoltBusters.States
         /// <summary>
         /// Switches the level to the gameplay level if necessary.
         /// </summary>
-        protected override void OnEntered()
+        protected override async void OnEntered()
         {
             base.OnEntered();
 
             var levelManager = LevelManager.Active;
             var targetLevelType = LevelType.Gameplay;
+            var song = PickSong(GameManager.Instance.RoundIndex);
 
             if (levelManager == null || levelManager.LevelType != targetLevelType)
             {
                 GameManager.Instance.SwitchToLevelType(targetLevelType);
+
+                if (levelManager == null)
+                {
+                    GD.Print("[RoundState] Playing music instantly.");
+                    MusicManager.Instance.PlaySong(song);
+                }
+                else
+                {
+                    GD.Print("[RoundState] Stopping music with fade out.");
+                    await MusicManager.Instance.StopCurrentSongWithFadeOut(5.0f);
+                }
             }
+
+            GD.Print("[RoundState] Playing music with fade in.");
+            await MusicManager.Instance.PlaySongWithFadeIn(song, 1.0f);
         }
 
         protected override void OnExited(bool keepLoaded = false)
         {
             base.OnExited(keepLoaded);
+        }
+
+        private MusicManager.Song PickSong(int roundIndex)
+        {
+            var song = MusicManager.Song.MainTheme;
+
+            switch (roundIndex % 4)
+            {
+                case 1:
+                    song = MusicManager.Song.StageTheme1;
+                    break;
+                case 2:
+                    song = MusicManager.Song.StageTheme2;
+                    break;
+                case 3:
+                    song = MusicManager.Song.StageTheme3;
+                    break;
+                case 0:
+                    song = MusicManager.Song.StageTheme4;
+                    break;
+            }
+
+            return song;
         }
     }
 }
