@@ -31,6 +31,9 @@ namespace EHE.BoltBusters
         [Export]
         private PackedScene _cannonBallScene;
 
+        [Export]
+        private AnimationPlayer _animationPlayer;
+
         private CharacterBody3D _player;
         private Timer _reloadTimer;
         private bool _canFire = true;
@@ -50,6 +53,7 @@ namespace EHE.BoltBusters
             _reloadTimer = GetNode<Timer>("ReloadTimer");
             _reloadTimer.Timeout += OnReloadTimerTimeout;
             _reloadTimer.OneShot = true;
+            _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
             _muzzle = GetNode<Node3D>("Turret/Muzzle");
             _cannonBall = _cannonBallScene.Instantiate<CannonBall>();
             _cannonBall.Initialize(_damage, _projectileSpeed);
@@ -116,6 +120,7 @@ namespace EHE.BoltBusters
             _cannonBall.GlobalPosition = _muzzle.GlobalPosition;
             _cannonBall.GlobalRotation = _muzzle.GlobalRotation;
             _cannonBall.Activate();
+            _animationPlayer.Play("CannonbotShoot");
             //CannonBall ball = _cannonBallScene.Instantiate<CannonBall>();
             //LevelManager.Active.AddLevelObject(ball);
             //ball.GlobalPosition = _muzzle.GlobalPosition;
