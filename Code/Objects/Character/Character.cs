@@ -7,6 +7,8 @@ namespace EHE.BoltBusters
         [Export]
         private HealthComponent _healthComponent = null;
 
+        protected HealthComponent HealthComponent => _healthComponent;
+
         /// <summary>
         /// Increases the character's health by the given <paramref name="amount"/>.
         /// </summary>
