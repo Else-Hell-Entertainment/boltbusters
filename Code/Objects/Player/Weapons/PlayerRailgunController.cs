@@ -10,10 +10,13 @@ namespace EHE.BoltBusters
     public partial class PlayerRailgunController : PlayerWeaponGroupController
     {
         [Export]
-        private float _chargeEmissionModifier = 1f;
+        private float _chargeEmissionModifier = 1.0f;
 
         [Export]
-        private float _chargeBeamWidthModifier = 0.0005f;
+        private float _chargeBeamBaseRadius = 0.5f;
+
+        [Export]
+        private float _chargeBeamWidthModifier = 1.0f;
 
         [Export]
         private PackedScene _railgunSparkEffect;
@@ -21,11 +24,15 @@ namespace EHE.BoltBusters
         [Export]
         private AudioStreamPlayer3D _shootingSound;
 
+        [Export]
+        private AnimationPlayer _animationPlayer;
+
         public override WeaponType WeaponType => WeaponType.Railgun;
 
         public bool IsActive = true;
 
         private const int COLLISION_MASK_LAYER = 2;
+        private const string SHOOT_ANIMATION_NAME = "Shoot";
 
         private Railgun _activeRailgun;
         private Node3D _muzzle;
@@ -246,6 +253,7 @@ namespace EHE.BoltBusters
         /// </summary>
         private void ShootRailgun()
         {
+            _animationPlayer.Play(SHOOT_ANIMATION_NAME);
             var collisions = _shapeCast3D.CollisionResult;
             foreach (Dictionary collision in collisions)
             {
@@ -308,8 +316,8 @@ namespace EHE.BoltBusters
         {
             SetMeshToRaycastMidpoint(_chargeEffectInstanceBeam);
             float chargePercent = _activeRailgun.CurrentChargePercent;
-            _chargeEffectMeshBeam.Radius = _chargeBeamWidthModifier * chargePercent;
-            _chargeEffectMaterialBeam.EmissionEnergyMultiplier = _chargeEmissionModifier * chargePercent;
+            _chargeEffectMeshBeam.Radius = _chargeBeamBaseRadius * _chargeBeamWidthModifier * chargePercent / 100.0f;
+            _chargeEffectMaterialBeam.EmissionEnergyMultiplier = _chargeEmissionModifier * chargePercent / 100.0f;
         }
 
         private void SetMeshToRaycastMidpoint(MeshInstance3D meshInstance)
