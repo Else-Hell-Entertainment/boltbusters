@@ -41,14 +41,16 @@ namespace EHE.BoltBusters.States
                 }
                 else
                 {
-                    // When transitioning to another level manager, fade out the music.
-                    GD.Print("[RoundState] Stopping music with fade out.");
-                    await MusicManager.Instance.StopCurrentSongWithFadeOut(5.0f);
+                    // // When transitioning to another level manager, fade out the music.
+                    // GD.Print("[RoundState] Stopping music with fade out.");
+                    // MusicManager.Instance.StopCurrentSongWithFadeOut(5.0f);
                 }
             }
 
-            GD.Print("[RoundState] Playing music with fade in.");
-            await MusicManager.Instance.PlaySongWithFadeIn(song, 1.0f);
+            //GD.Print("[RoundState] Playing music with fade in.");
+            //MusicManager.Instance.PlaySongWithFadeIn(song, 1.0f);
+            GD.Print("[RoundState] Crossfading to new song.");
+            MusicManager.Instance.CrossFadeToSong(song, 4.0f);
         }
 
         protected override void OnExited(bool keepLoaded = false)

@@ -25,9 +25,11 @@ public partial class MusicManager : Node
 
     private float _fadeDuration;
     private Tween _currentAudioTween;
+    private Tween _nextAudioTween;
 
-    private const float MIN_VOLUME_DB = -80.0f;
+    private const float SILENT_VOLUME_DB = -80.0f;
     private const float MAX_VOLUME_DB = 0.0f;
+    private const float LOW_VOLUME_DB = -10.0f;
 
     private string CurrentSongFile => CurrentPlayer.Stream?.ResourcePath;
 
@@ -262,6 +264,62 @@ public partial class MusicManager : Node
         await FadeOut(CurrentPlayer, fadeDuration, _currentAudioTween);
     }
 
+    public void CrossFadeToSong(Song song, float fadeDuration)
+    {
+        // Fade new song in.
+        NextPlayer.Stream = _music[song];
+        NextPlayer.Play();
+        NextPlayer.VolumeDb = SILENT_VOLUME_DB;
+
+        if (_nextAudioTween != null)
+        {
+            _nextAudioTween.Kill();
+            _nextAudioTween.Dispose();
+        }
+
+        _nextAudioTween = NextPlayer.CreateTween();
+        _nextAudioTween.SetTrans(Tween.TransitionType.Linear);
+        _nextAudioTween.TweenProperty(
+            NextPlayer,
+            AudioStreamPlayer.PropertyName.VolumeDb.ToString(),
+            MAX_VOLUME_DB,
+            fadeDuration
+        );
+
+        // Fade old song out.
+        CurrentPlayer.VolumeDb = MAX_VOLUME_DB;
+
+        if (_currentAudioTween != null)
+        {
+            _currentAudioTween.Kill();
+            _currentAudioTween.Dispose();
+        }
+
+        _currentAudioTween = CurrentPlayer.CreateTween();
+        _currentAudioTween.SetTrans(Tween.TransitionType.Linear);
+        _currentAudioTween.TweenProperty(
+            CurrentPlayer,
+            AudioStreamPlayer.PropertyName.VolumeDb.ToString(),
+            SILENT_VOLUME_DB,
+            fadeDuration
+        );
+    }
+
+    private void SwapPlayers()
+    {
+        var tempPlayer = CurrentPlayer;
+        tempPlayer.Stop();
+
+        CurrentPlayer = NextPlayer;
+        NextPlayer = tempPlayer;
+
+        CurrentPlayer.SetName("CurrentPlayer");
+        NextPlayer.SetName("NextPlayer");
+
+        _currentAudioTween?.Dispose();
+        _nextAudioTween?.Dispose();
+    }
+
     private async Task FadeIn(
         AudioStreamPlayer player,
         float duration,
@@ -273,7 +331,7 @@ public partial class MusicManager : Node
 
         if (!startFromCurrentVolume)
         {
-            player.VolumeDb = MIN_VOLUME_DB;
+            player.VolumeDb = LOW_VOLUME_DB;
         }
 
         //var tween = player.CreateTween();
@@ -299,7 +357,7 @@ public partial class MusicManager : Node
 
         //var tween = player.CreateTween();
         tween.SetTrans(Tween.TransitionType.Linear);
-        tween.TweenProperty(player, AudioStreamPlayer.PropertyName.VolumeDb.ToString(), MIN_VOLUME_DB, duration);
+        tween.TweenProperty(player, AudioStreamPlayer.PropertyName.VolumeDb.ToString(), LOW_VOLUME_DB, duration);
         await ToSignal(tween, Tween.SignalName.Finished);
         //tween.Dispose();
         GD.Print("[MusicManager] Fade out finished.");
