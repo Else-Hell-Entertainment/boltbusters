@@ -6,6 +6,17 @@ namespace EHE.BoltBusters
 {
     public partial class Player : Character
     {
+        /// <summary>
+        ///  Emitted when the <see cref="HandleDeath"/> method of the
+        ///  <see cref="Player"/> is called.
+        /// </summary>
+        ///
+        /// <param name="player">
+        ///  Reference to the player object that died.
+        /// </param>
+        [Signal]
+        public delegate void PlayerDiedEventHandler(Player player);
+
         [Export]
         private EntityController _playerController;
         public PlayerChaingunController ChaingunController { get; private set; }
