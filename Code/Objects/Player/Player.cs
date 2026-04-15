@@ -122,7 +122,8 @@ namespace EHE.BoltBusters
 
         public override void HandleDeath()
         {
-            OnDespawn();
+            EmitSignal(SignalName.PlayerDied, this);
+            // OnDespawn();
         }
 
         // Add additional logic if it differs from default (Node.QueueFree) method.
