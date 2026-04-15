@@ -1,17 +1,102 @@
-[gd_scene load_steps=31 format=4 uid="uid://dleoqwseq5x4p"]
+[gd_scene load_steps=32 format=4 uid="uid://kuxslu1sj1rv"]
 
-[ext_resource type="Script" uid="uid://yb7yelbnmfj5" path="res://Code/Objects/Enemy/EnemyCannonBot.cs" id="1_k6seb"]
-[ext_resource type="PackedScene" uid="uid://t3nx0bltkocl" path="res://Scenes/Enemies/CannonBall.tscn" id="1_mqbn8"]
-[ext_resource type="Script" uid="uid://byeyojbxfgtxc" path="res://Code/Objects/CB3DMover.cs" id="3_4sov6"]
-[ext_resource type="Script" uid="uid://ce6qc6u3q0hiv" path="res://Code/Objects/Enemy/EnemyCannonController.cs" id="3_oyasw"]
-[ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="4_vqqcb"]
-[ext_resource type="Script" uid="uid://dsnd2h8pgyhvi" path="res://Code/Objects/Node3DMover.cs" id="5_6314t"]
-[ext_resource type="Material" uid="uid://h3kjknkrax3t" path="res://Assets/VFX/Materials/SmokePuffParticleProcessMaterial.tres" id="6_cb80c"]
-[ext_resource type="Material" uid="uid://do048e2b52egy" path="res://Assets/Shaders/EffectShaderShaderMaterial.tres" id="6_wagaa"]
-[ext_resource type="Script" uid="uid://dn3xdtkt00s1k" path="res://Code/Components/EnemyShaderComponent.cs" id="7_82su2"]
-[ext_resource type="Material" uid="uid://df05tq8yon61" path="res://Assets/VFX/Materials/SmokePuffMaterial.tres" id="7_qj3bw"]
-[ext_resource type="Resource" uid="uid://d1rygoxvve6o4" path="res://Assets/Shaders/EnemyShaderPreset.tres" id="8_wagaa"]
-[ext_resource type="AudioStream" uid="uid://cbo5jtl16n71s" path="res://Assets/SFX/EnemyShoot.ogg" id="12_s1vxn"]
+[ext_resource type="Script" uid="uid://yb7yelbnmfj5" path="res://Code/Objects/Enemy/EnemyCannonBot.cs" id="1_5gulv"]
+[ext_resource type="PackedScene" uid="uid://t3nx0bltkocl" path="res://Scenes/Enemies/CannonBall.tscn" id="2_5dh0c"]
+[ext_resource type="Script" uid="uid://ce6qc6u3q0hiv" path="res://Code/Objects/Enemy/EnemyCannonController.cs" id="3_vyt3u"]
+[ext_resource type="Script" uid="uid://byeyojbxfgtxc" path="res://Code/Objects/CB3DMover.cs" id="4_d17qt"]
+[ext_resource type="Script" uid="uid://dsnd2h8pgyhvi" path="res://Code/Objects/Node3DMover.cs" id="5_mmalh"]
+[ext_resource type="Material" uid="uid://h3kjknkrax3t" path="res://Assets/VFX/Materials/SmokePuffParticleProcessMaterial.tres" id="6_kw7gc"]
+[ext_resource type="Material" uid="uid://df05tq8yon61" path="res://Assets/VFX/Materials/SmokePuffMaterial.tres" id="7_lt5k3"]
+[ext_resource type="Shader" uid="uid://bopx7f8xnbkgy" path="res://Assets/Shaders/EffectShader.gdshader" id="8_67n3f"]
+[ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="9_smqnq"]
+[ext_resource type="Script" uid="uid://dn3xdtkt00s1k" path="res://Code/Components/EnemyShaderComponent.cs" id="10_t40t5"]
+[ext_resource type="Resource" uid="uid://d1rygoxvve6o4" path="res://Assets/Shaders/EnemyShaderPreset.tres" id="11_7ctlj"]
+[ext_resource type="AudioStream" uid="uid://cbo5jtl16n71s" path="res://Assets/SFX/EnemyShoot.ogg" id="12_te4l0"]
+
+[sub_resource type="Animation" id="Animation_iocbx"]
+resource_name = "CannonbotShoot"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../SmokePuffEffect:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.13333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [10.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../EnemyRanged/Cannon:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.14, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.3, -0.185), Vector3(0, 0.253, -0.235), Vector3(0, 0.3, -0.185)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../EnemyRanged/Cannon:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 1.5707964), Vector3(-0.572468, 0, 1.5707964), Vector3(0, 0, 1.5707964)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../SparkEffect:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.33333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../../CannonbotShootingSFX:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_dl0q6"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cb80c"]
+_data = {
+&"CannonbotShoot": SubResource("Animation_iocbx"),
+&"RESET": SubResource("Animation_dl0q6")
+}
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rqpuh"]
 resource_name = "Wheel"
@@ -52,21 +137,21 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_mxhum")
 
-[sub_resource type="SphereMesh" id="SphereMesh_mgqye"]
-material = ExtResource("7_qj3bw")
+[sub_resource type="SphereMesh" id="SphereMesh_246wn"]
+material = ExtResource("7_lt5k3")
 radius = 0.15
 height = 0.3
 radial_segments = 32
 rings = 16
 
-[sub_resource type="Gradient" id="Gradient_3vuux"]
+[sub_resource type="Gradient" id="Gradient_dl0q6"]
 offsets = PackedFloat32Array(0, 0.33760685, 1)
 colors = PackedColorArray(1, 1, 0.23209421, 1, 0.9530516, 0.9318798, 0.21954027, 1, 0.58044136, 0.22593993, 0.0040936167, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_cb80c"]
-gradient = SubResource("Gradient_3vuux")
+gradient = SubResource("Gradient_dl0q6")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wpy42"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qj3bw"]
 lifetime_randomness = 0.51
 direction = Vector3(0, 0, -1)
 spread = 30.0
@@ -81,9 +166,29 @@ emission_enabled = true
 emission = Color(1, 0.98937523, 0, 1)
 billboard_mode = 1
 
-[sub_resource type="QuadMesh" id="QuadMesh_y2xl8"]
+[sub_resource type="QuadMesh" id="QuadMesh_mgqye"]
 material = SubResource("StandardMaterial3D_s1vxn")
 size = Vector2(0.05, 0.05)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wagaa"]
+render_priority = 0
+shader = ExtResource("8_67n3f")
+shader_parameter/effect_mode = 0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_strength = 0.0
+shader_parameter/flash_value = 0.0
+shader_parameter/pulse_color = Color(1, 1, 1, 1)
+shader_parameter/pulse_strength = 0.0
+shader_parameter/pulse_speed = 0.0
+shader_parameter/accelerating_pulse_color = Color(1, 1, 1, 1)
+shader_parameter/accelerating_pulse_start_strength = 0.0
+shader_parameter/accelerating_pulse_finish_strength = 0.0
+shader_parameter/accelerating_pulse_speed = 0.0
+shader_parameter/acceleration_speed_factor = 0.0
+shader_parameter/acceleration_delay = 0.0
+shader_parameter/accelerating_pulse_duration = 0.0
+shader_parameter/accelerating_pulse_time = 0.0
+shader_parameter/accelerating_pulse_progress = 0.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_34cv8"]
 resource_name = "Cannon"
@@ -181,104 +286,27 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_he0gg")
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_wagaa"]
+height = 2.061953
 radius = 1.0
-
-[sub_resource type="Animation" id="Animation_iocbx"]
-resource_name = "CannonbotShoot"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../SmokePuffEffect:emitting")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:light_energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.13333334),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [10.0, 0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../EnemyRanged/Cannon:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.14, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0.3, -0.185), Vector3(0, 0.253, -0.235), Vector3(0, 0.3, -0.185)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../EnemyRanged/Cannon:rotation")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.16666667, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 1.5707964), Vector3(-0.572468, 0, 1.5707964), Vector3(0, 0, 1.5707964)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../SparkEffect:emitting")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.33333334),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("../../CannonbotShootingSFX:playing")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="Animation" id="Animation_dl0q6"]
-length = 0.001
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_cb80c"]
-_data = {
-&"CannonbotShoot": SubResource("Animation_iocbx"),
-&"RESET": SubResource("Animation_dl0q6")
-}
 
 [node name="EnemyCannonBot" type="CharacterBody3D" node_paths=PackedStringArray("_rayCaster", "Controller", "_healthComponent")]
 collision_layer = 3
-script = ExtResource("1_k6seb")
+script = ExtResource("1_5gulv")
 _range = 12.0
+_damage = 0
 _rayCaster = NodePath("Turret/Muzzle/RayCast3D")
 Controller = NodePath("Controller")
-_cannonBallScene = ExtResource("1_mqbn8")
+_cannonBallScene = ExtResource("2_5dh0c")
 _healthComponent = NodePath("EnemyHealthComponent")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Turret/MuzzleFlash")
+libraries = {
+&"": SubResource("AnimationLibrary_cb80c")
+}
+
 [node name="Controller" type="Node3D" parent="." node_paths=PackedStringArray("_enemyBodyMover", "_bodyNodeMover", "_turretMover")]
-script = ExtResource("3_oyasw")
+script = ExtResource("3_vyt3u")
 _enemyBodyMover = NodePath("CB3DMover")
 _bodyNodeMover = NodePath("LoweBodyMover")
 _turretMover = NodePath("TurretMover")
@@ -289,15 +317,15 @@ radius = 1.0
 neighbor_distance = 5.0
 
 [node name="CB3DMover" type="Node3D" parent="Controller" node_paths=PackedStringArray("_body")]
-script = ExtResource("3_4sov6")
+script = ExtResource("4_d17qt")
 _body = NodePath("../..")
 
 [node name="TurretMover" type="Node3D" parent="Controller" node_paths=PackedStringArray("_body")]
-script = ExtResource("5_6314t")
+script = ExtResource("5_mmalh")
 _body = NodePath("../../Turret")
 
 [node name="LoweBodyMover" type="Node3D" parent="Controller" node_paths=PackedStringArray("_body")]
-script = ExtResource("5_6314t")
+script = ExtResource("5_mmalh")
 _body = NodePath("../../Body")
 
 [node name="Body" type="Node3D" parent="."]
@@ -321,8 +349,8 @@ one_shot = true
 explosiveness = 1.0
 randomness = 0.5
 local_coords = true
-process_material = ExtResource("6_cb80c")
-draw_pass_1 = SubResource("SphereMesh_mgqye")
+process_material = ExtResource("6_kw7gc")
+draw_pass_1 = SubResource("SphereMesh_246wn")
 
 [node name="SparkEffect" type="GPUParticles3D" parent="Turret"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6496097, -0.9531877)
@@ -331,8 +359,8 @@ lifetime = 0.2
 one_shot = true
 explosiveness = 1.0
 randomness = 0.5
-process_material = SubResource("ParticleProcessMaterial_wpy42")
-draw_pass_1 = SubResource("QuadMesh_y2xl8")
+process_material = SubResource("ParticleProcessMaterial_qj3bw")
+draw_pass_1 = SubResource("QuadMesh_mgqye")
 
 [node name="MuzzleFlash" type="OmniLight3D" parent="Turret"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6414611, -1.0716403)
@@ -344,8 +372,8 @@ omni_range = 2.0
 transform = Transform3D(-1.545, 0, -1.3506819e-07, 0, 1.545, 0, 1.3506819e-07, 0, -1.545, 0, 0, -0.27)
 
 [node name="Cannon" type="MeshInstance3D" parent="Turret/EnemyRanged"]
-transform = Transform3D(-7.7904065e-09, -0.17822373, 0, 0.17822373, -7.7904065e-09, 0, 0, 0, 0.17822373, 0, 0.3, -0.185)
-material_overlay = ExtResource("6_wagaa")
+transform = Transform3D(-7.790407e-09, -0.17822374, 0, 0.17822374, -7.790407e-09, 0, 0, 0, 0.17822374, 0, 0.3, -0.185)
+material_overlay = SubResource("ShaderMaterial_wagaa")
 mesh = SubResource("ArrayMesh_p28l2")
 skeleton = NodePath("")
 
@@ -356,27 +384,22 @@ transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 1.683, -
 target_position = Vector3(0, 0, -15)
 
 [node name="Collider" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.205, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0509766, 0)
 shape = SubResource("CylinderShape3D_wagaa")
 
 [node name="ReloadTimer" type="Timer" parent="."]
 
 [node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent")]
-script = ExtResource("4_vqqcb")
+script = ExtResource("9_smqnq")
 _enemyShaderComponent = NodePath("../EnemyShaderComponent")
 metadata/_custom_type_script = "uid://b620lyqticbmf"
 
 [node name="EnemyShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
-script = ExtResource("7_82su2")
-_enemyEffectShaderPreset = ExtResource("8_wagaa")
+script = ExtResource("10_t40t5")
+_effectsPreset = ExtResource("11_7ctlj")
 _meshes = [NodePath("../Turret/EnemyRanged/Cannon")]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Turret/MuzzleFlash")
-libraries = {
-&"": SubResource("AnimationLibrary_cb80c")
-}
-
 [node name="CannonbotShootingSFX" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("12_s1vxn")
+stream = ExtResource("12_te4l0")
 volume_db = -9.0
+bus = &"SFX"
