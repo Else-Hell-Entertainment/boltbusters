@@ -1,6 +1,8 @@
-[gd_scene load_steps=0 format=3 uid="uid://dunxwyr0c7pq4"]
+[gd_scene load_steps=2 format=3 uid="uid://b8edrj8xvqqhb"]
 
-[node name="Control" type="PanelContainer"]
+[ext_resource type="Script" uid="uid://c4orri7gxvo65" path="res://Code/UI/MenuGameOver.cs" id="1_r2l5j"]
+
+[node name="Control" type="PanelContainer" node_paths=PackedStringArray("_btnRestart", "_btnSettings", "_btnMainMenu", "_btnQuit")]
 custom_minimum_size = Vector2(200, 200)
 anchors_preset = 8
 anchor_left = 0.5
@@ -13,6 +15,11 @@ offset_right = 100.0
 offset_bottom = 109.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_r2l5j")
+_btnRestart = NodePath("MarginContainer/VBoxContainer/RestartButton")
+_btnSettings = NodePath("MarginContainer/VBoxContainer/SettingsButton")
+_btnMainMenu = NodePath("MarginContainer/VBoxContainer/MainMenuButton")
+_btnQuit = NodePath("MarginContainer/VBoxContainer/QuitButton")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
