@@ -142,6 +142,12 @@ namespace EHE.BoltBusters
             _player = GetNodeOrNull<Player>("Player");
             _playerSpawnPosition = GetNodeOrNull<Node3D>("PlayerSpawnPosition");
 
+            // TODO: Replace this with a proper differentiation between bg level and regular level.
+            if (LevelType == LevelType.Background)
+            {
+                goto ValidationEnd;
+            }
+
             // TODO: Refactor validation code to a separate method.
             bool hasErrors = false;
 
@@ -174,6 +180,8 @@ namespace EHE.BoltBusters
                 GD.PushError($"Encountered problems when creating {Name} ({typeof(LevelManager)}).");
                 return;
             }
+
+            ValidationEnd:
 
             // Create object root nodes.
             _enemyRoot = new Node3D();
