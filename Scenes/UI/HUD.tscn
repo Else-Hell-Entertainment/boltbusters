@@ -1,15 +1,19 @@
-[gd_scene load_steps=11 format=3 uid="uid://dibuxv5a07sr1"]
+[gd_scene load_steps=15 format=3 uid="uid://dibuxv5a07sr1"]
 
-[ext_resource type="Script" uid="uid://b0wwj8jxnwn6r" path="res://Code/UI/WeaponHud.cs" id="1_4bm6u"]
+[ext_resource type="Script" uid="uid://b0wwj8jxnwn6r" path="res://Code/UI/HUD_Prototype/WeaponHud.cs" id="1_4bm6u"]
 [ext_resource type="Texture2D" uid="uid://h5iw764dh18q" path="res://icon.svg" id="1_omqfp"]
 [ext_resource type="Script" uid="uid://c65gxirc8hmf3" path="res://Code/UI/Hud.cs" id="1_yenib"]
-[ext_resource type="Script" uid="uid://tgj3ya8b7n8l" path="res://Code/UI/WeaponUiRocketLauncher.cs" id="2_xaom8"]
-[ext_resource type="Script" uid="uid://dvkwp0o428nb0" path="res://Code/UI/WeaponUiRailgun.cs" id="4_4bm6u"]
-[ext_resource type="Script" uid="uid://buhou76aa4uxs" path="res://Code/UI/WeaponUiChaingun.cs" id="5_ykvyr"]
+[ext_resource type="Script" uid="uid://tgj3ya8b7n8l" path="res://Code/UI/HUD_Prototype/WeaponUiRocketLauncher.cs" id="2_xaom8"]
+[ext_resource type="Script" uid="uid://dvkwp0o428nb0" path="res://Code/UI/HUD_Prototype/WeaponUiRailgun.cs" id="4_4bm6u"]
+[ext_resource type="Script" uid="uid://buhou76aa4uxs" path="res://Code/UI/HUD_Prototype/WeaponUiChaingun.cs" id="5_ykvyr"]
 [ext_resource type="Script" uid="uid://sv650skqn02e" path="res://Code/UI/HealthUi.cs" id="6_lelo4"]
 [ext_resource type="Script" uid="uid://cmyu4wbi217m2" path="res://Code/UI/RoundTimerUi.cs" id="7_1ree7"]
 [ext_resource type="Script" uid="uid://ghaghpjeecs5" path="res://Code/UI/CollectibleUi.cs" id="9_pydgx"]
 [ext_resource type="PackedScene" uid="uid://c3on2c58of0pi" path="res://Scenes/UI/CollectibleCounter.tscn" id="10_yenib"]
+[ext_resource type="Texture2D" uid="uid://cfsfx0mtt8w72" path="res://Assets/Sprites/UI/UIOverheat.png" id="11_pydgx"]
+[ext_resource type="Texture2D" uid="uid://bvfxddngkgif2" path="res://Assets/Sprites/UI/UIRocket.png" id="12_18ujm"]
+[ext_resource type="Texture2D" uid="uid://cqf7m0whlt4j2" path="res://Assets/Sprites/UI/OverheatProgressTexture.png" id="12_jt2rc"]
+[ext_resource type="Texture2D" uid="uid://b0gqbpsrsosyh" path="res://Assets/Sprites/UI/UIRailgun.png" id="13_jt2rc"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -510,3 +514,112 @@ CollectibleType = 2
 [node name="WrenchCounter" parent="CollectibleUi" instance=ExtResource("10_yenib")]
 layout_mode = 2
 CollectibleType = 3
+
+[node name="WeaponHud" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChaingunHud" type="Control" parent="WeaponHud"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+grow_vertical = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="WeaponHud/ChaingunHud"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -57.0
+offset_right = 67.0
+offset_bottom = 79.39287
+grow_vertical = 0
+value = 50.0
+fill_mode = 3
+nine_patch_stretch = true
+texture_over = ExtResource("11_pydgx")
+texture_progress = ExtResource("12_jt2rc")
+tint_progress = Color(0.27058825, 1, 0.21960784, 1)
+
+[node name="RocketHud" type="Control" parent="WeaponHud"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="WeaponHud/RocketHud"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_top = -47.0
+offset_right = 54.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Rocket1" type="TextureRect" parent="WeaponHud/RocketHud/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("12_18ujm")
+
+[node name="Rocket2" type="TextureRect" parent="WeaponHud/RocketHud/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("12_18ujm")
+
+[node name="Rocket3" type="TextureRect" parent="WeaponHud/RocketHud/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("12_18ujm")
+
+[node name="Rocket4" type="TextureRect" parent="WeaponHud/RocketHud/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("12_18ujm")
+
+[node name="RailgunHud" type="Control" parent="WeaponHud"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WeaponHud/RailgunHud"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -47.0
+offset_top = -54.0
+offset_bottom = 54.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Railgun1" type="TextureRect" parent="WeaponHud/RailgunHud/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("13_jt2rc")
+
+[node name="Railgun2" type="TextureRect" parent="WeaponHud/RailgunHud/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("13_jt2rc")
+
+[node name="Railgun3" type="TextureRect" parent="WeaponHud/RailgunHud/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("13_jt2rc")
+
+[node name="Railgun4" type="TextureRect" parent="WeaponHud/RailgunHud/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("13_jt2rc")
