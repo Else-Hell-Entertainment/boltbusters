@@ -114,6 +114,22 @@ namespace EHE.BoltBusters
 
         #region Overrides
 
+        /// <summary>
+        ///  Unsubscribes from the <see cref="Player.PlayerDied"/> event if
+        ///  applicable.
+        /// </summary>
+        public override void _ExitTree()
+        {
+            if (Player != null)
+            {
+                // This ensures that the signal is disconnected when the level
+                // manager exits the scene tree. The signal is also
+                // disconnected in the OnPlayerDeath method but this is only
+                // done if the player dies during the round.
+                Player.PlayerDied -= OnPlayerDeath;
+            }
+        }
+
         /// <inheritdoc/>
         public override void _Ready()
         {
@@ -233,6 +249,12 @@ namespace EHE.BoltBusters
             _roundTimer.WaitTime = _roundData.RoundLength;
             GameManager.Instance.SaveGame();
             this.PrintDebug("Initialized.");
+            Player.PlayerDied += OnPlayerDeath;
+
+            // Re-enable player input when a new round is loaded since it's
+            // disabled when the round ends or when the player dies.
+            Player.ToggleInputListening(true);
+
             EmitSignal(SignalName.Initialized);
         }
 
@@ -421,7 +443,7 @@ namespace EHE.BoltBusters
             _roundTimer.Stop();
             RoundInProgress = false;
             ResetLevel();
-            // TODO: Disable player movement.
+            Player.ToggleInputListening(false);
             // TODO: Disable enemy movement.
             GameManager.Instance.CurrentPlayerData.StartFromShop = true;
             GameManager.Instance.RoundIndex++;
@@ -457,6 +479,31 @@ namespace EHE.BoltBusters
                     spawnable.OnDespawn();
                 }
             }
+        }
+
+        /// <summary>
+        ///  Disables the player input, stops the round, and transitions to the
+        ///  game over state.
+        /// </summary>
+        ///
+        /// <param name="player">Reference to the player that died.</param>
+        ///
+        /// <remarks>
+        ///  When the player dies, the <see cref="LevelManager"/> unsibscribes
+        ///  from its <see cref="Player.PlayerDied"/> event to prevent this
+        ///  method from being triggered multiple times.
+        /// </remarks>
+        ///
+        /// <seealso cref="StateType"/>
+        /// <seealso cref="GameOverState"/>
+        private void OnPlayerDeath(Player player)
+        {
+            this.PrintDebug("Player died.");
+            Player.ToggleInputListening(false);
+            _roundTimer.Stop();
+            RoundInProgress = false;
+            GameManager.Instance.StateMachine.TransitionTo(StateType.GameOver);
+            Player.PlayerDied -= OnPlayerDeath;
         }
 
         #endregion Private Methods
