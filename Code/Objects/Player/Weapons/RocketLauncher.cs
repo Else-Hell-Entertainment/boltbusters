@@ -227,9 +227,9 @@ namespace EHE.BoltBusters
 
         private void OnCooldownTimerTimeout()
         {
+            CanAttack = true;
             EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.ReadyToFire);
             EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.ReloadingFinished);
-            CanAttack = true;
         }
 
         private Rocket FindNextAvailableRocket()

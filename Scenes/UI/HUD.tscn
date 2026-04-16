@@ -129,7 +129,7 @@ texture_over = ExtResource("11_pydgx")
 texture_progress = ExtResource("12_jt2rc")
 tint_progress = Color(0.27058825, 1, 0.21960784, 1)
 
-[node name="RocketHud" type="Control" parent="WeaponHud"]
+[node name="RocketHud" type="Control" parent="WeaponHud" node_paths=PackedStringArray("_launcherIcon1", "_launcherIcon2", "_launcherIcon3", "_launcherIcon4")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -139,6 +139,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("9_eebq5")
+_launcherIcon1 = NodePath("HBoxContainer/Rocket4")
+_launcherIcon2 = NodePath("HBoxContainer/Rocket3")
+_launcherIcon3 = NodePath("HBoxContainer/Rocket2")
+_launcherIcon4 = NodePath("HBoxContainer/Rocket1")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="WeaponHud/RocketHud"]
 layout_mode = 1
