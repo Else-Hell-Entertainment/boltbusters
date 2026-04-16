@@ -338,8 +338,9 @@ skeleton = NodePath("")
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -8.191217e-09, 1.0968329, 0.047714233)
 shape = SubResource("BoxShape3D_wa2ls")
 
-[node name="MeleeWeapon" type="Node3D" parent="." node_paths=PackedStringArray("_triggerArea", "_attackArea", "_cooldownTimer", "_animationPlayer")]
+[node name="MeleeWeapon" type="Node3D" parent="." node_paths=PackedStringArray("_meleeOwner", "_triggerArea", "_attackArea", "_cooldownTimer", "_animationPlayer")]
 script = ExtResource("2_h2luo")
+_meleeOwner = NodePath("..")
 _triggerArea = NodePath("../TriggerArea")
 _attackArea = NodePath("../TorsoNode/Torso/AttackArea")
 _cooldownTimer = NodePath("CooldownTimer")
