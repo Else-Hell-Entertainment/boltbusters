@@ -13,21 +13,6 @@ using Godot;
 namespace EHE.BoltBusters.States
 {
     /// <summary>
-    /// Enumeration of all possible game state types. Used for checking possible
-    /// transitions between different states.
-    /// </summary>
-    public enum StateType
-    {
-        None = 0,
-        MainMenu,
-        Paused,
-        SettingsMenu,
-        GameOver,
-        Round,
-        Shop,
-    }
-
-    /// <summary>
     ///  <para>Abstract base class for game states.</para>
     ///  <para>
     ///   Each game state must have its own  state that is derived from this
