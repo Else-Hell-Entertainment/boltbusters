@@ -73,6 +73,10 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void ChaingunStateChangedEventHandler(int state);
 
+        private AudioStreamOggVorbis _audioStream;
+        private float _audioTimer;
+        private float _audioBufferTime = 0.1f;
+
         public enum ChaingunState
         {
             None,
@@ -100,6 +104,7 @@ namespace EHE.BoltBusters
             _reticle.Position -= new Vector3(0, _reticle.GlobalPosition.Y - 0.2f, _range);
             CurrentPersistentState = ChaingunState.ReadyToFire;
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.ReadyToFire);
+            _audioStream = (AudioStreamOggVorbis)_shootingAudio.Stream;
         }
 
         public override bool AddWeapon()
@@ -138,6 +143,7 @@ namespace EHE.BoltBusters
                     EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.Firing);
                     AddHeat(_heatBuildupRate);
                     _attackTimer = 0;
+                    _audioStream.Loop = true;
                     if (!_shootingAudio.IsPlaying())
                     {
                         _shootingAudio.Play();
@@ -151,9 +157,21 @@ namespace EHE.BoltBusters
         public override void _Process(double delta)
         {
             float deltaTime = (float)delta;
+
             if (_attackTimer < _attackInterval)
             {
                 _attackTimer += deltaTime;
+            }
+
+            if (_audioTimer < _audioBufferTime)
+            {
+                _audioTimer += deltaTime;
+            }
+
+            if (_audioTimer >= _audioBufferTime)
+            {
+                _audioStream.Loop = false;
+                _audioTimer = 0;
             }
 
             ReduceHeat((_baseCoolingRate + CoolingRateUpgrade) * deltaTime);
