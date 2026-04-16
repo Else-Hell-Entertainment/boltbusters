@@ -464,7 +464,8 @@ namespace EHE.BoltBusters
                 new GameStateSettingsMenu(),
                 new GameStateRound(),
                 new GameStatePaused(),
-                new ShopState()
+                new ShopState(),
+                new GameOverState()
             );
         }
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=4 uid="uid://d1v0b82d6dwda"]
+[gd_scene load_steps=29 format=4 uid="uid://d1v0b82d6dwda"]
 
 [ext_resource type="Script" uid="uid://cai3rjcjb1tw8" path="res://Code/Objects/Enemy/EnemyHammerBot.cs" id="1_5800e"]
 [ext_resource type="Material" uid="uid://do048e2b52egy" path="res://Assets/Shaders/EffectShaderShaderMaterial.tres" id="2_0ad1w"]
@@ -7,6 +7,7 @@
 [ext_resource type="AnimationLibrary" uid="uid://daif2hrjdta3p" path="res://Assets/Animations/HammerBotAnimations.tres" id="4_5800e"]
 [ext_resource type="Script" uid="uid://dn3xdtkt00s1k" path="res://Code/Components/EnemyShaderComponent.cs" id="6_57rxb"]
 [ext_resource type="Resource" uid="uid://d1rygoxvve6o4" path="res://Assets/Shaders/EnemyShaderPreset.tres" id="7_0ad1w"]
+[ext_resource type="AudioStream" uid="uid://4ob6hn3fb2t5" path="res://Assets/SFX/EnemyHurt.ogg" id="8_lncp1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aundc"]
 size = Vector3(1.14, 2, 2.287)
@@ -314,13 +315,13 @@ mesh = SubResource("ArrayMesh_0cvss")
 skeleton = NodePath("")
 
 [node name="Track" type="MeshInstance3D" parent="BodyNode/EnemyMelee"]
-transform = Transform3D(0, 1, 0, 0, 0, -1, -1, 0, 0, 0.3808058, 0, 0)
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, 0.3808058, 0, 0)
 material_overlay = ExtResource("2_0ad1w")
 mesh = SubResource("ArrayMesh_t6oqg")
 skeleton = NodePath("")
 
 [node name="Track_001" type="MeshInstance3D" parent="BodyNode/EnemyMelee"]
-transform = Transform3D(0, 1, 0, 0, 0, -1, -1, 0, 0, -0.38612062, 0, 0)
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, -0.38612062, 0, 0)
 material_overlay = ExtResource("2_0ad1w")
 mesh = SubResource("ArrayMesh_546hp")
 skeleton = NodePath("")
@@ -329,13 +330,14 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14, -0.73)
 
 [node name="Hammer" type="MeshInstance3D" parent="HammerNode"]
-transform = Transform3D(-0.22308668, 0, 1.9502858e-08, 0, 0.3321382, 0, -1.9502858e-08, 0, -0.22308668, -6.4101265e-08, 1.0126531, 0.73323303)
+transform = Transform3D(-0.22308668, 2.9036444e-08, 8.52497e-16, 0, -1.4518222e-08, 0.22308668, 1.9502858e-08, 0.3321382, 9.751429e-09, -6.4101265e-08, 1.0126531, 0.73323303)
 mesh = SubResource("ArrayMesh_g6g5b")
 skeleton = NodePath("")
 
-[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent")]
+[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent", "_enemyDamageSoundPlayer")]
 script = ExtResource("2_5800e")
 _enemyShaderComponent = NodePath("../EnemyShaderComponent")
+_enemyDamageSoundPlayer = NodePath("../EnemyDamageSFX")
 metadata/_custom_type_script = "uid://b620lyqticbmf"
 
 [node name="MeleeWeapon" type="Node3D" parent="." node_paths=PackedStringArray("_meleeOwner")]
@@ -374,6 +376,10 @@ explosiveness = 0.39
 process_material = SubResource("ParticleProcessMaterial_57rxb")
 draw_pass_1 = SubResource("SphereMesh_0ad1w")
 
+[node name="HammerAttackSFX" type="AudioStreamPlayer3D" parent="MeleeWeapon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.87726426, 0.61224896)
+bus = &"Sfx"
+
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 
 [node name="EnemyShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
@@ -381,3 +387,9 @@ script = ExtResource("6_57rxb")
 _enemyEffectShaderPreset = ExtResource("7_0ad1w")
 _meshes = [NodePath("../BodyNode/EnemyMelee/Head_Wheels"), NodePath("../BodyNode/EnemyMelee/Track"), NodePath("../BodyNode/EnemyMelee/Track_001")]
 metadata/_custom_type_script = "uid://dn3xdtkt00s1k"
+
+[node name="EnemyDamageSFX" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("8_lncp1")
+volume_db = -1.0
+max_db = 4.0
+bus = &"Sfx"

@@ -22,7 +22,9 @@ public partial class MusicManager : Node
     public AudioStreamPlayer CurrentPlayer { get; private set; }
     public AudioStreamPlayer NextPlayer { get; private set; }
 
-    // Called when the node enters the scene tree for the first time.
+    private float _fadeDuration;
+    private Tween _currentAudioTween;
+
     public override void _Ready()
     {
         Instance = this;
@@ -56,5 +58,43 @@ public partial class MusicManager : Node
         player.Stop();
     }
 
-    public async void LinearCrossFade(AudioStreamPlayer from, AudioStreamPlayer to) { }
+    public void FadeOutPlayer(AudioStreamPlayer player)
+    {
+        _fadeDuration = 5.0f;
+
+        _currentAudioTween?.Kill();
+
+        _currentAudioTween = CreateTween();
+        _currentAudioTween.SetTrans(Tween.TransitionType.Linear);
+        _currentAudioTween.TweenProperty(player, "volume_db", -80f, _fadeDuration);
+    }
+
+    public void FadeInPlayer(AudioStreamPlayer player)
+    {
+        _fadeDuration = 1.0f;
+
+        _currentAudioTween?.Kill();
+
+        _currentAudioTween = CreateTween();
+        _currentAudioTween.SetTrans(Tween.TransitionType.Linear);
+        _currentAudioTween.TweenProperty(player, "volume_db", 0f, _fadeDuration);
+    }
+
+    /* public async void LinearCrossFade(AudioStreamPlayer from, AudioStreamPlayer to)
+    {
+        float fadeDuration = 2.0f;
+
+        var tweenFrom = CreateTween();
+        tweenFrom.SetTrans(Tween.TransitionType.Linear);
+        tweenFrom.TweenProperty(from, "volume_db", -80f, fadeDuration);
+
+        var tweenTo = CreateTween();
+        tweenTo.SetTrans(Tween.TransitionType.Linear);
+        tweenTo.TweenProperty(to, "volume_db", 0f, fadeDuration);
+
+        await ToSignal(tweenFrom, Tween.SignalName.Finished);
+        await ToSignal(tweenTo, Tween.SignalName.Finished);
+
+        from.Stop();
+    } */
 }
