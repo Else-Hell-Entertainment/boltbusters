@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dibuxv5a07sr1"]
+[gd_scene load_steps=12 format=3 uid="uid://dibuxv5a07sr1"]
 
 [ext_resource type="Script" uid="uid://c65gxirc8hmf3" path="res://Code/UI/Hud.cs" id="1_yenib"]
 [ext_resource type="Script" uid="uid://sv650skqn02e" path="res://Code/UI/HealthUi.cs" id="6_lelo4"]
 [ext_resource type="Script" uid="uid://cmyu4wbi217m2" path="res://Code/UI/RoundTimerUi.cs" id="7_1ree7"]
 [ext_resource type="Script" uid="uid://ghaghpjeecs5" path="res://Code/UI/CollectibleUi.cs" id="9_pydgx"]
+[ext_resource type="Script" uid="uid://crgxjraru158m" path="res://Code/UI/WeaponHud/RailgunHud.cs" id="10_pydgx"]
 [ext_resource type="PackedScene" uid="uid://c3on2c58of0pi" path="res://Scenes/UI/CollectibleCounter.tscn" id="10_yenib"]
 [ext_resource type="Script" uid="uid://dp5spw8x32s4r" path="res://Code/UI/WeaponHud/ChaingunHud.cs" id="11_pd044"]
 [ext_resource type="Texture2D" uid="uid://cfsfx0mtt8w72" path="res://Assets/Sprites/UI/UIOverheat.png" id="11_pydgx"]
@@ -166,7 +167,7 @@ texture = ExtResource("12_18ujm")
 layout_mode = 2
 texture = ExtResource("12_18ujm")
 
-[node name="RailgunHud" type="Control" parent="WeaponHud"]
+[node name="RailgunHud" type="Control" parent="WeaponHud" node_paths=PackedStringArray("RailgunIcon1", "RailgunIcon2", "RailgunIcon3", "RailgunIcon4")]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -175,6 +176,11 @@ anchor_right = 1.0
 anchor_bottom = 0.5
 grow_horizontal = 0
 grow_vertical = 2
+script = ExtResource("10_pydgx")
+RailgunIcon1 = NodePath("VBoxContainer/Railgun1")
+RailgunIcon2 = NodePath("VBoxContainer/Railgun2")
+RailgunIcon3 = NodePath("VBoxContainer/Railgun3")
+RailgunIcon4 = NodePath("VBoxContainer/Railgun4")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="WeaponHud/RailgunHud"]
 layout_mode = 1
@@ -188,12 +194,9 @@ offset_top = -54.0
 offset_bottom = 54.0
 grow_horizontal = 0
 grow_vertical = 2
+alignment = 2
 
-[node name="Railgun1" type="TextureRect" parent="WeaponHud/RailgunHud/VBoxContainer"]
-layout_mode = 2
-texture = ExtResource("13_jt2rc")
-
-[node name="Railgun2" type="TextureRect" parent="WeaponHud/RailgunHud/VBoxContainer"]
+[node name="Railgun4" type="TextureRect" parent="WeaponHud/RailgunHud/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("13_jt2rc")
 
@@ -201,6 +204,10 @@ texture = ExtResource("13_jt2rc")
 layout_mode = 2
 texture = ExtResource("13_jt2rc")
 
-[node name="Railgun4" type="TextureRect" parent="WeaponHud/RailgunHud/VBoxContainer"]
+[node name="Railgun2" type="TextureRect" parent="WeaponHud/RailgunHud/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("13_jt2rc")
+
+[node name="Railgun1" type="TextureRect" parent="WeaponHud/RailgunHud/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("13_jt2rc")
