@@ -330,7 +330,7 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14, -0.73)
 
 [node name="Hammer" type="MeshInstance3D" parent="HammerNode"]
-transform = Transform3D(-0.22308668, 5.0151474e-08, 1.4724248e-15, 0, -1.4518222e-08, 0.22308668, 3.3685154e-08, 0.3321382, 9.751429e-09, -6.4101265e-08, 1.0126531, 0.73323303)
+transform = Transform3D(-0.22308668, 2.9036444e-08, 8.52497e-16, 0, -1.4518222e-08, 0.22308668, 1.9502858e-08, 0.3321382, 9.751429e-09, -6.4101265e-08, 1.0126531, 0.73323303)
 mesh = SubResource("ArrayMesh_g6g5b")
 skeleton = NodePath("")
 
@@ -378,7 +378,6 @@ draw_pass_1 = SubResource("SphereMesh_0ad1w")
 
 [node name="HammerAttackSFX" type="AudioStreamPlayer3D" parent="MeleeWeapon"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.87726426, 0.61224896)
-volume_db = -15.0
 bus = &"Sfx"
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
@@ -391,5 +390,6 @@ metadata/_custom_type_script = "uid://dn3xdtkt00s1k"
 
 [node name="EnemyDamageSFX" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("8_lncp1")
-max_db = 6.0
+volume_db = -1.0
+max_db = 4.0
 bus = &"Sfx"

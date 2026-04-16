@@ -46,13 +46,14 @@ visible = false
 
 [node name="LaunchSound" type="AudioStreamPlayer3D" parent="RocketBody"]
 stream = ExtResource("4_wwpju")
-volume_db = -3.0
-max_db = -3.0
+unit_size = 30.0
+max_db = -1.0
 bus = &"Sfx"
 
 [node name="ExplosionSound" type="AudioStreamPlayer3D" parent="RocketBody"]
 stream = ExtResource("5_wwpju")
 volume_db = -3.0
+unit_size = 20.0
 max_db = 0.0
 bus = &"Sfx"
 
