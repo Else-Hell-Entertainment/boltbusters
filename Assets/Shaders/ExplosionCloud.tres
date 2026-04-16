@@ -25,7 +25,7 @@ title = "DarkArea"
 attached_nodes = PackedInt32Array(2, 3)
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_b0d3k"]
-size = Vector2(1206.25, 921.99994)
+size = Vector2(1206.25, 922)
 title = "ExplosionColor"
 attached_nodes = PackedInt32Array(4, 11, 9, 20, 8, 6, 5)
 

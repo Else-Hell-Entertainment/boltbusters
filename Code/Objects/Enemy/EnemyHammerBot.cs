@@ -411,7 +411,6 @@ namespace EHE.BoltBusters
 
             return current + Mathf.Sign(diff) * maxDelta;
         }
-
         #endregion Private methods
     }
 }
