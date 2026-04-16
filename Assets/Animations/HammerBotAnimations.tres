@@ -1,4 +1,6 @@
-[gd_resource type="AnimationLibrary" load_steps=3 format=3 uid="uid://daif2hrjdta3p"]
+[gd_resource type="AnimationLibrary" load_steps=4 format=3 uid="uid://daif2hrjdta3p"]
+
+[ext_resource type="AudioStream" uid="uid://dtf0hdqcio6kd" path="res://Assets/SFX/PlayerHurt.ogg" id="1_4y1w6"]
 
 [sub_resource type="Animation" id="Animation_hku7k"]
 resource_name = "Attack"
@@ -99,6 +101,21 @@ tracks/7/keys = {
 "update": 0,
 "values": [Vector3(1.5707964, 1.5707964, 0), Vector3(0.7853982, 3.1415927, 1.5707964), Vector3(1.5707964, 1.5707964, 0)]
 }
+tracks/8/type = "audio"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("MeleeWeapon/HammerAttackSFX")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("1_4y1w6")
+}],
+"times": PackedFloat32Array(0.1)
+}
+tracks/8/use_blend = true
 
 [sub_resource type="Animation" id="Animation_iv0vp"]
 resource_name = "Idle"
