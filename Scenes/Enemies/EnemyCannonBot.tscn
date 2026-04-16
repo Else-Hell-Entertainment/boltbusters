@@ -364,6 +364,8 @@ shape = SubResource("CylinderShape3D_wagaa")
 
 [node name="ReloadTimer" type="Timer" parent="."]
 
+[node name="SlownessTimer" type="Timer" parent="."]
+
 [node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent")]
 script = ExtResource("4_vqqcb")
 _enemyShaderComponent = NodePath("../EnemyShaderComponent")
