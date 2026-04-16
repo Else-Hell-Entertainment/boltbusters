@@ -62,5 +62,13 @@ namespace EHE.BoltBusters.States
         /// <seealso cref="ShopState"/>
         /// <seealso cref="Ui.MenuShop"/>
         Shop,
+
+        /// <summary>
+        ///  The state that is linked to the victory scene.
+        /// </summary>
+        ///
+        /// <seealso cref="VictoryState"/>
+        /// <seealso cref="Ui.MenuVictory"/>
+        Victory,
     }
 }
