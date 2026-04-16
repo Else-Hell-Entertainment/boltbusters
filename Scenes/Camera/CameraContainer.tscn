@@ -22,4 +22,7 @@ render_target_update_mode = 4
 
 [node name="CameraRig" parent="CameraViewport" instance=ExtResource("1_kikub")]
 
+[node name="AudioListener3D" type="AudioListener3D" parent="CameraViewport"]
+current = true
+
 [editable path="CameraViewport/CameraRig"]
