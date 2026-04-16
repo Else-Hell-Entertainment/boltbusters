@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://dibuxv5a07sr1"]
+[gd_scene load_steps=13 format=3 uid="uid://dibuxv5a07sr1"]
 
 [ext_resource type="Script" uid="uid://c65gxirc8hmf3" path="res://Code/UI/Hud.cs" id="1_yenib"]
 [ext_resource type="Script" uid="uid://sv650skqn02e" path="res://Code/UI/HealthUi.cs" id="6_lelo4"]
 [ext_resource type="Script" uid="uid://cmyu4wbi217m2" path="res://Code/UI/RoundTimerUi.cs" id="7_1ree7"]
+[ext_resource type="Script" uid="uid://cw8ha2ktfq4by" path="res://Code/UI/WeaponHud/RocketHud.cs" id="9_eebq5"]
 [ext_resource type="Script" uid="uid://ghaghpjeecs5" path="res://Code/UI/CollectibleUi.cs" id="9_pydgx"]
 [ext_resource type="Script" uid="uid://crgxjraru158m" path="res://Code/UI/WeaponHud/RailgunHud.cs" id="10_pydgx"]
 [ext_resource type="PackedScene" uid="uid://c3on2c58of0pi" path="res://Scenes/UI/CollectibleCounter.tscn" id="10_yenib"]
@@ -137,6 +138,7 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+script = ExtResource("9_eebq5")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="WeaponHud/RocketHud"]
 layout_mode = 1
@@ -167,7 +169,7 @@ texture = ExtResource("12_18ujm")
 layout_mode = 2
 texture = ExtResource("12_18ujm")
 
-[node name="RailgunHud" type="Control" parent="WeaponHud" node_paths=PackedStringArray("RailgunIcon1", "RailgunIcon2", "RailgunIcon3", "RailgunIcon4")]
+[node name="RailgunHud" type="Control" parent="WeaponHud" node_paths=PackedStringArray("_railgunIcon1", "_railgunIcon2", "_railgunIcon3", "_railgunIcon4")]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -177,10 +179,10 @@ anchor_bottom = 0.5
 grow_horizontal = 0
 grow_vertical = 2
 script = ExtResource("10_pydgx")
-RailgunIcon1 = NodePath("VBoxContainer/Railgun1")
-RailgunIcon2 = NodePath("VBoxContainer/Railgun2")
-RailgunIcon3 = NodePath("VBoxContainer/Railgun3")
-RailgunIcon4 = NodePath("VBoxContainer/Railgun4")
+_railgunIcon1 = NodePath("VBoxContainer/Railgun1")
+_railgunIcon2 = NodePath("VBoxContainer/Railgun2")
+_railgunIcon3 = NodePath("VBoxContainer/Railgun3")
+_railgunIcon4 = NodePath("VBoxContainer/Railgun4")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="WeaponHud/RailgunHud"]
 layout_mode = 1
