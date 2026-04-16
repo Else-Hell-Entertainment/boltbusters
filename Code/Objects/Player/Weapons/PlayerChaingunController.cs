@@ -280,7 +280,7 @@ namespace EHE.BoltBusters
         {
             CurrentPersistentState = ChaingunState.ReadyToFire;
             //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.ReadyToFire);
-            _currentHeat = 0;
+            _currentHeat = 1;
             //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
         }
 
