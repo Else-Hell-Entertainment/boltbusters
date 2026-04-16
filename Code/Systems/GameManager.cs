@@ -163,7 +163,7 @@ namespace EHE.BoltBusters
         ///  The highest possible round index. After completing this round,
         ///  entering the victory state should be triggered.
         /// </summary>
-        public int LastRoundIndex { get; private set; } = 10;
+        public int LastRoundIndex { get; private set; } = 2;
 
         /// <summary>
         ///  Default player data values. Defined in the editor.
@@ -472,7 +472,8 @@ namespace EHE.BoltBusters
                 new GameStateRound(),
                 new GameStatePaused(),
                 new ShopState(),
-                new GameOverState()
+                new GameOverState(),
+                new VictoryState()
             );
         }
 
