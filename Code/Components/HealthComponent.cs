@@ -30,10 +30,18 @@ namespace EHE.BoltBusters
         [Export]
         private AudioStreamPlayer3D _damageSoundPlayer;
 
-        [Export]
+        /// <summary>
+        /// How many concurrent sounds can play at once. This is the same as setting the polyphony directly in the player
+        /// but is meant to clarify the usage in editor.
+        /// </summary>
+        [Export(PropertyHint.Range, "0,10")]
         private int _damageSoundPolyphony = 5;
 
-        [Export]
+        /// <summary>
+        /// Minimum wait time from the start of newest damage sound effect to when the next one can be started.
+        /// Use this to prevent the porridgeification of sound effects when being hit by chaingun.
+        /// </summary>
+        [Export(PropertyHint.Range, "0,10")]
         private float _minimumDamageSoundInterval = 0.1f;
 
         private int _currentHealth;

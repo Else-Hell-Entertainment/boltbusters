@@ -338,8 +338,6 @@ skeleton = NodePath("")
 script = ExtResource("2_5800e")
 _enemyShaderComponent = NodePath("../EnemyShaderComponent")
 _damageSoundPlayer = NodePath("../EnemyDamageSFX")
-_damageSoundPolyphony = 5
-_minimumDamageSoundInterval = 0.1
 metadata/_custom_type_script = "uid://b620lyqticbmf"
 
 [node name="MeleeWeapon" type="Node3D" parent="." node_paths=PackedStringArray("_meleeOwner")]

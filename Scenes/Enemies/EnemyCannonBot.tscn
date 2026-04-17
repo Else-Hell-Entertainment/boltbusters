@@ -337,6 +337,7 @@ draw_pass_1 = SubResource("QuadMesh_y2xl8")
 
 [node name="MuzzleFlash" type="OmniLight3D" parent="Turret"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6414611, -1.0716403)
+visible = false
 light_color = Color(0.91040766, 0.8755824, 0.07474276, 1)
 light_energy = 10.0
 omni_range = 2.0
@@ -362,10 +363,10 @@ shape = SubResource("CylinderShape3D_wagaa")
 
 [node name="ReloadTimer" type="Timer" parent="."]
 
-[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent", "_enemyDamageSoundPlayer")]
+[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent", "_damageSoundPlayer")]
 script = ExtResource("4_vqqcb")
 _enemyShaderComponent = NodePath("../EnemyShaderComponent")
-_enemyDamageSoundPlayer = NodePath("../EnemyDamageSFX")
+_damageSoundPlayer = NodePath("../EnemyDamageSFX")
 metadata/_custom_type_script = "uid://b620lyqticbmf"
 
 [node name="EnemyShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]

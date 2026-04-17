@@ -370,10 +370,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.014, 1.4, 0.052)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1967016, 0)
 shape = SubResource("CapsuleShape3D_jlvik")
 
-[node name="PlayerHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_playerShaderComponent", "_playerDamageSoundPlayer")]
+[node name="PlayerHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_playerShaderComponent", "_damageSoundPlayer")]
 script = ExtResource("7_0u5uq")
 _playerShaderComponent = NodePath("../PlayerShaderComponent")
-_playerDamageSoundPlayer = NodePath("../PlayerHurtSFX")
+_damageSoundPlayer = NodePath("../PlayerHurtSFX")
 metadata/_custom_type_script = "uid://d2knauna4hn3f"
 
 [node name="CollectArea" type="Area3D" parent="."]
