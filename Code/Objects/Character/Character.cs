@@ -5,9 +5,14 @@ namespace EHE.BoltBusters
     public abstract partial class Character : CharacterBody3D, IDamageable, ISpawnable
     {
         [Export]
+        private PackedScene _deathAnimation;
+
+        [Export]
         private HealthComponent _healthComponent = null;
 
         protected HealthComponent HealthComponent => _healthComponent;
+
+        private DamageData _lastDamageData = new DamageData();
 
         /// <summary>
         /// Increases the character's health by the given <paramref name="amount"/>.
@@ -29,6 +34,7 @@ namespace EHE.BoltBusters
         public virtual void TakeDamage(DamageData damageData)
         {
             _healthComponent.Decrease(damageData.Amount);
+            _lastDamageData = damageData;
 
             if (!_healthComponent.IsAlive)
             {
@@ -58,6 +64,28 @@ namespace EHE.BoltBusters
         /// </summary>
         public virtual void HandleDeath()
         {
+            if (_deathAnimation != null)
+            {
+                DeathAnimation animation = _deathAnimation.Instantiate<DeathAnimation>();
+                LevelManager.Active.AddLevelObject(animation);
+                animation.GlobalPosition = GlobalPosition;
+                DamageType damageType = _lastDamageData.Type;
+                switch (damageType)
+                {
+                    case DamageType.Chaingun:
+                        animation.EffectStrength = 1.0f;
+                        break;
+                    case DamageType.Missile:
+                        animation.EffectStrength = 3.0f;
+                        break;
+                    case DamageType.Sniper:
+                        animation.EffectStrength = 15.0f;
+                        break;
+                }
+
+                Vector3 direction = GlobalPosition - LevelManager.Active.Player.GlobalPosition;
+                animation.PlayDeathAnimation(direction);
+            }
             OnDespawn();
         }
 

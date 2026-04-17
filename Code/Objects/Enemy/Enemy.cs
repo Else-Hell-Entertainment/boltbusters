@@ -30,6 +30,7 @@ namespace EHE.BoltBusters
 
         public override void HandleDeath()
         {
+            base.HandleDeath();
             EmitSignal(SignalName.EnemyDied, (int)_enemyType, GlobalPosition);
             OnDespawn();
         }
