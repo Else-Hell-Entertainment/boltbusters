@@ -1,6 +1,6 @@
 // (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
-// Author(s): TimeForNano (tuominen.mika-95@hotmail.com)
+// Author(s): TimeForNano <tuominen.mika-95@hotmail.com>
 
 using System.Collections.Generic;
 using Godot;
@@ -33,7 +33,6 @@ namespace EHE.BoltBusters
 
         [Export]
         private PackedScene _wrenchScene = null;
-
         #endregion Exported Fields
 
 
