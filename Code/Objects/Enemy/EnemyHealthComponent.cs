@@ -14,7 +14,7 @@ namespace EHE.BoltBusters
         public override bool Decrease(int amount)
         {
             _enemyShaderComponent.PlayEnemyDamageFlash();
-            _enemyDamageSoundPlayer.Play();
+            //_enemyDamageSoundPlayer.Play();
             return base.Decrease(amount);
         }
     }

@@ -330,14 +330,15 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14, -0.73)
 
 [node name="Hammer" type="MeshInstance3D" parent="HammerNode"]
-transform = Transform3D(-0.22308668, 2.9036444e-08, 8.52497e-16, 0, -1.4518222e-08, 0.22308668, 1.9502858e-08, 0.3321382, 9.751429e-09, -6.4101265e-08, 1.0126531, 0.73323303)
+transform = Transform3D(-0.22308668, 5.0151474e-08, 1.4724248e-15, 0, -1.4518222e-08, 0.22308668, 3.3685154e-08, 0.3321382, 9.751429e-09, -6.4101265e-08, 1.0126531, 0.73323303)
 mesh = SubResource("ArrayMesh_g6g5b")
 skeleton = NodePath("")
 
-[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent", "_enemyDamageSoundPlayer")]
+[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent", "_enemyDamageSoundPlayer", "_damageSoundPlayer")]
 script = ExtResource("2_5800e")
 _enemyShaderComponent = NodePath("../EnemyShaderComponent")
 _enemyDamageSoundPlayer = NodePath("../EnemyDamageSFX")
+_damageSoundPlayer = NodePath("../EnemyDamageSFX")
 metadata/_custom_type_script = "uid://b620lyqticbmf"
 
 [node name="MeleeWeapon" type="Node3D" parent="." node_paths=PackedStringArray("_meleeOwner")]

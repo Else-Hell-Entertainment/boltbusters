@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -26,7 +27,20 @@ namespace EHE.BoltBusters
         #region Fields
         // MARK: Fields
 
+        [Export]
+        private AudioStreamPlayer3D _damageSoundPlayer;
+
+        [Export]
+        private int _maxSimultaneousDamageSounds = 3;
+
+        [Export]
+        private float _minimumDamageSoundInterval = 0.2f;
+
+        private double _damageSoundTimer = 0f;
+
         private int _currentHealth;
+
+        private List<AudioStreamPlayer3D> _damageSoundPlayers = new List<AudioStreamPlayer3D>();
 
         #endregion Fields
 
@@ -93,6 +107,16 @@ namespace EHE.BoltBusters
         {
             CurrentHealth = InitialHealth;
             GD.Print($"CurrentHealth initialized to {CurrentHealth}.");
+            InitializeSoundPlayers();
+        }
+
+        public override void _Process(double delta)
+        {
+            base._Process(delta);
+            if (_damageSoundTimer < _minimumDamageSoundInterval)
+            {
+                _damageSoundTimer += delta;
+            }
         }
 
         /// <summary>
@@ -142,6 +166,7 @@ namespace EHE.BoltBusters
             }
 
             CurrentHealth -= amount;
+            PlayDamageSound();
             return true;
         }
 
@@ -164,5 +189,45 @@ namespace EHE.BoltBusters
         }
 
         #endregion Public Methods
+
+        #region Private Methods
+
+        private void InitializeSoundPlayers()
+        {
+            if (_damageSoundPlayer == null)
+            {
+                GD.PrintErr($"Health Component {Name}  has no damage sound player assigned.");
+                return;
+            }
+            for (int i = 0; i < _maxSimultaneousDamageSounds; i++)
+            {
+                AudioStreamPlayer3D player = (AudioStreamPlayer3D)_damageSoundPlayer.Duplicate();
+                _damageSoundPlayers.Add(player);
+                player.Name = "DamageSoundPlayer" + i;
+                //AddChild(player);
+                GetParent().CallDeferred(Node.MethodName.AddChild, player);
+            }
+        }
+
+        private void PlayDamageSound()
+        {
+            if (_damageSoundTimer < _minimumDamageSoundInterval)
+            {
+                return;
+            }
+
+            foreach (AudioStreamPlayer3D player in _damageSoundPlayers)
+            {
+                if (!player.IsPlaying())
+                {
+                    player.Play();
+                    GD.Print("Playing damage sound player " + player.Name);
+                    _damageSoundTimer = 0;
+                    return;
+                }
+            }
+        }
+
+        #endregion Private Methods
     }
 }
