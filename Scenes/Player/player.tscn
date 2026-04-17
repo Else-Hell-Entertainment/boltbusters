@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://c4h2yy8w0gt3l"]
+[gd_scene load_steps=31 format=4 uid="uid://c4h2yy8w0gt3l"]
 
 [ext_resource type="Script" uid="uid://d1dql4pbawoly" path="res://Code/Objects/Player/Player.cs" id="1_4wape"]
 [ext_resource type="PackedScene" uid="uid://4x3awqn6r5eh" path="res://Scenes/Player/Weapons/ChaingunController.tscn" id="2_0u5uq"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cbgtfntk84sv1" path="res://Code/Objects/Player/PlayerController.cs" id="5_gk6dx"]
 [ext_resource type="PackedScene" uid="uid://cfcvy3x00knug" path="res://Scenes/Player/Weapons/RailgunController.tscn" id="6_gk6dx"]
 [ext_resource type="Script" uid="uid://d2knauna4hn3f" path="res://Code/Objects/Player/PlayerHealthComponent.cs" id="7_0u5uq"]
+[ext_resource type="PackedScene" uid="uid://b5f4sa0o0o0xk" path="res://Scenes/UI/CrosshairSimple.tscn" id="8_06tpx"]
 [ext_resource type="Script" uid="uid://ijwkg2xovq7l" path="res://Code/CollectArea.cs" id="8_jlvik"]
 [ext_resource type="Script" uid="uid://15bogyux3w3m" path="res://Code/Components/PlayerShaderComponent.cs" id="10_74mp2"]
 [ext_resource type="Resource" uid="uid://cwashgb0tg3w3" path="res://Assets/Shaders/PlayerShaderPreset.tres" id="11_oikmp"]
@@ -365,6 +366,9 @@ _range = 9.0
 
 [node name="RailgunController" parent="Turret" instance=ExtResource("6_gk6dx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.014, 1.4, 0.052)
+
+[node name="Crosshair" parent="Turret" instance=ExtResource("8_06tpx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1967016, 0)

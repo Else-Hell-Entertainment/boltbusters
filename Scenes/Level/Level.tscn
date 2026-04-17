@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bledl4g0j55e6"]
+[gd_scene load_steps=12 format=3 uid="uid://bledl4g0j55e6"]
 
 [ext_resource type="Script" uid="uid://d0hobigx0gyeh" path="res://Code/Level/LevelManager.cs" id="1_k2uda"]
 [ext_resource type="PackedScene" uid="uid://tb0fhj8w73mc" path="res://Scenes/Enemies/EnemySpawnManager.tscn" id="2_k2uda"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://d1v0b82d6dwda" path="res://Scenes/Enemies/EnemyHammerBot.tscn" id="4_t3e81"]
 [ext_resource type="PackedScene" uid="uid://dleoqwseq5x4p" path="res://Scenes/Enemies/EnemyCannonBot.tscn" id="5_t3e81"]
 [ext_resource type="PackedScene" uid="uid://bh3xawx4w08w2" path="res://Scenes/Collectible/CollectibleSpawnManager.tscn" id="6_ksici"]
+[ext_resource type="PackedScene" uid="uid://ctc25rmn1xjtt" path="res://Assets/Models/Characters/BossEnemy.glb" id="6_lvwdj"]
 [ext_resource type="AudioStream" uid="uid://cvmu25gnvhql8" path="res://Assets/Music/MainTheme.ogg" id="8_t3e81"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_x00a1"]
@@ -59,7 +60,7 @@ metadata/_editor_floor_ = Vector3(0, 2, 0)
 [node name="EnemySpawnManager" parent="." instance=ExtResource("2_k2uda")]
 _meleeScene = ExtResource("4_t3e81")
 _rangedScene = ExtResource("5_t3e81")
-_shieldedScene = ExtResource("4_t3e81")
+_shieldedScene = ExtResource("6_lvwdj")
 
 [node name="Player" parent="." instance=ExtResource("4_8gphe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.25, 28)
