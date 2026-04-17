@@ -81,6 +81,8 @@ namespace EHE.BoltBusters
         private Timer _roundTimer;
         private RoundData _roundData;
         private EnemyGroupManager _enemyGroupManager;
+
+        // Audio stuff
         private MusicManager.Song _currentSong = MusicManager.Song.MainTheme;
         private AudioStreamPlayer _currentMusicPlayer;
         private bool _isFirstRoundOfSong;
