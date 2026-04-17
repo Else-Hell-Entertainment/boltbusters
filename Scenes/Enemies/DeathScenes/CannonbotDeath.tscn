@@ -1,26 +1,14 @@
-[gd_scene load_steps=33 format=4 uid="uid://dleoqwseq5x4p"]
+[gd_scene load_steps=13 format=4 uid="uid://csngxu1ir6um3"]
 
-[ext_resource type="Script" uid="uid://yb7yelbnmfj5" path="res://Code/Objects/Enemy/EnemyCannonBot.cs" id="1_k6seb"]
-[ext_resource type="PackedScene" uid="uid://t3nx0bltkocl" path="res://Scenes/Enemies/CannonBall.tscn" id="1_mqbn8"]
-[ext_resource type="Script" uid="uid://byeyojbxfgtxc" path="res://Code/Objects/CB3DMover.cs" id="3_4sov6"]
-[ext_resource type="Script" uid="uid://ce6qc6u3q0hiv" path="res://Code/Objects/Enemy/EnemyCannonController.cs" id="3_oyasw"]
-[ext_resource type="PackedScene" uid="uid://csngxu1ir6um3" path="res://Scenes/Enemies/DeathScenes/CannonbotDeath.tscn" id="3_s1vxn"]
-[ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="4_vqqcb"]
-[ext_resource type="Script" uid="uid://dsnd2h8pgyhvi" path="res://Code/Objects/Node3DMover.cs" id="5_6314t"]
-[ext_resource type="Material" uid="uid://h3kjknkrax3t" path="res://Assets/VFX/Materials/SmokePuffParticleProcessMaterial.tres" id="6_cb80c"]
-[ext_resource type="Material" uid="uid://do048e2b52egy" path="res://Assets/Shaders/EffectShaderShaderMaterial.tres" id="6_wagaa"]
-[ext_resource type="Script" uid="uid://dn3xdtkt00s1k" path="res://Code/Components/EnemyShaderComponent.cs" id="7_82su2"]
-[ext_resource type="Material" uid="uid://df05tq8yon61" path="res://Assets/VFX/Materials/SmokePuffMaterial.tres" id="7_qj3bw"]
-[ext_resource type="Resource" uid="uid://d1rygoxvve6o4" path="res://Assets/Shaders/EnemyShaderPreset.tres" id="8_wagaa"]
-[ext_resource type="AudioStream" uid="uid://cbo5jtl16n71s" path="res://Assets/SFX/EnemyShoot.ogg" id="12_s1vxn"]
-[ext_resource type="AudioStream" uid="uid://4ob6hn3fb2t5" path="res://Assets/SFX/EnemyHurt.ogg" id="13_qj3bw"]
+[ext_resource type="Script" uid="uid://6xduw4mnu7i2" path="res://Code/Objects/DeathAnimation.cs" id="1_lp31u"]
+[ext_resource type="AudioStream" uid="uid://ctvtq3kja3u6s" path="res://Assets/SFX/EnemyDeath.ogg" id="2_7bd87"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rqpuh"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yuo0y"]
 resource_name = "Wheel"
 cull_mode = 2
 albedo_color = Color(0, 0, 0, 1)
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_mxhum"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_tfr50"]
 _surfaces = [{
 "aabb": AABB(-1, -1, -1, 2, 2, 2),
 "format": 34896613377,
@@ -35,8 +23,8 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_ghdcm"]
-resource_name = "EnemyRanged_Cylinder_005"
+[sub_resource type="ArrayMesh" id="ArrayMesh_nw58y"]
+resource_name = "EnemyRangedParts_Cylinder_005"
 _surfaces = [{
 "aabb": AABB(-1, -1, -1, 2, 2, 2),
 "attribute_data": PackedByteArray("////f//fAAD//wAA/9//f//f/3//vwAA/98AAP+//3//v/9//58AAP+/AAD/n/9//5//f/9/AAD/nwAA/3//f/9//3//XwAA/38AAP9f/3//X/9//z8AAP9fAAD/P/9//z//f/8fAAD/PwAA/x//f/8f/38AAAAA/x8AAAAA/38u0tCt/7+Ogv+/SKaNlI2UcOuNlNCt0K2Ogv+/ttn/v2/9/78u0i7ScOtw60im/7+NlHDr/7+22f+/b/3QrS7ScH3/v/8/joJxa42UjwL/v44UjZT/P2/9cWtw644UcOvQrdCt/79Ipv+/SKYu0tCt0K3QrS7S0K1Ipv+/ttn/v0im/7+22f+/0K0u0i7SLtLQrS7SLtIu0v+/ttn/v7bZ/z9Ipi5S0K22Wf+/0C3QrUgm/78uUi7S0C0u0v8/ttnQrdCtLtLQrf+/SKYu0i7Sttn/v9CtLtJIpv+//7+22Q=="),
@@ -44,7 +32,7 @@ _surfaces = [{
 "index_count": 228,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AOAA5ADoAOgA5ADsAOAA8ADkAOgA7AD0APgA8ADgAPQA7AD8APgBAADwAPQA/AEEAQgBAAD4AQQA/AEMAQgBEAEAAQQBDAEUARgBEAEIARQBDAEcARgBHAEQARQBHAEYAIAAhACIAIgAhACMAIAAkACEAIgAjACUAJwAkACAAJQAjACYAJwAoACQAJQAmACsAKQAoACcAKwAmACwAKQAqACgAKwAsAC8ALQAqACkALwAsAC4ALQAuACoALwAuAC0ASAAyAEkASQAyADAASAAxADIASQAwAEoASgBIAEkASgAwADYASwAxAEgASwA0ADEASABMAEsATAA0AEsASgBMAEgATAAzADQASgA2AE0ATQA2ADUATgAzAEwATgA3ADMATABKAE8ATABPAE4ATwBKAE0ATwA3AE4ATQA1AE8ATwA1ADcAUABRAFIAUABTAFEAUQBTAFQAUwBQAFUAVQBQAFYAUwBVAFcA"),
 "lods": [1e-10, PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIgAhACMAIAAkACEAIgAjACUAJQAgACIAJQAjACYAJwAkACAAJwAoACQAIAApACcAKQAoACcAJQApACAAKQAqACgAJQAmACsAKwAmACwALQAqACkALQAuACoAKQAlAC8AKQAvAC0ALwAlACsALwAuAC0AKwAsAC8ALwAsAC4AMAAxADIAMAAzADEAMQAzADQAMwAwADUANQAwADYAMwA1ADcA")],
-"material": SubResource("StandardMaterial3D_rqpuh"),
+"material": SubResource("StandardMaterial3D_yuo0y"),
 "name": "Wheel",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -52,61 +40,31 @@ _surfaces = [{
 "vertex_data": PackedByteArray("/38AAAAA/u+B2v//fSX+7/9///8AAP7vgdoAAH0l/u+B2gAAfSX/z///////f//Pgdr//30l/8///wAA/3//z///AAD/f/+vgdr//4Ha/6///////3//r4HaAACB2v+vgdoAAIHa/4//f///////j4Ha//+B2v+P/38AAP///4//fwAA////j30l//+B2v+P/3///////499JQAAgdr/j30lAACB2v+vAAD///9//699Jf//gdr/rwAAAAD/f/+vAAAAAP9//899Jf//fSX/zwAA////f//PfSUAAH0l/899JQAAfSX+7/9///8AAP7vfSX//30l/u//fwAAAAD+7+ClAAAeWv8//38AAAAA/z//fwAAbUr/P30lAAB9Jf8/gdoAAH0l/z8eWgAAHlr/PwAAAAD/f/8/kbUAAP9//z///wAA/3//P+ClAADgpf8/gdoAAIHa/z9tSgAA/3//P30lAACB2v8//38AAJG1/z//fwAA////Px5aAADgpf8///////9//7//f///AAD/v4Ha//99Jf+/AAD///9//799Jf//fSX/v/9///////+/gdr//4Ha/799Jf//gdr/vx5aAAAeWv+//38AAG1K/7//fwAAbUr/v+ClAAAeWv+/HloAAB5a/7/gpQAAHlr/v21KAAD/f/+/kbUAAP9//79tSgAA/3//v5G1AAD/f/+/HloAAOCl/7/gpQAA4KX/vx5aAADgpf+/4KUAAOCl/7//fwAAkbX/v/9/AACRtf+//3///21K/7/gpf//Hlr/v5G1////f/+/Hlr//x5a/79tSv///3//v+Cl///gpf+/Hlr//+Cl/7//f///kbX/vx5aAAAeWv8/4KUAAB5a/z//fwAAbUr/P+ClAADgpf8/kbUAAP9//z8eWgAA4KX/P21KAAD/f/8//38AAJG1/z//fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/3////9/////f////3////9/////f////3////9/////f////3////9/////f////3////9/////f////3///wAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/3/+//9/////f////3////9/////f////3////9//v//f////3////9/////f////3////9/////f////3////9/////f////3////9/////f////3////9/////f////3////9//v//f////3/+//9/////f////3////9/////fwAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_mxhum")
+shadow_mesh = SubResource("ArrayMesh_tfr50")
 
-[sub_resource type="SphereMesh" id="SphereMesh_mgqye"]
-material = ExtResource("7_qj3bw")
-radius = 0.15
-height = 0.3
-radial_segments = 32
-rings = 16
+[sub_resource type="BoxShape3D" id="BoxShape3D_pak6e"]
+size = Vector3(0.32421875, 0.46832275, 0.5996094)
 
-[sub_resource type="Gradient" id="Gradient_3vuux"]
-offsets = PackedFloat32Array(0, 0.33760685, 1)
-colors = PackedColorArray(1, 1, 0.23209421, 1, 0.9530516, 0.9318798, 0.21954027, 1, 0.58044136, 0.22593993, 0.0040936167, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_cb80c"]
-gradient = SubResource("Gradient_3vuux")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wpy42"]
-lifetime_randomness = 0.51
-direction = Vector3(0, 0, -1)
-spread = 30.0
-initial_velocity_min = 20.0
-initial_velocity_max = 20.0
-gravity = Vector3(0, 0, 0)
-color_ramp = SubResource("GradientTexture1D_cb80c")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s1vxn"]
-vertex_color_use_as_albedo = true
-emission_enabled = true
-emission = Color(1, 0.98937523, 0, 1)
-billboard_mode = 1
-
-[sub_resource type="QuadMesh" id="QuadMesh_y2xl8"]
-material = SubResource("StandardMaterial3D_s1vxn")
-size = Vector2(0.05, 0.05)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_34cv8"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_whbdv"]
 resource_name = "Cannon"
 cull_mode = 2
 albedo_color = Color(0.105523854, 0.105523854, 0.105523854, 1)
 metallic = 0.7477478
 roughness = 0.6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f01wl"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hlupp"]
 resource_name = "Yarn"
 cull_mode = 2
 albedo_color = Color(0.36682874, 0.24022906, 0.030206902, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3gblr"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8sqlb"]
 resource_name = "Legs"
 cull_mode = 2
 albedo_color = Color(0.3567765, 0.3567765, 0.3567765, 1)
 metallic = 1.0
 roughness = 0.5
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_he0gg"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_riphy"]
 _surfaces = [{
 "aabb": AABB(-0.542356, -2.3334658, -3.0701818, 7.2460613, 5.6109743, 6.1479454),
 "format": 34359742465,
@@ -140,15 +98,15 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_p28l2"]
-resource_name = "EnemyRanged_Cylinder_006"
+[sub_resource type="ArrayMesh" id="ArrayMesh_5t3px"]
+resource_name = "EnemyRangedParts_Cylinder_006"
 _surfaces = [{
 "aabb": AABB(-0.542356, -2.3334658, -3.0701818, 7.2460613, 5.6109743, 6.1479454),
 "attribute_data": PackedByteArray("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AACAPgAAAD4AAAA+AAAAAAAAgD4AAAAAAAAAPgAAAD4AAAA+AAAAPgAAAAAAAAAAAAAAPgAAAAAAAAAAAAAAPgAAwD4AAAA/AACAPgAAAD8AAIA+AAAAPwAAwD4AAAA/AAAAPgAAwD4AAAAAAACAPgAAAD4AAIA+AAAAAAAAwD4AAIA+AADAPgAAAD4AAIA+AACAPgAAgD4AAAA+AADAPgAAwD4AAMA+AACAPgAAgD4AAMA+AACAPgAAgD4AAMA+AAAAPwAAwD4AAMA+AACAPgAAAD8AAIA+AADAPgAAwD4AACA/AADAPgAAAD8AAIA+AAAgPwAAgD4AAAA/AADAPgAAQD8AAMA+AAAgPwAAgD4AAEA/AACAPgAAID8AAMA+AABgPwAAwD4AAEA/AACAPgAAYD8AAIA+AABAPwAAwD4AAIA/AADAPgAAYD8AAIA+AACAPwAAgD4AAGA/AADAPgAAAD4AAIA+AAAAAAAAAD4AAAA+AAAAPgAAAAAAAIA+AACAPgAAgD4AAAA+AAAAPgAAgD4AAAA+AAAAPgAAgD4AAMA+AACAPgAAgD4AAAA+AADAPgAAAD4AAIA+AACAPgAAAD8AAIA+AADAPgAAAD4AAAA/AAAAPgAAwD4AAIA+AAAgPwAAgD4AAAA/AAAAPgAAID8AAAA+AAAAPwAAgD4AAEA/AACAPgAAID8AAAA+AABAPwAAAD4AACA/AACAPgAAYD8AAIA+AABAPwAAAD4AAGA/AAAAPgAAQD8AAIA+AACAPwAAgD4AAGA/AAAAPgAAgD8AAAA+AABgPwAAgD4AAIA/AAAAPwAAYD8AAMA+AACAPwAAwD4AAGA/AAAAPwAAYD8AAAA/AABAPwAAwD4AAGA/AADAPgAAQD8AAAA/AABAPwAAAD8AACA/AADAPgAAQD8AAMA+AAAgPwAAAD8AACA/AAAAPwAAAD8AAMA+AAAgPwAAwD4AAAA/AAAAPwAAAD8AAAA/AADAPgAAwD4AAAA/AADAPgAAwD4AAAA/AADAPgAAAD8AAIA+AADAPgAAwD4AAMA+AACAPgAAAD8AAIA+AAAAPwAAAD4AAMA+AACAPgAAwD4AAAA+AAAAPwAAAD4AAAA/AAAAAAAAwD4AAAA+AADAPgAAAAAAAAA/AACAPgAAAD8AAAA+AAAAPwAAAD4AAAA/AACAPgAAAD8AACA/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"),
 "format": 34359742487,
 "index_count": 1128,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFgAVABcAFgAXABgAFAAWABgAFQAZABcAFAAYABoAFQAbABkAFAAbABUAGwAaABkAGwAUABoAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkALAAtAC4ALAAvAC0AMAAxADIAMQAzADIAMgAzADQAMgA0ADAAMQA1ADMAMAA0ADYANwA1ADEAMAA3ADEANwA2ADUAMAA2ADcAOAA5ADoAOAA7ADkAPAA9AD4APAA/AD0AQABBAEIAQABDAEEAQwBEAEEARQBDAEAAQwBGAEQARQBHAEMARwBGAEMARwBIAEYASQBKAEsASQBMAEoATQBOAE8ATQBQAE4AUQBSAFMAUQBUAFIAVQBWAFcAVQBYAFYAWQBaAFsAWQBcAFoAXQBeAF8AXgBgAF8AXwBgAGEAXwBhAF0AXgBiAGAAXQBhAGMAZABiAF4AXQBkAF4AZABjAGIAXQBjAGQAZQBmAGcAZQBoAGYAaQBqAGsAaQBsAGoAbQBuAG8AbQBwAG4AcQByAHMAcQB0AHIAdQB2AHcAdQB4AHYAeQB6AHsAewB6AHwAewB8AH0AeQB7AH0AegB+AHwAeQB9AH8AgAB/AH4AegCAAH4AgAB5AH8AeQCAAHoAgAB6AIEAeQCAAIIAgACBAIIAggCBAIMAeQCCAIQAggCDAIUAhACCAIUAhACFAIYAhwCIAIkAhwCKAIgAiwCMAI0AiwCOAIwAjwCQAJEAjwCSAJAAkwCUAJUAkwCWAJQAlwCYAJkAmQCYAJoAmQCaAJsAlwCZAJsAmACcAJoAlwCbAJ0AmACeAJwAlwCeAJgAngCdAJwAngCXAJ0AnwCgAKEAnwCiAKAAowCkAKUAowCmAKQApwCoAKkApwCqAKgAqwCsAK0AqwCuAKwArwCwALEArwCyALAAswC0ALUAtgC3ALgAtgC5ALcAugC7ALwAugC9ALsAvgC/AMAAwQDCAMMAwQDEAMIAxQDGAMcAxQDIAMYAyQDKAMsAyQDMAMoAzQDOAM8AzQDQAM4A0QDSANMA0QDUANIA1QDWANcA1QDYANYA2QDaANsA2QDcANoA3QDeAN8A3QDgAN4A4QDiAOMA4QDkAOIA5QDmAOcA5QDoAOYA6QDqAOsA6QDsAOoA7QDuAO8A7QDwAO4A8QDyAPMA8QD0APIA9QD2APcA9QD4APYA+QD6APsA+QD8APoA/QD+AP8A/QAAAf4AAQECAQMBAQEEAQIBBQEGAQcBBQEIAQYBCQEKAQsBCQEMAQoBDQEOAQ8BDQEQAQ4BEQESARMBEQEUARIBFQEWARcBFQEYARYBGQEaARsBGQEcARoBHQEeAR8BHQEgAR4BIQEiASMBIQEkASIBJQEmAScBJQEoASYBKQEqASsBKQEsASoBLQEuAS8BLQEwAS4BMQEyATMBMQE0ATIBNQE2ATcBNQE4ATYBOQE6ATsBOQE8AToBPQE+AT8BPQFAAT4BQQFCAUMBQQFEAUIBRQFGAUcBRQFIAUYBSQFKAUsBSQFMAUoBTQFOAU8BTQFQAU4BUQFSAVMBUQFUAVIBVQFWAVcBVQFYAVYBWQFaAVsBWQFcAVoBXQFeAV8BXQFgAV4BYQFiAWMBYQFkAWIBZQFmAWcBZQFoAWYBaQFqAWsBaQFsAWoBbQFuAW8BbQFwAW4BcQFyAXMBcQF0AXIBdQF2AXcBdQF4AXYBeQF6AXsBeQF8AXoBfQF+AX8BfQGAAX4BgQGCAYMBgQGEAYIBhQGGAYcBhQGIAYYBiQGKAYsBiQGMAYoBjQGOAY8BjQGQAY4BkQGSAZMBkQGUAZIBlQGWAZcBlQGYAZYBmQGaAZsBmQGcAZoBnQGeAZ8BnQGgAZ4BoQGiAaMBoQGkAaIBpQGmAacBpQGoAaYBqQGqAasBqQGsAaoBrQGuAa8BrwGuAbABrQGxAa4BrwGwAbIBswGxAa0BsgGwAbQBswG1AbEBsgG0AbYBtwG1AbMBtgG0AbgBtwG5AbUBtgG4AboBuwG5AbcBugG4AbwBuwG8AbkBugG8AbsBvQG+Ab8BvQHAAb4BvgHAAcEBwAG9AcIBwgG9AcMBwAHCAcQBxQHGAccBxQHIAcYByQHKAcsByQHMAcoBzQHOAc8BzQHQAc4B0QHSAdMB0QHUAdIB1QHWAdcB1QHYAdYB2QHaAdsB2QHcAdoB3QHeAd8B3QHgAd4B4QHiAeMB4wHiAeQB4QHlAeIB4wHkAeYB5wHlAeEB5gHkAegB5wHpAeUB5gHoAeoB6wHpAecB6gHoAewB6wHtAekB6gHsAe4B7wHtAesB7gHsAfAB7wHwAe0B7gHwAe8B8QHyAfMB8QH0AfIB8gH0AfUB9AHxAfYB9gHxAfcB9AH2AfgB+QH6AfsB+QH8AfoB/QH+Af8B/QEAAv4BAQICAgMCAQIEAgICBQIGAgcCBQIIAgYCCQIKAgsCCQIMAgoCDQIOAg8CDQIQAg4CEQISAhMCEQIUAhICFQIWAhcCFQIYAhYCGQIaAhsCGQIcAhoCHQIeAh8CHQIgAh4CIQIiAiMCIQIkAiICJQImAicCJQIoAiYCKQIqAisCKQIsAioCLQIuAi8CLQIwAi4CMQIyAjMCMgIxAjQCNAIxAjUCMgI0AjYCNwI4AjkCOQI4AjoCNwI7AjgCOQI6AjwCPQI7AjcCPAI6Aj4CPQI/AjsCPAI+AkACQQI/Aj0CQAI+AkICQQJCAj8CQAJCAkECQwJEAkUCQwJGAkQCRwJIAkkCRwJKAkgCSwJMAk0CSwJOAkwCTwJQAlECTwJSAlACUwJUAlUCUwJWAlQCVwJYAlkCWQJYAloCVwJbAlgCWQJaAlwCXQJbAlcCXAJaAl4CXQJfAlsCXAJeAmACYQJfAl0CYAJeAmICYQJiAl8CYAJiAmEC"),
-"material": SubResource("StandardMaterial3D_34cv8"),
+"material": SubResource("StandardMaterial3D_whbdv"),
 "name": "Cannon",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -160,7 +118,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 48,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABQAEAAcABwAEAAgABQAHAAkACgALAAwACgANAAsADgAPABAADgARAA8AEgATABQAEgAVABMAFgAXABgAFgAZABcAGgAbABwAGgAdABsA"),
-"material": SubResource("StandardMaterial3D_f01wl"),
+"material": SubResource("StandardMaterial3D_hlupp"),
 "name": "Yarn",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -172,7 +130,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 102,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEgARABMAEAAUABEAEgATABUAFgAUABAAFQATABcAFgAXABQAFQAXABYAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkALAAtAC4ALwAwADEALwAyADAAMwA0ADUAMwA2ADQANwA4ADkAOgA7ADwAOgA9ADsA"),
-"material": SubResource("StandardMaterial3D_3gblr"),
+"material": SubResource("StandardMaterial3D_8sqlb"),
 "name": "Legs",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -180,216 +138,42 @@ _surfaces = [{
 "vertex_data": PackedByteArray("AAAAAN7Xir/d1wq/3NcKPwAAAAAAAACAAAAAAAAAAADd1wq/3NcKP97Xir8AAACA3NcKP97Xir8AAACAAAAAAAAAAADd1wo/3NcKPwAAAAAAAACAAAAAAN7Xir/d1wo/AAAAAN7Xir/d1wo/2NcKvwAAAAAAAACAAAAAAAAAAADd1wo/2NcKv97Xir8AAACA2NcKv97Xir8AAACAAAAAAAAAAADd1wq/2NcKvwAAAAAAAACAAAAAAN7Xir/d1wq/gPF+Pt7Xir8AAACAAAAAAN7Xir/d1wq/AAAAAN7Xir9/8X6+2NcKv97Xir8AAACA3NcKP97Xir8AAACAYPF+vt7Xir8AAACAAAAAAN7Xir9/8X4+AAAAAN7Xir/d1wo/9v2VQIFXFcAAAACAlR1nQMnUPMB1COs+bk2HQIFXFcB4COs+cQZ1QLTCUcDqxfezbk2HQIFXFcB4COu+cQZ1QLTCUcDqxfez9v2VQIFXFcAAAACAlR1nQMnUPMB7COu+lR1nQMnUPMB1COs+YPF+vt7Xir8AAACAAAAAAN7Xir9/8X4+cQZ1QLTCUcDqxfezcQZ1QLTCUcDqxfezAAAAAN7Xir9/8X6+YPF+vt7Xir8AAACAlR1nQMnUPMB7COu+bk2HQIFXFcB4COs+zTlxQIFXFcAAAACAbk2HQIFXFcB4COs+lR1nQMnUPMB1COs+lR1nQMnUPMB1COs+zTlxQIFXFcAAAACA3JpOQIFXFcAAAACA3JpOQIFXFcAAAACAAAAAAN7Xir9/8X4+3NcKP97Xir8AAACAlR1nQMnUPMB1COs+lR1nQMnUPMB7COu+bk2HQIFXFcB4COu+zTlxQIFXFcAAAACAbk2HQIFXFcB4COu+lR1nQMnUPMB7COu+zTlxQIFXFcAAAACA3JpOQIFXFcAAAACA3JpOQIFXFcAAAACAAAAAAN7Xir9/8X6+lR1nQMnUPMB7COu+3NcKP97Xir8AAACA////vwAA/9////+/AAD/3////78AAP/f////vwAA/9//v/9/////3/+//3/////f/7//f////9//v/9/////3/8//3//v/+//z//f/+//7//P/9//7//v/8//3//v/+/AAD/v/8//78AAP+//z//vwAA/7//P/+/AAD/v/8//7//fwAA////P/9/AAD///8//38AAP///z//fwAA/v//P/9/AAD///8//38AAP///z//fwAA/v//P/9/AAD///8/ZarqV////z9lqupX////P2Wq6lf///8/ZarqV////z/p12Yq////v+nXZir///+/6ddmKv///7/p12Yq////v9Rd20D///8/1F3bQP///z/UXdtA////P9Rd20D///8/Iz8qIv///78jPyoi////vyM/KiL///+/Iz8qIv///79UVaqq////P1RVqqr///8/VFWqqv///z9UVaqq////P2TJAAD///+/ZMkAAP///79kyQAA////v0KYgbT///8/QpiBtP///z9CmIG0////P0KYgbT///8/qypT1f///7+rKlPV////v6sqU9X///+/qypT1f///79kyf//////v2TJ//////+/ZMn//////798y7zn////v3zLvOf///+/fMu85////798y7zn////vw==")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_he0gg")
+shadow_mesh = SubResource("ArrayMesh_riphy")
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_wagaa"]
-radius = 1.0
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tdsfv"]
+radius = 0.375
+height = 1.2726172
 
-[sub_resource type="Animation" id="Animation_iocbx"]
-resource_name = "CannonbotShoot"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../SmokePuffEffect:emitting")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:light_energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.13333334),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [10.0, 0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../EnemyRanged/Cannon:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.14, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0.3, -0.185), Vector3(0, 0.253, -0.235), Vector3(0, 0.3, -0.185)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../EnemyRanged/Cannon:rotation")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.16666667, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 1.5707964), Vector3(-0.572468, 0, 1.5707964), Vector3(0, 0, 1.5707964)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../SparkEffect:emitting")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.33333334),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("../../CannonbotShootingSFX:playing")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
+[node name="CannonbotDeath" type="Node3D" node_paths=PackedStringArray("_deathSound", "_deathParts", "_despawnTimer")]
+script = ExtResource("1_lp31u")
+_deathSound = NodePath("DeathSound")
+_deathParts = [NodePath("RigidBody3D"), NodePath("RigidBody3D2")]
+_despawnTimer = NodePath("Timer")
 
-[sub_resource type="Animation" id="Animation_dl0q6"]
-length = 0.001
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_cb80c"]
-_data = {
-&"CannonbotShoot": SubResource("Animation_iocbx"),
-&"RESET": SubResource("Animation_dl0q6")
-}
+[node name="DeathSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_7bd87")
 
-[node name="EnemyCannonBot" type="CharacterBody3D" node_paths=PackedStringArray("_rayCaster", "Controller", "_healthComponent")]
-collision_layer = 3
-script = ExtResource("1_k6seb")
-_range = 12.0
-_rayCaster = NodePath("Turret/Muzzle/RayCast3D")
-Controller = NodePath("Controller")
-_cannonBallScene = ExtResource("1_mqbn8")
-_deathAnimation = ExtResource("3_s1vxn")
-_healthComponent = NodePath("EnemyHealthComponent")
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
 
-[node name="Controller" type="Node3D" parent="." node_paths=PackedStringArray("_enemyBodyMover", "_bodyNodeMover", "_turretMover")]
-script = ExtResource("3_oyasw")
-_enemyBodyMover = NodePath("CB3DMover")
-_bodyNodeMover = NodePath("LoweBodyMover")
-_turretMover = NodePath("TurretMover")
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Controller"]
-avoidance_enabled = true
-radius = 1.0
-neighbor_distance = 5.0
-
-[node name="CB3DMover" type="Node3D" parent="Controller" node_paths=PackedStringArray("_body")]
-script = ExtResource("3_4sov6")
-_body = NodePath("../..")
-
-[node name="TurretMover" type="Node3D" parent="Controller" node_paths=PackedStringArray("_body")]
-script = ExtResource("5_6314t")
-_body = NodePath("../../Turret")
-
-[node name="LoweBodyMover" type="Node3D" parent="Controller" node_paths=PackedStringArray("_body")]
-script = ExtResource("5_6314t")
-_body = NodePath("../../Body")
-
-[node name="Body" type="Node3D" parent="."]
-
-[node name="Node3D" type="Node3D" parent="Body"]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="Wheel" type="MeshInstance3D" parent="Body/Node3D"]
-transform = Transform3D(0, -0.20300695, 0, 0.4561433, 0, 0, 0, 0, 0.4561433, 0, 0.45, 0)
-mesh = SubResource("ArrayMesh_ghdcm")
+[node name="Wheel" type="MeshInstance3D" parent="RigidBody3D"]
+transform = Transform3D(0, -0.13139609, 0, 0.29523838, 0, 0, 0, 0, 0.29523838, 0, 0.30795574, -0.16903622)
+mesh = SubResource("ArrayMesh_nw58y")
 skeleton = NodePath("")
 
-[node name="Turret" type="Node3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.024414063, 0.37271118, -0.20019531)
+shape = SubResource("BoxShape3D_pak6e")
 
-[node name="SmokePuffEffect" type="GPUParticles3D" parent="Turret"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5810351, -0.9335023)
-emitting = false
-amount = 5
-lifetime = 0.6
-one_shot = true
-explosiveness = 1.0
-randomness = 0.5
-local_coords = true
-process_material = ExtResource("6_cb80c")
-draw_pass_1 = SubResource("SphereMesh_mgqye")
+[node name="RigidBody3D2" type="RigidBody3D" parent="."]
 
-[node name="SparkEffect" type="GPUParticles3D" parent="Turret"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6496097, -0.9531877)
-emitting = false
-lifetime = 0.2
-one_shot = true
-explosiveness = 1.0
-randomness = 0.5
-process_material = SubResource("ParticleProcessMaterial_wpy42")
-draw_pass_1 = SubResource("QuadMesh_y2xl8")
-
-[node name="MuzzleFlash" type="OmniLight3D" parent="Turret"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6414611, -1.0716403)
-visible = false
-light_color = Color(0.91040766, 0.8755824, 0.07474276, 1)
-light_energy = 10.0
-omni_range = 2.0
-
-[node name="EnemyRanged" type="Node3D" parent="Turret"]
-transform = Transform3D(-1.545, 0, -1.3506819e-07, 0, 1.545, 0, 1.3506819e-07, 0, -1.545, 0, 0, -0.27)
-
-[node name="Cannon" type="MeshInstance3D" parent="Turret/EnemyRanged"]
-transform = Transform3D(-7.7904065e-09, -0.17822373, 0, 0.17822373, -7.7904065e-09, 0, 0, 0, 0.17822373, 0, 0.3, -0.185)
-material_overlay = ExtResource("6_wagaa")
-mesh = SubResource("ArrayMesh_p28l2")
+[node name="Cannon" type="MeshInstance3D" parent="RigidBody3D2"]
+transform = Transform3D(0, -0.17822373, 0, 0.17822373, 0, 0, 0, 0, 0.17822373, -0.00436756, 0.29999995, -0.18239841)
+mesh = SubResource("ArrayMesh_5t3px")
 skeleton = NodePath("")
 
-[node name="Muzzle" type="Node3D" parent="Turret"]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 1.683, -1)
-
-[node name="RayCast3D" type="RayCast3D" parent="Turret/Muzzle"]
-target_position = Vector3(0, 0, -15)
-
-[node name="Collider" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.205, 0)
-shape = SubResource("CylinderShape3D_wagaa")
-
-[node name="ReloadTimer" type="Timer" parent="."]
-
-[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent", "_damageSoundPlayer")]
-script = ExtResource("4_vqqcb")
-_enemyShaderComponent = NodePath("../EnemyShaderComponent")
-_damageSoundPlayer = NodePath("../EnemyDamageSFX")
-metadata/_custom_type_script = "uid://b620lyqticbmf"
-
-[node name="EnemyShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
-script = ExtResource("7_82su2")
-_enemyEffectShaderPreset = ExtResource("8_wagaa")
-_meshes = [NodePath("../Turret/EnemyRanged/Cannon")]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Turret/MuzzleFlash")
-libraries = {
-&"": SubResource("AnimationLibrary_cb80c")
-}
-
-[node name="CannonbotShootingSFX" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("12_s1vxn")
-volume_db = -6.0
-unit_size = 20.0
-max_db = 0.0
-bus = &"Sfx"
-
-[node name="EnemyDamageSFX" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("13_qj3bw")
-max_db = 6.0
-bus = &"Sfx"
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D2"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.0876515, -0.10746586)
+shape = SubResource("CapsuleShape3D_tdsfv")
