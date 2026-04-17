@@ -64,7 +64,7 @@ namespace EHE.BoltBusters.Ui
 
         public override void _Ready()
         {
-            _collectibleUi = this.GetFirstChildOfType<CollectibleUi>();
+            _collectibleUi = this.GetFirstChildOfType<CollectibleUi>(recurse: true);
             //_weaponUi = this.GetFirstChildOfType<WeaponHud>();
 
             if (_collectibleUi == null)
