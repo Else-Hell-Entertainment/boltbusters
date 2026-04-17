@@ -57,8 +57,8 @@ emission_energy_multiplier = 16.0
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_p72gw"]
 material = SubResource("ORMMaterial3D_gvsop")
-top_radius = 0.01
-bottom_radius = 0.01
+top_radius = 0.02
+bottom_radius = 0.06
 height = 0.1
 radial_segments = 6
 rings = 0
@@ -105,9 +105,6 @@ height = 0.05
 [node name="Chaingun" type="Node3D" node_paths=PackedStringArray("_cooldownTimer", "_bulletTrail")]
 script = ExtResource("1_gvsop")
 _cooldownTimer = NodePath("CooldownTimer")
-_cooldown = 0.1
-_accuracy = 0.01
-_range = 10.0
 _bulletTrail = NodePath("BulletTrail")
 
 [node name="CooldownTimer" type="Timer" parent="."]

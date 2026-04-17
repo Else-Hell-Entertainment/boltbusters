@@ -1,8 +1,13 @@
-[gd_scene load_steps=21 format=4 uid="uid://tifq3kah83v1"]
+[gd_scene load_steps=26 format=4 uid="uid://tifq3kah83v1"]
 
 [ext_resource type="Script" uid="uid://cai3rjcjb1tw8" path="res://Code/Objects/Enemy/EnemyHammerBot.cs" id="1_1a4lf"]
 [ext_resource type="PackedScene" uid="uid://dsols73pua2hk" path="res://Scenes/Enemies/DeathScenes/BossDeath.tscn" id="2_g4dv0"]
 [ext_resource type="Script" uid="uid://cfac2mdj6up2d" path="res://Code/Objects/Enemy/BossMeleeWeapon.cs" id="2_h2luo"]
+[ext_resource type="Material" uid="uid://do048e2b52egy" path="res://Assets/Shaders/EffectShaderShaderMaterial.tres" id="2_rw0a7"]
+[ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="3_58rly"]
+[ext_resource type="Script" uid="uid://dn3xdtkt00s1k" path="res://Code/Components/EnemyShaderComponent.cs" id="4_rw0a7"]
+[ext_resource type="Resource" uid="uid://d1rygoxvve6o4" path="res://Assets/Shaders/EnemyShaderPreset.tres" id="5_2jnly"]
+[ext_resource type="AudioStream" uid="uid://4ob6hn3fb2t5" path="res://Assets/SFX/EnemyHurt.ogg" id="8_nmoir"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3350k"]
 resource_name = "Wire2"
@@ -307,17 +312,19 @@ _data = {
 [sub_resource type="BoxShape3D" id="BoxShape3D_h2luo"]
 size = Vector3(1, 1.7110596, 1.6173096)
 
-[node name="EnemyBoss" type="CharacterBody3D"]
+[node name="EnemyBoss" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent")]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_1a4lf")
 _deathAnimation = ExtResource("2_g4dv0")
+_healthComponent = NodePath("EnemyHealthComponent")
 
 [node name="TorsoNode" type="Node3D" parent="."]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 
 [node name="Torso" type="MeshInstance3D" parent="TorsoNode"]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, -0.257191, 1.4984151, 0)
+material_overlay = ExtResource("2_rw0a7")
 mesh = SubResource("ArrayMesh_d8bjd")
 skeleton = NodePath("")
 
@@ -333,6 +340,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0
 
 [node name="RibCage" type="MeshInstance3D" parent="BodyNode"]
 transform = Transform3D(0.37606955, 0, 0, 0, 0.50205296, 0, 0, 0, 0.6870079, 0, 1.5936887, 0)
+material_overlay = ExtResource("2_rw0a7")
 mesh = SubResource("ArrayMesh_x1nyi")
 skeleton = NodePath("")
 
@@ -340,8 +348,11 @@ skeleton = NodePath("")
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -8.191217e-09, 1.0968329, 0.047714233)
 shape = SubResource("BoxShape3D_wa2ls")
 
-[node name="MeleeWeapon" type="Node3D" parent="." node_paths=PackedStringArray("_triggerArea", "_attackArea", "_cooldownTimer", "_animationPlayer")]
+[node name="MeleeWeapon" type="Node3D" parent="." node_paths=PackedStringArray("_meleeOwner", "_triggerArea", "_attackArea", "_cooldownTimer", "_animationPlayer")]
 script = ExtResource("2_h2luo")
+_meleeCooldown = 2.5
+_meleeDamage = 20
+_meleeOwner = NodePath("..")
 _triggerArea = NodePath("../TriggerArea")
 _attackArea = NodePath("../TorsoNode/Torso/AttackArea")
 _cooldownTimer = NodePath("CooldownTimer")
@@ -363,3 +374,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3555298, 0.3086548)
 shape = SubResource("BoxShape3D_h2luo")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="EnemyShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
+script = ExtResource("4_rw0a7")
+_enemyEffectShaderPreset = ExtResource("5_2jnly")
+_meshes = [NodePath("../BodyNode/RibCage"), NodePath("../TorsoNode/Torso")]
+metadata/_custom_type_script = "uid://dn3xdtkt00s1k"
+
+[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent", "_damageSoundPlayer")]
+script = ExtResource("3_58rly")
+_enemyShaderComponent = NodePath("../EnemyShaderComponent")
+_damageSoundPlayer = NodePath("../EnemyDamageSFX")
+MaxHealth = 300
+InitialHealth = 300
+metadata/_custom_type_script = "uid://b620lyqticbmf"
+
+[node name="EnemyDamageSFX" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("8_nmoir")
+volume_db = -1.0
+max_db = 4.0
+bus = &"Sfx"

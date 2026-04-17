@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://d1v0b82d6dwda" path="res://Scenes/Enemies/EnemyHammerBot.tscn" id="4_t3e81"]
 [ext_resource type="PackedScene" uid="uid://dleoqwseq5x4p" path="res://Scenes/Enemies/EnemyCannonBot.tscn" id="5_t3e81"]
 [ext_resource type="PackedScene" uid="uid://bh3xawx4w08w2" path="res://Scenes/Collectible/CollectibleSpawnManager.tscn" id="6_ksici"]
-[ext_resource type="PackedScene" uid="uid://ctc25rmn1xjtt" path="res://Assets/Models/Characters/BossEnemy.glb" id="6_lvwdj"]
+[ext_resource type="PackedScene" uid="uid://tifq3kah83v1" path="res://Scenes/Enemies/EnemyBoss.tscn" id="6_lvwdj"]
 [ext_resource type="AudioStream" uid="uid://cvmu25gnvhql8" path="res://Assets/Music/MainTheme.ogg" id="8_t3e81"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_x00a1"]

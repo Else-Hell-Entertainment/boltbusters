@@ -1,6 +1,6 @@
 // (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
-// Author(s): Rihu, Miska <email>
+// Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
 using EHE.BoltBusters.States;
 using Godot;

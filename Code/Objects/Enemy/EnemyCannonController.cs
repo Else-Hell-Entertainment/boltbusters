@@ -9,6 +9,9 @@ namespace EHE.BoltBusters
     {
         [ExportGroup("Node assignment")]
         [Export]
+        private Enemy _cannonOwner;
+
+        [Export]
         private CB3DMover _enemyBodyMover;
 
         [Export]
@@ -58,6 +61,19 @@ namespace EHE.BoltBusters
             ResetCommandState();
         }
 
+        public void SetMoveSpeed(float newSpeed)
+        {
+            if (newSpeed >= 0)
+            {
+                _movementSpeed = newSpeed;
+                _enemyBodyMover.MovementSpeed = _movementSpeed;
+            }
+            else
+            {
+                GD.PushWarning($"{Name}: Attempted to set MoveSpeed to a negative value ({newSpeed}).");
+            }
+        }
+
         public void StopMovement()
         {
             _enemyBodyMover.StopMovement();
@@ -71,6 +87,7 @@ namespace EHE.BoltBusters
 
         private void Initialize()
         {
+            _movementSpeed = _cannonOwner.MoveSpeed;
             _enemyBodyMover.MovementSpeed = _movementSpeed;
             _enemyBodyMover.RotationSpeed = _rotationSpeed;
             _turretMover.RotationSpeed = _rotationSpeed;

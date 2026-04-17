@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 //            Pekka Heljakka <pekka.heljakka@tuni.fi>
+//            Miko Reinholm <miko.reinholm@tuni.fi>
 
 using System;
 using EHE.BoltBusters.Config;
@@ -80,6 +81,11 @@ namespace EHE.BoltBusters
         private Timer _roundTimer;
         private RoundData _roundData;
         private EnemyGroupManager _enemyGroupManager;
+
+        // Audio stuff
+        private MusicManager.Song _currentSong = MusicManager.Song.MainTheme;
+        private AudioStreamPlayer _currentMusicPlayer;
+        private bool _isFirstRoundOfSong;
 
         #endregion Fields
 
@@ -208,8 +214,6 @@ namespace EHE.BoltBusters
             AddChild(_roundTimer);
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
             this.PrintDebug($"{LevelType} level ready.");
-
-            MusicManager.Instance.PlayMusic(MusicManager.Instance.CurrentPlayer, MusicManager.Song.MainTheme);
         }
 
         #endregion Overrides
@@ -319,11 +323,16 @@ namespace EHE.BoltBusters
         public void StartRound()
         {
             this.PrintDebug("Starting round...");
-            MusicManager.Instance.FadeInPlayer(MusicManager.Instance.CurrentPlayer);
             _roundTimer.Start();
             RoundInProgress = true;
             _enemySpawnManager.StartRound(_roundData);
             GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, true);
+
+            UpdateMusicForRound(GameManager.Instance.RoundIndex);
+            if (_currentMusicPlayer != null && !_isFirstRoundOfSong)
+            {
+                MusicManager.Instance.FadeInPlayer(_currentMusicPlayer);
+            }
         }
 
         /// <summary>
@@ -451,8 +460,11 @@ namespace EHE.BoltBusters
         private void OnRoundEnded()
         {
             this.PrintDebug("Round ended.");
-            MusicManager.Instance.FadeOutPlayer(MusicManager.Instance.CurrentPlayer);
             _roundTimer.Stop();
+            if (_currentMusicPlayer != null)
+            {
+                MusicManager.Instance.FadeToBackgroundLevel(_currentMusicPlayer);
+            }
             RoundInProgress = false;
             ResetLevel();
             Player.ToggleInputListening(false);
@@ -524,6 +536,85 @@ namespace EHE.BoltBusters
             RoundInProgress = false;
             GameManager.Instance.StateMachine.TransitionTo(StateType.GameOver);
             Player.PlayerDied -= OnPlayerDeath;
+        }
+
+        private void UpdateMusicForRound(int roundIndex)
+        {
+            var song = PickSong(roundIndex);
+
+            if (song == _currentSong)
+            {
+                _isFirstRoundOfSong = false; // Same song, so it's not the first round
+                return;
+            }
+
+            _currentSong = song;
+            _isFirstRoundOfSong = true; // New song, so this is the first round
+
+            AudioStreamPlayer previousPlayer = _currentMusicPlayer;
+
+            switch (song)
+            {
+                case MusicManager.Song.StageTheme1:
+                    _currentMusicPlayer = MusicManager.Instance.StageThemePlayer1;
+                    if (previousPlayer != null && previousPlayer != _currentMusicPlayer)
+                    {
+                        MusicManager.Instance.FadeOutPlayer(previousPlayer);
+                    }
+                    _currentMusicPlayer.VolumeDb = 0f; // Start at normal volume
+                    MusicManager.Instance.PlayMusic(_currentMusicPlayer, song);
+                    break;
+                case MusicManager.Song.StageTheme2:
+                    _currentMusicPlayer = MusicManager.Instance.StageThemePlayer2;
+                    if (previousPlayer != null && previousPlayer != _currentMusicPlayer)
+                    {
+                        MusicManager.Instance.FadeOutPlayer(previousPlayer);
+                    }
+                    _currentMusicPlayer.VolumeDb = 0f; // Start at normal volume
+                    MusicManager.Instance.PlayMusic(_currentMusicPlayer, song);
+                    break;
+                case MusicManager.Song.StageTheme3:
+                    _currentMusicPlayer = MusicManager.Instance.StageThemePlayer3;
+                    if (previousPlayer != null && previousPlayer != _currentMusicPlayer)
+                    {
+                        MusicManager.Instance.FadeOutPlayer(previousPlayer);
+                    }
+                    _currentMusicPlayer.VolumeDb = 0f; // Start at normal volume
+                    MusicManager.Instance.PlayMusic(_currentMusicPlayer, song);
+                    break;
+                case MusicManager.Song.StageTheme4:
+                    _currentMusicPlayer = MusicManager.Instance.StageThemePlayer4;
+                    if (previousPlayer != null && previousPlayer != _currentMusicPlayer)
+                    {
+                        MusicManager.Instance.FadeOutPlayer(previousPlayer);
+                    }
+                    _currentMusicPlayer.VolumeDb = 0f; // Start at normal volume
+                    MusicManager.Instance.PlayMusic(_currentMusicPlayer, song);
+                    break;
+            }
+        }
+
+        private MusicManager.Song PickSong(int roundIndex)
+        {
+            var song = MusicManager.Song.MainTheme;
+
+            switch (roundIndex)
+            {
+                case >= 1 and <= 5:
+                    song = MusicManager.Song.StageTheme1;
+                    break;
+                case >= 6 and <= 10:
+                    song = MusicManager.Song.StageTheme2;
+                    break;
+                case >= 11 and <= 15:
+                    song = MusicManager.Song.StageTheme3;
+                    break;
+                case >= 16 and <= 20:
+                    song = MusicManager.Song.StageTheme4;
+                    break;
+            }
+
+            return song;
         }
 
         #endregion Private Methods
