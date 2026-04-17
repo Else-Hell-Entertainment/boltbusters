@@ -19,8 +19,15 @@ public partial class MusicManager : Node
 
     private Dictionary<Song, AudioStream> _music = new();
 
-    public AudioStreamPlayer CurrentPlayer { get; private set; }
-    public AudioStreamPlayer NextPlayer { get; private set; }
+    public AudioStreamPlayer MainThemePlayer { get; private set; }
+    public AudioStreamPlayer EndThemePlayer { get; private set; }
+    public AudioStreamPlayer StageThemePlayer1 { get; private set; }
+    public AudioStreamPlayer StageThemePlayer2 { get; private set; }
+    public AudioStreamPlayer StageThemePlayer3 { get; private set; }
+    public AudioStreamPlayer StageThemePlayer4 { get; private set; }
+    public AudioStreamPlayer NutCollectSFX;
+    public AudioStreamPlayer BoltCollectSFX;
+    public AudioStreamPlayer WrenchCollectSFX;
 
     private float _fadeDuration;
     private Tween _currentAudioTween;
@@ -28,10 +35,24 @@ public partial class MusicManager : Node
     public override void _Ready()
     {
         Instance = this;
-        CurrentPlayer = new AudioStreamPlayer();
-        NextPlayer = new AudioStreamPlayer();
-        AddChild(CurrentPlayer);
-        AddChild(NextPlayer);
+        MainThemePlayer = new AudioStreamPlayer();
+        EndThemePlayer = new AudioStreamPlayer();
+        StageThemePlayer1 = new AudioStreamPlayer();
+        StageThemePlayer2 = new AudioStreamPlayer();
+        StageThemePlayer3 = new AudioStreamPlayer();
+        StageThemePlayer4 = new AudioStreamPlayer();
+        NutCollectSFX = new AudioStreamPlayer();
+        BoltCollectSFX = new AudioStreamPlayer();
+        WrenchCollectSFX = new AudioStreamPlayer();
+        AddChild(MainThemePlayer);
+        AddChild(EndThemePlayer);
+        AddChild(StageThemePlayer1);
+        AddChild(StageThemePlayer2);
+        AddChild(StageThemePlayer3);
+        AddChild(StageThemePlayer4);
+        AddChild(NutCollectSFX);
+        AddChild(BoltCollectSFX);
+        AddChild(WrenchCollectSFX);
 
         _music[Song.MainTheme] = GD.Load<AudioStream>("res://Assets/Music/MainTheme.ogg");
         _music[Song.EndTheme] = GD.Load<AudioStream>("res://Assets/Music/EndTheme.ogg");
@@ -39,6 +60,14 @@ public partial class MusicManager : Node
         _music[Song.StageTheme2] = GD.Load<AudioStream>("res://Assets/Music/StageTheme2.ogg");
         _music[Song.StageTheme3] = GD.Load<AudioStream>("res://Assets/Music/StageTheme3.ogg");
         _music[Song.StageTheme4] = GD.Load<AudioStream>("res://Assets/Music/StageTheme4.ogg");
+
+        NutCollectSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/CollectibleSound1.ogg");
+        BoltCollectSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/CollectibleSound2.ogg");
+        WrenchCollectSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/CollectibleSound3.ogg");
+
+        NutCollectSFX.VolumeDb = -14f;
+        BoltCollectSFX.VolumeDb = -14f;
+        WrenchCollectSFX.VolumeDb = -14f;
     }
 
     public void PlayMusic(AudioStreamPlayer player, Song title)
@@ -49,6 +78,7 @@ public partial class MusicManager : Node
         }
 
         player.Stop();
+        player.VolumeDb = 0f;
         player.Stream = _music[title];
         player.Play();
     }
@@ -67,6 +97,7 @@ public partial class MusicManager : Node
         _currentAudioTween = CreateTween();
         _currentAudioTween.SetTrans(Tween.TransitionType.Linear);
         _currentAudioTween.TweenProperty(player, "volume_db", -80f, _fadeDuration);
+        _currentAudioTween.TweenCallback(Callable.From(() => player.Stop()));
     }
 
     public void FadeInPlayer(AudioStreamPlayer player)
@@ -78,6 +109,53 @@ public partial class MusicManager : Node
         _currentAudioTween = CreateTween();
         _currentAudioTween.SetTrans(Tween.TransitionType.Linear);
         _currentAudioTween.TweenProperty(player, "volume_db", 0f, _fadeDuration);
+    }
+
+    public void FadeToBackgroundLevel(AudioStreamPlayer player)
+    {
+        _fadeDuration = 2.0f;
+
+        _currentAudioTween?.Kill();
+
+        _currentAudioTween = CreateTween();
+        _currentAudioTween.SetTrans(Tween.TransitionType.Linear);
+        _currentAudioTween.TweenProperty(player, "volume_db", -12f, _fadeDuration);
+    }
+
+    public void QuickFadeInPlayer(AudioStreamPlayer player)
+    {
+        _fadeDuration = 0.2f;
+
+        _currentAudioTween?.Kill();
+
+        _currentAudioTween = CreateTween();
+        _currentAudioTween.SetTrans(Tween.TransitionType.Linear);
+        _currentAudioTween.TweenProperty(player, "volume_db", 0f, _fadeDuration);
+    }
+
+    public void KillAllMusic()
+    {
+        MainThemePlayer.Stop();
+        EndThemePlayer.Stop();
+        StageThemePlayer1.Stop();
+        StageThemePlayer2.Stop();
+        StageThemePlayer3.Stop();
+        StageThemePlayer4.Stop();
+    }
+
+    public void PlayNutCollectibleSound()
+    {
+        NutCollectSFX.Play();
+    }
+
+    public void PlayBoltCollectibleSound()
+    {
+        BoltCollectSFX.Play();
+    }
+
+    public void PlayWrenchCollectibleSound()
+    {
+        WrenchCollectSFX.Play();
     }
 
     /* public async void LinearCrossFade(AudioStreamPlayer from, AudioStreamPlayer to)

@@ -73,7 +73,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 shape = SubResource("CylinderShape3D_0mfrp")
 
 [node name="Nut" parent="." instance=ExtResource("1_tfj5i")]
-transform = Transform3D(0.39324054, 0.6501391, 0.6501391, 0, 0.7071067, -0.7071067, -0.9194356, 0.27806303, 0.27806303, 0, 0.2, 0)
+transform = Transform3D(0.39324054, 0.6501391, 0.65013915, 0, 0.70710677, -0.7071067, -0.9194356, 0.27806303, 0.27806303, 0, 0.2, 0)
 
 [node name="Nut" parent="Nut" index="0"]
 transform = Transform3D(0.4, 0, 0, 0, -6.993822e-09, -0.4, 0, 0.16, -1.7484556e-08, 0, 0.4, 0)

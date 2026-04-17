@@ -24,9 +24,9 @@ namespace EHE.BoltBusters
             // TODO: Add pickup behavior for this collectible.
             // Examples:
             // - Apply the collectible's reward to the collector (currency or bonus)
-            // - Play pickup sound
             // - Trigger pickup VFX at the collectible's position
             // - Display a UI feedback popup if needed
+            MusicManager.Instance.PlayWrenchCollectibleSound();
         }
 
         // TODO: Add despawn behavior for this collectible.

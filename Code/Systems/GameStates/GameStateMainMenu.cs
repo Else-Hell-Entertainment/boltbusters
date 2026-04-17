@@ -26,6 +26,9 @@ namespace EHE.BoltBusters.States
 
             var levelManager = LevelManager.Active;
             var targetLevelType = LevelType.Background;
+            MusicManager.Instance.KillAllMusic();
+            MusicManager.Instance.MainThemePlayer.VolumeDb = 0f;
+            MusicManager.Instance.PlayMusic(MusicManager.Instance.MainThemePlayer, MusicManager.Song.MainTheme);
 
             if (levelManager == null || levelManager.LevelType != targetLevelType)
             {
@@ -36,6 +39,7 @@ namespace EHE.BoltBusters.States
         protected override void OnExited(bool keepLoaded = false)
         {
             base.OnExited(keepLoaded);
+            MusicManager.Instance.FadeOutPlayer(MusicManager.Instance.MainThemePlayer);
         }
     }
 }
