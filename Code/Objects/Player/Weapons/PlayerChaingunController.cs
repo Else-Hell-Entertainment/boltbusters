@@ -26,6 +26,69 @@ namespace EHE.BoltBusters
         [Export]
         private float _cooldown = 0.5f;
 
+        public int Damage
+        {
+            get => _damage;
+            private set
+            {
+                _damage = Mathf.Max(0, value);
+                SetDamage(_damage);
+            }
+        }
+
+        private void SetDamage(int value)
+        {
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon is Chaingun chaingun)
+                {
+                    chaingun.Damage = value;
+                }
+            }
+        }
+
+        public float Accuracy
+        {
+            get => _accuracy;
+            private set
+            {
+                _accuracy = value;
+                SetAccuracy(_accuracy);
+            }
+        }
+
+        private void SetAccuracy(float value)
+        {
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon is Chaingun chaingun)
+                {
+                    chaingun.Accuracy = value;
+                }
+            }
+        }
+
+        public float Cooldown
+        {
+            get => _cooldown;
+            private set
+            {
+                _cooldown = Mathf.Clamp(value, 0.034f, _cooldown);
+                SetCooldown(_cooldown);
+            }
+        }
+
+        private void SetCooldown(float value)
+        {
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon is Chaingun chaingun)
+                {
+                    chaingun.Cooldown = value;
+                }
+            }
+        }
+
         //[Export]
         //private Node3D _aimPoint;
 
@@ -294,9 +357,9 @@ namespace EHE.BoltBusters
         {
             float numberOfGuns = Weapons.Count;
 
-            if (Weapons.Count > 0 && Weapons[0] is Chaingun chaingun)
+            if (Weapons.Count > 0 && Weapons[0] is Chaingun)
             {
-                float gunCooldown = chaingun.Cooldown;
+                float gunCooldown = _cooldown;
                 _attackInterval = gunCooldown / numberOfGuns; // Denominator is confirmed to be > 0.
             }
         }

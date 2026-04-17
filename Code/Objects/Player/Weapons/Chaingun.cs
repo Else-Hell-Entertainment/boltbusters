@@ -19,7 +19,7 @@ namespace EHE.BoltBusters
         [Export]
         private Timer _cooldownTimer;
 
-        private float _cooldown = 0.5f;
+        private float _cooldown = 0.1f;
 
         private float _accuracy = 0.005f;
 
@@ -62,11 +62,27 @@ namespace EHE.BoltBusters
         private GpuParticles3D _hitParticles;
         private Node3D _muzzle;
         private DamageData _damageData;
+        private PlayerChaingunController _controller;
 
         public override void _Ready()
         {
+            _controller = GetParentOrNull<PlayerChaingunController>();
+            if (_controller == null)
+            {
+                GD.PushError(
+                    $"{Name}: Missing 'ChaingunController' parent node. Chaingun values not initialized "
+                        + $"correctly."
+                );
+            }
+            else
+            {
+                Cooldown = _controller.Cooldown;
+                Damage = _controller.Damage;
+                Accuracy = _controller.Accuracy;
+            }
+
             // TODO: Placeholder implementation - refactor.
-            _damageData = new DamageData(6, DamageType.Chaingun);
+            // _damageData = new DamageData(_damage, DamageType.Chaingun);
 
             _muzzle = GetNode<Node3D>("Muzzle");
             _hitParticles = GetNode<GpuParticles3D>("HitParticles");

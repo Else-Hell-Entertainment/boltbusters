@@ -23,6 +23,7 @@ height = 0.1
 [node name="ChaingunController" type="Node3D" node_paths=PackedStringArray("_shootingAudio")]
 script = ExtResource("1_tlj4s")
 _range = 10.0
+_cooldown = 0.1
 _shootingAudio = NodePath("ChaingunShootingSound")
 _weaponScene = ExtResource("2_qirdc")
 
