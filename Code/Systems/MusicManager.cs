@@ -1,3 +1,7 @@
+// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Miko Reinholm <miko.reinholm@tuni.fi>
+
 using System;
 using System.Collections.Generic;
 using Godot;

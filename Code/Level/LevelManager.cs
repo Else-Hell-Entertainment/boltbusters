@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 //            Pekka Heljakka <pekka.heljakka@tuni.fi>
+//            Miko Reinholm <miko.reinholm@tuni.fi>
 
 using System;
 using EHE.BoltBusters.Config;
