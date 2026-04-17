@@ -6,8 +6,9 @@
 [ext_resource type="Resource" uid="uid://dvdyb5tniar4s" path="res://Assets/Shaders/CollectibleShaderPreset.tres" id="5_gnfpm"]
 [ext_resource type="Script" uid="uid://c5pxbv07ymkvh" path="res://Code/Components/CollectibleShaderComponent.cs" id="6_gnfpm"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_at2ah"]
-size = Vector3(0.8, 0.7, 1.2)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_uhp4q"]
+height = 1.0
+radius = 0.6
 
 [sub_resource type="Animation" id="Animation_gnfpm"]
 length = 0.001
@@ -21,7 +22,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0.18774325, -0.21213204)]
+"values": [Vector3(0, 0.7, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -33,12 +34,12 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0.7853982, 0, 0)]
+"values": [Vector3(0.7853982, 0, 0.7853982)]
 }
 
 [sub_resource type="Animation" id="Animation_uhp4q"]
 resource_name = "SpinAndBob"
-length = 4.0
+length = 8.0
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -47,10 +48,10 @@ tracks/0/path = NodePath("Bolt:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3, 4),
-"transitions": PackedFloat32Array(-2, -2, -2, -2, -2),
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5, 6, 7, 8),
+"transitions": PackedFloat32Array(-2, -2, -2, -2, -2, -2, -2, -2, -2),
 "update": 0,
-"values": [Vector3(0, 0.2, 0), Vector3(0, 0.4, 0), Vector3(0, 0.2, 0), Vector3(0, 0.4, 0), Vector3(0, 0.2, 0)]
+"values": [Vector3(0, 0.7, 0), Vector3(0, 1, 0), Vector3(0, 0.7, 0), Vector3(0, 1, 0), Vector3(0, 0.7, 0), Vector3(0, 1, 0), Vector3(0, 0.7, 0), Vector3(0, 1, 0), Vector3(0, 0.7, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -59,10 +60,10 @@ tracks/1/path = NodePath("Bolt:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = false
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 2, 4),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 2, 4, 5.9666667, 8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0.7853982, 0, 0), Vector3(0.7853982, 3.1415927, 0), Vector3(0.7853982, 6.2831855, 0)]
+"values": [Vector3(0.7853982, 0, 0.7853982), Vector3(2.3561945, 3.1415927, 2.3561945), Vector3(3.9269907, 6.2831855, 3.9269907), Vector3(5.497787, 9.424778, 5.497787), Vector3(7.0685835, 12.566371, 7.0685835)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_00bp0"]
@@ -80,14 +81,14 @@ _collectibleShaderComponent = NodePath("CollectibleShaderComponent")
 _animationPlayer = NodePath("AnimationPlayer")
 
 [node name="CollectionArea" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
-shape = SubResource("BoxShape3D_at2ah")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CylinderShape3D_uhp4q")
 
 [node name="Bolt" parent="." instance=ExtResource("1_0y4va")]
-transform = Transform3D(0.2, 0, 0, 0, 0.14142136, -0.14142136, 0, 0.14142136, 0.14142136, 0, 0.18774325, -0.21213204)
+transform = Transform3D(0.70710677, -0.70710677, 0, 0.49999997, 0.49999997, -0.70710677, 0.49999997, 0.49999997, 0.70710677, 0, 0.7, 0)
 
 [node name="Screw" parent="Bolt" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 material_overlay = ExtResource("3_uhp4q")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
