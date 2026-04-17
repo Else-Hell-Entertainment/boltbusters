@@ -83,6 +83,32 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void RoundStateChangedEventHandler(bool inProgress);
 
+        /// <summary>
+        ///  Emitted when a weapon has been upgraded successfully.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  The type of the weapon that was upgraded. This is an integer
+        ///  representation of <see cref="WeaponType"/>.
+        /// </param>
+        [Signal]
+        public delegate void WeaponUpgradeSucceededEventHandler(int weaponType);
+
+        /// <summary>
+        ///  Emitted when a weapon upgrade has failed.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  The type of the weapon that was not upgraded. This is an integer
+        ///  representation of <see cref="WeaponType"/>.
+        /// </param>
+        /// <param name="failReason">
+        ///  The reason why the upgrade failed. This is an integer
+        ///  representation of <see cref="WeaponUpgradeResult"/>.
+        /// </param>
+        [Signal]
+        public delegate void WeaponUpgradeFailedEventHandler(int weaponType, int failReason);
+
         #endregion Signals
 
 
