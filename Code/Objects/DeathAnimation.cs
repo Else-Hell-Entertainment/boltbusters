@@ -15,12 +15,22 @@ namespace EHE.BoltBusters
         private Timer _despawnTimer;
 
         [Export]
-        public float EffectStrength = 1.0f;
+        private float _weakDeathStrength = 1.0f;
+
+        [Export]
+        private float _mediumDeathStrength = 3.0f;
+
+        [Export]
+        private float _hardDeathStrength = 10.0f;
 
         [Export]
         private float _randomness = 1.0f;
 
+        private float _effectStrength = 1.0f;
+
         private Vector3 dir;
+
+        public DamageType DamageType;
 
         public override void _Ready()
         {
@@ -34,6 +44,20 @@ namespace EHE.BoltBusters
         {
             _despawnTimer.Start();
             dir = direction;
+
+            switch (DamageType)
+            {
+                case DamageType.Chaingun:
+                    _effectStrength = _weakDeathStrength;
+                    break;
+                case DamageType.Missile:
+                    _effectStrength = _mediumDeathStrength;
+                    break;
+                case DamageType.Sniper:
+                    _effectStrength = _hardDeathStrength;
+                    break;
+            }
+
             CallDeferred(MethodName.ApplyImpulse);
             if (_deathSound != null)
             {
@@ -46,7 +70,7 @@ namespace EHE.BoltBusters
             for (int i = 0; i < _deathParts.Length; i++)
             {
                 RigidBody3D part = _deathParts[i];
-                part.ApplyImpulse(dir * EffectStrength * GD.Randf() * _randomness);
+                part.ApplyImpulse(dir * _effectStrength * (float)GD.RandRange(0.3f, 1.0f) * _randomness);
             }
         }
 

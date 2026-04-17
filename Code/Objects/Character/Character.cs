@@ -69,20 +69,7 @@ namespace EHE.BoltBusters
                 DeathAnimation animation = _deathAnimation.Instantiate<DeathAnimation>();
                 LevelManager.Active.AddLevelObject(animation);
                 animation.GlobalPosition = GlobalPosition;
-                DamageType damageType = _lastDamageData.Type;
-                switch (damageType)
-                {
-                    case DamageType.Chaingun:
-                        animation.EffectStrength = 1.0f;
-                        break;
-                    case DamageType.Missile:
-                        animation.EffectStrength = 3.0f;
-                        break;
-                    case DamageType.Sniper:
-                        animation.EffectStrength = 15.0f;
-                        break;
-                }
-
+                animation.DamageType = _lastDamageData.Type;
                 Vector3 direction = GlobalPosition - LevelManager.Active.Player.GlobalPosition;
                 animation.PlayDeathAnimation(direction);
             }
