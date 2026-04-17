@@ -17,6 +17,9 @@ namespace EHE.BoltBusters
 
         [ExportGroup("Node References")]
         [Export]
+        private Enemy _meleeOwner;
+
+        [Export]
         private Area3D _triggerArea;
 
         [Export]
@@ -60,6 +63,7 @@ namespace EHE.BoltBusters
             _animationPlayer.Play(ATTACK_ANIMATION_NAME);
             _cooldownTimer.Start();
             _attackOnCooldown = true;
+            _meleeOwner.SetMoveSpeed(_meleeOwner.AfterAttackSpeed);
         }
 
         private void OnTriggerAreaEntered(Node3D body)
@@ -82,6 +86,7 @@ namespace EHE.BoltBusters
         {
             _attackOnCooldown = false;
             CheckTriggerArea();
+            _meleeOwner.SetMoveSpeed(_meleeOwner.NormalSpeed);
         }
 
         private void CheckTriggerArea()

@@ -269,17 +269,20 @@ _data = {
 &"RESET": SubResource("Animation_dl0q6")
 }
 
-[node name="EnemyCannonBot" type="CharacterBody3D" node_paths=PackedStringArray("_rayCaster", "Controller", "_healthComponent")]
+[node name="EnemyCannonBot" type="CharacterBody3D" node_paths=PackedStringArray("_rayCaster", "Controller", "_animationPlayer", "_cannonController", "_healthComponent")]
 collision_layer = 3
 script = ExtResource("1_k6seb")
 _range = 12.0
 _rayCaster = NodePath("Turret/Muzzle/RayCast3D")
 Controller = NodePath("Controller")
 _cannonBallScene = ExtResource("1_mqbn8")
+_animationPlayer = NodePath("AnimationPlayer")
+_cannonController = NodePath("Controller")
 _healthComponent = NodePath("EnemyHealthComponent")
 
-[node name="Controller" type="Node3D" parent="." node_paths=PackedStringArray("_enemyBodyMover", "_bodyNodeMover", "_turretMover")]
+[node name="Controller" type="Node3D" parent="." node_paths=PackedStringArray("_cannonOwner", "_enemyBodyMover", "_bodyNodeMover", "_turretMover")]
 script = ExtResource("3_oyasw")
+_cannonOwner = NodePath("..")
 _enemyBodyMover = NodePath("CB3DMover")
 _bodyNodeMover = NodePath("LoweBodyMover")
 _turretMover = NodePath("TurretMover")
@@ -361,6 +364,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.205, 0)
 shape = SubResource("CylinderShape3D_wagaa")
 
 [node name="ReloadTimer" type="Timer" parent="."]
+
+[node name="SlownessTimer" type="Timer" parent="."]
 
 [node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent", "_enemyDamageSoundPlayer")]
 script = ExtResource("4_vqqcb")
