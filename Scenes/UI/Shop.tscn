@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://burthnjbxe21w" path="res://Code/UI/MenuShop.cs" id="1_kex23"]
 [ext_resource type="Script" uid="uid://7ui2iiup5syj" path="res://Code/UI/ToastLabel.cs" id="2_kk4ix"]
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("_btnUpgradeChaingun", "_btnUpgradeRailgun", "_btnUpgradeRocketLauncher", "_btnDowngradeChaingun", "_btnDowngradeRailgun", "_btnDowngradeRocketLauncher", "_btnEnterNextRound", "_toastNoMoney")]
+[node name="Shop" type="Control" node_paths=PackedStringArray("_btnUpgradeChaingun", "_btnUpgradeRailgun", "_btnUpgradeRocketLauncher", "_btnDowngradeChaingun", "_btnDowngradeRailgun", "_btnDowngradeRocketLauncher", "_btnEnterNextRound", "_toastLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,7 +18,7 @@ _btnDowngradeChaingun = NodePath("DowngradeChaingunButton")
 _btnDowngradeRailgun = NodePath("DowngradeRailgunButton")
 _btnDowngradeRocketLauncher = NodePath("DowngradeRocketLauncherButton")
 _btnEnterNextRound = NodePath("NextRoundButton")
-_toastNoMoney = NodePath("NoMoneyToast")
+_toastLabel = NodePath("NoMoneyToast")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
