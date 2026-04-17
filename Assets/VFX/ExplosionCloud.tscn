@@ -1,7 +1,7 @@
 [gd_scene load_steps=25 format=3 uid="uid://dc6fhhvhsqt4c"]
 
 [ext_resource type="Material" uid="uid://c7dapgjbib86q" path="res://Assets/VFX/Materials/ExplosionCloud.tres" id="1_url8p"]
-[ext_resource type="Shader" uid="uid://nl36gsr8w5l6" path="res://ExplosionStreakShader.tres" id="2_2te1i"]
+[ext_resource type="Shader" uid="uid://nl36gsr8w5l6" path="res://Assets/Shaders/ExplosionStreakShader.tres" id="2_2te1i"]
 
 [sub_resource type="Animation" id="Animation_2te1i"]
 resource_name = "Explode"

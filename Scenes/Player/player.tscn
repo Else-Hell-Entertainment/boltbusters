@@ -10,8 +10,8 @@
 [ext_resource type="Script" uid="uid://d2knauna4hn3f" path="res://Code/Objects/Player/PlayerHealthComponent.cs" id="7_0u5uq"]
 [ext_resource type="Script" uid="uid://ijwkg2xovq7l" path="res://Code/CollectArea.cs" id="8_jlvik"]
 [ext_resource type="Script" uid="uid://15bogyux3w3m" path="res://Code/Components/PlayerShaderComponent.cs" id="10_74mp2"]
-[ext_resource type="PackedScene" uid="uid://durb8v5qnbcln" path="res://Scenes/UI/Crosshair.tscn" id="10_jhyir"]
 [ext_resource type="Resource" uid="uid://cwashgb0tg3w3" path="res://Assets/Shaders/PlayerShaderPreset.tres" id="11_oikmp"]
+[ext_resource type="AudioStream" uid="uid://b26uvuio5001j" path="res://Assets/SFX/EnemyHammerSmash.ogg" id="13_06tpx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7byp2"]
 resource_name = "Base"
@@ -357,9 +357,6 @@ material_overlay = ExtResource("2_06tpx")
 mesh = SubResource("ArrayMesh_pvtea")
 skeleton = NodePath("")
 
-[node name="Crosshair" parent="Turret" instance=ExtResource("10_jhyir")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.31205454, -6.2739906)
-
 [node name="ChaingunController" parent="Turret" instance=ExtResource("2_0u5uq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.012, 1.4, 0.011)
 _range = 9.0
@@ -373,9 +370,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.014, 1.4, 0.052)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1967016, 0)
 shape = SubResource("CapsuleShape3D_jlvik")
 
-[node name="PlayerHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_playerShaderComponent")]
+[node name="PlayerHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_playerShaderComponent", "_playerDamageSoundPlayer")]
 script = ExtResource("7_0u5uq")
 _playerShaderComponent = NodePath("../PlayerShaderComponent")
+_playerDamageSoundPlayer = NodePath("../PlayerHurtSFX")
 metadata/_custom_type_script = "uid://d2knauna4hn3f"
 
 [node name="CollectArea" type="Area3D" parent="."]
@@ -391,5 +389,10 @@ script = ExtResource("10_74mp2")
 _playerEffectShaderPreset = ExtResource("11_oikmp")
 _meshes = [NodePath("../PlayerBody/Legs"), NodePath("../Turret/Body"), NodePath("../Turret/Head"), NodePath("../Turret/RocketStand")]
 metadata/_custom_type_script = "uid://15bogyux3w3m"
+
+[node name="PlayerHurtSFX" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("13_06tpx")
+max_db = 0.0
+bus = &"Sfx"
 
 [editable path="Turret/RocketLauncherController"]
