@@ -334,11 +334,12 @@ transform = Transform3D(-0.22308668, 5.0151474e-08, 1.4724248e-15, 0, -1.4518222
 mesh = SubResource("ArrayMesh_g6g5b")
 skeleton = NodePath("")
 
-[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent", "_enemyDamageSoundPlayer", "_damageSoundPlayer")]
+[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent", "_damageSoundPlayer")]
 script = ExtResource("2_5800e")
 _enemyShaderComponent = NodePath("../EnemyShaderComponent")
-_enemyDamageSoundPlayer = NodePath("../EnemyDamageSFX")
 _damageSoundPlayer = NodePath("../EnemyDamageSFX")
+_damageSoundPolyphony = 5
+_minimumDamageSoundInterval = 0.1
 metadata/_custom_type_script = "uid://b620lyqticbmf"
 
 [node name="MeleeWeapon" type="Node3D" parent="." node_paths=PackedStringArray("_meleeOwner")]
