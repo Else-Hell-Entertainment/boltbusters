@@ -477,6 +477,7 @@ skeleton = NodePath("")
 
 [node name="ShotEffect" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -1.4293116)
+visible = false
 cast_shadow = 0
 mesh = SubResource("SphereMesh_0euta")
 surface_material_override/0 = SubResource("ShaderMaterial_gkl2d")

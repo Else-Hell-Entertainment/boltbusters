@@ -471,9 +471,17 @@ namespace EHE.BoltBusters
             // TODO: Disable enemy movement.
             GameManager.Instance.CurrentPlayerData.StartFromShop = true;
             GameManager.Instance.RoundIndex++;
-            GameManager.Instance.SaveGame();
-            // TODO: Wait 5s before transitioning to shop state.
-            GameManager.Instance.StateMachine.TransitionTo(StateType.Shop);
+
+            if (GameManager.Instance.RoundIndex > GameManager.Instance.LastRoundIndex)
+            {
+                GameManager.Instance.StateMachine.TransitionTo(StateType.Victory);
+            }
+            else
+            {
+                GameManager.Instance.SaveGame();
+                // TODO: Wait 5s before transitioning to shop state.
+                GameManager.Instance.StateMachine.TransitionTo(StateType.Shop);
+            }
         }
 
         /// <summary>
