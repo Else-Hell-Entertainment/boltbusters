@@ -10,6 +10,11 @@ namespace EHE.BoltBusters
     public interface IUpgradeable
     {
         /// <summary>
+        ///  Price of the upgrade.
+        /// </summary>
+        public PriceInfo PriceInfo { get; }
+
+        /// <summary>
         ///  Use this method to perform upgrades.
         /// </summary>
         ///

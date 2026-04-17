@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://cfmobgo6w8ab6"]
+[gd_scene load_steps=3 format=3 uid="uid://cfmobgo6w8ab6"]
 
 [ext_resource type="Script" uid="uid://burthnjbxe21w" path="res://Code/UI/MenuShop.cs" id="1_kex23"]
+[ext_resource type="Script" uid="uid://7ui2iiup5syj" path="res://Code/UI/ToastLabel.cs" id="2_kk4ix"]
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("_btnUpgradeChaingun", "_btnUpgradeRailgun", "_btnUpgradeRocketLauncher", "_btnDowngradeChaingun", "_btnDowngradeRailgun", "_btnDowngradeRocketLauncher", "_btnEnterNextRound")]
+[node name="Shop" type="Control" node_paths=PackedStringArray("_btnUpgradeChaingun", "_btnUpgradeRailgun", "_btnUpgradeRocketLauncher", "_btnDowngradeChaingun", "_btnDowngradeRailgun", "_btnDowngradeRocketLauncher", "_btnEnterNextRound", "_toastNoMoney")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,6 +18,7 @@ _btnDowngradeChaingun = NodePath("DowngradeChaingunButton")
 _btnDowngradeRailgun = NodePath("DowngradeRailgunButton")
 _btnDowngradeRocketLauncher = NodePath("DowngradeRocketLauncherButton")
 _btnEnterNextRound = NodePath("NextRoundButton")
+_toastNoMoney = NodePath("NoMoneyToast")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
@@ -116,3 +118,18 @@ offset_top = 433.0
 offset_right = 648.0
 offset_bottom = 464.0
 text = "Continue to Next Round"
+
+[node name="NoMoneyToast" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -76.0
+offset_top = 15.0
+offset_right = 77.0
+offset_bottom = 38.0
+grow_horizontal = 2
+text = "Not enough money!"
+script = ExtResource("2_kk4ix")
+_displayTime = 3.0
+metadata/_custom_type_script = "uid://7ui2iiup5syj"
