@@ -1,6 +1,7 @@
 // (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
-// Author(s): TimeForNano tuominen.mika-95@hotmail.com
+// Author(s): TimeForNano <tuominen.mika-95@hotmail.com>
+//            Miko Reinholm <miko.reinholm@tuni.fi>
 
 using Godot;
 
@@ -24,9 +25,9 @@ namespace EHE.BoltBusters
             // TODO: Add pickup behavior for this collectible.
             // Examples:
             // - Apply the collectible's reward to the collector (currency or bonus)
-            // - Play pickup sound
             // - Trigger pickup VFX at the collectible's position
             // - Display a UI feedback popup if needed
+            MusicManager.Instance.PlayNutCollectibleSound();
         }
 
         // TODO: Add despawn behavior for this collectible.

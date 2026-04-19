@@ -1,9 +1,10 @@
-[gd_scene load_steps=32 format=4 uid="uid://dleoqwseq5x4p"]
+[gd_scene load_steps=33 format=4 uid="uid://dleoqwseq5x4p"]
 
 [ext_resource type="Script" uid="uid://yb7yelbnmfj5" path="res://Code/Objects/Enemy/EnemyCannonBot.cs" id="1_k6seb"]
 [ext_resource type="PackedScene" uid="uid://t3nx0bltkocl" path="res://Scenes/Enemies/CannonBall.tscn" id="1_mqbn8"]
 [ext_resource type="Script" uid="uid://byeyojbxfgtxc" path="res://Code/Objects/CB3DMover.cs" id="3_4sov6"]
 [ext_resource type="Script" uid="uid://ce6qc6u3q0hiv" path="res://Code/Objects/Enemy/EnemyCannonController.cs" id="3_oyasw"]
+[ext_resource type="PackedScene" uid="uid://csngxu1ir6um3" path="res://Scenes/Enemies/DeathScenes/CannonbotDeath.tscn" id="3_s1vxn"]
 [ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="4_vqqcb"]
 [ext_resource type="Script" uid="uid://dsnd2h8pgyhvi" path="res://Code/Objects/Node3DMover.cs" id="5_6314t"]
 [ext_resource type="Material" uid="uid://h3kjknkrax3t" path="res://Assets/VFX/Materials/SmokePuffParticleProcessMaterial.tres" id="6_cb80c"]
@@ -269,17 +270,22 @@ _data = {
 &"RESET": SubResource("Animation_dl0q6")
 }
 
-[node name="EnemyCannonBot" type="CharacterBody3D" node_paths=PackedStringArray("_rayCaster", "Controller", "_healthComponent")]
+[node name="EnemyCannonBot" type="CharacterBody3D" node_paths=PackedStringArray("_rayCaster", "Controller", "_animationPlayer", "_cannonController", "_healthComponent")]
 collision_layer = 3
 script = ExtResource("1_k6seb")
 _range = 12.0
 _rayCaster = NodePath("Turret/Muzzle/RayCast3D")
 Controller = NodePath("Controller")
 _cannonBallScene = ExtResource("1_mqbn8")
+_animationPlayer = NodePath("AnimationPlayer")
+_cannonController = NodePath("Controller")
+EnemyType = 2
+_deathAnimation = ExtResource("3_s1vxn")
 _healthComponent = NodePath("EnemyHealthComponent")
 
-[node name="Controller" type="Node3D" parent="." node_paths=PackedStringArray("_enemyBodyMover", "_bodyNodeMover", "_turretMover")]
+[node name="Controller" type="Node3D" parent="." node_paths=PackedStringArray("_cannonOwner", "_enemyBodyMover", "_bodyNodeMover", "_turretMover")]
 script = ExtResource("3_oyasw")
+_cannonOwner = NodePath("..")
 _enemyBodyMover = NodePath("CB3DMover")
 _bodyNodeMover = NodePath("LoweBodyMover")
 _turretMover = NodePath("TurretMover")
@@ -337,6 +343,7 @@ draw_pass_1 = SubResource("QuadMesh_y2xl8")
 
 [node name="MuzzleFlash" type="OmniLight3D" parent="Turret"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6414611, -1.0716403)
+visible = false
 light_color = Color(0.91040766, 0.8755824, 0.07474276, 1)
 light_energy = 10.0
 omni_range = 2.0
@@ -362,10 +369,12 @@ shape = SubResource("CylinderShape3D_wagaa")
 
 [node name="ReloadTimer" type="Timer" parent="."]
 
-[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent", "_enemyDamageSoundPlayer")]
+[node name="SlownessTimer" type="Timer" parent="."]
+
+[node name="EnemyHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_enemyShaderComponent", "_damageSoundPlayer")]
 script = ExtResource("4_vqqcb")
 _enemyShaderComponent = NodePath("../EnemyShaderComponent")
-_enemyDamageSoundPlayer = NodePath("../EnemyDamageSFX")
+_damageSoundPlayer = NodePath("../EnemyDamageSFX")
 metadata/_custom_type_script = "uid://b620lyqticbmf"
 
 [node name="EnemyShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]

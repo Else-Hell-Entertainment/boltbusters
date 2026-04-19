@@ -1,4 +1,9 @@
-using System;
+// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Miska Rihu <miska.rihu@tuni.fi>
+//            Pekka Heljakka <pekka.heljakka@tuni.fi>
+//            TimeForNano <tuominen.mika-95@hotmail.com>
+
 using EHE.Common.Godot.Extensions;
 using Godot;
 
@@ -53,7 +58,7 @@ namespace EHE.BoltBusters
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeChaingun"))
             {
-                _upgradeHandler.UpgradeWeapon(WeaponType.Chaingun);
+                _upgradeHandler.UpgradeWeapon(WeaponType.Chaingun, out _, true);
             }
 
             if (inputEvent.IsActionPressed("DebugDowngradeRailgun"))
@@ -62,7 +67,7 @@ namespace EHE.BoltBusters
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeRailgun"))
             {
-                _upgradeHandler.UpgradeWeapon(WeaponType.Railgun);
+                _upgradeHandler.UpgradeWeapon(WeaponType.Railgun, out _, true);
             }
 
             if (inputEvent.IsActionPressed("DebugDowngradeMissile"))
@@ -71,7 +76,7 @@ namespace EHE.BoltBusters
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeMissile"))
             {
-                _upgradeHandler.UpgradeWeapon(WeaponType.Rocket);
+                _upgradeHandler.UpgradeWeapon(WeaponType.Rocket, out _, true);
             }
 #endif
         }
@@ -186,7 +191,26 @@ namespace EHE.BoltBusters
         /// </returns>
         private bool OnWeaponUpgradeRequested(int weaponType)
         {
-            return _upgradeHandler.UpgradeWeapon((WeaponType)weaponType);
+            var isSuccess = _upgradeHandler.UpgradeWeapon((WeaponType)weaponType, out var upgradeResult);
+
+            if (isSuccess)
+            {
+                GameManager.Instance.EmitSignal(
+                    GameManager.SignalName.WeaponUpgradeSucceeded,
+                    weaponType,
+                    (int)upgradeResult
+                );
+            }
+            else
+            {
+                GameManager.Instance.EmitSignal(
+                    GameManager.SignalName.WeaponUpgradeFailed,
+                    weaponType,
+                    (int)upgradeResult
+                );
+            }
+
+            return isSuccess;
         }
 
         /// <summary>

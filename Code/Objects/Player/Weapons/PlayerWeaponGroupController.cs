@@ -38,6 +38,11 @@ namespace EHE.BoltBusters
         /// </summary>
         public virtual WeaponType WeaponType => WeaponType.None;
 
+        /// <inheritdoc/>
+        [ExportCategory("IUpgradeable")]
+        [Export]
+        public virtual PriceInfo PriceInfo { get; private set; }
+
         public override void _Ready()
         {
             Node3D weaponSlots = GetNode<Node3D>("WeaponSlots");

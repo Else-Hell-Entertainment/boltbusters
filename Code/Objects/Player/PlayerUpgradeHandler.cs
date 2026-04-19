@@ -79,27 +79,65 @@ namespace EHE.BoltBusters
         /// <param name="weaponType">
         ///  Type of the weapon controller to upgrade.
         /// </param>
+        /// <param name="weaponUpgradeResult">
+        ///  The result of the upgrade. Use this if different actions are
+        ///  needed for different fail conditions.
+        /// </param>
+        /// <param name="ignorePrice">
+        ///  Debug feature. Set this to true to allow purchases even if the
+        ///  player doesn't have enough money.
+        /// </param>
         ///
         /// <returns>
         ///  <c>true</c> if upgrade was performed successfully,
         ///  <c>false</c> otherwise.
         /// </returns>
-        public bool UpgradeWeapon(WeaponType weaponType)
+        public bool UpgradeWeapon(
+            WeaponType weaponType,
+            out WeaponUpgradeResult weaponUpgradeResult,
+            bool ignorePrice = false
+        )
         {
+            // Get the controller that matches the given type.
             if (!_weaponControllers.TryGetValue(weaponType, out var weaponController))
             {
                 GD.PushWarning($"Cannot upgrade weapon controller for type '{weaponType}': not found.");
+                weaponUpgradeResult = WeaponUpgradeResult.None;
                 return false;
             }
 
-            var isUpgraded = weaponController.Upgrade();
+            var playerData = GameManager.Instance.CurrentPlayerData;
+            var priceInfo = weaponController.PriceInfo;
 
-            if (isUpgraded)
+            if (!ignorePrice)
             {
-                GameManager.Instance.CurrentPlayerData.IncreaseWeaponCount(weaponType);
+                // Check if the player has enough money to buy the upgrade.
+                var currentAmount = playerData.GetCollectibleCount(priceInfo.RequiredItem);
+                var hasEnoughMoney = currentAmount >= priceInfo.RequiredAmount;
+
+                if (!hasEnoughMoney)
+                {
+                    weaponUpgradeResult = WeaponUpgradeResult.FailedNoMoney;
+                    return false;
+                }
             }
 
-            return isUpgraded;
+            if (!weaponController.Upgrade())
+            {
+                // Weapon is already maxed out (not enough slots available).
+                weaponUpgradeResult = WeaponUpgradeResult.FailedNoSlots;
+                return false;
+            }
+
+            playerData.IncreaseWeaponCount(weaponType);
+
+            if (!ignorePrice)
+            {
+                playerData.DecreaseCollectibleCount(priceInfo.RequiredItem, priceInfo.RequiredAmount);
+            }
+
+            weaponUpgradeResult = WeaponUpgradeResult.Success;
+            return true;
         }
 
         /// <summary>

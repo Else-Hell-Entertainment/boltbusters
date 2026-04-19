@@ -2,53 +2,49 @@
 
 [ext_resource type="Script" uid="uid://diei7osygcrvy" path="res://Code/UI/MenuMain.cs" id="1_1k747"]
 
-[node name="MenuMain" type="Control" node_paths=PackedStringArray("_btnNewGame", "_btnLoadGame", "_btnSettings", "_btnQuit")]
-layout_mode = 3
+[node name="MenuMain" type="CenterContainer" node_paths=PackedStringArray("_btnNewGame", "_btnLoadGame", "_btnSettings", "_btnQuit")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1k747")
-_btnNewGame = NodePath("ButtonNewGame")
-_btnLoadGame = NodePath("ButtonLoadGame")
-_btnSettings = NodePath("ButtonSettings")
-_btnQuit = NodePath("ButtonQuit")
+_btnNewGame = NodePath("PanelContainer/MarginContainer/VBoxContainer/ButtonNewGame")
+_btnLoadGame = NodePath("PanelContainer/MarginContainer/VBoxContainer/ButtonLoadGame")
+_btnSettings = NodePath("PanelContainer/MarginContainer/VBoxContainer/ButtonSettings")
+_btnQuit = NodePath("PanelContainer/MarginContainer/VBoxContainer/ButtonQuit")
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Main Menu"
+horizontal_alignment = 1
 
-[node name="ButtonNewGame" type="Button" parent="."]
-layout_mode = 0
-offset_left = 13.0
-offset_top = 39.0
-offset_right = 106.0
-offset_bottom = 70.0
+[node name="ButtonNewGame" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "New Game"
 
-[node name="ButtonLoadGame" type="Button" parent="."]
-layout_mode = 0
-offset_left = 136.0
-offset_top = 40.0
-offset_right = 232.0
-offset_bottom = 71.0
+[node name="ButtonLoadGame" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Load Game"
 
-[node name="ButtonSettings" type="Button" parent="."]
-layout_mode = 0
-offset_left = 24.0
-offset_top = 89.0
-offset_right = 94.0
-offset_bottom = 120.0
+[node name="ButtonSettings" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Settings"
 
-[node name="ButtonQuit" type="Button" parent="."]
-layout_mode = 0
-offset_left = 34.0
-offset_top = 141.0
-offset_right = 76.0
-offset_bottom = 172.0
+[node name="ButtonQuit" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Quit"
