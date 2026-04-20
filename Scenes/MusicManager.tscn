@@ -1,10 +1,59 @@
-[gd_scene load_steps=2 format=3 uid="uid://b6va7ryol8ese"]
+[gd_scene load_steps=11 format=3 uid="uid://b6va7ryol8ese"]
 
 [ext_resource type="Script" uid="uid://cugfwi8o7ayi2" path="res://Code/Systems/MusicManager.cs" id="1_iysw5"]
+[ext_resource type="AudioStream" uid="uid://cvmu25gnvhql8" path="res://Assets/Music/MainTheme.ogg" id="2_6b4sy"]
+[ext_resource type="AudioStream" uid="uid://bxaauhe8lw2gr" path="res://Assets/Music/EndTheme.ogg" id="3_4y3dx"]
+[ext_resource type="AudioStream" uid="uid://byc6vggakvjff" path="res://Assets/Music/StageTheme1.ogg" id="4_qma2v"]
+[ext_resource type="AudioStream" uid="uid://dnhrkc7qtabx4" path="res://Assets/Music/StageTheme2.ogg" id="5_povxo"]
+[ext_resource type="AudioStream" uid="uid://bvh555iw7nnqq" path="res://Assets/Music/StageTheme3.ogg" id="6_kgefd"]
+[ext_resource type="AudioStream" uid="uid://choevsns12465" path="res://Assets/Music/StageTheme4.ogg" id="7_kokqj"]
+[ext_resource type="AudioStream" uid="uid://bvpl3tmt4egou" path="res://Assets/SFX/CollectibleSound1.ogg" id="8_kokqj"]
+[ext_resource type="AudioStream" uid="uid://d1whd05y5cd3n" path="res://Assets/SFX/CollectibleSound2.ogg" id="9_jollc"]
+[ext_resource type="AudioStream" uid="uid://tnc6dtg6bktg" path="res://Assets/SFX/CollectibleSound3.ogg" id="10_s6noy"]
 
 [node name="MusicManager" type="Node"]
 script = ExtResource("1_iysw5")
 
-[node name="CurrentPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MainThemePlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_6b4sy")
+volume_db = -6.0
+bus = &"Music"
 
-[node name="NextPlayer" type="AudioStreamPlayer" parent="."]
+[node name="EndThemePlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_4y3dx")
+volume_db = -6.0
+bus = &"Music"
+
+[node name="StageThemePlayer1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_qma2v")
+volume_db = -6.0
+
+[node name="StageThemePlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_povxo")
+volume_db = -4.0
+
+[node name="StageThemePlayer3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_kgefd")
+volume_db = -3.0
+
+[node name="StageThemePlayer4" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_kokqj")
+volume_db = -3.0
+
+[node name="NutCollectSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_kokqj")
+volume_db = -12.0
+max_polyphony = 5
+bus = &"Sfx"
+
+[node name="BoltCollectSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_jollc")
+volume_db = -6.0
+max_polyphony = 5
+bus = &"Sfx"
+
+[node name="WrenchCollectSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_s6noy")
+volume_db = -6.0
+max_polyphony = 5
+bus = &"Sfx"

@@ -77,6 +77,38 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void RequestHudRefreshEventHandler();
 
+        [Signal]
+        public delegate void RequestHudRefreshWithPlayerDataEventHandler(PlayerData playerData);
+
+        [Signal]
+        public delegate void RoundStateChangedEventHandler(bool inProgress);
+
+        /// <summary>
+        ///  Emitted when a weapon has been upgraded successfully.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  The type of the weapon that was upgraded. This is an integer
+        ///  representation of <see cref="WeaponType"/>.
+        /// </param>
+        [Signal]
+        public delegate void WeaponUpgradeSucceededEventHandler(int weaponType);
+
+        /// <summary>
+        ///  Emitted when a weapon upgrade has failed.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  The type of the weapon that was not upgraded. This is an integer
+        ///  representation of <see cref="WeaponType"/>.
+        /// </param>
+        /// <param name="failReason">
+        ///  The reason why the upgrade failed. This is an integer
+        ///  representation of <see cref="WeaponUpgradeResult"/>.
+        /// </param>
+        [Signal]
+        public delegate void WeaponUpgradeFailedEventHandler(int weaponType, int failReason);
+
         #endregion Signals
 
 
@@ -91,9 +123,7 @@ namespace EHE.BoltBusters
         private Dictionary<LevelType, PackedScene> _levelScenes;
 
         // Camera-related stuff.
-        private SubViewportContainer _levelViewportContainer;
-        private SubViewport _levelViewport;
-        private CameraRig _cameraRig;
+        private CameraContainer _cameraContainer;
 
         // Other.
         private SceneTree _sceneTree;
@@ -107,6 +137,11 @@ namespace EHE.BoltBusters
         ///  Reference to the GameManager singleton.
         /// </summary>
         public static GameManager Instance { get; private set; }
+
+        /// <summary>
+        ///  Reference to the settings manager.
+        /// </summary>
+        public SettingsManager SettingsManager { get; private set; }
 
         /// <summary>
         ///  Reference to the SceneTree of the game.
@@ -133,7 +168,12 @@ namespace EHE.BoltBusters
         /// <summary>
         ///  Reference to the global camera.
         /// </summary>
-        public Camera3D Camera => _cameraRig.GetChild<Camera3D>(0);
+        public Camera3D Camera => _cameraContainer.Camera;
+
+        /// <summary>
+        ///  Reference to the viewport of the global camera.
+        /// </summary>
+        public Viewport Viewport => _cameraContainer.Viewport;
 
         /// <summary>
         ///  The index number for the current round.
@@ -143,6 +183,13 @@ namespace EHE.BoltBusters
             get => CurrentPlayerData.LevelIndex;
             set => CurrentPlayerData.LevelIndex = value;
         }
+
+        // TODO: Calculate last round index automatically!
+        /// <summary>
+        ///  The highest possible round index. After completing this round,
+        ///  entering the victory state should be triggered.
+        /// </summary>
+        public int LastRoundIndex { get; private set; } = 10;
 
         /// <summary>
         ///  Default player data values. Defined in the editor.
@@ -172,6 +219,7 @@ namespace EHE.BoltBusters
         {
             LoadLevelManagersIntoMemory();
             SetUpStateMachine();
+            SetUpSettingsManager();
 
             _saveManager = new SaveManager();
             DefaultPlayerData = GD.Load<PlayerData>(FilePathConfig.DEFAULT_PLAYER_DATA_RESOURCE_PATH);
@@ -371,7 +419,15 @@ namespace EHE.BoltBusters
                 return;
             }
 
-            LevelManager.Active?.QueueFree();
+            var activeLevelManager = LevelManager.Active;
+
+            if (activeLevelManager != null)
+            {
+                activeLevelManager.Initialized -= OnLevelInitialized;
+                activeLevelManager.QueueFree();
+            }
+
+            levelScene.Initialized += OnLevelInitialized;
             SceneTree.Root.CallDeferred(Node.MethodName.AddChild, levelScene);
         }
 
@@ -441,35 +497,48 @@ namespace EHE.BoltBusters
                 new GameStateSettingsMenu(),
                 new GameStateRound(),
                 new GameStatePaused(),
-                new ShopState()
+                new ShopState(),
+                new GameOverState(),
+                new VictoryState()
             );
         }
 
-        // TODO: Refactor this and make the parameters editable in the editor.
         /// <summary>
-        ///  Instantiates the <see cref="CameraRig"/> from a file and adds it
-        ///  to the <see cref="SceneTree"/>.
+        ///  Creates a new instance of <see cref="SettingsManager"/> and
+        ///  initializes it.
+        /// </summary>
+        private void SetUpSettingsManager()
+        {
+            SettingsManager = new SettingsManager();
+            SettingsManager.Initialize();
+            SettingsManager.ApplySettings(SettingsManager.LoadSettingsFromFile(SettingsConfig.USER_SETTINGS_FILE_PATH));
+        }
+
+        /// <summary>
+        ///  Instantiates the <see cref="CameraContainer"/> from a file and
+        ///  adds it to the <see cref="SceneTree"/>.
         /// </summary>
         private void CreateCamera()
         {
-            // Create container and assign shader material.
-            _levelViewportContainer = new SubViewportContainer();
-            _levelViewportContainer.Material = GD.Load<Material>(MaterialConfig.CAMERA_SHADER_MATERIAL_FILE);
+            const string path = FilePathConfig.CAMERA_CONTAINER_SCENE_PATH;
+            var cameraContainerScene = GD.Load<PackedScene>(path);
 
-            // Create viewport, set its size, and add it to the container.
-            _levelViewport = new SubViewport();
-            _levelViewport.Size = (Vector2I)GetViewport().GetWindow().GetVisibleRect().Size;
-            _levelViewport.AudioListenerEnable3D = true;
-            _levelViewportContainer.CallDeferred(Node.MethodName.AddChild, _levelViewport);
+            if (cameraContainerScene == null)
+            {
+                GD.PushError($"Could not load camera container scene from '{path}'!");
+                return;
+            }
 
-            // Create camera rig and add it to the viewport.
-            _cameraRig = GD.Load<PackedScene>(SceneFileConfig.CAMERA_FILE).Instantiate<CameraRig>();
-            _cameraRig.HeightAboveGround = 10f;
-            _cameraRig.UseSmoothFollow = false;
-            _levelViewport.CallDeferred(Node.MethodName.AddChild, _cameraRig);
+            _cameraContainer = cameraContainerScene.Instantiate<CameraContainer>();
 
-            // Add the container to the scene tree.
-            SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _levelViewportContainer);
+            if (_cameraContainer == null)
+            {
+                GD.PushError($"No valid camera container found at path '{path}'!");
+                return;
+            }
+
+            SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _cameraContainer);
+            this.PrintDebug("Deferred adding camera node to next frame.");
         }
 
         /// <summary>
@@ -563,6 +632,24 @@ namespace EHE.BoltBusters
         private void OnLevelStartDelayTimeout()
         {
             LevelManager.Active.StartRound();
+        }
+
+        /// <summary>
+        ///  Called when the active <see cref="LevelManager"/> emits its
+        ///  <see cref="LevelManager.Initialized"/> signal.
+        ///  Used to refresh the HUD when a new round is loaded.
+        /// </summary>
+        private void OnLevelInitialized()
+        {
+            this.PrintDebug("Level initialized.");
+
+            // Deferred call fixes the issue where the UI is not refresher when
+            // entering subsequent rounds after the first one.
+            CallDeferred(
+                GodotObject.MethodName.EmitSignal,
+                SignalName.RequestHudRefreshWithPlayerData,
+                CurrentPlayerData
+            );
         }
 
         #endregion Private Methods

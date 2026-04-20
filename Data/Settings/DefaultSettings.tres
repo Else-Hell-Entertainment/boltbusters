@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SettingsData" load_steps=4 format=3 uid="uid://dax4k5r7h5cia"]
+
+[ext_resource type="Resource" uid="uid://txafsqqqcxf2" path="res://Data/Settings/DefaultAudioSettings.tres" id="1_0abil"]
+[ext_resource type="Resource" uid="uid://clt1yvgxr38nw" path="res://Data/Settings/DefaultVideoSettings.tres" id="2_s6mvm"]
+[ext_resource type="Script" uid="uid://th08wggrc2nb" path="res://Code/Data/Settings/SettingsData.cs" id="3_g4pt2"]
+
+[resource]
+script = ExtResource("3_g4pt2")
+AudioSettingsData = ExtResource("1_0abil")
+VideoSettingsData = ExtResource("2_s6mvm")
+metadata/_custom_type_script = "uid://th08wggrc2nb"

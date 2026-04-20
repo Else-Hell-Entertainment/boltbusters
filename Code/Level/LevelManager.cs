@@ -2,9 +2,11 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 //            Pekka Heljakka <pekka.heljakka@tuni.fi>
+//            Miko Reinholm <miko.reinholm@tuni.fi>
 
 using System;
 using EHE.BoltBusters.Config;
+using EHE.BoltBusters.EnemyAI;
 using EHE.BoltBusters.States;
 using EHE.Common.Godot.Extensions;
 using Godot;
@@ -57,6 +59,9 @@ namespace EHE.BoltBusters
     /// </remarks>
     public partial class LevelManager : Node3D
     {
+        [Signal]
+        public delegate void InitializedEventHandler();
+
         #region Fields
 
         // Fields that are editable in the inspector.
@@ -75,6 +80,12 @@ namespace EHE.BoltBusters
         // Nodes that are created from the code.
         private Timer _roundTimer;
         private RoundData _roundData;
+        private EnemyGroupManager _enemyGroupManager;
+
+        // Audio stuff
+        private MusicManager.Song _currentSong = MusicManager.Song.MainTheme;
+        private AudioStreamPlayer _currentMusicPlayer;
+        private bool _isFirstRoundOfSong;
 
         #endregion Fields
 
@@ -109,6 +120,22 @@ namespace EHE.BoltBusters
 
         #region Overrides
 
+        /// <summary>
+        ///  Unsubscribes from the <see cref="Player.PlayerDied"/> event if
+        ///  applicable.
+        /// </summary>
+        public override void _ExitTree()
+        {
+            if (Player != null)
+            {
+                // This ensures that the signal is disconnected when the level
+                // manager exits the scene tree. The signal is also
+                // disconnected in the OnPlayerDeath method but this is only
+                // done if the player dies during the round.
+                Player.PlayerDied -= OnPlayerDeath;
+            }
+        }
+
         /// <inheritdoc/>
         public override void _Ready()
         {
@@ -120,6 +147,12 @@ namespace EHE.BoltBusters
             _enemySpawnManager = GetNodeOrNull<EnemySpawnManager>("EnemySpawnManager");
             _player = GetNodeOrNull<Player>("Player");
             _playerSpawnPosition = GetNodeOrNull<Node3D>("PlayerSpawnPosition");
+
+            // TODO: Replace this with a proper differentiation between bg level and regular level.
+            if (LevelType == LevelType.Background)
+            {
+                goto ValidationEnd;
+            }
 
             // TODO: Refactor validation code to a separate method.
             bool hasErrors = false;
@@ -154,6 +187,8 @@ namespace EHE.BoltBusters
                 return;
             }
 
+            ValidationEnd:
+
             // Create object root nodes.
             _enemyRoot = new Node3D();
             _projectileRoot = new Node3D();
@@ -166,6 +201,11 @@ namespace EHE.BoltBusters
             AddChild(_enemyRoot);
             AddChild(_projectileRoot);
             AddChild(_collectibleRoot);
+
+            // Create enemy group AI manager
+            _enemyGroupManager = new EnemyGroupManager();
+            _enemyGroupManager.SetName("EnemyGroupManager");
+            AddChild(_enemyGroupManager);
 
             // Create round timer.
             // TODO: Create timer in separate method when round starts.
@@ -222,6 +262,14 @@ namespace EHE.BoltBusters
             DespawnLevelObjects();
             _roundTimer.WaitTime = _roundData.RoundLength;
             GameManager.Instance.SaveGame();
+            this.PrintDebug("Initialized.");
+            Player.PlayerDied += OnPlayerDeath;
+
+            // Re-enable player input when a new round is loaded since it's
+            // disabled when the round ends or when the player dies.
+            Player.ToggleInputListening(true);
+
+            EmitSignal(SignalName.Initialized);
         }
 
         /// <summary>
@@ -278,6 +326,13 @@ namespace EHE.BoltBusters
             _roundTimer.Start();
             RoundInProgress = true;
             _enemySpawnManager.StartRound(_roundData);
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, true);
+
+            UpdateMusicForRound(GameManager.Instance.RoundIndex);
+            if (_currentMusicPlayer != null && !_isFirstRoundOfSong)
+            {
+                MusicManager.Instance.FadeInPlayer(_currentMusicPlayer);
+            }
         }
 
         /// <summary>
@@ -303,6 +358,7 @@ namespace EHE.BoltBusters
         {
             this.PrintDebug("Resetting level...");
             DespawnLevelObjects();
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, false);
 
             // TODO: Make player immobile.
             Player.GlobalPosition = _playerSpawnPosition.GlobalPosition; // TODO: Is this too hacky?
@@ -337,6 +393,7 @@ namespace EHE.BoltBusters
             if (levelObject is Enemy enemy)
             {
                 _enemyRoot.AddChild(enemy);
+                _enemyGroupManager.AddEnemy(enemy);
             }
             else if (levelObject is Projectile projectile)
             {
@@ -404,15 +461,27 @@ namespace EHE.BoltBusters
         {
             this.PrintDebug("Round ended.");
             _roundTimer.Stop();
+            if (_currentMusicPlayer != null)
+            {
+                MusicManager.Instance.FadeToBackgroundLevel(_currentMusicPlayer);
+            }
             RoundInProgress = false;
             ResetLevel();
-            // TODO: Disable player movement.
+            Player.ToggleInputListening(false);
             // TODO: Disable enemy movement.
             GameManager.Instance.CurrentPlayerData.StartFromShop = true;
             GameManager.Instance.RoundIndex++;
-            GameManager.Instance.SaveGame();
-            // TODO: Wait 5s before transitioning to shop state.
-            GameManager.Instance.StateMachine.TransitionTo(StateType.Shop);
+
+            if (GameManager.Instance.RoundIndex > GameManager.Instance.LastRoundIndex)
+            {
+                GameManager.Instance.StateMachine.TransitionTo(StateType.Victory);
+            }
+            else
+            {
+                GameManager.Instance.SaveGame();
+                // TODO: Wait 5s before transitioning to shop state.
+                GameManager.Instance.StateMachine.TransitionTo(StateType.Shop);
+            }
         }
 
         /// <summary>
@@ -442,6 +511,110 @@ namespace EHE.BoltBusters
                     spawnable.OnDespawn();
                 }
             }
+        }
+
+        /// <summary>
+        ///  Disables the player input, stops the round, and transitions to the
+        ///  game over state.
+        /// </summary>
+        ///
+        /// <param name="player">Reference to the player that died.</param>
+        ///
+        /// <remarks>
+        ///  When the player dies, the <see cref="LevelManager"/> unsibscribes
+        ///  from its <see cref="Player.PlayerDied"/> event to prevent this
+        ///  method from being triggered multiple times.
+        /// </remarks>
+        ///
+        /// <seealso cref="StateType"/>
+        /// <seealso cref="GameOverState"/>
+        private void OnPlayerDeath(Player player)
+        {
+            this.PrintDebug("Player died.");
+            Player.ToggleInputListening(false);
+            _roundTimer.Stop();
+            RoundInProgress = false;
+            GameManager.Instance.StateMachine.TransitionTo(StateType.GameOver);
+            Player.PlayerDied -= OnPlayerDeath;
+        }
+
+        private void UpdateMusicForRound(int roundIndex)
+        {
+            var song = PickSong(roundIndex);
+
+            if (song == _currentSong)
+            {
+                _isFirstRoundOfSong = false; // Same song, so it's not the first round
+                return;
+            }
+
+            _currentSong = song;
+            _isFirstRoundOfSong = true; // New song, so this is the first round
+
+            AudioStreamPlayer previousPlayer = _currentMusicPlayer;
+
+            switch (song)
+            {
+                case MusicManager.Song.StageTheme1:
+                    _currentMusicPlayer = MusicManager.Instance.StageThemePlayer1;
+                    if (previousPlayer != null && previousPlayer != _currentMusicPlayer)
+                    {
+                        MusicManager.Instance.FadeOutPlayer(previousPlayer);
+                    }
+                    _currentMusicPlayer.VolumeDb = 0f; // Start at normal volume
+                    MusicManager.Instance.PlayMusic(_currentMusicPlayer, song);
+                    break;
+                case MusicManager.Song.StageTheme2:
+                    _currentMusicPlayer = MusicManager.Instance.StageThemePlayer2;
+                    if (previousPlayer != null && previousPlayer != _currentMusicPlayer)
+                    {
+                        MusicManager.Instance.FadeOutPlayer(previousPlayer);
+                    }
+                    _currentMusicPlayer.VolumeDb = 0f; // Start at normal volume
+                    MusicManager.Instance.PlayMusic(_currentMusicPlayer, song);
+                    break;
+                case MusicManager.Song.StageTheme3:
+                    _currentMusicPlayer = MusicManager.Instance.StageThemePlayer3;
+                    if (previousPlayer != null && previousPlayer != _currentMusicPlayer)
+                    {
+                        MusicManager.Instance.FadeOutPlayer(previousPlayer);
+                    }
+                    _currentMusicPlayer.VolumeDb = 0f; // Start at normal volume
+                    MusicManager.Instance.PlayMusic(_currentMusicPlayer, song);
+                    break;
+                case MusicManager.Song.StageTheme4:
+                    _currentMusicPlayer = MusicManager.Instance.StageThemePlayer4;
+                    if (previousPlayer != null && previousPlayer != _currentMusicPlayer)
+                    {
+                        MusicManager.Instance.FadeOutPlayer(previousPlayer);
+                    }
+                    _currentMusicPlayer.VolumeDb = 0f; // Start at normal volume
+                    MusicManager.Instance.PlayMusic(_currentMusicPlayer, song);
+                    break;
+            }
+        }
+
+        private MusicManager.Song PickSong(int roundIndex)
+        {
+            var song = MusicManager.Song.MainTheme;
+
+            switch (roundIndex)
+            {
+                case >= 1 and <= 5:
+                    song = MusicManager.Song.StageTheme1;
+                    break;
+                case >= 6 and <= 10:
+                    song = MusicManager.Song.StageTheme2;
+                    break;
+                case >= 11 and <= 15:
+                    song = MusicManager.Song.StageTheme3;
+                    break;
+                case >= 16 and <= 20:
+                    song = MusicManager.Song.StageTheme4;
+                    break;
+            }
+
+            return song;
         }
 
         #endregion Private Methods

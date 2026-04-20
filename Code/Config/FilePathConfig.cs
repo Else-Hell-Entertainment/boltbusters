@@ -2,6 +2,8 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using System;
+
 namespace EHE.BoltBusters.Config
 {
     public static class FilePathConfig
@@ -28,12 +30,19 @@ namespace EHE.BoltBusters.Config
         /// <summary>
         /// Path to the <see cref="CameraRig"/> scene file.
         /// </summary>
+        [Obsolete]
         public const string CAMERA_SCENE_PATH = "res://Scenes/CameraRig.tscn";
 
         /// <summary>
         /// Path to the camera shader material file.
         /// </summary>
+        [Obsolete]
         public const string CAMERA_SHADER_MATERIAL_PATH = "res://Assets/Materials/PS1CameraShaderMaterial.tres";
+
+        /// <summary>
+        /// Path to the <see cref="CameraContainer"/> scene file.
+        /// </summary>
+        public const string CAMERA_CONTAINER_SCENE_PATH = "res://Scenes/Camera/CameraContainer.tscn";
 
         #endregion Camera
 

@@ -8,118 +8,52 @@ using Godot;
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// ShaderComponent specialization for collectibles.
+    /// Plays the collectible accelerating pulse.
+    /// When awaited, completes when the pulse finishes or is overridden,
+    /// depending on the selected await policy.
     /// </summary>
     [GlobalClass]
-    public partial class CollectibleShaderComponent : ShaderComponent
+    public partial class CollectibleShaderComponent : ShaderComponent, IAcceleratingPulseEffect
     {
         [Export]
-        private EffectShaderPreset _effectsPreset;
+        private EffectShaderPreset _collectibleEffectShaderPreset;
 
-        private EffectShaderPreset EffectsPreset
+        #region IAcceleratingPulseEffect Implementation
+
+        void IAcceleratingPulseEffect.AcceleratingPulse()
         {
-            get { return _effectsPreset; }
+            PlayCollectibleAcceleratingPulse();
         }
 
-        #region Flash
-
-        /// <summary>
-        /// Plays the collectible's flash effect. Returns a Task that completes
-        /// when this flash finishes its timeline or is overridden by another effect.
-        /// </summary>
-        public Task PlayCollectibleFlashAsync()
+        Task IAcceleratingPulseEffect.AcceleratingPulseAsync(EffectAwaitPolicy policy)
         {
-            if (_effectsPreset == null)
-            {
-                GD.PushWarning($"{Name}: CollectibleShaderComponent has no EffectShaderPreset assigned.");
-                return Task.CompletedTask;
-            }
-
-            return PlayFlashAsync(_effectsPreset);
+            return PlayCollectibleAcceleratingPulseAsync(policy);
         }
 
-        /// <summary>
-        /// Starts the collectible's flash effect without awaiting its completion.
-        /// Use this when sequencing is not required.
-        /// </summary>
-        public void PlayCollectibleFlash()
-        {
-            if (_effectsPreset == null)
-            {
-                GD.PushWarning($"{Name}: CollectibleShaderComponent has no EffectShaderPreset assigned.");
-                return;
-            }
-
-            _ = PlayFlashAsync(_effectsPreset);
-        }
-
-        #endregion Flash
-
-        #region Pulse
-
-        /// <summary>
-        /// Plays the collectible's pulse effect using the Pulse settings from the
-        /// assigned EffectShaderPreset. Returns a Task that completes when the pulse
-        /// finishes its timeline or is overridden.
-        /// </summary>
-        public Task PlayCollectiblePulseAsync()
-        {
-            if (_effectsPreset == null)
-            {
-                GD.PushWarning($"{Name}: CollectibleShaderComponent has no EffectShaderPreset assigned.");
-                return Task.CompletedTask;
-            }
-
-            return PlayPulseAsync(_effectsPreset);
-        }
-
-        /// <summary>
-        /// Starts the collectible's pulse effect without awaiting its completion.
-        /// Useful for simple visual triggers.
-        /// </summary>
-        public void PlayCollectiblePulse()
-        {
-            if (_effectsPreset == null)
-            {
-                GD.PushWarning($"{Name}: CollectibleShaderComponent has no EffectShaderPreset assigned.");
-                return;
-            }
-
-            _ = PlayPulseAsync(_effectsPreset);
-        }
-
-        #endregion Pulse
+        #endregion IAcceleratingPulseEffect Implementation
 
         #region Accelerating Pulse
 
-        /// <summary>
-        /// Plays the collectible's accelerating pulse effect. Returns a Task that completes
-        /// when the accelerating pulse reaches its end or is overridden by another effect.
-        /// </summary>
-        public Task PlayCollectibleAcceleratingPulseAsync()
-        {
-            if (_effectsPreset == null)
-            {
-                GD.PushWarning($"{Name}: CollectibleShaderComponent has no EffectShaderPreset assigned.");
-                return Task.CompletedTask;
-            }
-
-            return PlayAcceleratingPulseAsync(_effectsPreset);
-        }
-
-        /// <summary>
-        /// Starts the collectible's accelerating pulse effect without awaiting completion.
-        /// Primarily used by the spawn sequence.
-        /// </summary>
         public void PlayCollectibleAcceleratingPulse()
         {
-            if (_effectsPreset == null)
+            if (_collectibleEffectShaderPreset == null)
             {
                 GD.PushWarning($"{Name}: CollectibleShaderComponent has no EffectShaderPreset assigned.");
                 return;
             }
 
-            _ = PlayAcceleratingPulseAsync(_effectsPreset);
+            _ = PlayAcceleratingPulseAsync(_collectibleEffectShaderPreset, EffectAwaitPolicy.Interruptible);
+        }
+
+        public Task PlayCollectibleAcceleratingPulseAsync(EffectAwaitPolicy policy = EffectAwaitPolicy.Interruptible)
+        {
+            if (_collectibleEffectShaderPreset == null)
+            {
+                GD.PushWarning($"{Name}: CollectibleShaderComponent has no EffectShaderPreset assigned.");
+                return Task.CompletedTask;
+            }
+
+            return PlayAcceleratingPulseAsync(_collectibleEffectShaderPreset, policy);
         }
 
         #endregion Accelerating Pulse

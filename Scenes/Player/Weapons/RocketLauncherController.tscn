@@ -1,19 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://b4w446hov1iq4"]
+[gd_scene load_steps=12 format=3 uid="uid://b4w446hov1iq4"]
 
 [ext_resource type="Script" uid="uid://csfsxcmayp2td" path="res://Code/Objects/Player/Weapons/PlayerRocketLauncherController.cs" id="1_qfr55"]
 [ext_resource type="PackedScene" uid="uid://bweyw22j1yyt8" path="res://Scenes/Player/Weapons/RocketLauncher.tscn" id="2_qfr55"]
+[ext_resource type="Script" uid="uid://cwjigbn7c1w4e" path="res://Code/CustomTypes/PriceInfo.cs" id="3_22532"]
 [ext_resource type="Texture2D" uid="uid://ceqe6b24k56lo" path="res://Assets/Sprites/BombSight.png" id="3_qfr55"]
+[ext_resource type="PackedScene" uid="uid://cik5ei25kqkvv" path="res://Assets/Models/Weapons/PlayerRocketR1.glb" id="4_i3bw6"]
+[ext_resource type="PackedScene" uid="uid://drtgc53ebour2" path="res://Assets/Models/Weapons/PlayerRocketL1.glb" id="4_wnb2b"]
+[ext_resource type="PackedScene" uid="uid://72jsxf4j3unv" path="res://Assets/Models/Weapons/PlayerRocketL2.glb" id="5_22532"]
+[ext_resource type="PackedScene" uid="uid://cks5t587g6hld" path="res://Assets/Models/Weapons/PlayerRocketR2.glb" id="6_mbktp"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qfr55"]
-albedo_color = Color(0.16862746, 0.4, 0.21960784, 1)
-metallic = 0.5
-roughness = 0.8
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_e0onp"]
-material = SubResource("StandardMaterial3D_qfr55")
-top_radius = 0.05
-bottom_radius = 0.05
-height = 0.1
+[sub_resource type="Resource" id="Resource_mbktp"]
+script = ExtResource("3_22532")
+RequiredItem = 3
+RequiredAmount = 2
+metadata/_custom_type_script = "uid://cwjigbn7c1w4e"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wnb2b"]
 albedo_color = Color(0.16862746, 0.4, 0.21960784, 1)
@@ -29,36 +29,25 @@ height = 0.2
 [node name="RocketLauncherController" type="Node3D"]
 script = ExtResource("1_qfr55")
 _weaponScene = ExtResource("2_qfr55")
+PriceInfo = SubResource("Resource_mbktp")
 
 [node name="WeaponSlots" type="Node3D" parent="."]
 
 [node name="Slot1" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07443732, 0.098289706, -0.09521111)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot1"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
-mesh = SubResource("CylinderMesh_e0onp")
+[node name="PlayerRocketL1" parent="WeaponSlots/Slot1" instance=ExtResource("4_wnb2b")]
 
 [node name="Slot2" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.035277955, 0.098289706, -0.08571892)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot2"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
-mesh = SubResource("CylinderMesh_e0onp")
+[node name="PlayerRocketR1" parent="WeaponSlots/Slot2" instance=ExtResource("4_i3bw6")]
 
 [node name="Slot3" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07443732, -0.077280305, -0.102480695)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot3"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
-mesh = SubResource("CylinderMesh_e0onp")
+[node name="PlayerRocketL2" parent="WeaponSlots/Slot3" instance=ExtResource("5_22532")]
 
 [node name="Slot4" type="Node3D" parent="WeaponSlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03184074, -0.077280305, -0.10143403)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponSlots/Slot4"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
-mesh = SubResource("CylinderMesh_e0onp")
+[node name="PlayerRocketR2" parent="WeaponSlots/Slot4" instance=ExtResource("6_mbktp")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)

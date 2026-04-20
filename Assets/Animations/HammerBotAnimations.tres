@@ -1,59 +1,149 @@
-[gd_resource type="AnimationLibrary" load_steps=3 format=3 uid="uid://daif2hrjdta3p"]
+[gd_resource type="AnimationLibrary" load_steps=4 format=3 uid="uid://daif2hrjdta3p"]
+
+[ext_resource type="AudioStream" uid="uid://dtf0hdqcio6kd" path="res://Assets/SFX/PlayerHurt.ogg" id="1_4y1w6"]
 
 [sub_resource type="Animation" id="Animation_hku7k"]
 resource_name = "Attack"
+length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("HammerNode/Cylinder:rotation")
+tracks/0/path = NodePath("HammerNode/Hammer:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.13333334, 1),
-"transitions": PackedFloat32Array(0.5, 1, 2),
+"times": PackedFloat32Array(0, 0.1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(-0.38714084, 1.5029751, -1.3915997), Vector3(0.019886257, 1.1785328, 0.04921492), Vector3(-0.38714084, 1.5029751, -1.3915997)]
+"values": [Vector3(-1.5707964, 3.1415927, 0), Vector3(-0.010471975, 3.1415927, 0), Vector3(-1.5707964, 3.1415927, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("BodyNode/Cube:rotation")
+tracks/1/path = NodePath("HammerNode/Hammer:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.39999998),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, -3.1415925, 0), Vector3(-0.35845572, -3.1415925, -5.656919e-08), Vector3(0, -3.1415927, 0)]
+"values": [Vector3(-6.4101265e-08, 1.0126531, 0.73323303)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("BodyNode/Cube:position")
+tracks/2/path = NodePath("BodyNode/EnemyMelee/Head_Wheels:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.4),
+"times": PackedFloat32Array(0, 0.13333336, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0.44016513, 0.3561785), Vector3(0, 0.5668427, 0.33399817), Vector3(0, 0.44016513, 0.3561785)]
+"values": [Vector3(0, 0.44016513, 0.3561785), Vector3(2.7901468e-08, 0.41948065, 0.03702292), Vector3(0, 0.44016513, 0.3561785)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BodyNode/EnemyMelee/Track:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.13333336, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.3808058, 0, 0), Vector3(0.38080582, 0.42781776, -0.49065572), Vector3(0.3808058, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BodyNode/EnemyMelee/Track_001:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.13333336, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.38612062, 0, 0), Vector3(-0.381, 0.428, -0.491), Vector3(-0.38612062, 0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("BodyNode/EnemyMelee/Head_Wheels:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.13333336, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.968553, 6.690013e-08, 1.2717238e-07), Vector3(0, 0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("BodyNode/EnemyMelee/Track:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.13333336, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1.5707964, 1.5707964, 0), Vector3(0.7853982, 3.1415927, 1.5707964), Vector3(1.5707964, 1.5707964, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("BodyNode/EnemyMelee/Track_001:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.13333336, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1.5707964, 1.5707964, 0), Vector3(0.7853982, 3.1415927, 1.5707964), Vector3(1.5707964, 1.5707964, 0)]
+}
+tracks/8/type = "audio"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("MeleeWeapon/HammerAttackSFX")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("1_4y1w6")
+}],
+"times": PackedFloat32Array(0.1)
+}
+tracks/8/use_blend = true
 
 [sub_resource type="Animation" id="Animation_iv0vp"]
 resource_name = "Idle"
-length = 3.0
+length = 2.0
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("HammerNode/Cylinder:rotation")
-tracks/0/interp = 2
+tracks/0/path = NodePath("HammerNode/Hammer:position")
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.5),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(-0.38662833, 1.4941312, -1.3684781), Vector3(-0.39242938, 1.6042687, -1.656781)]
+"values": [Vector3(-6.4101265e-08, 1.0126531, 0.73323303)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HammerNode/Hammer:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(-1.8025018, -1.8025014),
+"update": 0,
+"values": [Vector3(-1.2130039, 3.1415927, 0), Vector3(-2.268928, 3.1415927, 0)]
 }
 
 [resource]

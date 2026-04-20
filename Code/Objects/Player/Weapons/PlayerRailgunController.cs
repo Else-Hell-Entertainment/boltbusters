@@ -10,22 +10,45 @@ namespace EHE.BoltBusters
     public partial class PlayerRailgunController : PlayerWeaponGroupController
     {
         [Export]
-        private float _chargeEmissionModifier = 1f;
+        private float _chargeEmissionModifier = 1.0f;
 
         [Export]
-        private float _chargeBeamWidthModifier = 0.0005f;
+        private float _chargeBeamBaseRadius = 0.5f;
+
+        [Export]
+        private float _chargeBeamWidthModifier = 1.0f;
+
+        [Export]
+        private AnimationPlayer _animationPlayer;
 
         [Export]
         private PackedScene _railgunSparkEffect;
 
+        [ExportGroup("Sound settings")]
         [Export]
         private AudioStreamPlayer3D _shootingSound;
+
+        [Export]
+        private AudioStreamPlayer3D _chargingSound;
+
+        [Export]
+        private float _chargeSoundPitchTarget = 0.5f;
+
+        [Export]
+        private float _chargePitchWindDownTime = 0.5f;
+
+        [Export]
+        private float _chargePitchWindDownTarget = 0.1f;
+
+        [Export]
+        private float _chargeVolumeWindDownTime = 1f;
 
         public override WeaponType WeaponType => WeaponType.Railgun;
 
         public bool IsActive = true;
 
         private const int COLLISION_MASK_LAYER = 2;
+        private const string SHOOT_ANIMATION_NAME = "Shoot";
 
         private Railgun _activeRailgun;
         private Node3D _muzzle;
@@ -38,6 +61,10 @@ namespace EHE.BoltBusters
         private MeshInstance3D _chargeEffectInstanceBeam;
         private CapsuleMesh _chargeEffectMeshBeam;
         private StandardMaterial3D _chargeEffectMaterialBeam;
+
+        private bool _isChargeWindingDown;
+        private float _shootingSoundLevel;
+        private float _chargeSoundLevel;
 
         private bool _isAttackPressed;
         private int _physFramesCounter;
@@ -52,6 +79,8 @@ namespace EHE.BoltBusters
             base._Ready();
             InitializeNodes();
             _damageData = new DamageData(150, DamageType.Sniper);
+            _shootingSoundLevel = _shootingSound.VolumeDb;
+            _chargeSoundLevel = _chargingSound.VolumeDb;
         }
 
         public override void _Process(double delta)
@@ -63,14 +92,38 @@ namespace EHE.BoltBusters
                     _laserSightInstance.Hide();
                     _chargeEffectInstanceBeam.Show();
                     UpdateChargeEffect();
+                    _isChargeWindingDown = false;
                 }
                 else
                 {
+                    if (_chargingSound.IsPlaying() && !_isChargeWindingDown)
+                    {
+                        WindDownCharge();
+                    }
+                    _isChargeWindingDown = true;
                     _chargeEffectInstanceBeam.Hide();
                     _laserSightInstance.Show();
                     UpdateLaserSight();
                 }
             }
+        }
+
+        private void WindDownCharge()
+        {
+            Tween chargeTween = CreateTween();
+            chargeTween.TweenProperty(_chargingSound, "volume_db", -80, _chargeVolumeWindDownTime);
+            chargeTween
+                .Parallel()
+                .TweenProperty(_chargingSound, "pitch_scale", _chargePitchWindDownTarget, _chargePitchWindDownTime);
+            chargeTween.TweenCallback(Callable.From(ResetChargeSound));
+        }
+
+        private void ResetChargeSound()
+        {
+            _chargingSound.Stop();
+            _chargingSound.PitchScale = 1.0f;
+            _chargingSound.VolumeDb = _chargeSoundLevel;
+            _isChargeWindingDown = false;
         }
 
         public override void _PhysicsProcess(double delta)
@@ -246,6 +299,7 @@ namespace EHE.BoltBusters
         /// </summary>
         private void ShootRailgun()
         {
+            _animationPlayer.Play(SHOOT_ANIMATION_NAME);
             var collisions = _shapeCast3D.CollisionResult;
             foreach (Dictionary collision in collisions)
             {
@@ -306,10 +360,16 @@ namespace EHE.BoltBusters
 
         private void UpdateChargeEffect()
         {
+            if (!_chargingSound.IsPlaying())
+            {
+                _chargingSound.Play();
+            }
+
             SetMeshToRaycastMidpoint(_chargeEffectInstanceBeam);
             float chargePercent = _activeRailgun.CurrentChargePercent;
-            _chargeEffectMeshBeam.Radius = _chargeBeamWidthModifier * chargePercent;
-            _chargeEffectMaterialBeam.EmissionEnergyMultiplier = _chargeEmissionModifier * chargePercent;
+            _chargeEffectMeshBeam.Radius = _chargeBeamBaseRadius * _chargeBeamWidthModifier * chargePercent / 100.0f;
+            _chargeEffectMaterialBeam.EmissionEnergyMultiplier = _chargeEmissionModifier * chargePercent / 100.0f;
+            _chargingSound.PitchScale = 1.0f + (_chargeSoundPitchTarget * chargePercent / 100.0f);
         }
 
         private void SetMeshToRaycastMidpoint(MeshInstance3D meshInstance)

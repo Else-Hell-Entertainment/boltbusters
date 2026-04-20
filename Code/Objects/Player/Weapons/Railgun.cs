@@ -103,7 +103,7 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Resets the railgun into it's neutral state. Used between rounds.
         /// </summary>
-        public void ResetState()
+        public override void Reset()
         {
             ChangeState(RailgunState.ReadyToFire);
             ResetCharge();

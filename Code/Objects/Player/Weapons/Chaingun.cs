@@ -14,17 +14,19 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class Chaingun : BaseWeapon
     {
+        private const int COLLISION_MASK_LAYER = 2;
+
         [Export]
         private Timer _cooldownTimer;
 
-        [Export]
-        private float _cooldown = 0.5f;
+        private float _cooldown = 0.1f;
 
-        [Export]
         private float _accuracy = 0.005f;
 
-        [Export]
-        private float _range = 9f;
+        private int _damage = 6;
+
+        //[Export]
+        //private float _range = 9f;
 
         [Export]
         private MeshInstance3D _bulletTrail;
@@ -41,14 +43,46 @@ namespace EHE.BoltBusters
             set => _cooldown = Mathf.Clamp(value, 0.034f, _cooldown);
         }
 
+        public float Accuracy
+        {
+            get => _accuracy;
+            set => _accuracy = value;
+        }
+
+        public int Damage
+        {
+            get => _damage;
+            set
+            {
+                _damage = Mathf.Max(0, value);
+                _damageData = new DamageData(_damage, DamageType.Chaingun);
+            }
+        }
+
         private GpuParticles3D _hitParticles;
         private Node3D _muzzle;
         private DamageData _damageData;
+        private PlayerChaingunController _controller;
 
         public override void _Ready()
         {
+            _controller = GetParentOrNull<PlayerChaingunController>();
+            if (_controller == null)
+            {
+                GD.PushError(
+                    $"{Name}: Missing 'ChaingunController' parent node. Chaingun values not initialized "
+                        + $"correctly."
+                );
+            }
+            else
+            {
+                Cooldown = _controller.Cooldown;
+                Damage = _controller.Damage;
+                Accuracy = _controller.Accuracy;
+            }
+
             // TODO: Placeholder implementation - refactor.
-            _damageData = new DamageData(6, DamageType.Chaingun);
+            // _damageData = new DamageData(_damage, DamageType.Chaingun);
 
             _muzzle = GetNode<Node3D>("Muzzle");
             _hitParticles = GetNode<GpuParticles3D>("HitParticles");
@@ -56,7 +90,7 @@ namespace EHE.BoltBusters
             _cooldownTimer.WaitTime = _cooldown;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
             _cooldownTimer.OneShot = true;
-            SetTarget();
+            //SetTarget();
 
             _bulletMesh = (CylinderMesh)_bulletTrail.GetMesh();
             if (_bulletMesh == null)
@@ -65,6 +99,7 @@ namespace EHE.BoltBusters
             }
         }
 
+        /*
         private void SetTarget()
         {
             Vector3 targetPos = _muzzle.GlobalPosition;
@@ -77,6 +112,7 @@ namespace EHE.BoltBusters
             // to the player's default facing direction.
             _muzzle.Rotation = new Vector3(_muzzle.Rotation.X, 0, 0);
         }
+        */
 
         private void OnCooldownTimerTimeout()
         {
@@ -136,6 +172,7 @@ namespace EHE.BoltBusters
 
             var query = PhysicsRayQueryParameters3D.Create(start, end);
             query.CollideWithAreas = true;
+            query.CollisionMask = COLLISION_MASK_LAYER;
             var result = spaceState.IntersectRay(query);
             if (result.ContainsKey("position"))
             {

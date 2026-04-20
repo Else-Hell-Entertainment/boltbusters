@@ -38,6 +38,11 @@ namespace EHE.BoltBusters
         /// </summary>
         public virtual WeaponType WeaponType => WeaponType.None;
 
+        /// <inheritdoc/>
+        [ExportCategory("IUpgradeable")]
+        [Export]
+        public virtual PriceInfo PriceInfo { get; private set; }
+
         public override void _Ready()
         {
             Node3D weaponSlots = GetNode<Node3D>("WeaponSlots");
@@ -155,6 +160,19 @@ namespace EHE.BoltBusters
             GD.Print($"Downgrading {Name} ({GetType()})");
 #endif
             return RemoveWeapon();
+        }
+
+        /// <summary>
+        /// Resets all weapons to their default state by calling BaseWeapon.Reset().
+        /// If the controller has any custom behaviours that also need to be reset, override the method and add the
+        /// mechanics. Note that base implementation for Reset() is empty and needs to be also implemented.
+        /// </summary>
+        public virtual void ResetWeapons()
+        {
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                weapon.Reset();
+            }
         }
 
         /// <summary>

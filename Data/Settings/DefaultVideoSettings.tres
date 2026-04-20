@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="VideoSettingsData" load_steps=2 format=3 uid="uid://clt1yvgxr38nw"]
+
+[ext_resource type="Script" uid="uid://bqilhjaogwlw2" path="res://Code/Data/Settings/VideoSettingsData.cs" id="1_fbg0n"]
+
+[resource]
+script = ExtResource("1_fbg0n")
+metadata/_custom_type_script = "uid://bqilhjaogwlw2"

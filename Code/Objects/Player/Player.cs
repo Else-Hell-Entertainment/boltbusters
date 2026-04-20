@@ -1,4 +1,9 @@
-using System;
+// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Miska Rihu <miska.rihu@tuni.fi>
+//            Pekka Heljakka <pekka.heljakka@tuni.fi>
+//            TimeForNano <tuominen.mika-95@hotmail.com>
+
 using EHE.Common.Godot.Extensions;
 using Godot;
 
@@ -6,6 +11,19 @@ namespace EHE.BoltBusters
 {
     public partial class Player : Character
     {
+        /// <summary>
+        ///  Emitted when the <see cref="HandleDeath"/> method of the
+        ///  <see cref="Player"/> is called.
+        /// </summary>
+        ///
+        /// <param name="player">
+        ///  Reference to the player object that died.
+        /// </param>
+        [Signal]
+        public delegate void PlayerDiedEventHandler(Player player);
+
+        [Export]
+        private EntityController _playerController;
         public PlayerChaingunController ChaingunController { get; private set; }
 
         public PlayerRailgunController RailgunController { get; private set; }
@@ -40,7 +58,7 @@ namespace EHE.BoltBusters
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeChaingun"))
             {
-                _upgradeHandler.UpgradeWeapon(WeaponType.Chaingun);
+                _upgradeHandler.UpgradeWeapon(WeaponType.Chaingun, out _, true);
             }
 
             if (inputEvent.IsActionPressed("DebugDowngradeRailgun"))
@@ -49,7 +67,7 @@ namespace EHE.BoltBusters
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeRailgun"))
             {
-                _upgradeHandler.UpgradeWeapon(WeaponType.Railgun);
+                _upgradeHandler.UpgradeWeapon(WeaponType.Railgun, out _, true);
             }
 
             if (inputEvent.IsActionPressed("DebugDowngradeMissile"))
@@ -58,7 +76,7 @@ namespace EHE.BoltBusters
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeMissile"))
             {
-                _upgradeHandler.UpgradeWeapon(WeaponType.Rocket);
+                _upgradeHandler.UpgradeWeapon(WeaponType.Rocket, out _, true);
             }
 #endif
         }
@@ -75,6 +93,17 @@ namespace EHE.BoltBusters
 
             // Signal to let other elements (mainly UI) know the player is now ready.
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
+            GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
+        }
+
+        // TODO: Convert this to a public Reset method that can be called from LevelManager.
+        private void OnRoundStateChanged(bool inProgress)
+        {
+            if (!inProgress)
+            {
+                ResetWeapons();
+                HealthComponent.RestoreToInitial();
+            }
         }
 
         /// <summary>
@@ -96,9 +125,16 @@ namespace EHE.BoltBusters
 
         public override void OnSpawn() { }
 
+        public override void HandleDeath()
+        {
+            EmitSignal(SignalName.PlayerDied, this);
+            // OnDespawn();
+        }
+
+        // Add additional logic if it differs from default (Node.QueueFree) method.
         public override void OnDespawn()
         {
-            QueueFree();
+            base.OnDespawn();
         }
 
         /// <summary>
@@ -111,8 +147,34 @@ namespace EHE.BoltBusters
         /// </param>
         public void Initialize(PlayerData playerData)
         {
-            // TODO: Init HP.
+            // TODO: Move these to a Reset method?
+            HealthComponent.RestoreToInitial();
             _upgradeHandler.InitializeWeaponCounts(playerData.GetWeaponCounts());
+        }
+
+        /// <summary>
+        /// Toggle true/false to listen/ignore all inputs from InputHandler.
+        /// </summary>
+        /// <param name="isListening">Are player inputs being listened at all.</param>
+        public void ToggleInputListening(bool isListening)
+        {
+            _playerController.AcceptCommands = isListening;
+        }
+
+        /// <summary>
+        /// Is player currently taking in input commands at all.
+        /// </summary>
+        /// <returns>The assigned EntityController's AcceptCommand state.</returns>
+        public bool IsPlayerListeningInput()
+        {
+            return _playerController.AcceptCommands;
+        }
+
+        public void ResetWeapons()
+        {
+            RailgunController.ResetWeapons();
+            RocketLauncherController.ResetWeapons();
+            ChaingunController.ResetWeapons();
         }
 
         /// <summary>
@@ -129,7 +191,26 @@ namespace EHE.BoltBusters
         /// </returns>
         private bool OnWeaponUpgradeRequested(int weaponType)
         {
-            return _upgradeHandler.UpgradeWeapon((WeaponType)weaponType);
+            var isSuccess = _upgradeHandler.UpgradeWeapon((WeaponType)weaponType, out var upgradeResult);
+
+            if (isSuccess)
+            {
+                GameManager.Instance.EmitSignal(
+                    GameManager.SignalName.WeaponUpgradeSucceeded,
+                    weaponType,
+                    (int)upgradeResult
+                );
+            }
+            else
+            {
+                GameManager.Instance.EmitSignal(
+                    GameManager.SignalName.WeaponUpgradeFailed,
+                    weaponType,
+                    (int)upgradeResult
+                );
+            }
+
+            return isSuccess;
         }
 
         /// <summary>

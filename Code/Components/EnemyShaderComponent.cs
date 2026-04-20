@@ -8,55 +8,54 @@ using Godot;
 namespace EHE.BoltBusters
 {
     /// <summary>
-    /// ShaderComponent specialization for enemies.
+    /// Plays the enemy damage flash effect.
+    /// When awaited, completes when the flash finishes or is overridden,
+    /// depending on the selected await policy.
     /// </summary>
     [GlobalClass]
-    public partial class EnemyShaderComponent : ShaderComponent
+    public partial class EnemyShaderComponent : ShaderComponent, IFlashEffect
     {
         [Export]
-        private EffectShaderPreset _effectsPreset;
+        private EffectShaderPreset _enemyEffectShaderPreset;
 
-        /// <summary>
-        /// Effect preset used by this enemy instance.
-        /// Configure colors, strengths and timings per enemy type.
-        /// </summary>
-        private EffectShaderPreset EffectsPreset
+        #region IFlashEffect Implementation
+
+        void IFlashEffect.Flash()
         {
-            get { return _effectsPreset; }
+            PlayEnemyDamageFlash();
         }
 
-        #region Damage Flash
-
-        /// <summary>
-        /// Plays the enemy's damage flash effect. Returns a Task that completes
-        /// when this flash finishes its timeline or is overridden by another effect.
-        /// </summary>
-        public Task PlayEnemyDamageFlashAsync()
+        Task IFlashEffect.FlashAsync(EffectAwaitPolicy policy)
         {
-            if (_effectsPreset == null)
-            {
-                GD.PushWarning($"{Name}: EnemyShaderComponent has no EffectShaderPreset assigned.");
-                return Task.CompletedTask;
-            }
-
-            return PlayFlashAsync(_effectsPreset);
+            return PlayEnemyDamageFlashAsync(policy);
         }
 
-        /// <summary>
-        /// Starts the enemy's damage flash effect without awaiting its completion.
-        /// Use this in gameplay code when sequencing is not required.
-        /// </summary>
+        #endregion IFlashEffect Implementation
+
+        #region Flash
+
         public void PlayEnemyDamageFlash()
         {
-            if (_effectsPreset == null)
+            if (_enemyEffectShaderPreset == null)
             {
                 GD.PushWarning($"{Name}: EnemyShaderComponent has no EffectShaderPreset assigned.");
                 return;
             }
 
-            _ = PlayFlashAsync(_effectsPreset);
+            _ = PlayFlashAsync(_enemyEffectShaderPreset, EffectAwaitPolicy.Interruptible);
         }
 
-        #endregion Damage Flash
+        public Task PlayEnemyDamageFlashAsync(EffectAwaitPolicy policy = EffectAwaitPolicy.Interruptible)
+        {
+            if (_enemyEffectShaderPreset == null)
+            {
+                GD.PushWarning($"{Name}: EnemyShaderComponent has no EffectShaderPreset assigned.");
+                return Task.CompletedTask;
+            }
+
+            return PlayFlashAsync(_enemyEffectShaderPreset, policy);
+        }
+
+        #endregion Flash
     }
 }

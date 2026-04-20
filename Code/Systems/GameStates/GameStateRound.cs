@@ -16,6 +16,7 @@ namespace EHE.BoltBusters.States
             AddTargetState(StateType.Paused);
             AddTargetState(StateType.Shop);
             AddTargetState(StateType.GameOver);
+            AddTargetState(StateType.Victory);
         }
 
         /// <summary>

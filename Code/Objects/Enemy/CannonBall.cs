@@ -8,10 +8,14 @@ namespace EHE.BoltBusters
 {
     public partial class CannonBall : Projectile
     {
-        [Export]
-        private float _speed = 20.0f;
+        private const int COLLISION_LAYER_MASK = 1; // Player
 
+        private float _speed = 20.0f;
         private float _lifeTime = 3.0f;
+
+        private bool _isActive = true;
+
+        private DamageData _damageData;
         private Timer _despawnTimer;
         private Area3D _hitArea;
 
@@ -23,25 +27,52 @@ namespace EHE.BoltBusters
             _despawnTimer.WaitTime = _lifeTime;
             _despawnTimer.OneShot = true;
             _despawnTimer.Timeout += OnDespawnTimerTimeout;
-            _despawnTimer.Start();
+
+            //_despawnTimer.Start();
         }
 
         public override void _PhysicsProcess(double delta)
         {
-            Vector3 dir = -Transform.Basis.Z;
-            Position += dir * _speed * (float)delta;
+            if (_isActive)
+            {
+                Vector3 dir = -Transform.Basis.Z;
+                Position += dir * _speed * (float)delta;
+            }
+        }
+
+        public void Initialize(int damage, float speed)
+        {
+            _speed = speed;
+            _damageData = new DamageData(damage, DamageType.Melee);
+        }
+
+        public void Activate()
+        {
+            Show();
+            _hitArea.SetCollisionMaskValue(COLLISION_LAYER_MASK, true);
+            _isActive = true;
+        }
+
+        public void Reset()
+        {
+            Hide();
+            _hitArea.SetCollisionMaskValue(COLLISION_LAYER_MASK, false);
+            _isActive = false;
         }
 
         private void OnDespawnTimerTimeout()
         {
-            QueueFree();
+            Reset();
+            //QueueFree();
         }
 
         private void OnBodyEntered(Node3D body)
         {
-            if (body is Player)
+            if (body is Player player)
             {
-                QueueFree();
+                player.TakeDamage(_damageData);
+                Reset();
+                //QueueFree();
             }
         }
     }
