@@ -25,6 +25,8 @@ namespace EHE.BoltBusters.Ui
     {
         private CollectibleUi _collectibleUi;
 
+        private HealthUi _healthUi;
+
         //private WeaponHud _weaponUi;
 
         /// <summary>
@@ -65,11 +67,17 @@ namespace EHE.BoltBusters.Ui
         public override void _Ready()
         {
             _collectibleUi = this.GetFirstChildOfType<CollectibleUi>(recurse: true);
+            _healthUi = this.GetFirstChildOfType<HealthUi>(recurse: true);
             //_weaponUi = this.GetFirstChildOfType<WeaponHud>();
 
             if (_collectibleUi == null)
             {
                 GD.PushError("Collectible UI node not found!");
+            }
+
+            if (_healthUi == null)
+            {
+                GD.PushError("Health UI node not found!");
             }
 
             // if (_weaponUi == null)
@@ -101,10 +109,16 @@ namespace EHE.BoltBusters.Ui
             //_weaponUi.RefreshUi();
         }
 
+        private void UpdateHealthUi()
+        {
+            _healthUi.UpdateHealthUi();
+        }
+
         private void UpdateAllUi(PlayerData playerData)
         {
             UpdateCollectibleUi(playerData.GetCollectibleCounts());
             UpdateWeaponUi();
+            UpdateHealthUi();
         }
     }
 }
