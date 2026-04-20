@@ -114,6 +114,9 @@ namespace EHE.BoltBusters
         [Export]
         private AudioStreamPlayer3D _shootingAudio;
 
+        [Export]
+        private AudioStreamPlayer3D _overheatAudio;
+
         private float _attackTimer;
         private float _attackInterval = 0.5f;
         private float _overheatLimit = 100;
@@ -319,6 +322,7 @@ namespace EHE.BoltBusters
         private void TriggerOverheat()
         {
             CurrentPersistentState = ChaingunState.Overheat;
+            _overheatAudio.Play();
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.Overheat);
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.NotReadyToFire);
         }

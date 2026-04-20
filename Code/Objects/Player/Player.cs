@@ -127,6 +127,7 @@ namespace EHE.BoltBusters
 
         public override void HandleDeath()
         {
+            MusicManager.Instance.PlayPlayerDeathSound();
             EmitSignal(SignalName.PlayerDied, this);
             // OnDespawn();
         }

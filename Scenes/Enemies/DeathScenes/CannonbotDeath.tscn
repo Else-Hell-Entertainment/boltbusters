@@ -155,6 +155,7 @@ wait_time = 2.0
 
 [node name="DeathSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_7bd87")
+bus = &"Sfx"
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
 
