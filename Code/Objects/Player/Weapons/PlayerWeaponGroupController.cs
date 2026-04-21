@@ -14,7 +14,7 @@ namespace EHE.BoltBusters
     /// work, add any number of Node3D nodes as children of the WeaponSlots node in the editor. Weapons will be spawned
     /// to these points.
     /// </summary>
-    public partial class PlayerWeaponGroupController : Node3D, IAttacker, IUpgradeable
+    public abstract partial class PlayerWeaponGroupController : Node3D, IAttacker, IUpgradeable
     {
         private List<Node3D> _weaponSlots = new List<Node3D>();
 
