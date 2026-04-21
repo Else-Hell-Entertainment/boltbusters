@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b6va7ryol8ese"]
+[gd_scene load_steps=12 format=3 uid="uid://b6va7ryol8ese"]
 
 [ext_resource type="Script" uid="uid://cugfwi8o7ayi2" path="res://Code/Systems/MusicManager.cs" id="1_iysw5"]
 [ext_resource type="AudioStream" uid="uid://cvmu25gnvhql8" path="res://Assets/Music/MainTheme.ogg" id="2_6b4sy"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://bvpl3tmt4egou" path="res://Assets/SFX/CollectibleSound1.ogg" id="8_kokqj"]
 [ext_resource type="AudioStream" uid="uid://d1whd05y5cd3n" path="res://Assets/SFX/CollectibleSound2.ogg" id="9_jollc"]
 [ext_resource type="AudioStream" uid="uid://tnc6dtg6bktg" path="res://Assets/SFX/CollectibleSound3.ogg" id="10_s6noy"]
+[ext_resource type="AudioStream" uid="uid://4ne2tm6ei7m1" path="res://Assets/SFX/PlayerDeath.ogg" id="11_jollc"]
 
 [node name="MusicManager" type="Node"]
 script = ExtResource("1_iysw5")
@@ -56,4 +57,8 @@ bus = &"Sfx"
 stream = ExtResource("10_s6noy")
 volume_db = -6.0
 max_polyphony = 5
+bus = &"Sfx"
+
+[node name="PlayerDeathSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_jollc")
 bus = &"Sfx"

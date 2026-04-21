@@ -32,6 +32,7 @@ public partial class MusicManager : Node
     public AudioStreamPlayer NutCollectSFX;
     public AudioStreamPlayer BoltCollectSFX;
     public AudioStreamPlayer WrenchCollectSFX;
+    public AudioStreamPlayer PlayerDeathSFX;
 
     private float _fadeDuration;
     private Tween _currentAudioTween;
@@ -48,6 +49,7 @@ public partial class MusicManager : Node
         NutCollectSFX = new AudioStreamPlayer();
         BoltCollectSFX = new AudioStreamPlayer();
         WrenchCollectSFX = new AudioStreamPlayer();
+        PlayerDeathSFX = new AudioStreamPlayer();
         AddChild(MainThemePlayer);
         AddChild(EndThemePlayer);
         AddChild(StageThemePlayer1);
@@ -57,6 +59,7 @@ public partial class MusicManager : Node
         AddChild(NutCollectSFX);
         AddChild(BoltCollectSFX);
         AddChild(WrenchCollectSFX);
+        AddChild(PlayerDeathSFX);
 
         _music[Song.MainTheme] = GD.Load<AudioStream>("res://Assets/Music/MainTheme.ogg");
         _music[Song.EndTheme] = GD.Load<AudioStream>("res://Assets/Music/EndTheme.ogg");
@@ -68,6 +71,7 @@ public partial class MusicManager : Node
         NutCollectSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/CollectibleSound1.ogg");
         BoltCollectSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/CollectibleSound2.ogg");
         WrenchCollectSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/CollectibleSound3.ogg");
+        PlayerDeathSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/PlayerDeath.ogg");
 
         NutCollectSFX.VolumeDb = -14f;
         BoltCollectSFX.VolumeDb = -14f;
@@ -160,6 +164,11 @@ public partial class MusicManager : Node
     public void PlayWrenchCollectibleSound()
     {
         WrenchCollectSFX.Play();
+    }
+
+    public void PlayPlayerDeathSound()
+    {
+        PlayerDeathSFX.Play();
     }
 
     /* public async void LinearCrossFade(AudioStreamPlayer from, AudioStreamPlayer to)
