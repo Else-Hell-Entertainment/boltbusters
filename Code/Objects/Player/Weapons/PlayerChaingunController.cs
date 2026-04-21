@@ -3,6 +3,7 @@
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 //            Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -354,13 +355,39 @@ namespace EHE.BoltBusters
         /// <inheritdoc />
         public override bool Upgrade(UpgradeType type)
         {
-            throw new System.NotImplementedException();
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return AddWeapon();
+                case UpgradeType.Secondary:
+                    // TODO: Check internally if the upgrade is possible!
+                    UpgradeCooling();
+                    return true;
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
         }
 
         /// <inheritdoc />
         public override bool Downgrade(UpgradeType type)
         {
-            throw new System.NotImplementedException();
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return RemoveWeapon();
+                case UpgradeType.Secondary:
+                    // TODO: Check internally if the downgrade is possible!
+                    DowngradeCooling();
+                    return true;
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
         }
 
         /// <summary>
