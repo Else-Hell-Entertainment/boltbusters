@@ -260,6 +260,18 @@ namespace EHE.BoltBusters
             }
         }
 
+        /// <inheritdoc />
+        public override bool Upgrade(UpgradeType type)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public override bool Downgrade(UpgradeType type)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// Custom method to handle what happens when player has released the attack input and clicks it again.
         /// This is complicated but purely for game feel purposes.

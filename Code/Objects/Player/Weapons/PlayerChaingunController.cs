@@ -351,6 +351,18 @@ namespace EHE.BoltBusters
             //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
         }
 
+        /// <inheritdoc />
+        public override bool Upgrade(UpgradeType type)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public override bool Downgrade(UpgradeType type)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// Sets the attack interval based on number of guns and the individual gun's cooldown to create a continuous
         /// firing effect while making sure the individual ROF is still accounted for. Example: if gun's cooldown is

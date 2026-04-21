@@ -98,5 +98,17 @@ namespace EHE.BoltBusters
             }
             EmitSignal(SignalName.RocketLauncherConfigurationChanged);
         }
+
+        /// <inheritdoc />
+        public override bool Upgrade(UpgradeType type)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public override bool Downgrade(UpgradeType type)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
