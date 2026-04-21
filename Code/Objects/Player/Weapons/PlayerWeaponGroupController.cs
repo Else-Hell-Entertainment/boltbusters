@@ -94,7 +94,16 @@ namespace EHE.BoltBusters
             Node3D node = _weaponSlots[newIndex];
             weapon.Position = node.GetPosition();
             AddChild(weapon);
-            GameManager.Instance.CurrentPlayerData.IncreaseWeaponCount(WeaponType);
+
+            var playerData = GameManager.Instance.CurrentPlayerData;
+            if (playerData == null)
+            {
+                // Player data can be null when in main menu.
+                // In this case, there is nothing to update so we just return.
+                return true;
+            }
+
+            playerData.IncreaseWeaponCount(WeaponType);
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
             return true;
         }
@@ -110,7 +119,16 @@ namespace EHE.BoltBusters
                 BaseWeapon weapon = Weapons[lastIndex];
                 Weapons.RemoveAt(lastIndex);
                 weapon.QueueFree();
-                GameManager.Instance.CurrentPlayerData.DecreaseWeaponCount(WeaponType);
+
+                var playerData = GameManager.Instance.CurrentPlayerData;
+                if (playerData == null)
+                {
+                    // Player data can be null when in main menu.
+                    // In this case, there is nothing to update so we just return.
+                    return true;
+                }
+
+                playerData.IncreaseWeaponCount(WeaponType);
                 GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
                 return true;
             }
