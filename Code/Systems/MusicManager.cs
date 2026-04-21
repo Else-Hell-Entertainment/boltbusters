@@ -33,6 +33,7 @@ public partial class MusicManager : Node
     public AudioStreamPlayer BoltCollectSFX;
     public AudioStreamPlayer WrenchCollectSFX;
     public AudioStreamPlayer PlayerDeathSFX;
+    public AudioStreamPlayer AlarmSFX;
 
     private float _fadeDuration;
     private Tween _currentAudioTween;
@@ -50,6 +51,7 @@ public partial class MusicManager : Node
         BoltCollectSFX = new AudioStreamPlayer();
         WrenchCollectSFX = new AudioStreamPlayer();
         PlayerDeathSFX = new AudioStreamPlayer();
+        AlarmSFX = new AudioStreamPlayer();
         AddChild(MainThemePlayer);
         AddChild(EndThemePlayer);
         AddChild(StageThemePlayer1);
@@ -60,6 +62,7 @@ public partial class MusicManager : Node
         AddChild(BoltCollectSFX);
         AddChild(WrenchCollectSFX);
         AddChild(PlayerDeathSFX);
+        AddChild(AlarmSFX);
 
         _music[Song.MainTheme] = GD.Load<AudioStream>("res://Assets/Music/MainTheme.ogg");
         _music[Song.EndTheme] = GD.Load<AudioStream>("res://Assets/Music/EndTheme.ogg");
@@ -72,10 +75,12 @@ public partial class MusicManager : Node
         BoltCollectSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/CollectibleSound2.ogg");
         WrenchCollectSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/CollectibleSound3.ogg");
         PlayerDeathSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/PlayerDeath.ogg");
+        AlarmSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/AlarmSound.ogg");
 
         NutCollectSFX.VolumeDb = -14f;
         BoltCollectSFX.VolumeDb = -14f;
         WrenchCollectSFX.VolumeDb = -14f;
+        AlarmSFX.VolumeDb = 9f;
     }
 
     public void PlayMusic(AudioStreamPlayer player, Song title)
@@ -169,6 +174,12 @@ public partial class MusicManager : Node
     public void PlayPlayerDeathSound()
     {
         PlayerDeathSFX.Play();
+    }
+
+    public void PlayAlarmSound(float pitch = 1.0f)
+    {
+        AlarmSFX.PitchScale = pitch;
+        AlarmSFX.Play();
     }
 
     /* public async void LinearCrossFade(AudioStreamPlayer from, AudioStreamPlayer to)
