@@ -54,7 +54,7 @@ namespace EHE.BoltBusters
 #if DEBUG
             if (inputEvent.IsActionPressed("DebugDowngradeChaingun"))
             {
-                _upgradeHandler.DowngradeWeapon(WeaponType.Chaingun);
+                _upgradeHandler.DowngradeWeapon(WeaponType.Chaingun, UpgradeType.Primary);
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeChaingun"))
             {
@@ -63,7 +63,7 @@ namespace EHE.BoltBusters
 
             if (inputEvent.IsActionPressed("DebugDowngradeRailgun"))
             {
-                _upgradeHandler.DowngradeWeapon(WeaponType.Railgun);
+                _upgradeHandler.DowngradeWeapon(WeaponType.Railgun, UpgradeType.Primary);
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeRailgun"))
             {
@@ -72,7 +72,7 @@ namespace EHE.BoltBusters
 
             if (inputEvent.IsActionPressed("DebugDowngradeMissile"))
             {
-                _upgradeHandler.DowngradeWeapon(WeaponType.Rocket);
+                _upgradeHandler.DowngradeWeapon(WeaponType.Rocket, UpgradeType.Primary);
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeMissile"))
             {
@@ -240,7 +240,7 @@ namespace EHE.BoltBusters
         /// </returns>
         private bool OnWeaponDowngradeRequested(int weaponType, int upgradeType)
         {
-            return _upgradeHandler.DowngradeWeapon((WeaponType)weaponType);
+            return _upgradeHandler.DowngradeWeapon((WeaponType)weaponType, (UpgradeType)upgradeType);
         }
     }
 }

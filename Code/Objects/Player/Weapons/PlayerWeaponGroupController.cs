@@ -110,6 +110,7 @@ namespace EHE.BoltBusters
                 BaseWeapon weapon = Weapons[lastIndex];
                 Weapons.RemoveAt(lastIndex);
                 weapon.QueueFree();
+                GameManager.Instance.CurrentPlayerData.DecreaseWeaponCount(WeaponType);
                 GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
                 return true;
             }

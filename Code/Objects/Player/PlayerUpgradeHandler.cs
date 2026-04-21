@@ -239,6 +239,7 @@ namespace EHE.BoltBusters
         ///  <c>true</c> if downgrade was performed successfully,
         ///  <c>false</c> otherwise.
         /// </returns>
+        [Obsolete("Use DowngradeWeapon(WeaponType, UpgradeType)!")]
         public bool DowngradeWeapon(WeaponType weaponType)
         {
             if (!_weaponControllers.TryGetValue(weaponType, out var weaponController))
@@ -255,6 +256,34 @@ namespace EHE.BoltBusters
             }
 
             return isDowngraded;
+        }
+
+        /// <summary>
+        ///  Downgrades the given weapon controller if possible. If the
+        ///  downgrade is performed successfully, records the new number of
+        ///  weapons to <see cref="PlayerData"/>.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  Type of the weapon controller to downgrade.
+        /// </param>
+        /// <param name="upgradeType">
+        ///  Type of the downgrade to be performed.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if downgrade was performed successfully,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        public bool DowngradeWeapon(WeaponType weaponType, UpgradeType upgradeType)
+        {
+            if (!_weaponControllers.TryGetValue(weaponType, out var weaponController))
+            {
+                this.LogError($"Failed to downgrade '{weaponType}': controller not found!");
+                return false;
+            }
+
+            return weaponController.Downgrade(upgradeType);
         }
 
         /// <summary>
