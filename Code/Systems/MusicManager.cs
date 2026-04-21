@@ -34,6 +34,7 @@ public partial class MusicManager : Node
     public AudioStreamPlayer WrenchCollectSFX;
     public AudioStreamPlayer PlayerDeathSFX;
     public AudioStreamPlayer AlarmSFX;
+    public AudioStreamPlayer OverheatAlarmSFX;
 
     private float _fadeDuration;
     private Tween _currentAudioTween;
@@ -52,6 +53,7 @@ public partial class MusicManager : Node
         WrenchCollectSFX = new AudioStreamPlayer();
         PlayerDeathSFX = new AudioStreamPlayer();
         AlarmSFX = new AudioStreamPlayer();
+        OverheatAlarmSFX = new AudioStreamPlayer();
         AddChild(MainThemePlayer);
         AddChild(EndThemePlayer);
         AddChild(StageThemePlayer1);
@@ -63,6 +65,7 @@ public partial class MusicManager : Node
         AddChild(WrenchCollectSFX);
         AddChild(PlayerDeathSFX);
         AddChild(AlarmSFX);
+        AddChild(OverheatAlarmSFX);
 
         _music[Song.MainTheme] = GD.Load<AudioStream>("res://Assets/Music/MainTheme.ogg");
         _music[Song.EndTheme] = GD.Load<AudioStream>("res://Assets/Music/EndTheme.ogg");
@@ -76,6 +79,7 @@ public partial class MusicManager : Node
         WrenchCollectSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/CollectibleSound3.ogg");
         PlayerDeathSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/PlayerDeath.ogg");
         AlarmSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/AlarmSound.ogg");
+        OverheatAlarmSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/AlarmSound.ogg");
 
         NutCollectSFX.VolumeDb = -14f;
         BoltCollectSFX.VolumeDb = -14f;
@@ -180,6 +184,11 @@ public partial class MusicManager : Node
         AlarmSFX.VolumeDb = volumeDb;
         AlarmSFX.PitchScale = pitch;
         AlarmSFX.Play();
+    }
+
+    public void PlayOverheatAlarmSound()
+    {
+        OverheatAlarmSFX.Play();
     }
 
     /* public async void LinearCrossFade(AudioStreamPlayer from, AudioStreamPlayer to)
