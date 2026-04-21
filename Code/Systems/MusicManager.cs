@@ -80,7 +80,6 @@ public partial class MusicManager : Node
         NutCollectSFX.VolumeDb = -14f;
         BoltCollectSFX.VolumeDb = -14f;
         WrenchCollectSFX.VolumeDb = -14f;
-        AlarmSFX.VolumeDb = 9f;
     }
 
     public void PlayMusic(AudioStreamPlayer player, Song title)
@@ -176,8 +175,9 @@ public partial class MusicManager : Node
         PlayerDeathSFX.Play();
     }
 
-    public void PlayAlarmSound(float pitch = 1.0f)
+    public void PlayAlarmSound(float pitch = 1.0f, float volumeDb = 0)
     {
+        AlarmSFX.VolumeDb = volumeDb;
         AlarmSFX.PitchScale = pitch;
         AlarmSFX.Play();
     }

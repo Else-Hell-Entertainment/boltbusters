@@ -32,7 +32,7 @@ public partial class RoundTimerUi : Control
                 if (!MusicManager.Instance.AlarmSFX.IsPlaying() && timeRemaining % 1f > 0.9f)
                 {
                     GD.Print("Playing alarm, time remaining: " + timeRemaining);
-                    MusicManager.Instance.PlayAlarmSound(alarmPitch);
+                    MusicManager.Instance.PlayAlarmSound(alarmPitch, 9f);
                 }
             }
 
