@@ -190,7 +190,7 @@ namespace EHE.BoltBusters
         ///  <c>true</c> if upgrade was performed successfully,
         ///  <c>false</c> otherwise.
         /// </returns>
-        private bool OnWeaponUpgradeRequested(int weaponType)
+        private bool OnWeaponUpgradeRequested(int weaponType, int upgradeType)
         {
             var isSuccess = _upgradeHandler.UpgradeWeapon((WeaponType)weaponType, out var upgradeResult);
 
@@ -221,12 +221,16 @@ namespace EHE.BoltBusters
         /// <param name="weaponType">
         ///  Integer representation of the weapon type to downgrade.
         /// </param>
+        /// <param name="upgradeType">
+        ///  Integer representation of the downgrade type to be performed.
+        ///  Must be castable to <see cref="UpgradeType"/>!
+        /// </param>
         ///
         /// <returns>
         ///  <c>true</c> if downgrade was performed successfully,
         ///  <c>false</c> otherwise.
         /// </returns>
-        private bool OnWeaponDowngradeRequested(int weaponType)
+        private bool OnWeaponDowngradeRequested(int weaponType, int upgradeType)
         {
             return _upgradeHandler.DowngradeWeapon((WeaponType)weaponType);
         }
