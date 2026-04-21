@@ -39,6 +39,11 @@ namespace EHE.BoltBusters
         ///  The upgrade whose price is to be modified.
         /// </param>
         /// <param name="priceInfo">The new price for the upgrade.</param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if the price was set successfully,
+        ///  <c>false</c> otherwise.
+        /// </returns>
         bool SetPrice(UpgradeType upgradeType, PriceInfo priceInfo);
 
         /// <summary>
