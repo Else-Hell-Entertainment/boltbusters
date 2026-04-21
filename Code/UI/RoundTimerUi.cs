@@ -14,6 +14,9 @@ public partial class RoundTimerUi : Control
     [Export]
     private float _alarmTimeThreshold = 6f;
 
+    [Export]
+    private float _alarmVolumeDb = 9f;
+
     public override void _Process(double delta)
     {
         if (LevelManager.Active.RoundInProgress)
@@ -31,8 +34,7 @@ public partial class RoundTimerUi : Control
                 float alarmPitch = 1.0f + _alarmPitchMultiplier * (_alarmTimeThreshold + 1f - (float)timeRemaining);
                 if (!MusicManager.Instance.AlarmSFX.IsPlaying() && timeRemaining % 1f > 0.9f)
                 {
-                    GD.Print("Playing alarm, time remaining: " + timeRemaining);
-                    MusicManager.Instance.PlayAlarmSound(alarmPitch, 9f);
+                    MusicManager.Instance.PlayAlarmSound(alarmPitch, _alarmVolumeDb);
                 }
             }
 
