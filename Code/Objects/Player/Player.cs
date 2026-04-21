@@ -58,7 +58,7 @@ namespace EHE.BoltBusters
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeChaingun"))
             {
-                _upgradeHandler.UpgradeWeapon(WeaponType.Chaingun, out _, true);
+                _upgradeHandler.UpgradeWeapon(WeaponType.Chaingun, UpgradeType.Primary, out _, true);
             }
 
             if (inputEvent.IsActionPressed("DebugDowngradeRailgun"))
@@ -67,7 +67,7 @@ namespace EHE.BoltBusters
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeRailgun"))
             {
-                _upgradeHandler.UpgradeWeapon(WeaponType.Railgun, out _, true);
+                _upgradeHandler.UpgradeWeapon(WeaponType.Railgun, UpgradeType.Primary, out _, true);
             }
 
             if (inputEvent.IsActionPressed("DebugDowngradeMissile"))
@@ -76,7 +76,7 @@ namespace EHE.BoltBusters
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeMissile"))
             {
-                _upgradeHandler.UpgradeWeapon(WeaponType.Rocket, out _, true);
+                _upgradeHandler.UpgradeWeapon(WeaponType.Rocket, UpgradeType.Primary, out _, true);
             }
 #endif
         }
@@ -185,6 +185,10 @@ namespace EHE.BoltBusters
         /// <param name="weaponType">
         ///  Integer representation of the weapon type to upgrade.
         /// </param>
+        /// <param name="upgradeType">
+        ///  Integer representation of the upgrade type to perform.
+        ///  Must be castable to <see cref="UpgradeType"/>!
+        /// </param>
         ///
         /// <returns>
         ///  <c>true</c> if upgrade was performed successfully,
@@ -192,7 +196,11 @@ namespace EHE.BoltBusters
         /// </returns>
         private bool OnWeaponUpgradeRequested(int weaponType, int upgradeType)
         {
-            var isSuccess = _upgradeHandler.UpgradeWeapon((WeaponType)weaponType, out var upgradeResult);
+            var isSuccess = _upgradeHandler.UpgradeWeapon(
+                (WeaponType)weaponType,
+                (UpgradeType)upgradeType,
+                out var upgradeResult
+            );
 
             if (isSuccess)
             {

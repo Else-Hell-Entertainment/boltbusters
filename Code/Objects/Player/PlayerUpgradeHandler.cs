@@ -2,6 +2,8 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using System;
+using EHE.Common.Godot.Logging;
 using Godot;
 using GDCollections = Godot.Collections;
 using GenSysCollections = System.Collections.Generic;
@@ -92,6 +94,7 @@ namespace EHE.BoltBusters
         ///  <c>true</c> if upgrade was performed successfully,
         ///  <c>false</c> otherwise.
         /// </returns>
+        [Obsolete("Use UpgradeWeapon(WeaponType, UpgradeType).")]
         public bool UpgradeWeapon(
             WeaponType weaponType,
             out WeaponUpgradeResult weaponUpgradeResult,
@@ -130,6 +133,88 @@ namespace EHE.BoltBusters
             }
 
             playerData.IncreaseWeaponCount(weaponType);
+
+            if (!ignorePrice)
+            {
+                playerData.DecreaseCollectibleCount(priceInfo.RequiredItem, priceInfo.RequiredAmount);
+            }
+
+            weaponUpgradeResult = WeaponUpgradeResult.Success;
+            return true;
+        }
+
+        /// <summary>
+        ///  Upgrades the given weapon controller if possible. If the upgrade
+        ///  is performed successfully, records the new number of weapons to
+        ///  <see cref="PlayerData"/>.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  Type of the weapon controller to upgrade.
+        /// </param>
+        /// <param name="upgradeType">
+        ///  Type of the upgrade to perform.
+        /// </param>
+        /// <param name="weaponUpgradeResult">
+        ///  The result of the upgrade. Use this if different actions are
+        ///  needed for different fail conditions.
+        /// </param>
+        /// <param name="ignorePrice">
+        ///  Debug feature. Set this to true to allow purchases even if the
+        ///  player doesn't have enough money.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if upgrade was performed successfully,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        public bool UpgradeWeapon(
+            WeaponType weaponType,
+            UpgradeType upgradeType,
+            out WeaponUpgradeResult weaponUpgradeResult,
+            bool ignorePrice = false
+        )
+        {
+            // Get the controller that matches the given type.
+            if (!_weaponControllers.TryGetValue(weaponType, out var weaponController))
+            {
+                this.LogError($"Failed to upgrade '{weaponType}': controller not found!");
+                weaponUpgradeResult = WeaponUpgradeResult.None;
+                return false;
+            }
+
+            // Get price info for the upgrade.
+            var priceInfo = weaponController.GetPrice(upgradeType);
+
+            if (priceInfo == null)
+            {
+                this.LogError($"Failed to upgrade '{weaponType}': Price undefined!");
+                weaponUpgradeResult = WeaponUpgradeResult.None;
+                return false;
+            }
+
+            // Check if the player has enough money to perform the upgrade.
+            var playerData = GameManager.Instance.CurrentPlayerData;
+
+            if (!ignorePrice)
+            {
+                // Check if the player has enough money to buy the upgrade.
+                var currentAmount = playerData.GetCollectibleCount(priceInfo.RequiredItem);
+                var hasEnoughMoney = currentAmount >= priceInfo.RequiredAmount;
+
+                if (!hasEnoughMoney)
+                {
+                    weaponUpgradeResult = WeaponUpgradeResult.FailedNoMoney;
+                    return false;
+                }
+            }
+
+            if (!weaponController.Upgrade(upgradeType))
+            {
+                // The given upgrade is already maxed out.
+                weaponUpgradeResult = WeaponUpgradeResult.FailedNoSlots;
+                return false;
+            }
 
             if (!ignorePrice)
             {

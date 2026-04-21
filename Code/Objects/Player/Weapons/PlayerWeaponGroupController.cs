@@ -94,6 +94,7 @@ namespace EHE.BoltBusters
             Node3D node = _weaponSlots[newIndex];
             weapon.Position = node.GetPosition();
             AddChild(weapon);
+            GameManager.Instance.CurrentPlayerData.IncreaseWeaponCount(WeaponType);
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
             return true;
         }
