@@ -3,7 +3,6 @@
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 //            Miska Rihu <miska.rihu@tuni.fi>
 
-using System;
 using System.Collections.Generic;
 using EHE.Common.Godot.Extensions;
 using EHE.Common.Godot.Logging;
@@ -46,9 +45,6 @@ namespace EHE.BoltBusters
         /// The type of weapons added to this controller.
         /// </summary>
         public virtual WeaponType WeaponType => WeaponType.None;
-
-        [Obsolete("Use GetPrice(UpgradeType) and SetPrice(UpgradeType).")]
-        public virtual PriceInfo PriceInfo { get; private set; }
 
         public override void _Ready()
         {
@@ -228,26 +224,8 @@ namespace EHE.BoltBusters
             return false;
         }
 
-        [Obsolete("Use Upgrade(UpgradeType).")]
-        public virtual bool Upgrade()
-        {
-#if DEBUG
-            GD.Print($"Upgrading {Name} ({GetType()})");
-#endif
-            return AddWeapon();
-        }
-
         /// <inheritdoc/>
         public abstract bool Upgrade(UpgradeType type);
-
-        [Obsolete("Use Downgrade(UpgradeType).")]
-        public virtual bool Downgrade()
-        {
-#if DEBUG
-            GD.Print($"Downgrading {Name} ({GetType()})");
-#endif
-            return RemoveWeapon();
-        }
 
         /// <inheritdoc/>
         public abstract bool Downgrade(UpgradeType type);

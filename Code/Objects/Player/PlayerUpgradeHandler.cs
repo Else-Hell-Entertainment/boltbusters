@@ -2,7 +2,6 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
-using System;
 using EHE.Common.Godot.Logging;
 using Godot;
 using GDCollections = Godot.Collections;
@@ -70,77 +69,6 @@ namespace EHE.BoltBusters
             }
 
             return success;
-        }
-
-        /// <summary>
-        ///  Upgrades the given weapon controller if possible. If the upgrade
-        ///  is performed successfully, records the new number of weapons to
-        ///  <see cref="PlayerData"/>.
-        /// </summary>
-        ///
-        /// <param name="weaponType">
-        ///  Type of the weapon controller to upgrade.
-        /// </param>
-        /// <param name="weaponUpgradeResult">
-        ///  The result of the upgrade. Use this if different actions are
-        ///  needed for different fail conditions.
-        /// </param>
-        /// <param name="ignorePrice">
-        ///  Debug feature. Set this to true to allow purchases even if the
-        ///  player doesn't have enough money.
-        /// </param>
-        ///
-        /// <returns>
-        ///  <c>true</c> if upgrade was performed successfully,
-        ///  <c>false</c> otherwise.
-        /// </returns>
-        [Obsolete("Use UpgradeWeapon(WeaponType, UpgradeType).")]
-        public bool UpgradeWeapon(
-            WeaponType weaponType,
-            out WeaponUpgradeResult weaponUpgradeResult,
-            bool ignorePrice = false
-        )
-        {
-            // Get the controller that matches the given type.
-            if (!_weaponControllers.TryGetValue(weaponType, out var weaponController))
-            {
-                GD.PushWarning($"Cannot upgrade weapon controller for type '{weaponType}': not found.");
-                weaponUpgradeResult = WeaponUpgradeResult.None;
-                return false;
-            }
-
-            var playerData = GameManager.Instance.CurrentPlayerData;
-            var priceInfo = weaponController.PriceInfo;
-
-            if (!ignorePrice)
-            {
-                // Check if the player has enough money to buy the upgrade.
-                var currentAmount = playerData.GetCollectibleCount(priceInfo.RequiredItem);
-                var hasEnoughMoney = currentAmount >= priceInfo.RequiredAmount;
-
-                if (!hasEnoughMoney)
-                {
-                    weaponUpgradeResult = WeaponUpgradeResult.FailedNoMoney;
-                    return false;
-                }
-            }
-
-            if (!weaponController.Upgrade())
-            {
-                // Weapon is already maxed out (not enough slots available).
-                weaponUpgradeResult = WeaponUpgradeResult.FailedNoSlots;
-                return false;
-            }
-
-            playerData.IncreaseWeaponCount(weaponType);
-
-            if (!ignorePrice)
-            {
-                playerData.DecreaseCollectibleCount(priceInfo.RequiredItem, priceInfo.RequiredAmount);
-            }
-
-            weaponUpgradeResult = WeaponUpgradeResult.Success;
-            return true;
         }
 
         /// <summary>
@@ -223,39 +151,6 @@ namespace EHE.BoltBusters
 
             weaponUpgradeResult = WeaponUpgradeResult.Success;
             return true;
-        }
-
-        /// <summary>
-        ///  Downgrades the given weapon controller if possible. If the
-        ///  downgrade is performed successfully, records the new number of
-        ///  weapons to <see cref="PlayerData"/>.
-        /// </summary>
-        ///
-        /// <param name="weaponType">
-        ///  Type of the weapon controller to downgrade.
-        /// </param>
-        ///
-        /// <returns>
-        ///  <c>true</c> if downgrade was performed successfully,
-        ///  <c>false</c> otherwise.
-        /// </returns>
-        [Obsolete("Use DowngradeWeapon(WeaponType, UpgradeType)!")]
-        public bool DowngradeWeapon(WeaponType weaponType)
-        {
-            if (!_weaponControllers.TryGetValue(weaponType, out var weaponController))
-            {
-                GD.PushWarning($"Cannot downgrade weapon controller for type '{weaponType}': not found.");
-                return false;
-            }
-
-            var isDowngraded = weaponController.Downgrade();
-
-            if (isDowngraded)
-            {
-                GameManager.Instance.CurrentPlayerData.DecreaseWeaponCount(weaponType);
-            }
-
-            return isDowngraded;
         }
 
         /// <summary>

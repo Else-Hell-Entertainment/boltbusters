@@ -2,8 +2,6 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
-using System;
-
 namespace EHE.BoltBusters
 {
     /// <summary>
@@ -11,12 +9,6 @@ namespace EHE.BoltBusters
     /// </summary>
     public interface IUpgradeable
     {
-        /// <summary>
-        ///  Price of the upgrade.
-        /// </summary>
-        [Obsolete("Use GetPrice and SetPrice with an internal data structure.")]
-        PriceInfo PriceInfo { get; }
-
         /// <summary>
         ///  Returns the price for the given upgrade.
         /// </summary>
@@ -47,17 +39,6 @@ namespace EHE.BoltBusters
         bool SetPrice(UpgradeType upgradeType, PriceInfo priceInfo);
 
         /// <summary>
-        ///  DEPRECATED! Use this method to perform upgrades.
-        /// </summary>
-        ///
-        /// <returns>
-        ///  <c>true</c> if upgrade was successful,
-        ///  <c>false</c> otherwise.
-        /// </returns>
-        [Obsolete("Use Upgrade(UpgradeType).")]
-        bool Upgrade();
-
-        /// <summary>
         ///  Performs an upgrade of the given type.
         /// </summary>
         ///
@@ -70,17 +51,6 @@ namespace EHE.BoltBusters
         ///  <c>false</c> otherwise.
         /// </returns>
         bool Upgrade(UpgradeType type);
-
-        /// <summary>
-        ///  DEPRECATED! Use this method to perform downgrades.
-        /// </summary>
-        ///
-        /// <returns>
-        ///  <c>true</c> if downgrade was successful,
-        ///  <c>false</c> otherwise.
-        /// </returns>
-        [Obsolete("Use Downgrade(UpgradeType).")]
-        bool Downgrade();
 
         /// <summary>
         ///  Performs a downgrade of the given type.
