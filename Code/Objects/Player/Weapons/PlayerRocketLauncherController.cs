@@ -100,7 +100,12 @@ namespace EHE.BoltBusters
             EmitSignal(SignalName.RocketLauncherConfigurationChanged);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> upgrades the salvo
+        ///  size.
+        /// </remarks>
         public override bool Upgrade(UpgradeType type)
         {
             switch (type)
@@ -120,6 +125,11 @@ namespace EHE.BoltBusters
         }
 
         /// <inheritdoc />
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> downgrades the
+        ///  salvo size.
+        /// </remarks>
         public override bool Downgrade(UpgradeType type)
         {
             switch (type)

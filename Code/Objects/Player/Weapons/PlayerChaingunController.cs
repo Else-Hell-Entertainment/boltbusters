@@ -353,6 +353,11 @@ namespace EHE.BoltBusters
         }
 
         /// <inheritdoc />
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> upgrades the
+        ///  cooling.
+        /// </remarks>
         public override bool Upgrade(UpgradeType type)
         {
             switch (type)
@@ -372,6 +377,11 @@ namespace EHE.BoltBusters
         }
 
         /// <inheritdoc />
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> downgrades the
+        ///  cooling.
+        /// </remarks>
         public override bool Downgrade(UpgradeType type)
         {
             switch (type)
