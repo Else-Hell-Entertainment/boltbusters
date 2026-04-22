@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using EHE.BoltBusters.Config;
 using Godot;
 
 public partial class MusicManager : Node
@@ -50,16 +51,16 @@ public partial class MusicManager : Node
         BoltCollectSFX = new AudioStreamPlayer();
         WrenchCollectSFX = new AudioStreamPlayer();
         PlayerDeathSFX = new AudioStreamPlayer();
-        MainThemePlayer.Bus = "Music";
-        EndThemePlayer.Bus = "Music";
-        StageThemePlayer1.Bus = "Music";
-        StageThemePlayer2.Bus = "Music";
-        StageThemePlayer3.Bus = "Music";
-        StageThemePlayer4.Bus = "Music";
-        NutCollectSFX.Bus = "Sfx";
-        BoltCollectSFX.Bus = "Sfx";
-        WrenchCollectSFX.Bus = "Sfx";
-        PlayerDeathSFX.Bus = "Sfx";
+        MainThemePlayer.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
+        EndThemePlayer.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
+        StageThemePlayer1.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
+        StageThemePlayer2.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
+        StageThemePlayer3.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
+        StageThemePlayer4.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
+        NutCollectSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
+        BoltCollectSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
+        WrenchCollectSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
+        PlayerDeathSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
         AddChild(MainThemePlayer);
         AddChild(EndThemePlayer);
         AddChild(StageThemePlayer1);
