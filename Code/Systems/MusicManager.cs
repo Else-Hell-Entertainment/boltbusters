@@ -50,6 +50,16 @@ public partial class MusicManager : Node
         BoltCollectSFX = new AudioStreamPlayer();
         WrenchCollectSFX = new AudioStreamPlayer();
         PlayerDeathSFX = new AudioStreamPlayer();
+        MainThemePlayer.Bus = "Music";
+        EndThemePlayer.Bus = "Music";
+        StageThemePlayer1.Bus = "Music";
+        StageThemePlayer2.Bus = "Music";
+        StageThemePlayer3.Bus = "Music";
+        StageThemePlayer4.Bus = "Music";
+        NutCollectSFX.Bus = "Sfx";
+        BoltCollectSFX.Bus = "Sfx";
+        WrenchCollectSFX.Bus = "Sfx";
+        PlayerDeathSFX.Bus = "Sfx";
         AddChild(MainThemePlayer);
         AddChild(EndThemePlayer);
         AddChild(StageThemePlayer1);
