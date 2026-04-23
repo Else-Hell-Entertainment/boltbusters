@@ -42,6 +42,11 @@ folder_colors={
 "res://ThirdParty/Code/": "orange"
 }
 
+[gui]
+
+theme/custom="uid://37x8ktkfbdl6"
+theme/custom_font="uid://cdlf44v3b3ac0"
+
 [input]
 
 MoveUp={
