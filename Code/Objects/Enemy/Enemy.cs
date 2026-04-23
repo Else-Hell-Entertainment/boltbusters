@@ -16,10 +16,17 @@ namespace EHE.BoltBusters
             private set => _enemyType = value;
         }
 
+        protected float _moveSpeed = 4.0f;
+        protected float _normalSpeed = 4.0f; // The speed set on the start and which to use when resetting speed
+        protected float _afterAttackSpeed = 2.0f;
+
+        public float MoveSpeed => _moveSpeed;
+        public float NormalSpeed => _normalSpeed;
+        public float AfterAttackSpeed => _afterAttackSpeed;
+
         [Signal]
         public delegate void EnemyDiedEventHandler(int enemyType, Vector3 deathPosition);
         #endregion EnemyInfo
-
 
         #region Public methods
         public void Initialize(EnemyType enemyType)
@@ -27,12 +34,31 @@ namespace EHE.BoltBusters
             EnemyType = enemyType;
         }
 
+        public virtual void SetMoveSpeed(float newSpeed)
+        {
+            if (newSpeed >= 0)
+            {
+                _moveSpeed = newSpeed;
+            }
+            else
+            {
+                GD.PushWarning($"{Name}: Attempted to set MoveSpeed to a negative value ({newSpeed}).");
+            }
+        }
+
         public override void OnSpawn() { }
 
+        public override void HandleDeath()
+        {
+            base.HandleDeath();
+            EmitSignal(SignalName.EnemyDied, (int)_enemyType, GlobalPosition);
+            OnDespawn();
+        }
+
+        // Add additional logic if it differs from default (Node.QueueFree) method.
         public override void OnDespawn()
         {
-            EmitSignal(SignalName.EnemyDied, (int)_enemyType, GlobalPosition);
-            QueueFree();
+            base.OnDespawn();
         }
         #endregion Public methods
     }

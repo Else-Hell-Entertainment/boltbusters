@@ -5,48 +5,51 @@
 [ext_resource type="PackedScene" uid="uid://c6ql2g8m5j170" path="res://Scenes/UI/Settings/ScrollTabAudio.tscn" id="3_55yqh"]
 [ext_resource type="PackedScene" uid="uid://0vyw0rynbi4t" path="res://Scenes/UI/Settings/ScrollTabVideo.tscn" id="4_6f75i"]
 
-[node name="MenuSettings" type="Control" node_paths=PackedStringArray("_btnBack")]
-layout_mode = 3
+[node name="MenuSettings" type="PanelContainer" node_paths=PackedStringArray("_btnBack")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ptpw3")
-_btnBack = NodePath("Button")
+_btnBack = NodePath("MarginContainer/VBoxContainer/Button")
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Settings"
+horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 14.0
-offset_top = 602.0
-offset_right = 59.0
-offset_bottom = 633.0
-text = "Back"
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+tab_alignment = 1
+current_tab = 1
 
-[node name="TabContainer" type="TabContainer" parent="."]
-layout_mode = 0
-offset_left = 11.0
-offset_top = 42.0
-offset_right = 1136.0
-offset_bottom = 592.0
-current_tab = 0
-
-[node name="Controls" parent="TabContainer" instance=ExtResource("2_eosn1")]
+[node name="Controls" parent="MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("2_eosn1")]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="Audio" parent="TabContainer" instance=ExtResource("3_55yqh")]
-visible = false
+[node name="Audio" parent="MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("3_55yqh")]
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="Video" parent="TabContainer" instance=ExtResource("4_6f75i")]
+[node name="Video" parent="MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("4_6f75i")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Save & Exit"

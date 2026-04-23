@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://cfmobgo6w8ab6"]
+[gd_scene load_steps=6 format=3 uid="uid://cfmobgo6w8ab6"]
 
 [ext_resource type="Script" uid="uid://burthnjbxe21w" path="res://Code/UI/MenuShop.cs" id="1_kex23"]
+[ext_resource type="Script" uid="uid://7ui2iiup5syj" path="res://Code/UI/ToastLabel.cs" id="2_kk4ix"]
+[ext_resource type="Texture2D" uid="uid://d25pa21m771k0" path="res://Assets/Sprites/UI/UINut.png" id="3_klb40"]
+[ext_resource type="Texture2D" uid="uid://dkbncpmbr6fb0" path="res://Assets/Sprites/UI/UIBolt.png" id="4_tgufs"]
+[ext_resource type="Texture2D" uid="uid://dk2uohofm0ug3" path="res://Assets/Sprites/UI/UIWrench.png" id="5_1wyn2"]
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("_btnUpgradeChaingun", "_btnUpgradeRailgun", "_btnUpgradeRocketLauncher", "_btnDowngradeChaingun", "_btnDowngradeRailgun", "_btnDowngradeRocketLauncher", "_btnEnterNextRound")]
+[node name="Shop" type="Control" node_paths=PackedStringArray("_btnUpgradeChaingun", "_btnUpgradeRailgun", "_btnUpgradeRocketLauncher", "_btnDowngradeChaingun", "_btnDowngradeRailgun", "_btnDowngradeRocketLauncher", "_btnEnterNextRound", "_toastLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,109 +14,154 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_kex23")
-_btnUpgradeChaingun = NodePath("UpgradeChaingunButton")
-_btnUpgradeRailgun = NodePath("UpgradeRailgunButton")
-_btnUpgradeRocketLauncher = NodePath("UpgradeRocketLauncherButton")
-_btnDowngradeChaingun = NodePath("DowngradeChaingunButton")
-_btnDowngradeRailgun = NodePath("DowngradeRailgunButton")
-_btnDowngradeRocketLauncher = NodePath("DowngradeRocketLauncherButton")
-_btnEnterNextRound = NodePath("NextRoundButton")
+_btnUpgradeChaingun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/UpgradeChaingunButton")
+_btnUpgradeRailgun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/UpgradeRailgunButton")
+_btnUpgradeRocketLauncher = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/UpgradeRocketLauncherButton")
+_btnDowngradeChaingun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/DowngradeChaingunButton")
+_btnDowngradeRailgun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/DowngradeRailgunButton")
+_btnDowngradeRocketLauncher = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/DowngradeRocketLauncherButton")
+_btnEnterNextRound = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/NextRoundButton")
+_toastLabel = NodePath("NoMoneyToast")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = 157.0
-offset_top = 59.0
-offset_right = 976.0
-offset_bottom = 503.0
-color = Color(0, 0, 0, 0.41960785)
+[node name="NoMoneyToast" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -76.5
+offset_top = 167.0
+offset_right = 76.5
+offset_bottom = 190.0
+grow_horizontal = 2
+text = "Not enough money!"
+script = ExtResource("2_kk4ix")
+_displayTime = 3.0
+metadata/_custom_type_script = "uid://7ui2iiup5syj"
 
-[node name="Title" type="Label" parent="."]
-layout_mode = 0
-offset_left = 521.0
-offset_top = 78.0
-offset_right = 561.0
-offset_bottom = 101.0
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="PanelContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/ColorRect"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/ColorRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Shop"
+horizontal_alignment = 1
 
-[node name="ChaingunLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 245.0
-offset_top = 207.0
-offset_right = 319.0
-offset_bottom = 230.0
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 5
+columns = 3
+
+[node name="ChaingunLabel" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
 text = "Chaingun"
+horizontal_alignment = 1
 
-[node name="RailgunLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 516.0
-offset_top = 207.0
-offset_right = 574.0
-offset_bottom = 230.0
+[node name="RailgunLabel" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
 text = "Railgun"
+horizontal_alignment = 1
 
-[node name="MissileLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 728.0
-offset_top = 210.0
-offset_right = 858.0
-offset_bottom = 233.0
+[node name="MissileLabel" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
 text = "Rocket Launcher"
+horizontal_alignment = 1
 
-[node name="UpgradeChaingunButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 244.0
-offset_top = 260.0
-offset_right = 319.0
-offset_bottom = 291.0
+[node name="ChaingunPrice" type="HBoxContainer" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/ChaingunPrice"]
+layout_mode = 2
+texture = ExtResource("3_klb40")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/ChaingunPrice"]
+layout_mode = 2
+text = " x 2"
+
+[node name="RailgunPrice" type="HBoxContainer" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/RailgunPrice"]
+layout_mode = 2
+texture = ExtResource("4_tgufs")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/RailgunPrice"]
+layout_mode = 2
+text = " x 2"
+
+[node name="MissilePrice" type="HBoxContainer" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/MissilePrice"]
+layout_mode = 2
+texture = ExtResource("5_1wyn2")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/MissilePrice"]
+layout_mode = 2
+text = " x 2"
+
+[node name="UpgradeChaingunButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
 text = "Upgrade"
 
-[node name="UpgradeRailgunButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 507.0
-offset_top = 259.0
-offset_right = 582.0
-offset_bottom = 290.0
+[node name="UpgradeRailgunButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
 text = "Upgrade"
 
-[node name="UpgradeRocketLauncherButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 755.0
-offset_top = 263.0
-offset_right = 830.0
-offset_bottom = 294.0
+[node name="UpgradeRocketLauncherButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
 text = "Upgrade"
 
-[node name="DowngradeChaingunButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 234.0
-offset_top = 310.0
-offset_right = 332.0
-offset_bottom = 341.0
+[node name="DowngradeChaingunButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
 text = "Downgrade
 "
 
-[node name="DowngradeRailgunButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 499.0
-offset_top = 313.0
-offset_right = 597.0
-offset_bottom = 344.0
+[node name="DowngradeRailgunButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
 text = "Downgrade
 "
 
-[node name="DowngradeRocketLauncherButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 744.0
-offset_top = 310.0
-offset_right = 842.0
-offset_bottom = 341.0
+[node name="DowngradeRocketLauncherButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
 text = "Downgrade
 "
 
-[node name="NextRoundButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 453.0
-offset_top = 433.0
-offset_right = 648.0
-offset_bottom = 464.0
+[node name="NextRoundButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
 text = "Continue to Next Round"

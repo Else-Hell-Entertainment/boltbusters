@@ -24,7 +24,10 @@ namespace EHE.BoltBusters.Ui
     public partial class Hud : Control
     {
         private CollectibleUi _collectibleUi;
-        private WeaponHud _weaponUi;
+
+        private HealthUi _healthUi;
+
+        //private WeaponHud _weaponUi;
 
         /// <summary>
         ///  Connects the required signals. Logs an error if this fails.
@@ -63,18 +66,24 @@ namespace EHE.BoltBusters.Ui
 
         public override void _Ready()
         {
-            _collectibleUi = this.GetFirstChildOfType<CollectibleUi>();
-            _weaponUi = this.GetFirstChildOfType<WeaponHud>();
+            _collectibleUi = this.GetFirstChildOfType<CollectibleUi>(recurse: true);
+            _healthUi = this.GetFirstChildOfType<HealthUi>(recurse: true);
+            //_weaponUi = this.GetFirstChildOfType<WeaponHud>();
 
             if (_collectibleUi == null)
             {
                 GD.PushError("Collectible UI node not found!");
             }
 
-            if (_weaponUi == null)
+            if (_healthUi == null)
             {
-                GD.PushError("Weapon UI node not found!");
+                GD.PushError("Health UI node not found!");
             }
+
+            // if (_weaponUi == null)
+            // {
+            //     GD.PushError("Weapon UI node not found!");
+            // }
         }
 
         private void UpdateCollectibleUi(CollectibleType type, int value)
@@ -97,13 +106,19 @@ namespace EHE.BoltBusters.Ui
 
         private void UpdateWeaponUi()
         {
-            _weaponUi.RefreshUi();
+            //_weaponUi.RefreshUi();
+        }
+
+        private void UpdateHealthUi()
+        {
+            _healthUi.UpdateHealthUi();
         }
 
         private void UpdateAllUi(PlayerData playerData)
         {
             UpdateCollectibleUi(playerData.GetCollectibleCounts());
             UpdateWeaponUi();
+            UpdateHealthUi();
         }
     }
 }

@@ -216,6 +216,6 @@ draw_pass_1 = SubResource("SphereMesh_0ad1w")
 
 [node name="EnemyShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
 script = ExtResource("6_2cbnb")
-_effectsPreset = ExtResource("7_6dcpc")
+_enemyEffectShaderPreset = ExtResource("7_6dcpc")
 _meshes = [NodePath("../BodyNode/Cube"), NodePath("../HammerNode/Cylinder")]
 metadata/_custom_type_script = "uid://dn3xdtkt00s1k"

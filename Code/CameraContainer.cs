@@ -13,6 +13,9 @@ namespace EHE.BoltBusters
 
         private CameraRig _cameraRig;
 
+        // This has to be here cuz fuck godot things.
+        private AudioListener3D _listener;
+
         /// <summary>
         ///  Reference to the global camera in the camera rig.
         /// </summary>
@@ -47,7 +50,21 @@ namespace EHE.BoltBusters
                 return;
             }
 
+            if (!SetListener())
+            {
+                GD.PushError(string.Format(NO_SUITABLE_NODE, nameof(_listener)));
+                return;
+            }
+
             this.PrintDebug("Ready.");
+        }
+
+        public override void _Process(double delta)
+        {
+            if (LevelManager.Active != null && LevelManager.Active.Player != null)
+            {
+                _listener.GlobalPosition = LevelManager.Active.Player.GlobalPosition;
+            }
         }
 
         private bool SetViewport()
@@ -88,6 +105,13 @@ namespace EHE.BoltBusters
             Camera = _cameraRig.GetFirstChildOfType<Camera3D>();
             this.PrintDebug("Set camera.");
             return Camera != null;
+        }
+
+        private bool SetListener()
+        {
+            _listener = Viewport.GetFirstChildOfType<AudioListener3D>(recurse: true);
+            this.PrintDebug("Set listener.");
+            return _listener != null;
         }
     }
 }

@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_add;
+render_mode blend_add, cull_disabled;
 
 // ------------------------------------------------------------
 // EFFECT MODE
@@ -7,7 +7,7 @@ render_mode blend_add;
 // 1 = Pulse
 // 2 = Accelerating Pulse
 // ------------------------------------------------------------
-uniform int effect_mode : hint_enum("Flash", "Pulse", "AcceleratingPulse") = 0;
+uniform int effect_mode : hint_enum("None", "Flash", "Pulse", "AcceleratingPulse") = 0;
 
 // ------------------------------------------------------------
 // FLASH SETTINGS
@@ -28,6 +28,7 @@ uniform float flash_value : hint_range(0.0, 1.0) = 0.0;
 uniform vec3 pulse_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform float pulse_strength = 0.0;
 uniform float pulse_speed = 0.0;
+uniform float pulse_time = 0.0;
 
 // ------------------------------------------------------------
 // ACCELERATING PULSE SETTINGS
@@ -71,10 +72,18 @@ void fragment()
     float strength_final = 0.0;
     float v = 0.0; // waveform / mask in [0, 1]
 
+	// --------------------------------------------------------
+	// Default no effect
+	// --------------------------------------------------------
+	if (effect_mode == 0)
+	{
+		// None: no effect
+	}
+
     // --------------------------------------------------------
     // FLASH
     // --------------------------------------------------------
-    if (effect_mode == 0)
+    else if (effect_mode == 1)
     {
         effect_color = flash_color;
         strength_final = flash_strength;
@@ -86,20 +95,21 @@ void fragment()
     // --------------------------------------------------------
     // CONSTANT / REGULAR PULSE
     // --------------------------------------------------------
-    else if (effect_mode == 1)
+    else if (effect_mode == 2)
     {
         effect_color = pulse_color;
         strength_final = pulse_strength;
 
-        // Classic sine pulse using global TIME and pulse_speed.
-        float wave = sin(TIME * pulse_speed) * 0.5 + 0.5;
+        // Classic sine pulse using pulse_time and pulse_speed.
+        float sin_wave = sin(pulse_time * pulse_speed) * 0.5 + 0.5;
+		float wave = clamp(sin_wave, 0.0, 1.0);
         v = wave;
     }
 
     // --------------------------------------------------------
     // ACCELERATING PULSE
     // --------------------------------------------------------
-    else if (effect_mode == 2)
+    else if (effect_mode == 3)
     {
         effect_color = accelerating_pulse_color;
 
@@ -110,7 +120,8 @@ void fragment()
         if (accelerating_pulse_time < acceleration_delay)
         {
             // Delay phase: hold at start strength, base speed.
-            float wave = sin(accelerating_pulse_time * accelerating_pulse_speed) * 0.5 + 0.5;
+            float sin_wave = sin(accelerating_pulse_time * accelerating_pulse_speed) * 0.5 + 0.5;
+			float wave = clamp(sin_wave, 0.0, 1.0);
             v = wave;
             strength_final = accelerating_pulse_start_strength;
         }
@@ -123,7 +134,8 @@ void fragment()
                 accelerating_pulse_speed +
                 acceleration_speed_factor * accelerating_pulse_progress;
 
-            float wave = sin(accelerating_pulse_time * dynamic_speed) * 0.5 + 0.5;
+            float sin_wave = sin(accelerating_pulse_time * dynamic_speed) * 0.5 + 0.5;
+			float wave = clamp(sin_wave, 0.0, 1.0);
             v = wave;
 
             // Strength interpolates from start → finish over the accelerating phase.

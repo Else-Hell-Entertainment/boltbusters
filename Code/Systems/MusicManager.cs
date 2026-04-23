@@ -1,5 +1,10 @@
+// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Miko Reinholm <miko.reinholm@tuni.fi>
+
 using System;
 using System.Collections.Generic;
+using EHE.BoltBusters.Config;
 using Godot;
 
 public partial class MusicManager : Node
@@ -19,17 +24,53 @@ public partial class MusicManager : Node
 
     private Dictionary<Song, AudioStream> _music = new();
 
-    public AudioStreamPlayer CurrentPlayer { get; private set; }
-    public AudioStreamPlayer NextPlayer { get; private set; }
+    public AudioStreamPlayer MainThemePlayer { get; private set; }
+    public AudioStreamPlayer EndThemePlayer { get; private set; }
+    public AudioStreamPlayer StageThemePlayer1 { get; private set; }
+    public AudioStreamPlayer StageThemePlayer2 { get; private set; }
+    public AudioStreamPlayer StageThemePlayer3 { get; private set; }
+    public AudioStreamPlayer StageThemePlayer4 { get; private set; }
+    public AudioStreamPlayer NutCollectSFX;
+    public AudioStreamPlayer BoltCollectSFX;
+    public AudioStreamPlayer WrenchCollectSFX;
+    public AudioStreamPlayer PlayerDeathSFX;
 
-    // Called when the node enters the scene tree for the first time.
+    private float _fadeDuration;
+    private Tween _currentAudioTween;
+
     public override void _Ready()
     {
         Instance = this;
-        CurrentPlayer = new AudioStreamPlayer();
-        NextPlayer = new AudioStreamPlayer();
-        AddChild(CurrentPlayer);
-        AddChild(NextPlayer);
+        MainThemePlayer = new AudioStreamPlayer();
+        EndThemePlayer = new AudioStreamPlayer();
+        StageThemePlayer1 = new AudioStreamPlayer();
+        StageThemePlayer2 = new AudioStreamPlayer();
+        StageThemePlayer3 = new AudioStreamPlayer();
+        StageThemePlayer4 = new AudioStreamPlayer();
+        NutCollectSFX = new AudioStreamPlayer();
+        BoltCollectSFX = new AudioStreamPlayer();
+        WrenchCollectSFX = new AudioStreamPlayer();
+        PlayerDeathSFX = new AudioStreamPlayer();
+        MainThemePlayer.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
+        EndThemePlayer.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
+        StageThemePlayer1.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
+        StageThemePlayer2.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
+        StageThemePlayer3.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
+        StageThemePlayer4.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
+        NutCollectSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
+        BoltCollectSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
+        WrenchCollectSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
+        PlayerDeathSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
+        AddChild(MainThemePlayer);
+        AddChild(EndThemePlayer);
+        AddChild(StageThemePlayer1);
+        AddChild(StageThemePlayer2);
+        AddChild(StageThemePlayer3);
+        AddChild(StageThemePlayer4);
+        AddChild(NutCollectSFX);
+        AddChild(BoltCollectSFX);
+        AddChild(WrenchCollectSFX);
+        AddChild(PlayerDeathSFX);
 
         _music[Song.MainTheme] = GD.Load<AudioStream>("res://Assets/Music/MainTheme.ogg");
         _music[Song.EndTheme] = GD.Load<AudioStream>("res://Assets/Music/EndTheme.ogg");
@@ -37,6 +78,15 @@ public partial class MusicManager : Node
         _music[Song.StageTheme2] = GD.Load<AudioStream>("res://Assets/Music/StageTheme2.ogg");
         _music[Song.StageTheme3] = GD.Load<AudioStream>("res://Assets/Music/StageTheme3.ogg");
         _music[Song.StageTheme4] = GD.Load<AudioStream>("res://Assets/Music/StageTheme4.ogg");
+
+        NutCollectSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/CollectibleSound1.ogg");
+        BoltCollectSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/CollectibleSound2.ogg");
+        WrenchCollectSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/CollectibleSound3.ogg");
+        PlayerDeathSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/PlayerDeath.ogg");
+
+        NutCollectSFX.VolumeDb = -14f;
+        BoltCollectSFX.VolumeDb = -14f;
+        WrenchCollectSFX.VolumeDb = -14f;
     }
 
     public void PlayMusic(AudioStreamPlayer player, Song title)
@@ -47,6 +97,7 @@ public partial class MusicManager : Node
         }
 
         player.Stop();
+        player.VolumeDb = 0f;
         player.Stream = _music[title];
         player.Play();
     }
@@ -56,5 +107,96 @@ public partial class MusicManager : Node
         player.Stop();
     }
 
-    public async void LinearCrossFade(AudioStreamPlayer from, AudioStreamPlayer to) { }
+    public void FadeOutPlayer(AudioStreamPlayer player)
+    {
+        _fadeDuration = 5.0f;
+
+        _currentAudioTween?.Kill();
+
+        _currentAudioTween = CreateTween();
+        _currentAudioTween.SetTrans(Tween.TransitionType.Linear);
+        _currentAudioTween.TweenProperty(player, "volume_db", -80f, _fadeDuration);
+        _currentAudioTween.TweenCallback(Callable.From(() => player.Stop()));
+    }
+
+    public void FadeInPlayer(AudioStreamPlayer player)
+    {
+        _fadeDuration = 1.0f;
+
+        _currentAudioTween?.Kill();
+
+        _currentAudioTween = CreateTween();
+        _currentAudioTween.SetTrans(Tween.TransitionType.Linear);
+        _currentAudioTween.TweenProperty(player, "volume_db", 0f, _fadeDuration);
+    }
+
+    public void FadeToBackgroundLevel(AudioStreamPlayer player)
+    {
+        _fadeDuration = 2.0f;
+
+        _currentAudioTween?.Kill();
+
+        _currentAudioTween = CreateTween();
+        _currentAudioTween.SetTrans(Tween.TransitionType.Linear);
+        _currentAudioTween.TweenProperty(player, "volume_db", -12f, _fadeDuration);
+    }
+
+    public void QuickFadeInPlayer(AudioStreamPlayer player)
+    {
+        _fadeDuration = 0.2f;
+
+        _currentAudioTween?.Kill();
+
+        _currentAudioTween = CreateTween();
+        _currentAudioTween.SetTrans(Tween.TransitionType.Linear);
+        _currentAudioTween.TweenProperty(player, "volume_db", 0f, _fadeDuration);
+    }
+
+    public void KillAllMusic()
+    {
+        MainThemePlayer.Stop();
+        EndThemePlayer.Stop();
+        StageThemePlayer1.Stop();
+        StageThemePlayer2.Stop();
+        StageThemePlayer3.Stop();
+        StageThemePlayer4.Stop();
+    }
+
+    public void PlayNutCollectibleSound()
+    {
+        NutCollectSFX.Play();
+    }
+
+    public void PlayBoltCollectibleSound()
+    {
+        BoltCollectSFX.Play();
+    }
+
+    public void PlayWrenchCollectibleSound()
+    {
+        WrenchCollectSFX.Play();
+    }
+
+    public void PlayPlayerDeathSound()
+    {
+        PlayerDeathSFX.Play();
+    }
+
+    /* public async void LinearCrossFade(AudioStreamPlayer from, AudioStreamPlayer to)
+    {
+        float fadeDuration = 2.0f;
+
+        var tweenFrom = CreateTween();
+        tweenFrom.SetTrans(Tween.TransitionType.Linear);
+        tweenFrom.TweenProperty(from, "volume_db", -80f, fadeDuration);
+
+        var tweenTo = CreateTween();
+        tweenTo.SetTrans(Tween.TransitionType.Linear);
+        tweenTo.TweenProperty(to, "volume_db", 0f, fadeDuration);
+
+        await ToSignal(tweenFrom, Tween.SignalName.Finished);
+        await ToSignal(tweenTo, Tween.SignalName.Finished);
+
+        from.Stop();
+    } */
 }

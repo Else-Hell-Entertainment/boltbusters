@@ -40,7 +40,10 @@ namespace EHE.BoltBusters
 
         [ExportGroup("Movement")]
         [Export]
-        private float _moveSpeed = 4.0f;
+        private float _moveSpeedSet = 4.0f;
+
+        [Export]
+        private float _afterAttackSpeedSet = 2.0f;
 
         [Export]
         private float _acceleration = 18.0f;
@@ -110,12 +113,6 @@ namespace EHE.BoltBusters
         #endregion Fields
 
         #region Movement (Properties)
-
-        public float MoveSpeed
-        {
-            get => _moveSpeed;
-            protected set => _moveSpeed = value;
-        }
 
         public float Acceleration
         {
@@ -236,6 +233,11 @@ namespace EHE.BoltBusters
                 TargetProvider.Instance.PlayerChanged += OnPlayerChanged;
                 OnPlayerChanged(TargetProvider.Instance.Player);
             }
+
+            // Initialize speed values
+            _moveSpeed = _moveSpeedSet;
+            _normalSpeed = _moveSpeedSet;
+            _afterAttackSpeed = _afterAttackSpeedSet;
         }
 
         public override void _ExitTree()
@@ -409,7 +411,6 @@ namespace EHE.BoltBusters
 
             return current + Mathf.Sign(diff) * maxDelta;
         }
-
         #endregion Private methods
     }
 }
