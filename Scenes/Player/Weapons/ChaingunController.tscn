@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://4x3awqn6r5eh"]
+[gd_scene load_steps=13 format=3 uid="uid://4x3awqn6r5eh"]
 
 [ext_resource type="Script" uid="uid://do4klngwttl5f" path="res://Code/Objects/Player/Weapons/PlayerChaingunController.cs" id="1_tlj4s"]
 [ext_resource type="PackedScene" uid="uid://dbokno8n21haj" path="res://Scenes/Player/Weapons/Chaingun.tscn" id="2_qirdc"]
@@ -8,7 +8,13 @@
 [ext_resource type="PackedScene" uid="uid://bijmca1h1saq6" path="res://Assets/Models/Weapons/Chaingun.glb" id="5_7t1ee"]
 [ext_resource type="AudioStream" uid="uid://c56l6hgjoy4ui" path="res://Assets/SFX/ChaingunOverheat.ogg" id="7_4psb6"]
 
-[sub_resource type="Resource" id="Resource_6uqcx"]
+[sub_resource type="Resource" id="Resource_4psb6"]
+script = ExtResource("3_6uqcx")
+RequiredItem = 1
+RequiredAmount = 2
+metadata/_custom_type_script = "uid://cwjigbn7c1w4e"
+
+[sub_resource type="Resource" id="Resource_pqfs4"]
 script = ExtResource("3_6uqcx")
 RequiredItem = 1
 RequiredAmount = 2
@@ -35,7 +41,10 @@ _cooldown = 0.1
 _shootingAudio = NodePath("ChaingunShootingSound")
 _overheatAudio = NodePath("ChaingunOverheatSound")
 _weaponScene = ExtResource("2_qirdc")
-PriceInfo = SubResource("Resource_6uqcx")
+Prices = Dictionary[int, Object]({
+1: SubResource("Resource_4psb6"),
+2: SubResource("Resource_pqfs4")
+})
 
 [node name="Chaingun" parent="." instance=ExtResource("5_7t1ee")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)

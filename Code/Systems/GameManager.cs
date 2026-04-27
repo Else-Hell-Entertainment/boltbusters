@@ -58,8 +58,12 @@ namespace EHE.BoltBusters
         /// <param name="weaponType">
         ///  Numerical representation of the weapon type to upgrade.
         /// </param>
+        /// <param name="upgradeType">
+        ///  Numerical representation of the downgrade type. Must be castable
+        ///  to <see cref="UpgradeType"/>.
+        /// </param>
         [Signal]
-        public delegate bool RequestWeaponUpgradeEventHandler(int weaponType);
+        public delegate bool RequestWeaponUpgradeEventHandler(int weaponType, int upgradeType);
 
         /// <summary>
         ///  Emitted when the player chooses to downgrade a weapon in the shop.
@@ -68,8 +72,12 @@ namespace EHE.BoltBusters
         /// <param name="weaponType">
         ///  Numerical representation of the weapon type to downgrade.
         /// </param>
+        /// <param name="upgradeType">
+        ///  Numerical representation of the downgrade type. Must be castable
+        ///  to <see cref="UpgradeType"/>.
+        /// </param>
         [Signal]
-        public delegate bool RequestWeaponDowngradeEventHandler(int weaponType);
+        public delegate bool RequestWeaponDowngradeEventHandler(int weaponType, int upgradeType);
 
         /// <summary>
         ///  Emitted when the HUD should refresh its display.

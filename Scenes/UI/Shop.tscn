@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dkbncpmbr6fb0" path="res://Assets/Sprites/UI/UIBolt.png" id="4_tgufs"]
 [ext_resource type="Texture2D" uid="uid://dk2uohofm0ug3" path="res://Assets/Sprites/UI/UIWrench.png" id="5_1wyn2"]
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("_btnUpgradeChaingun", "_btnUpgradeRailgun", "_btnUpgradeRocketLauncher", "_btnDowngradeChaingun", "_btnDowngradeRailgun", "_btnDowngradeRocketLauncher", "_btnEnterNextRound", "_toastLabel")]
+[node name="Shop" type="Control" node_paths=PackedStringArray("_btnEnterNextRound", "_toastLabel", "_btnPrimaryUpgradeChaingun", "_btnPrimaryUpgradeRailgun", "_btnPrimaryUpgradeRocket", "_btnSecondaryUpgradeChaingun", "_btnSecondaryUpgradeRailgun", "_btnSecondaryUpgradeRocket")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,14 +14,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_kex23")
-_btnUpgradeChaingun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/UpgradeChaingunButton")
-_btnUpgradeRailgun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/UpgradeRailgunButton")
-_btnUpgradeRocketLauncher = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/UpgradeRocketLauncherButton")
-_btnDowngradeChaingun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/DowngradeChaingunButton")
-_btnDowngradeRailgun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/DowngradeRailgunButton")
-_btnDowngradeRocketLauncher = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/DowngradeRocketLauncherButton")
 _btnEnterNextRound = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/NextRoundButton")
 _toastLabel = NodePath("NoMoneyToast")
+_btnPrimaryUpgradeChaingun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/ChaingunPrimaryButton")
+_btnPrimaryUpgradeRailgun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/RailgunPrimaryButton")
+_btnPrimaryUpgradeRocket = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/RocketPrimaryButton")
+_btnSecondaryUpgradeChaingun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/ChaingunSecondaryButton")
+_btnSecondaryUpgradeRailgun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/RailgunSecondaryButton")
+_btnSecondaryUpgradeRocket = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/RocketSecondaryButton")
 
 [node name="NoMoneyToast" type="Label" parent="."]
 layout_mode = 1
@@ -128,38 +128,35 @@ expand_mode = 2
 layout_mode = 2
 text = " x 2"
 
-[node name="UpgradeChaingunButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+[node name="ChaingunPrimaryButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-text = "Upgrade"
+text = "Primary++"
 
-[node name="UpgradeRailgunButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+[node name="RailgunPrimaryButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-text = "Upgrade"
+text = "Primary++"
 
-[node name="UpgradeRocketLauncherButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+[node name="RocketPrimaryButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-text = "Upgrade"
+text = "Primary++"
 
-[node name="DowngradeChaingunButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+[node name="ChaingunSecondaryButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-text = "Downgrade
-"
+text = "Secondary++"
 
-[node name="DowngradeRailgunButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+[node name="RailgunSecondaryButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-text = "Downgrade
-"
+text = "Secondary++"
 
-[node name="DowngradeRocketLauncherButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+[node name="RocketSecondaryButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-text = "Downgrade
-"
+text = "Secondary++"
 
 [node name="NextRoundButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer"]
 layout_mode = 2

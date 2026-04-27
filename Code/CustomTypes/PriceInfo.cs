@@ -20,7 +20,7 @@ namespace EHE.BoltBusters
         ///
         /// <seealso cref="Collectible"/>
         [Export]
-        public CollectibleType RequiredItem { get; private set; } = CollectibleType.None;
+        public CollectibleType RequiredItem { get; set; } = CollectibleType.None;
 
         /// <summary>
         ///  The amount of the <see cref="RequiredItem"/> to be able to make
@@ -30,6 +30,6 @@ namespace EHE.BoltBusters
         /// <seealso cref="PlayerData.GetCollectibleCount"/>
         /// <seealso cref="PlayerData.GetCollectibleCounts"/>
         [Export]
-        public int RequiredAmount { get; private set; } = 0;
+        public int RequiredAmount { get; set; } = 0;
     }
 }
