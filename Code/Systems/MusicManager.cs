@@ -65,6 +65,8 @@ public partial class MusicManager : Node
         BoltCollectSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
         WrenchCollectSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
         PlayerDeathSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
+        AlarmSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
+        OverheatAlarmSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
         AddChild(MainThemePlayer);
         AddChild(EndThemePlayer);
         AddChild(StageThemePlayer1);
