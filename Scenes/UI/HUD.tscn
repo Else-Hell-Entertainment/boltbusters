@@ -63,6 +63,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("7_1ree7")
 _roundTimerLabel = NodePath("RoundTimeLabel")
+_alarmTimeThreshold = 5.0
 
 [node name="TimerText" type="Label" parent="VBoxContainer/TopUi/RoundTimerUi"]
 layout_mode = 2

@@ -326,6 +326,10 @@ namespace EHE.BoltBusters
             // Inform UI of heat change.
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
             // Handle case where weapon was overheating and has cooled down.
+            if (CurrentPersistentState == ChaingunState.Overheat && !MusicManager.Instance.OverheatAlarmSFX.IsPlaying())
+            {
+                MusicManager.Instance.OverheatAlarmSFX.Play();
+            }
             if (CurrentPersistentState == ChaingunState.Overheat && _currentHeat < _overheatRecoveryThreshold)
             {
                 CurrentPersistentState = ChaingunState.ReadyToFire;
@@ -340,6 +344,7 @@ namespace EHE.BoltBusters
         {
             CurrentPersistentState = ChaingunState.Overheat;
             _overheatAudio.Play();
+            MusicManager.Instance.OverheatAlarmSFX.Play();
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.Overheat);
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.NotReadyToFire);
         }
