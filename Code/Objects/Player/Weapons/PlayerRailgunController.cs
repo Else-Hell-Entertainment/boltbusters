@@ -44,6 +44,9 @@ namespace EHE.BoltBusters
         [Export]
         private float _chargeVolumeWindDownTime = 1f;
 
+        [Export]
+        private int _maxSecondaryUpgrades = 4;
+
         public override WeaponType WeaponType => WeaponType.Railgun;
 
         public bool IsActive = true;
@@ -172,8 +175,14 @@ namespace EHE.BoltBusters
             return false;
         }
 
-        public void UpgradeChargeSpeed()
+        public bool UpgradeChargeSpeed()
         {
+            if (SecondaryUpgradeCount >= _maxSecondaryUpgrades)
+            {
+                GD.Print("Cannot upgrade railgun further.");
+                return false;
+            }
+
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is Railgun railgun)
@@ -182,10 +191,17 @@ namespace EHE.BoltBusters
                     EmitSignal(SignalName.RailgunConfigurationChanged);
                 }
             }
+            SecondaryUpgradeCount++;
+            return true;
         }
 
-        public void DowngradeChargeSpeed()
+        public bool DowngradeChargeSpeed()
         {
+            if (SecondaryUpgradeCount <= 0)
+            {
+                GD.Print("Cannot downgrade railgun further.");
+                return false;
+            }
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is Railgun railgun)
@@ -194,6 +210,7 @@ namespace EHE.BoltBusters
                     EmitSignal(SignalName.RailgunConfigurationChanged);
                 }
             }
+            return true;
         }
 
         private void InitializeNodes()
@@ -274,9 +291,7 @@ namespace EHE.BoltBusters
                 case UpgradeType.Primary:
                     return AddWeapon();
                 case UpgradeType.Secondary:
-                    // TODO: Check internally if the upgrade is possible!
-                    UpgradeChargeSpeed();
-                    return true;
+                    return UpgradeChargeSpeed();
                 default:
                     this.LogWarning("Unknown upgrade type.");
                     break;
@@ -298,9 +313,7 @@ namespace EHE.BoltBusters
                 case UpgradeType.Primary:
                     return RemoveWeapon();
                 case UpgradeType.Secondary:
-                    // TODO: Check internally if the downgrade is possible!
-                    DowngradeChargeSpeed();
-                    return true;
+                    return DowngradeChargeSpeed();
                 default:
                     this.LogWarning("Unknown upgrade type.");
                     break;
