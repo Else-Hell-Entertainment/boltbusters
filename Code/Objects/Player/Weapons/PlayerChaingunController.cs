@@ -3,6 +3,7 @@
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 //            Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.Common.Godot.Extensions;
 using EHE.Common.Godot.Logging;
 using Godot;
 
@@ -107,6 +108,10 @@ namespace EHE.BoltBusters
         [Export]
         private float _coolingUpgradeIncrease = 1f;
 
+        // How many times can cooling be upgraded.
+        [Export]
+        private int _maxCoolingUpgrades = 6;
+
         // After overheating the weapon must cool down below this level to be able to fire again.
         [Export]
         private float _overheatRecoveryThreshold = 80f;
@@ -133,7 +138,7 @@ namespace EHE.BoltBusters
         /// </summary>
         public ChaingunState CurrentPersistentState { get; private set; } = ChaingunState.None;
 
-        public float CoolingRateUpgrade { get; private set; } = 0;
+        public int CoolingUpgradesBought { get; private set; }
 
         public override WeaponType WeaponType => WeaponType.Chaingun;
 
@@ -241,7 +246,7 @@ namespace EHE.BoltBusters
                 _audioTimer = 0;
             }
 
-            ReduceHeat((_baseCoolingRate + CoolingRateUpgrade) * deltaTime);
+            ReduceHeat((_baseCoolingRate + (CoolingUpgradesBought * _coolingUpgradeIncrease)) * deltaTime);
         }
 
         #region Heating mechanics
@@ -258,21 +263,32 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Adds one level of cooling upgrade (defined in code).
         /// </summary>
-        public void UpgradeCooling()
+        public bool UpgradeCooling()
         {
-            CoolingRateUpgrade += _coolingUpgradeIncrease;
+            if (CoolingUpgradesBought < _maxCoolingUpgrades)
+            {
+                CoolingUpgradesBought++;
+                this.PrintDebug("Chaingun cooling upgraded.");
+
+                return true;
+            }
+            this.PrintDebug("Chaingun cooling maxed out. Cannot upgrade.");
+            return false;
         }
 
         /// <summary>
         /// Removes one level of cooling upgrades. Total cooling can never drop below base value defined in code.
         /// </summary>
-        public void DowngradeCooling()
+        public bool DowngradeCooling()
         {
-            CoolingRateUpgrade -= _coolingUpgradeIncrease;
-            if (CoolingRateUpgrade < 0)
+            if (CoolingUpgradesBought >= 0)
             {
-                CoolingRateUpgrade = 0;
+                CoolingUpgradesBought--;
+                this.PrintDebug("Chaingun cooling downgraded.");
+                return true;
             }
+            this.PrintDebug("Chaingun cooling could not be downgraded further.");
+            return false;
         }
 
         /// <summary>
