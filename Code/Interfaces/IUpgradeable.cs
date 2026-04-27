@@ -10,28 +10,60 @@ namespace EHE.BoltBusters
     public interface IUpgradeable
     {
         /// <summary>
-        ///  Price of the upgrade.
+        ///  Returns the price for the given upgrade.
         /// </summary>
-        public PriceInfo PriceInfo { get; }
+        ///
+        /// <param name="upgradeType">
+        ///  The upgrade whose price is to be queried.
+        /// </param>
+        ///
+        /// <returns>
+        ///  A <see cref="PriceInfo"/> object representing the price of the
+        ///  given <see cref="UpgradeType"/>.
+        /// </returns>
+        PriceInfo GetPrice(UpgradeType upgradeType);
 
         /// <summary>
-        ///  Use this method to perform upgrades.
+        ///  Sets the price for the given upgrade type.
         /// </summary>
+        ///
+        /// <param name="upgradeType">
+        ///  The upgrade whose price is to be modified.
+        /// </param>
+        /// <param name="priceInfo">The new price for the upgrade.</param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if the price was set successfully,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        bool SetPrice(UpgradeType upgradeType, PriceInfo priceInfo);
+
+        /// <summary>
+        ///  Performs an upgrade of the given type.
+        /// </summary>
+        ///
+        /// <param name="type">
+        ///  The type of the upgrade to perform.
+        /// </param>
         ///
         /// <returns>
         ///  <c>true</c> if upgrade was successful,
         ///  <c>false</c> otherwise.
         /// </returns>
-        public bool Upgrade();
+        bool Upgrade(UpgradeType type);
 
         /// <summary>
-        ///  Use this method to perform downgrades.
+        ///  Performs a downgrade of the given type.
         /// </summary>
         ///
+        /// <param name="type">
+        ///  The type of the downgrade to perform.
+        /// </param>
+        ///
         /// <returns>
-        ///  <c>true</c> if downgrade was successful,
+        ///  <c>true</c> if upgrade was successful,
         ///  <c>false</c> otherwise.
         /// </returns>
-        public bool Downgrade();
+        bool Downgrade(UpgradeType type);
     }
 }

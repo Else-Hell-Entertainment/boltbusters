@@ -3,6 +3,7 @@
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 //            Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -97,6 +98,54 @@ namespace EHE.BoltBusters
                 }
             }
             EmitSignal(SignalName.RocketLauncherConfigurationChanged);
+        }
+
+        /// <inheritdoc/>
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> upgrades the salvo
+        ///  size.
+        /// </remarks>
+        public override bool Upgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return AddWeapon();
+                case UpgradeType.Secondary:
+                    // TODO: Check internally if the upgrade is possible!
+                    UpgradeSalvoSize();
+                    return true;
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc />
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> downgrades the
+        ///  salvo size.
+        /// </remarks>
+        public override bool Downgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return RemoveWeapon();
+                case UpgradeType.Secondary:
+                    // TODO: Check internally if the downgrade is possible!
+                    DowngradeSalvoSize();
+                    return true;
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
         }
     }
 }

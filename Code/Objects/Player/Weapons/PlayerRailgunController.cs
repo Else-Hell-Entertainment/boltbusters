@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
 
+using EHE.Common.Godot.Logging;
 using Godot;
 using Godot.Collections;
 
@@ -258,6 +259,54 @@ namespace EHE.BoltBusters
                 _shootingSound.Play();
                 _isAttackPressed = false;
             }
+        }
+
+        /// <inheritdoc />
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> upgrades the
+        ///  charge speed.
+        /// </remarks>
+        public override bool Upgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return AddWeapon();
+                case UpgradeType.Secondary:
+                    // TODO: Check internally if the upgrade is possible!
+                    UpgradeChargeSpeed();
+                    return true;
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc />
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> downgrades the
+        ///  charge speed.
+        /// </remarks>
+        public override bool Downgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return RemoveWeapon();
+                case UpgradeType.Secondary:
+                    // TODO: Check internally if the downgrade is possible!
+                    DowngradeChargeSpeed();
+                    return true;
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
         }
 
         /// <summary>

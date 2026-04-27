@@ -3,6 +3,7 @@
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 //            Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -349,6 +350,54 @@ namespace EHE.BoltBusters
             //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.ReadyToFire);
             _currentHeat = 1;
             //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
+        }
+
+        /// <inheritdoc />
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> upgrades the
+        ///  cooling.
+        /// </remarks>
+        public override bool Upgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return AddWeapon();
+                case UpgradeType.Secondary:
+                    // TODO: Check internally if the upgrade is possible!
+                    UpgradeCooling();
+                    return true;
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc />
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> downgrades the
+        ///  cooling.
+        /// </remarks>
+        public override bool Downgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return RemoveWeapon();
+                case UpgradeType.Secondary:
+                    // TODO: Check internally if the downgrade is possible!
+                    DowngradeCooling();
+                    return true;
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
         }
 
         /// <summary>
