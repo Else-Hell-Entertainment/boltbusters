@@ -10,37 +10,41 @@ namespace EHE.BoltBusters.Ui
     public partial class MenuShop : Menu
     {
         [Export]
-        private Button _btnUpgradeChaingun;
-
-        [Export]
-        private Button _btnUpgradeRailgun;
-
-        [Export]
-        private Button _btnUpgradeRocketLauncher;
-
-        [Export]
-        private Button _btnDowngradeChaingun;
-
-        [Export]
-        private Button _btnDowngradeRailgun;
-
-        [Export]
-        private Button _btnDowngradeRocketLauncher;
-
-        [Export]
         private Button _btnEnterNextRound;
 
         [Export]
         private ToastLabel _toastLabel;
 
+        [ExportGroup("Primary Upgrade Buttons")]
+        [Export]
+        private Button _btnPrimaryUpgradeChaingun;
+
+        [Export]
+        private Button _btnPrimaryUpgradeRailgun;
+
+        [Export]
+        private Button _btnPrimaryUpgradeRocket;
+
+        [ExportGroup("Secondary Upgrade Buttons")]
+        [Export]
+        private Button _btnSecondaryUpgradeChaingun;
+
+        [Export]
+        private Button _btnSecondaryUpgradeRailgun;
+
+        [Export]
+        private Button _btnSecondaryUpgradeRocket;
+
         public override void _EnterTree()
         {
-            _btnUpgradeChaingun.Pressed += OnBtnUpgradeChaingunPressed;
-            _btnUpgradeRailgun.Pressed += OnBtnUpgradeRailgunPressed;
-            _btnUpgradeRocketLauncher.Pressed += OnBtnUpgradeRocketLauncherPressed;
-            _btnDowngradeChaingun.Pressed += OnBtnDowngradeChaingunPressed;
-            _btnDowngradeRailgun.Pressed += OnBtnDowngradeRailgunPressed;
-            _btnDowngradeRocketLauncher.Pressed += OnBtnDowngradeRocketLauncherPressed;
+            _btnPrimaryUpgradeChaingun.Pressed += OnBtnPrimaryUpgradeChaingunPressed;
+            _btnPrimaryUpgradeRailgun.Pressed += OnBtnPrimaryUpgradeRailgunPressed;
+            _btnPrimaryUpgradeRocket.Pressed += OnBtnPrimaryUpgradeRocketPressed;
+
+            _btnSecondaryUpgradeChaingun.Pressed += OnBtnSecondaryUpgradeChaingunPressed;
+            _btnSecondaryUpgradeRailgun.Pressed += OnBtnSecondaryUpgradeRailgunPressed;
+            _btnSecondaryUpgradeRocket.Pressed += OnBtnSecondaryUpgradeRocketPressed;
+
             _btnEnterNextRound.Pressed += OnBtnEnterNextRoundPressed;
 
             GameManager.Instance.WeaponUpgradeSucceeded += OnWeaponUpgradeSucceeded;
@@ -49,56 +53,18 @@ namespace EHE.BoltBusters.Ui
 
         public override void _ExitTree()
         {
-            _btnUpgradeChaingun.Pressed -= OnBtnUpgradeChaingunPressed;
-            _btnUpgradeRailgun.Pressed -= OnBtnUpgradeRailgunPressed;
-            _btnUpgradeRocketLauncher.Pressed -= OnBtnUpgradeRocketLauncherPressed;
-            _btnDowngradeChaingun.Pressed -= OnBtnDowngradeChaingunPressed;
-            _btnDowngradeRailgun.Pressed -= OnBtnDowngradeRailgunPressed;
-            _btnDowngradeRocketLauncher.Pressed -= OnBtnDowngradeRocketLauncherPressed;
+            _btnPrimaryUpgradeChaingun.Pressed -= OnBtnPrimaryUpgradeChaingunPressed;
+            _btnPrimaryUpgradeRailgun.Pressed -= OnBtnPrimaryUpgradeRailgunPressed;
+            _btnPrimaryUpgradeRocket.Pressed -= OnBtnPrimaryUpgradeRocketPressed;
+
+            _btnSecondaryUpgradeChaingun.Pressed -= OnBtnSecondaryUpgradeChaingunPressed;
+            _btnSecondaryUpgradeRailgun.Pressed -= OnBtnSecondaryUpgradeRailgunPressed;
+            _btnSecondaryUpgradeRocket.Pressed -= OnBtnSecondaryUpgradeRocketPressed;
+
             _btnEnterNextRound.Pressed -= OnBtnEnterNextRoundPressed;
 
             GameManager.Instance.WeaponUpgradeSucceeded -= OnWeaponUpgradeSucceeded;
             GameManager.Instance.WeaponUpgradeFailed -= OnWeaponUpgradeFailed;
-        }
-
-        private void RequestWeaponUpgrade(WeaponType weaponType)
-        {
-            GameManager.Instance.EmitSignal(GameManager.SignalName.RequestWeaponUpgrade, (int)weaponType);
-        }
-
-        private void RequestWeaponDowngrade(WeaponType weaponType)
-        {
-            GameManager.Instance.EmitSignal(GameManager.SignalName.RequestWeaponDowngrade, (int)weaponType);
-        }
-
-        private void OnBtnUpgradeChaingunPressed()
-        {
-            RequestWeaponUpgrade(WeaponType.Chaingun);
-        }
-
-        private void OnBtnUpgradeRailgunPressed()
-        {
-            RequestWeaponUpgrade(WeaponType.Railgun);
-        }
-
-        private void OnBtnUpgradeRocketLauncherPressed()
-        {
-            RequestWeaponUpgrade(WeaponType.Rocket);
-        }
-
-        private void OnBtnDowngradeChaingunPressed()
-        {
-            RequestWeaponDowngrade(WeaponType.Chaingun);
-        }
-
-        private void OnBtnDowngradeRailgunPressed()
-        {
-            RequestWeaponDowngrade(WeaponType.Railgun);
-        }
-
-        private void OnBtnDowngradeRocketLauncherPressed()
-        {
-            RequestWeaponDowngrade(WeaponType.Rocket);
         }
 
         private void OnBtnEnterNextRoundPressed()
@@ -131,5 +97,52 @@ namespace EHE.BoltBusters.Ui
 
             _toastLabel.Toast();
         }
+
+        private void RequestWeaponUpgrade(WeaponType weaponType, UpgradeType upgradeType)
+        {
+            GameManager.Instance.EmitSignal(
+                GameManager.SignalName.RequestWeaponUpgrade,
+                (int)weaponType,
+                (int)upgradeType
+            );
+        }
+
+        #region Primary Upgrades
+
+        private void OnBtnPrimaryUpgradeChaingunPressed()
+        {
+            RequestWeaponUpgrade(WeaponType.Chaingun, UpgradeType.Primary);
+        }
+
+        private void OnBtnPrimaryUpgradeRailgunPressed()
+        {
+            RequestWeaponUpgrade(WeaponType.Railgun, UpgradeType.Primary);
+        }
+
+        private void OnBtnPrimaryUpgradeRocketPressed()
+        {
+            RequestWeaponUpgrade(WeaponType.Rocket, UpgradeType.Primary);
+        }
+
+        #endregion Primary Upgrades
+
+        #region Secondary Upgrades
+
+        private void OnBtnSecondaryUpgradeChaingunPressed()
+        {
+            RequestWeaponUpgrade(WeaponType.Chaingun, UpgradeType.Secondary);
+        }
+
+        private void OnBtnSecondaryUpgradeRailgunPressed()
+        {
+            RequestWeaponUpgrade(WeaponType.Railgun, UpgradeType.Secondary);
+        }
+
+        private void OnBtnSecondaryUpgradeRocketPressed()
+        {
+            RequestWeaponUpgrade(WeaponType.Rocket, UpgradeType.Secondary);
+        }
+
+        #endregion Secondary Upgrades
     }
 }

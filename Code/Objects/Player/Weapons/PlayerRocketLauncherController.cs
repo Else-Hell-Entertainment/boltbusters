@@ -3,6 +3,7 @@
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 //            Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -13,14 +14,12 @@ namespace EHE.BoltBusters
         [Export]
         private float _range = 12f;
 
+        [Export]
+        private int _maxSecondaryUpgradeCount = 4;
+
         private Sprite3D _reticle;
 
         public override WeaponType WeaponType => WeaponType.Rocket;
-
-        /// <summary>
-        /// Counter for how many salvo size upgrades have been bought. Use Upgrade/DowngradeSalvoSize to change.
-        /// </summary>
-        public int SalvoSizeUpgradeCount { get; private set; }
 
         [Signal]
         public delegate void RocketLauncherConfigurationChangedEventHandler();
@@ -66,26 +65,35 @@ namespace EHE.BoltBusters
             return false;
         }
 
-        public void UpgradeSalvoSize()
+        public bool UpgradeSalvoSize()
         {
-            SalvoSizeUpgradeCount++;
-            foreach (BaseWeapon weapon in Weapons)
+            if (SecondaryUpgradeCount < _maxSecondaryUpgradeCount)
             {
-                if (weapon is RocketLauncher launcher)
+                SecondaryUpgradeCount++;
+                foreach (BaseWeapon weapon in Weapons)
                 {
-                    launcher.IncreaseSalvoSize();
+                    if (weapon is RocketLauncher launcher)
+                    {
+                        launcher.IncreaseSalvoSize();
 #if Debug
-                    GD.Print("Increasing rocket launcher salvo size");
+                        GD.Print("Increasing rocket launcher salvo size");
 #endif
+                    }
                 }
+                EmitSignal(SignalName.RocketLauncherConfigurationChanged);
+                return true;
             }
 
-            EmitSignal(SignalName.RocketLauncherConfigurationChanged);
+            return false;
         }
 
-        public void DowngradeSalvoSize()
+        public bool DowngradeSalvoSize()
         {
-            SalvoSizeUpgradeCount--;
+            if (SecondaryUpgradeCount <= 0)
+            {
+                return false;
+            }
+            SecondaryUpgradeCount--;
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is RocketLauncher launcher)
@@ -97,6 +105,51 @@ namespace EHE.BoltBusters
                 }
             }
             EmitSignal(SignalName.RocketLauncherConfigurationChanged);
+            return true;
+        }
+
+        /// <inheritdoc/>
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> upgrades the salvo
+        ///  size.
+        /// </remarks>
+        public override bool Upgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return AddWeapon();
+                case UpgradeType.Secondary:
+                    return UpgradeSalvoSize();
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc />
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> downgrades the
+        ///  salvo size.
+        /// </remarks>
+        public override bool Downgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return RemoveWeapon();
+                case UpgradeType.Secondary:
+                    return DowngradeSalvoSize();
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
         }
     }
 }

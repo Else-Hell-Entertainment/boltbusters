@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
 
+using EHE.Common.Godot.Logging;
 using Godot;
 using Godot.Collections;
 
@@ -42,6 +43,9 @@ namespace EHE.BoltBusters
 
         [Export]
         private float _chargeVolumeWindDownTime = 1f;
+
+        [Export]
+        private int _maxSecondaryUpgrades = 4;
 
         public override WeaponType WeaponType => WeaponType.Railgun;
 
@@ -171,8 +175,14 @@ namespace EHE.BoltBusters
             return false;
         }
 
-        public void UpgradeChargeSpeed()
+        public bool UpgradeChargeSpeed()
         {
+            if (SecondaryUpgradeCount >= _maxSecondaryUpgrades)
+            {
+                GD.Print("Cannot upgrade railgun further.");
+                return false;
+            }
+
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is Railgun railgun)
@@ -181,10 +191,17 @@ namespace EHE.BoltBusters
                     EmitSignal(SignalName.RailgunConfigurationChanged);
                 }
             }
+            SecondaryUpgradeCount++;
+            return true;
         }
 
-        public void DowngradeChargeSpeed()
+        public bool DowngradeChargeSpeed()
         {
+            if (SecondaryUpgradeCount <= 0)
+            {
+                GD.Print("Cannot downgrade railgun further.");
+                return false;
+            }
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is Railgun railgun)
@@ -193,6 +210,7 @@ namespace EHE.BoltBusters
                     EmitSignal(SignalName.RailgunConfigurationChanged);
                 }
             }
+            return true;
         }
 
         private void InitializeNodes()
@@ -258,6 +276,50 @@ namespace EHE.BoltBusters
                 _shootingSound.Play();
                 _isAttackPressed = false;
             }
+        }
+
+        /// <inheritdoc />
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> upgrades the
+        ///  charge speed.
+        /// </remarks>
+        public override bool Upgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return AddWeapon();
+                case UpgradeType.Secondary:
+                    return UpgradeChargeSpeed();
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc />
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> downgrades the
+        ///  charge speed.
+        /// </remarks>
+        public override bool Downgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return RemoveWeapon();
+                case UpgradeType.Secondary:
+                    return DowngradeChargeSpeed();
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
         }
 
         /// <summary>

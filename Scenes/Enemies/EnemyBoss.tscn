@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://tifq3kah83v1"]
+[gd_scene load_steps=28 format=4 uid="uid://tifq3kah83v1"]
 
 [ext_resource type="Script" uid="uid://cai3rjcjb1tw8" path="res://Code/Objects/Enemy/EnemyHammerBot.cs" id="1_1a4lf"]
 [ext_resource type="PackedScene" uid="uid://dsols73pua2hk" path="res://Scenes/Enemies/DeathScenes/BossDeath.tscn" id="2_g4dv0"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://b620lyqticbmf" path="res://Code/Objects/Enemy/EnemyHealthComponent.cs" id="3_58rly"]
 [ext_resource type="Script" uid="uid://dn3xdtkt00s1k" path="res://Code/Components/EnemyShaderComponent.cs" id="4_rw0a7"]
 [ext_resource type="Resource" uid="uid://d1rygoxvve6o4" path="res://Assets/Shaders/EnemyShaderPreset.tres" id="5_2jnly"]
+[ext_resource type="AudioStream" uid="uid://blr215lb06eem" path="res://Assets/SFX/EnemyPunchWindup.ogg" id="5_6327c"]
+[ext_resource type="AudioStream" uid="uid://blt3njtuj7vjc" path="res://Assets/SFX/EnemyPunchLaunch.ogg" id="6_4ukaf"]
 [ext_resource type="AudioStream" uid="uid://4ob6hn3fb2t5" path="res://Assets/SFX/EnemyHurt.ogg" id="8_nmoir"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3350k"]
@@ -299,6 +301,36 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0, -1.1335913, 0), Vector3(0, 0.99288267, 0), Vector3(0, 0, 0)]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../EnemyPunchWindupSFX")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 1.42,
+"start_offset": 0.0,
+"stream": ExtResource("5_6327c")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/2/use_blend = true
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../EnemyPunchLaunchSFX")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("6_4ukaf")
+}],
+"times": PackedFloat32Array(0.3)
+}
+tracks/3/use_blend = true
 
 [sub_resource type="Animation" id="Animation_g4dv0"]
 length = 0.001
@@ -393,4 +425,14 @@ metadata/_custom_type_script = "uid://b620lyqticbmf"
 stream = ExtResource("8_nmoir")
 volume_db = -1.0
 max_db = 4.0
+bus = &"Sfx"
+
+[node name="EnemyPunchWindupSFX" type="AudioStreamPlayer3D" parent="."]
+max_db = 0.0
+pitch_scale = 0.8
+bus = &"Sfx"
+
+[node name="EnemyPunchLaunchSFX" type="AudioStreamPlayer3D" parent="."]
+volume_db = 3.0
+pitch_scale = 0.8
 bus = &"Sfx"

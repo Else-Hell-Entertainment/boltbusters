@@ -3,6 +3,8 @@
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 //            Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -106,6 +108,10 @@ namespace EHE.BoltBusters
         [Export]
         private float _coolingUpgradeIncrease = 1f;
 
+        // How many times can cooling be upgraded.
+        [Export]
+        private int _maxCoolingUpgrades = 6;
+
         // After overheating the weapon must cool down below this level to be able to fire again.
         [Export]
         private float _overheatRecoveryThreshold = 80f;
@@ -113,6 +119,9 @@ namespace EHE.BoltBusters
         [ExportGroup("References")]
         [Export]
         private AudioStreamPlayer3D _shootingAudio;
+
+        [Export]
+        private AudioStreamPlayer3D _overheatAudio;
 
         private float _attackTimer;
         private float _attackInterval = 0.5f;
@@ -129,7 +138,7 @@ namespace EHE.BoltBusters
         /// </summary>
         public ChaingunState CurrentPersistentState { get; private set; } = ChaingunState.None;
 
-        public float CoolingRateUpgrade { get; private set; } = 0;
+        //public int CoolingUpgradesBought { get; private set; }
 
         public override WeaponType WeaponType => WeaponType.Chaingun;
 
@@ -237,7 +246,7 @@ namespace EHE.BoltBusters
                 _audioTimer = 0;
             }
 
-            ReduceHeat((_baseCoolingRate + CoolingRateUpgrade) * deltaTime);
+            ReduceHeat((_baseCoolingRate + (SecondaryUpgradeCount * _coolingUpgradeIncrease)) * deltaTime);
         }
 
         #region Heating mechanics
@@ -254,21 +263,32 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Adds one level of cooling upgrade (defined in code).
         /// </summary>
-        public void UpgradeCooling()
+        public bool UpgradeCooling()
         {
-            CoolingRateUpgrade += _coolingUpgradeIncrease;
+            if (SecondaryUpgradeCount < _maxCoolingUpgrades)
+            {
+                SecondaryUpgradeCount++;
+                this.PrintDebug("Chaingun cooling upgraded.");
+
+                return true;
+            }
+            this.PrintDebug("Chaingun cooling maxed out. Cannot upgrade.");
+            return false;
         }
 
         /// <summary>
         /// Removes one level of cooling upgrades. Total cooling can never drop below base value defined in code.
         /// </summary>
-        public void DowngradeCooling()
+        public bool DowngradeCooling()
         {
-            CoolingRateUpgrade -= _coolingUpgradeIncrease;
-            if (CoolingRateUpgrade < 0)
+            if (SecondaryUpgradeCount >= 0)
             {
-                CoolingRateUpgrade = 0;
+                SecondaryUpgradeCount--;
+                this.PrintDebug("Chaingun cooling downgraded.");
+                return true;
             }
+            this.PrintDebug("Chaingun cooling could not be downgraded further.");
+            return false;
         }
 
         /// <summary>
@@ -306,6 +326,10 @@ namespace EHE.BoltBusters
             // Inform UI of heat change.
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
             // Handle case where weapon was overheating and has cooled down.
+            if (CurrentPersistentState == ChaingunState.Overheat && !MusicManager.Instance.OverheatAlarmSFX.IsPlaying())
+            {
+                MusicManager.Instance.OverheatAlarmSFX.Play();
+            }
             if (CurrentPersistentState == ChaingunState.Overheat && _currentHeat < _overheatRecoveryThreshold)
             {
                 CurrentPersistentState = ChaingunState.ReadyToFire;
@@ -319,6 +343,8 @@ namespace EHE.BoltBusters
         private void TriggerOverheat()
         {
             CurrentPersistentState = ChaingunState.Overheat;
+            _overheatAudio.Play();
+            MusicManager.Instance.OverheatAlarmSFX.Play();
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.Overheat);
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.NotReadyToFire);
         }
@@ -345,6 +371,50 @@ namespace EHE.BoltBusters
             //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.ReadyToFire);
             _currentHeat = 1;
             //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
+        }
+
+        /// <inheritdoc />
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> upgrades the
+        ///  cooling.
+        /// </remarks>
+        public override bool Upgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return AddWeapon();
+                case UpgradeType.Secondary:
+                    return UpgradeCooling();
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc />
+        /// <remarks>
+        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
+        ///  controller. <see cref="UpgradeType.Secondary"/> downgrades the
+        ///  cooling.
+        /// </remarks>
+        public override bool Downgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return RemoveWeapon();
+                case UpgradeType.Secondary:
+                    return DowngradeCooling();
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
         }
 
         /// <summary>

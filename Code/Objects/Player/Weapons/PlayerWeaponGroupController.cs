@@ -5,6 +5,7 @@
 
 using System.Collections.Generic;
 using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -14,12 +15,19 @@ namespace EHE.BoltBusters
     /// work, add any number of Node3D nodes as children of the WeaponSlots node in the editor. Weapons will be spawned
     /// to these points.
     /// </summary>
-    public partial class PlayerWeaponGroupController : Node3D, IAttacker, IUpgradeable
+    public abstract partial class PlayerWeaponGroupController : Node3D, IAttacker, IUpgradeable
     {
         private List<Node3D> _weaponSlots = new List<Node3D>();
 
         [Export]
         private PackedScene _weaponScene;
+
+        /// <summary>
+        ///  Price info for each supported upgrades. <see cref="UpgradeType"/>
+        ///  are used as keys and <see cref="PriceInfo"/> as values.
+        /// </summary>
+        [Export]
+        protected Godot.Collections.Dictionary<UpgradeType, PriceInfo> Prices { get; set; }
 
         public List<BaseWeapon> Weapons { get; } = new List<BaseWeapon>();
 
@@ -38,10 +46,7 @@ namespace EHE.BoltBusters
         /// </summary>
         public virtual WeaponType WeaponType => WeaponType.None;
 
-        /// <inheritdoc/>
-        [ExportCategory("IUpgradeable")]
-        [Export]
-        public virtual PriceInfo PriceInfo { get; private set; }
+        public int SecondaryUpgradeCount { get; protected set; }
 
         public override void _Ready()
         {
@@ -87,6 +92,16 @@ namespace EHE.BoltBusters
             Node3D node = _weaponSlots[newIndex];
             weapon.Position = node.GetPosition();
             AddChild(weapon);
+
+            var playerData = GameManager.Instance.CurrentPlayerData;
+            if (playerData == null)
+            {
+                // Player data can be null when in main menu.
+                // In this case, there is nothing to update so we just return.
+                return true;
+            }
+
+            playerData.IncreaseWeaponCount(WeaponType);
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
             return true;
         }
@@ -102,6 +117,16 @@ namespace EHE.BoltBusters
                 BaseWeapon weapon = Weapons[lastIndex];
                 Weapons.RemoveAt(lastIndex);
                 weapon.QueueFree();
+
+                var playerData = GameManager.Instance.CurrentPlayerData;
+                if (playerData == null)
+                {
+                    // Player data can be null when in main menu.
+                    // In this case, there is nothing to update so we just return.
+                    return true;
+                }
+
+                playerData.IncreaseWeaponCount(WeaponType);
                 GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
                 return true;
             }
@@ -146,22 +171,6 @@ namespace EHE.BoltBusters
             return true;
         }
 
-        public virtual bool Upgrade()
-        {
-#if DEBUG
-            GD.Print($"Upgrading {Name} ({GetType()})");
-#endif
-            return AddWeapon();
-        }
-
-        public virtual bool Downgrade()
-        {
-#if DEBUG
-            GD.Print($"Downgrading {Name} ({GetType()})");
-#endif
-            return RemoveWeapon();
-        }
-
         /// <summary>
         /// Resets all weapons to their default state by calling BaseWeapon.Reset().
         /// If the controller has any custom behaviours that also need to be reset, override the method and add the
@@ -175,6 +184,59 @@ namespace EHE.BoltBusters
             }
         }
 
+        #region IUpgradeable
+
+        /// <summary>
+        ///  Returns the price for the given upgrade type or <c>null</c> if
+        ///  info is not found.
+        /// </summary>
+        ///
+        /// <param name="upgradeType"><inheritdoc/></param>
+        ///
+        /// <returns>
+        ///  The price of the given upgrade as a <see cref="PriceInfo"/> object
+        ///  if one is defined; <c>null</c> otherwise.
+        /// </returns>
+        ///
+        /// <remarks>
+        ///  This method logs an error message with the stack trace if finding
+        ///  the upgrade type fails.
+        /// </remarks>
+        public PriceInfo GetPrice(UpgradeType upgradeType)
+        {
+            if (Prices.TryGetValue(upgradeType, out var priceInfo))
+            {
+                return priceInfo;
+            }
+
+            this.LogError($"Cannot get upgrade price for '{upgradeType}': Key not found!");
+            return null;
+        }
+
+        /// <inheritdoc/>
+        public bool SetPrice(UpgradeType upgradeType, PriceInfo priceInfo)
+        {
+            if (Prices.ContainsKey(upgradeType))
+            {
+                Prices[upgradeType] = priceInfo;
+                return true;
+            }
+
+            this.LogError($"Cannot set upgrade price for '{upgradeType}': Key not found!");
+            return false;
+        }
+
+        /// <inheritdoc/>
+        public abstract bool Upgrade(UpgradeType type);
+
+        /// <inheritdoc/>
+        public abstract bool Downgrade(UpgradeType type);
+
+        #endregion IUpgradeable
+
+
+        #region Private Implementations
+
         /// <summary>
         ///  Removes all weapons from the controller.
         /// </summary>
@@ -186,5 +248,7 @@ namespace EHE.BoltBusters
                 RemoveWeapon();
             }
         }
+
+        #endregion Private Implementations
     }
 }

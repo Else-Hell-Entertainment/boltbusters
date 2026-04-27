@@ -1,0 +1,259 @@
+[gd_resource type="Theme" load_steps=34 format=3 uid="uid://37x8ktkfbdl6"]
+
+[ext_resource type="Texture2D" uid="uid://swv573pgo35e" path="res://Assets/Sprites/UI/UIButton.png" id="1_bqta6"]
+[ext_resource type="StyleBox" uid="uid://prbfus1hd6ry" path="res://Assets/Sprites/UI/UIPanel.tres" id="2_lmfp1"]
+[ext_resource type="StyleBox" uid="uid://ju1cen67lu64" path="res://Assets/Sprites/UI/UIButton.tres" id="3_lmfp1"]
+[ext_resource type="Texture2D" uid="uid://dg4wxldicnno4" path="res://Assets/Sprites/UI/UIChecked.png" id="4_bv2u3"]
+[ext_resource type="Texture2D" uid="uid://g5c8gtbmbayh" path="res://Assets/Sprites/UI/OptionArrow.png" id="4_hgdee"]
+[ext_resource type="FontFile" uid="uid://cdlf44v3b3ac0" path="res://ThirdParty/Assets/Fonts/Stormfaze/Stormfaze.otf" id="4_oy6hh"]
+[ext_resource type="Texture2D" uid="uid://qvll75ma6flh" path="res://Assets/Sprites/UI/UIUnchecked.png" id="5_760lw"]
+[ext_resource type="Texture2D" uid="uid://wa0l1j2j2p51" path="res://Assets/Sprites/UI/RadioChecked.png" id="6_jns6a"]
+[ext_resource type="Texture2D" uid="uid://dayy7lklklsq5" path="res://Assets/Sprites/UI/RadioUnchecked.png" id="7_kqw78"]
+[ext_resource type="Texture2D" uid="uid://ha2s8ufdatdl" path="res://Assets/Sprites/UI/CheckButtonChecked.png" id="8_jns6a"]
+[ext_resource type="Texture2D" uid="uid://cln5801sk6wuh" path="res://Assets/Sprites/UI/CheckButtonUnchecked.png" id="9_kqw78"]
+[ext_resource type="StyleBox" uid="uid://b6l5ii5h4km1h" path="res://Assets/Sprites/UI/Slider.tres" id="10_hco10"]
+[ext_resource type="StyleBox" uid="uid://dki4g4uetybln" path="res://Assets/Sprites/UI/SliderHighlight.tres" id="11_rq1h4"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lmfp1"]
+texture = ExtResource("1_bqta6")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7b8hg"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="DPITexture" id="DPITexture_hco10"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"16\"><rect width=\"30\" height=\"14\" x=\"1\" y=\"1\" fill=\"#fff\" fill-opacity=\".37\" rx=\"7\"/><circle cx=\"24\" cy=\"8\" r=\"5\" fill=\"#1a1a1a\" fill-opacity=\".5\"/></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_rq1h4"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"16\"><rect width=\"30\" height=\"14\" x=\"1\" y=\"1\" fill=\"#fff\" fill-opacity=\".37\" rx=\"7\"/><circle cx=\"8\" cy=\"8\" r=\"5\" fill=\"#1a1a1a\" fill-opacity=\".5\"/></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_oj4i0"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"16\"><rect width=\"30\" height=\"14\" x=\"1\" y=\"1\" fill=\"#fff\" fill-opacity=\".75\" rx=\"7\"/><circle cx=\"8\" cy=\"8\" r=\"5\" fill=\"#1a1a1a\"/></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_lhft5"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"16\"><g fill-opacity=\".25\"><rect width=\"30\" height=\"14\" x=\"1\" y=\"1\" fill=\"#1a1a1a\" rx=\"7\"/><circle cx=\"24\" cy=\"8\" r=\"5\" fill=\"#fff\"/></g></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_y3egp"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"16\"><g fill-opacity=\".5\"><rect width=\"30\" height=\"14\" x=\"1\" y=\"1\" fill=\"#1a1a1a\" rx=\"7\"/><circle cx=\"24\" cy=\"8\" r=\"5\" fill=\"#fff\"/></g></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_kqw78"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><rect width=\"14\" height=\"14\" x=\"1\" y=\"1\" fill=\"#fff\" fill-opacity=\".37\" rx=\"2.333\"/><path fill=\"#1a1a1a\" fill-opacity=\".5\" d=\"m11.5 3.75-5.6 5.6-1.7-1.7-1.5 1.5 3.2 3.2 7.1-7.1z\"/></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_f0x37"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"8\" height=\"16\"><path fill=\"none\" stroke=\"#b2b2b2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-opacity=\".45\" stroke-width=\"2\" d=\"m2.5 11 3-3-3-3\"/></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_a0ue5"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"8\" height=\"16\"><path fill=\"none\" stroke=\"#b2b2b2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-opacity=\".45\" stroke-width=\"2\" d=\"m5.5 11-3-3 3-3\"/></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_uiauc"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><rect width=\"14\" height=\"14\" x=\"1\" y=\"1\" fill=\"#1a1a1a\" fill-opacity=\".25\" rx=\"2.333\"/></svg>
+"
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_lg71p"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 0.0
+color = Color(0.5, 0.5, 0.5, 1)
+
+[sub_resource type="DPITexture" id="DPITexture_fp82s"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><circle cx=\"8\" cy=\"8\" r=\"6\" fill=\"#fefffe\" fill-opacity=\".75\"/><path fill=\"none\" stroke=\"#1a1a1a\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-opacity=\".65\" stroke-width=\"2\" d=\"m9 5-3 3 3 3\"/></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_fsddi"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><circle cx=\"8\" cy=\"8\" r=\"6\" fill=\"#fefffe\"/><path fill=\"none\" stroke=\"#1a1a1a\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"m9 5-3 3 3 3\"/></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_7b8hg"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"32\"><path fill=\"#d3d3d3\" d=\"m5 1h6v30h-6z\"/></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_bv2u3"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><circle cx=\"8\" cy=\"8\" r=\"6\" fill=\"#fefffe\" fill-opacity=\".75\"/><path fill=\"none\" stroke=\"#1a1a1a\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-opacity=\".65\" stroke-width=\"2\" d=\"m7 5 3 3-3 3\"/></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_760lw"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><circle cx=\"8\" cy=\"8\" r=\"6\" fill=\"#fefffe\"/><path fill=\"none\" stroke=\"#1a1a1a\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"m7 5 3 3-3 3\"/></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_oy6hh"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#b2b2b2\" fill-opacity=\".45\" d=\"M8 0a2 2 0 0 0 0 4 2 2 0 0 0 0-4zm0 6a2 2 0 0 0 0 4 2 2 0 0 0 0-4zm0 6a2 2 0 0 0 0 4 2 2 0 0 0 0-4z\"/></svg>
+"
+
+[sub_resource type="DPITexture" id="DPITexture_jns6a"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#b2b2b2\" fill-opacity=\".65\" d=\"M8 0a2 2 0 0 0 0 4 2 2 0 0 0 0-4zm0 6a2 2 0 0 0 0 4 2 2 0 0 0 0-4zm0 6a2 2 0 0 0 0 4 2 2 0 0 0 0-4z\"/></svg>
+"
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kqw78"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+
+[resource]
+default_font = ExtResource("4_oy6hh")
+Button/colors/icon_disabled_color = Color(1, 1, 1, 0.4)
+Button/colors/icon_focus_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_normal_color = Color(1, 1, 1, 1)
+Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
+Button/font_sizes/font_size = 16
+Button/fonts/font = ExtResource("4_oy6hh")
+Button/styles/disabled = ExtResource("3_lmfp1")
+Button/styles/focus = ExtResource("3_lmfp1")
+Button/styles/hover = ExtResource("3_lmfp1")
+Button/styles/normal = SubResource("StyleBoxTexture_lmfp1")
+Button/styles/pressed = SubResource("StyleBoxFlat_7b8hg")
+CheckBox/constants/h_separation = 10
+CheckBox/font_sizes/font_size = 16
+CheckBox/icons/checked = ExtResource("4_bv2u3")
+CheckBox/icons/checked_disabled = ExtResource("5_760lw")
+CheckBox/icons/radio_checked = ExtResource("6_jns6a")
+CheckBox/icons/radio_checked_disabled = ExtResource("7_kqw78")
+CheckBox/icons/radio_unchecked = ExtResource("7_kqw78")
+CheckBox/icons/radio_unchecked_disabled = ExtResource("7_kqw78")
+CheckBox/icons/unchecked = ExtResource("5_760lw")
+CheckBox/icons/unchecked_disabled = ExtResource("5_760lw")
+CheckBox/styles/disabled = ExtResource("3_lmfp1")
+CheckBox/styles/focus = ExtResource("3_lmfp1")
+CheckBox/styles/hover = ExtResource("3_lmfp1")
+CheckBox/styles/hover_pressed = ExtResource("3_lmfp1")
+CheckBox/styles/normal = ExtResource("3_lmfp1")
+CheckBox/styles/pressed = ExtResource("3_lmfp1")
+CheckButton/constants/check_v_offset = 0
+CheckButton/constants/h_separation = 4
+CheckButton/font_sizes/font_size = 16
+CheckButton/icons/checked = ExtResource("8_jns6a")
+CheckButton/icons/checked_disabled = SubResource("DPITexture_hco10")
+CheckButton/icons/checked_disabled_mirrored = SubResource("DPITexture_rq1h4")
+CheckButton/icons/checked_mirrored = SubResource("DPITexture_oj4i0")
+CheckButton/icons/unchecked = ExtResource("9_kqw78")
+CheckButton/icons/unchecked_disabled = ExtResource("9_kqw78")
+CheckButton/icons/unchecked_disabled_mirrored = SubResource("DPITexture_lhft5")
+CheckButton/icons/unchecked_mirrored = SubResource("DPITexture_y3egp")
+CheckButton/styles/disabled = ExtResource("3_lmfp1")
+CheckButton/styles/focus = ExtResource("3_lmfp1")
+CheckButton/styles/hover = ExtResource("3_lmfp1")
+CheckButton/styles/hover_pressed = ExtResource("3_lmfp1")
+CheckButton/styles/normal = ExtResource("3_lmfp1")
+CheckButton/styles/pressed = ExtResource("3_lmfp1")
+Control/colors/font_color = Color(1, 0.8745098, 0.46666667, 1)
+Control/colors/font_disabled_color = Color(0.54901963, 0.54901963, 0.54901963, 1)
+Control/colors/font_focus_color = Color(0.9882353, 0.9882353, 0.9882353, 1)
+Control/colors/font_hover_color = Color(0.9867516, 0.9867516, 0.9867516, 1)
+Control/colors/font_hover_pressed_color = Color(0.9882353, 0.9882353, 0.9882353, 1)
+Control/colors/font_hovered_color = Color(0.9882353, 0.9882353, 0.9882353, 1)
+Control/colors/font_outline_color = Color(0, 0, 0, 1)
+Control/colors/font_pressed_color = Color(1, 0.8745098, 0.46666667, 1)
+Control/colors/font_selected_color = Color(1, 0.8745098, 0.46666667, 1)
+Control/colors/font_unselected_color = Color(0.8745098, 0.44313726, 0.14901961, 1)
+Control/constants/outline_size = 10
+HBoxContainer/constants/separation = 4
+HSlider/constants/center_grabber = 0
+HSlider/constants/grabber_offset = 0
+HSlider/constants/tick_offset = 0
+HSlider/icons/grabber = ExtResource("7_kqw78")
+HSlider/icons/grabber_disabled = ExtResource("7_kqw78")
+HSlider/icons/grabber_highlight = ExtResource("6_jns6a")
+HSlider/icons/tick = ExtResource("1_bqta6")
+HSlider/styles/grabber_area = ExtResource("10_hco10")
+HSlider/styles/grabber_area_highlight = ExtResource("11_rq1h4")
+HSlider/styles/slider = ExtResource("2_lmfp1")
+MenuButton/constants/h_separation = 4
+MenuButton/font_sizes/font_size = 16
+MenuButton/styles/disabled = ExtResource("3_lmfp1")
+MenuButton/styles/focus = ExtResource("3_lmfp1")
+MenuButton/styles/hover = ExtResource("3_lmfp1")
+MenuButton/styles/normal = ExtResource("3_lmfp1")
+MenuButton/styles/pressed = ExtResource("3_lmfp1")
+OptionButton/constants/arrow_margin = 4
+OptionButton/constants/h_separation = 4
+OptionButton/font_sizes/font_size = 16
+OptionButton/icons/arrow = ExtResource("4_hgdee")
+OptionButton/styles/disabled = ExtResource("3_lmfp1")
+OptionButton/styles/disabled_mirrored = ExtResource("3_lmfp1")
+OptionButton/styles/focus = ExtResource("3_lmfp1")
+OptionButton/styles/hover = ExtResource("3_lmfp1")
+OptionButton/styles/hover_mirrored = ExtResource("3_lmfp1")
+OptionButton/styles/normal = ExtResource("3_lmfp1")
+OptionButton/styles/normal_mirrored = ExtResource("3_lmfp1")
+OptionButton/styles/pressed = ExtResource("3_lmfp1")
+OptionButton/styles/pressed_mirrored = ExtResource("3_lmfp1")
+Panel/styles/panel = ExtResource("2_lmfp1")
+PanelContainer/styles/panel = ExtResource("2_lmfp1")
+PopupMenu/constants/h_separation = 10
+PopupMenu/constants/icon_max_width = 0
+PopupMenu/constants/indent = 10
+PopupMenu/constants/item_end_padding = 2
+PopupMenu/constants/item_start_padding = 2
+PopupMenu/constants/outline_size = 10
+PopupMenu/constants/separator_outline_size = 0
+PopupMenu/constants/v_separation = 4
+PopupMenu/font_sizes/font_separator_size = 16
+PopupMenu/font_sizes/font_size = 16
+PopupMenu/icons/checked = ExtResource("4_bv2u3")
+PopupMenu/icons/checked_disabled = SubResource("DPITexture_kqw78")
+PopupMenu/icons/radio_checked = ExtResource("6_jns6a")
+PopupMenu/icons/radio_checked_disabled = ExtResource("7_kqw78")
+PopupMenu/icons/radio_unchecked = ExtResource("7_kqw78")
+PopupMenu/icons/radio_unchecked_disabled = ExtResource("7_kqw78")
+PopupMenu/icons/submenu = SubResource("DPITexture_f0x37")
+PopupMenu/icons/submenu_mirrored = SubResource("DPITexture_a0ue5")
+PopupMenu/icons/unchecked = ExtResource("5_760lw")
+PopupMenu/icons/unchecked_disabled = SubResource("DPITexture_uiauc")
+PopupMenu/styles/hover = ExtResource("3_lmfp1")
+PopupMenu/styles/labeled_separator_left = SubResource("StyleBoxLine_lg71p")
+PopupMenu/styles/labeled_separator_right = SubResource("StyleBoxLine_lg71p")
+PopupMenu/styles/panel = ExtResource("2_lmfp1")
+PopupMenu/styles/separator = SubResource("StyleBoxLine_lg71p")
+TabContainer/colors/drop_mark_color = Color(1, 1, 1, 1)
+TabContainer/constants/icon_max_width = 0
+TabContainer/constants/icon_separation = 4
+TabContainer/constants/side_margin = 8
+TabContainer/font_sizes/font_size = 16
+TabContainer/fonts/font = ExtResource("4_oy6hh")
+TabContainer/icons/decrement = SubResource("DPITexture_fp82s")
+TabContainer/icons/decrement_highlight = SubResource("DPITexture_fsddi")
+TabContainer/icons/drop_mark = SubResource("DPITexture_7b8hg")
+TabContainer/icons/increment = SubResource("DPITexture_bv2u3")
+TabContainer/icons/increment_highlight = SubResource("DPITexture_760lw")
+TabContainer/icons/menu = SubResource("DPITexture_oy6hh")
+TabContainer/icons/menu_highlight = SubResource("DPITexture_jns6a")
+TabContainer/styles/panel = ExtResource("2_lmfp1")
+TabContainer/styles/tab_disabled = ExtResource("3_lmfp1")
+TabContainer/styles/tab_focus = ExtResource("3_lmfp1")
+TabContainer/styles/tab_hovered = ExtResource("3_lmfp1")
+TabContainer/styles/tab_selected = ExtResource("3_lmfp1")
+TabContainer/styles/tab_unselected = ExtResource("3_lmfp1")
+TabContainer/styles/tabbar_background = SubResource("StyleBoxEmpty_kqw78")
+VSlider/constants/center_grabber = 0
+VSlider/constants/grabber_offset = 0
+VSlider/constants/tick_offset = 0
+VSlider/icons/grabber = ExtResource("7_kqw78")
+VSlider/icons/grabber_disabled = ExtResource("7_kqw78")
+VSlider/icons/grabber_highlight = ExtResource("6_jns6a")
+VSlider/icons/tick = ExtResource("1_bqta6")
+VSlider/styles/grabber_area = ExtResource("10_hco10")
+VSlider/styles/grabber_area_highlight = ExtResource("11_rq1h4")
+VSlider/styles/slider = ExtResource("2_lmfp1")

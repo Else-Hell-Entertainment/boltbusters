@@ -9,24 +9,51 @@ namespace EHE.BoltBusters.Ui
     public partial class HealthUi : Control
     {
         [Export]
-        private Label _healthLabel;
+        private Color _green = Colors.Green;
 
-        private Player _player;
+        [Export]
+        private Color _yellow = Colors.Yellow;
+
+        [Export]
+        private Color _red = Colors.Red;
+
+        [Export]
+        private TextureProgressBar _healthBar;
+
+        [Export]
+        private int _greenThreshold = 50;
+
+        [Export]
+        private int _yellowThreshold = 25;
 
         public override void _Ready()
         {
-            _player = LevelManager.Active.Player;
-            GameManager.Instance.RequestHudRefresh += UpdateHealthLabel;
+            GameManager.Instance.RequestHudRefresh += UpdateHealthUi;
+            UpdateHealthUi();
         }
 
         public override void _ExitTree()
         {
-            GameManager.Instance.RequestHudRefresh -= UpdateHealthLabel;
+            GameManager.Instance.RequestHudRefresh -= UpdateHealthUi;
         }
 
-        private void UpdateHealthLabel()
+        public void UpdateHealthUi()
         {
-            _healthLabel.Text = LevelManager.Active.Player.GetCurrentHealth().ToString();
+            float health = LevelManager.Active.Player.GetCurrentHealth();
+            _healthBar.Value = health;
+
+            if (health >= _greenThreshold)
+            {
+                _healthBar.TintProgress = _green;
+            }
+            else if (health >= _yellowThreshold)
+            {
+                _healthBar.TintProgress = _yellow;
+            }
+            else
+            {
+                _healthBar.TintProgress = _red;
+            }
         }
     }
 }
