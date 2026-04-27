@@ -1,10 +1,9 @@
 [gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://prbfus1hd6ry"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a3q8s"]
-load_path = "res://.godot/imported/UIPanel.png-2a78695c8b109dd130be1c6820bc2e2f.ctex"
+[ext_resource type="Texture2D" uid="uid://n7g246258c62" path="res://Assets/Sprites/UI/UIPanel.png" id="1_5x7i5"]
 
 [resource]
-texture = SubResource("CompressedTexture2D_a3q8s")
+texture = ExtResource("1_5x7i5")
 texture_margin_left = 12.0
 texture_margin_top = 12.0
 texture_margin_right = 12.0
