@@ -138,7 +138,7 @@ namespace EHE.BoltBusters
         /// </summary>
         public ChaingunState CurrentPersistentState { get; private set; } = ChaingunState.None;
 
-        public int CoolingUpgradesBought { get; private set; }
+        //public int CoolingUpgradesBought { get; private set; }
 
         public override WeaponType WeaponType => WeaponType.Chaingun;
 
@@ -246,7 +246,7 @@ namespace EHE.BoltBusters
                 _audioTimer = 0;
             }
 
-            ReduceHeat((_baseCoolingRate + (CoolingUpgradesBought * _coolingUpgradeIncrease)) * deltaTime);
+            ReduceHeat((_baseCoolingRate + (SecondaryUpgradeCount * _coolingUpgradeIncrease)) * deltaTime);
         }
 
         #region Heating mechanics
@@ -265,9 +265,9 @@ namespace EHE.BoltBusters
         /// </summary>
         public bool UpgradeCooling()
         {
-            if (CoolingUpgradesBought < _maxCoolingUpgrades)
+            if (SecondaryUpgradeCount < _maxCoolingUpgrades)
             {
-                CoolingUpgradesBought++;
+                SecondaryUpgradeCount++;
                 this.PrintDebug("Chaingun cooling upgraded.");
 
                 return true;
@@ -281,9 +281,9 @@ namespace EHE.BoltBusters
         /// </summary>
         public bool DowngradeCooling()
         {
-            if (CoolingUpgradesBought >= 0)
+            if (SecondaryUpgradeCount >= 0)
             {
-                CoolingUpgradesBought--;
+                SecondaryUpgradeCount--;
                 this.PrintDebug("Chaingun cooling downgraded.");
                 return true;
             }
@@ -381,9 +381,8 @@ namespace EHE.BoltBusters
                 case UpgradeType.Primary:
                     return AddWeapon();
                 case UpgradeType.Secondary:
-                    // TODO: Check internally if the upgrade is possible!
-                    UpgradeCooling();
-                    return true;
+                    return UpgradeCooling();
+
                 default:
                     this.LogWarning("Unknown upgrade type.");
                     break;
@@ -405,9 +404,7 @@ namespace EHE.BoltBusters
                 case UpgradeType.Primary:
                     return RemoveWeapon();
                 case UpgradeType.Secondary:
-                    // TODO: Check internally if the downgrade is possible!
-                    DowngradeCooling();
-                    return true;
+                    return DowngradeCooling();
                 default:
                     this.LogWarning("Unknown upgrade type.");
                     break;

@@ -46,6 +46,8 @@ namespace EHE.BoltBusters
         /// </summary>
         public virtual WeaponType WeaponType => WeaponType.None;
 
+        public int SecondaryUpgradeCount { get; protected set; }
+
         public override void _Ready()
         {
             Node3D weaponSlots = GetNode<Node3D>("WeaponSlots");
