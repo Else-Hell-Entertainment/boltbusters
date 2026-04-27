@@ -382,7 +382,6 @@ namespace EHE.BoltBusters
                     return AddWeapon();
                 case UpgradeType.Secondary:
                     return UpgradeCooling();
-
                 default:
                     this.LogWarning("Unknown upgrade type.");
                     break;
