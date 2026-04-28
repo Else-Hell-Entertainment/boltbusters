@@ -44,6 +44,7 @@ namespace EHE.BoltBusters
         private const string KEY_WEAPON_COUNTS = "WeaponCounts";
         private const string KEY_LEVEL_INDEX = "LevelIndex";
         private const string KEY_START_FROM_SHOP = "StartFromShop";
+        private const string KEY_SECONDARY_UPGRADE_COUNTS = "SecondaryUpgradeCounts";
         private const string LOAD_ERROR_FORMAT = "Failed to load '{0}' from save data; using default value of '{1}'.";
 
         #endregion Constants
@@ -875,6 +876,7 @@ namespace EHE.BoltBusters
                 [KEY_START_FROM_SHOP] = StartFromShop,
                 [KEY_COLLECTIBLE_COUNTS] = _collectibleCounts,
                 [KEY_WEAPON_COUNTS] = _weaponCounts,
+                [KEY_SECONDARY_UPGRADE_COUNTS] = _secondaryUpgradeCounts,
             };
         }
 
@@ -910,6 +912,7 @@ namespace EHE.BoltBusters
             LoadLevelClearedFlag(data);
             LoadCollectibleCounts(data);
             LoadWeaponCounts(data);
+            LoadSecondaryUpgradeCounts(data);
         }
 
         #endregion ISaveable
@@ -1052,6 +1055,46 @@ namespace EHE.BoltBusters
                 foreach (var (type, count) in (Dictionary)weaponCounts)
                 {
                     SetWeaponCount((WeaponType)(int)type, (int)count);
+                }
+            }
+        }
+
+        /// <summary>
+        ///  Attempts to load secondary upgrade counts from save data with
+        ///  validation.
+        /// </summary>
+        ///
+        /// <param name="data">
+        ///  The save data dictionary containing serialized player information.
+        /// </param>
+        ///
+        /// <remarks>
+        ///  If the secondary upgrade counts dictionary is missing or invalid,
+        ///  this method will reset to default values and log an error message.
+        ///  Each entry is expected to have a <see cref="WeaponType"/> key and
+        ///  an integer count value.
+        /// </remarks>
+        ///
+        /// <seealso cref="GetSecondaryUpgradeCounts"/>
+        /// <seealso cref="WeaponType"/>
+        private void LoadSecondaryUpgradeCounts(Dictionary data)
+        {
+            if (
+                !data.TryGetValue(KEY_SECONDARY_UPGRADE_COUNTS, out var secondaryUpgradeCounts)
+                || secondaryUpgradeCounts.VariantType != Variant.Type.Dictionary
+                || ((Dictionary)secondaryUpgradeCounts).Count != s_defaultSecondaryUpgradeCounts.Count
+            )
+            {
+                _secondaryUpgradeCounts = s_defaultSecondaryUpgradeCounts.Duplicate();
+                this.LogError(
+                    string.Format(LOAD_ERROR_FORMAT, KEY_SECONDARY_UPGRADE_COUNTS, _secondaryUpgradeCounts.Values)
+                );
+            }
+            else
+            {
+                foreach (var (type, count) in (Dictionary)secondaryUpgradeCounts)
+                {
+                    SetSecondaryUpgradeCount((WeaponType)(int)type, (int)count);
                 }
             }
         }
