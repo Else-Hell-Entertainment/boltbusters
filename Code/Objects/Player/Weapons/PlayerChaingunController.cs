@@ -268,21 +268,11 @@ namespace EHE.BoltBusters
             if (SecondaryUpgradeCount < _maxCoolingUpgrades)
             {
                 SecondaryUpgradeCount++;
-
-                var playerData = GameManager.Instance.CurrentPlayerData;
-                if (playerData == null)
-                {
-                    this.LogWarning("Current player data is null.");
-                }
-                else
-                {
-                    playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
-                }
-
-                this.PrintDebug("Chaingun cooling upgraded.");
+                this.LogDebug("Chaingun cooling upgraded.");
                 return true;
             }
-            this.PrintDebug("Chaingun cooling maxed out. Cannot upgrade.");
+
+            this.LogDebug("Chaingun cooling maxed out. Cannot upgrade.");
             return false;
         }
 
@@ -294,21 +284,11 @@ namespace EHE.BoltBusters
             if (SecondaryUpgradeCount >= 0)
             {
                 SecondaryUpgradeCount--;
-
-                var playerData = GameManager.Instance.CurrentPlayerData;
-                if (playerData == null)
-                {
-                    this.LogWarning("Current player data is null.");
-                }
-                else
-                {
-                    playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
-                }
-
-                this.PrintDebug("Chaingun cooling downgraded.");
+                this.LogDebug("Chaingun cooling downgraded.");
                 return true;
             }
-            this.PrintDebug("Chaingun cooling could not be downgraded further.");
+
+            this.LogDebug("Chaingun cooling could not be downgraded further.");
             return false;
         }
 
@@ -321,6 +301,7 @@ namespace EHE.BoltBusters
         private void AddHeat(float heatAmount)
         {
             _currentHeat += heatAmount;
+
             if (_currentHeat > _overheatLimit)
             {
                 TriggerOverheat();
@@ -394,13 +375,14 @@ namespace EHE.BoltBusters
             //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
         }
 
-        /// <inheritdoc />
-        /// <remarks>
-        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
-        ///  controller. <see cref="UpgradeType.Secondary"/> upgrades the
-        ///  cooling.
-        /// </remarks>
-        public override bool Upgrade(UpgradeType type)
+        /// <summary>
+        ///  Upgrades the chaingun. <see cref="UpgradeType.Primary"/> adds
+        ///  more weapons to this controller. <see cref="UpgradeType.Secondary"/>
+        ///  upgrades the cooling.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnUpgrade(UpgradeType type)
         {
             switch (type)
             {
@@ -416,13 +398,14 @@ namespace EHE.BoltBusters
             return false;
         }
 
-        /// <inheritdoc />
-        /// <remarks>
-        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
-        ///  controller. <see cref="UpgradeType.Secondary"/> downgrades the
-        ///  cooling.
-        /// </remarks>
-        public override bool Downgrade(UpgradeType type)
+        /// <summary>
+        ///  Downgrades the chaingun. <see cref="UpgradeType.Primary"/> removes
+        ///  weapons from this controller. <see cref="UpgradeType.Secondary"/>
+        ///  downgrades the cooling.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnDowngrade(UpgradeType type)
         {
             switch (type)
             {

@@ -71,16 +71,6 @@ namespace EHE.BoltBusters
             {
                 SecondaryUpgradeCount++;
 
-                var playerData = GameManager.Instance.CurrentPlayerData;
-                if (playerData == null)
-                {
-                    this.LogWarning("Current player data is null.");
-                }
-                else
-                {
-                    playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
-                }
-
                 foreach (BaseWeapon weapon in Weapons)
                 {
                     if (weapon is RocketLauncher launcher)
@@ -106,17 +96,6 @@ namespace EHE.BoltBusters
             }
 
             SecondaryUpgradeCount--;
-
-            var playerData = GameManager.Instance.CurrentPlayerData;
-            if (playerData == null)
-            {
-                this.LogWarning("Current player data is null.");
-            }
-            else
-            {
-                playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
-            }
-
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is RocketLauncher launcher)
@@ -131,13 +110,14 @@ namespace EHE.BoltBusters
             return true;
         }
 
-        /// <inheritdoc/>
-        /// <remarks>
-        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
-        ///  controller. <see cref="UpgradeType.Secondary"/> upgrades the salvo
-        ///  size.
-        /// </remarks>
-        public override bool Upgrade(UpgradeType type)
+        /// <summary>
+        ///  Upgrades the rocket launcher. <see cref="UpgradeType.Primary"/>
+        ///  adds more weapons to this controller.
+        ///  <see cref="UpgradeType.Secondary"/> upgrades the salvo size.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnUpgrade(UpgradeType type)
         {
             switch (type)
             {
@@ -153,13 +133,14 @@ namespace EHE.BoltBusters
             return false;
         }
 
-        /// <inheritdoc />
-        /// <remarks>
-        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
-        ///  controller. <see cref="UpgradeType.Secondary"/> downgrades the
-        ///  salvo size.
-        /// </remarks>
-        public override bool Downgrade(UpgradeType type)
+        /// <summary>
+        ///  Downgrades the rocket launcher. <see cref="UpgradeType.Primary"/>
+        ///  removes weapons from this controller.
+        ///  <see cref="UpgradeType.Secondary"/> downgrades the salvo size.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnDowngrade(UpgradeType type)
         {
             switch (type)
             {

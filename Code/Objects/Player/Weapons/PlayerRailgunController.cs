@@ -193,17 +193,6 @@ namespace EHE.BoltBusters
             }
 
             SecondaryUpgradeCount++;
-
-            var playerData = GameManager.Instance.CurrentPlayerData;
-            if (playerData == null)
-            {
-                this.LogWarning("Current player data is null.");
-            }
-            else
-            {
-                playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
-            }
-
             return true;
         }
 
@@ -224,17 +213,6 @@ namespace EHE.BoltBusters
             }
 
             SecondaryUpgradeCount--;
-
-            var playerData = GameManager.Instance.CurrentPlayerData;
-            if (playerData == null)
-            {
-                this.LogWarning("Current player data is null.");
-            }
-            else
-            {
-                playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
-            }
-
             return true;
         }
 
@@ -303,13 +281,14 @@ namespace EHE.BoltBusters
             }
         }
 
-        /// <inheritdoc />
-        /// <remarks>
-        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
-        ///  controller. <see cref="UpgradeType.Secondary"/> upgrades the
-        ///  charge speed.
-        /// </remarks>
-        public override bool Upgrade(UpgradeType type)
+        /// <summary>
+        ///  Upgrades the railgun. <see cref="UpgradeType.Primary"/> adds more
+        ///  weapons to this controller. <see cref="UpgradeType.Secondary"/>
+        ///  upgrades the charge speed.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnUpgrade(UpgradeType type)
         {
             switch (type)
             {
@@ -325,13 +304,14 @@ namespace EHE.BoltBusters
             return false;
         }
 
-        /// <inheritdoc />
-        /// <remarks>
-        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
-        ///  controller. <see cref="UpgradeType.Secondary"/> downgrades the
-        ///  charge speed.
-        /// </remarks>
-        public override bool Downgrade(UpgradeType type)
+        /// <summary>
+        ///  Upgrades the railgun. <see cref="UpgradeType.Primary"/> removes
+        ///  weapons from this controller. <see cref="UpgradeType.Secondary"/>
+        ///  downgrades the charge speed.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnDowngrade(UpgradeType type)
         {
             switch (type)
             {
