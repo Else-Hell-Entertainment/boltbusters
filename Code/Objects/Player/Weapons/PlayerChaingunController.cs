@@ -268,8 +268,18 @@ namespace EHE.BoltBusters
             if (SecondaryUpgradeCount < _maxCoolingUpgrades)
             {
                 SecondaryUpgradeCount++;
-                this.PrintDebug("Chaingun cooling upgraded.");
 
+                var playerData = GameManager.Instance.CurrentPlayerData;
+                if (playerData == null)
+                {
+                    this.LogWarning("Current player data is null.");
+                }
+                else
+                {
+                    playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
+                }
+
+                this.PrintDebug("Chaingun cooling upgraded.");
                 return true;
             }
             this.PrintDebug("Chaingun cooling maxed out. Cannot upgrade.");
@@ -284,6 +294,17 @@ namespace EHE.BoltBusters
             if (SecondaryUpgradeCount >= 0)
             {
                 SecondaryUpgradeCount--;
+
+                var playerData = GameManager.Instance.CurrentPlayerData;
+                if (playerData == null)
+                {
+                    this.LogWarning("Current player data is null.");
+                }
+                else
+                {
+                    playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
+                }
+
                 this.PrintDebug("Chaingun cooling downgraded.");
                 return true;
             }
