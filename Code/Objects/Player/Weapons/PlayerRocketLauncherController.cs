@@ -70,6 +70,17 @@ namespace EHE.BoltBusters
             if (SecondaryUpgradeCount < _maxSecondaryUpgradeCount)
             {
                 SecondaryUpgradeCount++;
+
+                var playerData = GameManager.Instance.CurrentPlayerData;
+                if (playerData == null)
+                {
+                    this.LogWarning("Current player data is null.");
+                }
+                else
+                {
+                    playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
+                }
+
                 foreach (BaseWeapon weapon in Weapons)
                 {
                     if (weapon is RocketLauncher launcher)
@@ -93,7 +104,19 @@ namespace EHE.BoltBusters
             {
                 return false;
             }
+
             SecondaryUpgradeCount--;
+
+            var playerData = GameManager.Instance.CurrentPlayerData;
+            if (playerData == null)
+            {
+                this.LogWarning("Current player data is null.");
+            }
+            else
+            {
+                playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
+            }
+
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is RocketLauncher launcher)
