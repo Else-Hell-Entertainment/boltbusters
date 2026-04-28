@@ -335,7 +335,7 @@ namespace EHE.BoltBusters
         {
             if (!_collectibleCounts.TryGetValue(collectibleType, out var amount))
             {
-                GD.PushError($"Key not found '{collectibleType}'");
+                this.LogError($"Key not found '{collectibleType}'");
                 return -1;
             }
 
@@ -428,13 +428,14 @@ namespace EHE.BoltBusters
             // Invalid collectible type.
             if (current < 0)
             {
+                this.LogError($"Cannot increase collectible count: invalid collectible type '{collectibleType}'!");
                 return false;
             }
 
             // Invalid increment.
             if (increment < 0)
             {
-                GD.PushError($"Cannot increase collectible count by a negative value ({increment}).");
+                this.LogError($"Cannot increase collectible count: increment cannot be negative!");
                 return false;
             }
 
@@ -473,13 +474,14 @@ namespace EHE.BoltBusters
             // Invalid collectible type.
             if (current < 0)
             {
+                this.LogError($"Cannot decrease collectible count: invalid collectible type '{collectibleType}'!");
                 return false;
             }
 
             // Invalid decrement.
             if (decrement < 0)
             {
-                GD.PushError($"Cannot decrease collectible count by a negative value ({decrement}).");
+                this.LogError($"Cannot decrease collectible count: decrement cannot be negative!");
                 return false;
             }
 
@@ -526,7 +528,7 @@ namespace EHE.BoltBusters
         {
             if (!_weaponCounts.TryGetValue(weaponType, out var amount))
             {
-                GD.PushError($"Key not found '{weaponType}'");
+                this.LogError($"Key not found '{weaponType}'");
                 return -1;
             }
 
@@ -570,13 +572,13 @@ namespace EHE.BoltBusters
         {
             if (!_weaponCounts.ContainsKey(weaponType))
             {
-                GD.PushError($"Cannot set weapon count: key '{weaponType}' not found!");
+                this.LogError($"Cannot set weapon count: key '{weaponType}' not found!");
                 return false;
             }
 
             if (count < 0)
             {
-                GD.PushError("Cannot set weapon count: count cannot be negative!");
+                this.LogError("Cannot set weapon count: count cannot be negative!");
                 return false;
             }
 
@@ -624,7 +626,7 @@ namespace EHE.BoltBusters
             // Invalid increment.
             if (increment < 0)
             {
-                GD.PrintErr($"Cannot increase weapon count by a negative value ({increment}).");
+                this.LogError($"Cannot increase weapon count by a negative value ({increment}).");
                 return false;
             }
 
@@ -669,7 +671,7 @@ namespace EHE.BoltBusters
             // Invalid decrement.
             if (decrement < 0)
             {
-                GD.PrintErr($"Cannot decrease weapon count by a negative value ({decrement}).");
+                this.LogError($"Cannot decrease weapon count by a negative value ({decrement}).");
                 return false;
             }
 
@@ -945,7 +947,7 @@ namespace EHE.BoltBusters
             )
             {
                 LevelIndex = s_defaultLevelIndex;
-                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_LEVEL_INDEX, LevelIndex));
+                this.LogError(string.Format(LOAD_ERROR_FORMAT, KEY_LEVEL_INDEX, LevelIndex));
             }
             else
             {
@@ -977,7 +979,7 @@ namespace EHE.BoltBusters
             )
             {
                 StartFromShop = s_defaultStartFromShop;
-                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_START_FROM_SHOP, StartFromShop));
+                this.LogError(string.Format(LOAD_ERROR_FORMAT, KEY_START_FROM_SHOP, StartFromShop));
             }
             else
             {
@@ -1011,7 +1013,7 @@ namespace EHE.BoltBusters
             )
             {
                 _collectibleCounts = s_defaultCollectibleCounts.Duplicate();
-                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_COLLECTIBLE_COUNTS, _collectibleCounts.Values));
+                this.LogError(string.Format(LOAD_ERROR_FORMAT, KEY_COLLECTIBLE_COUNTS, _collectibleCounts.Values));
             }
             else
             {
@@ -1048,7 +1050,7 @@ namespace EHE.BoltBusters
             )
             {
                 _weaponCounts = s_defaultWeaponCounts.Duplicate();
-                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_WEAPON_COUNTS, _weaponCounts.Values));
+                this.LogError(string.Format(LOAD_ERROR_FORMAT, KEY_WEAPON_COUNTS, _weaponCounts.Values));
             }
             else
             {
