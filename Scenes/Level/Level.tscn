@@ -127,6 +127,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.08
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Arena/Lights"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14, 10, 14)
+visible = false
 light_energy = 7.264
 light_size = 1.0
 light_specular = 8.0
@@ -134,12 +135,14 @@ spot_range = 14.0
 
 [node name="SpotLight3D2" type="SpotLight3D" parent="Arena/Lights"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14, 10, 24)
+visible = false
 light_size = 1.0
 light_specular = 8.0
 spot_range = 14.0
 
 [node name="SpotLight3D3" type="SpotLight3D" parent="Arena/Lights"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14, 10, 34)
+visible = false
 light_color = Color(1, 1, 0.735357, 1)
 light_energy = 7.935
 light_size = 1.0
@@ -148,6 +151,7 @@ spot_range = 14.0
 
 [node name="SpotLight3D4" type="SpotLight3D" parent="Arena/Lights"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14, 10, 44)
+visible = false
 light_color = Color(1, 1, 0.735357, 1)
 light_size = 1.0
 light_specular = 8.0
@@ -155,8 +159,104 @@ spot_range = 14.0
 
 [node name="GlobalLight" type="DirectionalLight3D" parent="Arena/Lights"]
 transform = Transform3D(-1, 8.2150535e-08, -2.9900352e-08, 0, 0.34202015, 0.9396926, 8.742278e-08, 0.9396926, -0.34202015, 0, 0, 0)
+visible = false
+light_color = Color(0.9411765, 1, 1, 1)
 shadow_enabled = true
 directional_shadow_mode = 0
+
+[node name="SpotLight3D9" type="SpotLight3D" parent="Arena/Lights"]
+transform = Transform3D(-0.9999517, 0, -0.009826095, 0, 1, 0, 0.009826095, 0, -0.9999517, 19.99493, 1.5849705, 3.3578568)
+light_color = Color(1, 0.39215687, 0, 1)
+light_energy = 12.0
+light_size = 1.0
+spot_angle = 180.0
+
+[node name="SpotLight3D10" type="SpotLight3D" parent="Arena/Lights"]
+transform = Transform3D(-0.9999517, 0, -0.009826095, 0, 1, 0, 0.009826095, 0, -0.9999517, 37.944454, 1.5849705, 4.086356)
+light_color = Color(1, 0.39215687, 0, 1)
+light_energy = 12.0
+light_size = 1.0
+spot_angle = 180.0
+
+[node name="SpotLight3D11" type="SpotLight3D" parent="Arena/Lights"]
+transform = Transform3D(-0.0016231788, 0, 0.9999987, 0, 1, 0, -0.9999987, 0, -0.0016231788, 54.64406, 1.5849705, 19.957464)
+light_color = Color(1, 0.39215687, 0, 1)
+light_energy = 12.0
+light_size = 1.0
+spot_angle = 180.0
+
+[node name="SpotLight3D12" type="SpotLight3D" parent="Arena/Lights"]
+transform = Transform3D(-0.0016231788, 0, 0.9999987, 0, 1, 0, -0.9999987, 0, -0.0016231788, 54.53682, 1.5849705, 38.018448)
+light_color = Color(1, 0.39215687, 0, 1)
+light_energy = 12.0
+light_size = 1.0
+spot_angle = 180.0
+
+[node name="SpotLight3D13" type="SpotLight3D" parent="Arena/Lights"]
+transform = Transform3D(0.99991417, 0, -0.013107039, 0, 1, 0, 0.013107039, 0, 0.99991417, 37.961483, 1.5849705, 53.175453)
+light_color = Color(1, 0.39215687, 0, 1)
+light_energy = 12.0
+light_size = 1.0
+spot_angle = 180.0
+
+[node name="SpotLight3D14" type="SpotLight3D" parent="Arena/Lights"]
+transform = Transform3D(0.99991417, 0, -0.013107039, 0, 1, 0, 0.013107039, 0, 0.99991417, 19.921753, 1.5849705, 53.516823)
+light_color = Color(1, 0.39215687, 0, 1)
+light_energy = 12.0
+light_size = 1.0
+spot_angle = 180.0
+
+[node name="SpotLight3D15" type="SpotLight3D" parent="Arena/Lights"]
+transform = Transform3D(0.008377535, 0, -0.99996495, 0, 1, 0, 0.99996495, 0, 0.008377535, 3.436263, 1.5849705, 37.92972)
+light_color = Color(1, 0.39215687, 0, 1)
+light_energy = 12.0
+light_size = 1.0
+spot_angle = 180.0
+
+[node name="SpotLight3D16" type="SpotLight3D" parent="Arena/Lights"]
+transform = Transform3D(0.008377535, 0, -0.99996495, 0, 1, 0, 0.99996495, 0, 0.008377535, 3.0492969, 1.5849705, 19.932423)
+light_color = Color(1, 0.39215687, 0, 1)
+light_energy = 12.0
+light_size = 1.0
+spot_angle = 180.0
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="Arena/Lights"]
+transform = Transform3D(-0.782024, 0.1836409, -0.59557915, -0.24353051, 0.7895968, 0.5632315, 0.5736997, 0.5855023, -0.5727615, 5.6032915, 7.6551695, 5.666606)
+light_color = Color(1, 1, 0.8235294, 1)
+light_energy = 2.0
+spot_range = 35.936
+spot_attenuation = 0.15
+spot_angle = 90.0
+
+[node name="SpotLight3D6" type="SpotLight3D" parent="Arena/Lights"]
+transform = Transform3D(-0.5729078, -0.58568794, 0.5733641, -0.24353053, 0.7895968, 0.5632316, -0.78260434, 0.18304813, -0.594999, 51.50631, 7.6551695, 6.1455555)
+light_color = Color(1, 1, 0.8235294, 1)
+light_energy = 2.0
+spot_range = 35.936
+spot_attenuation = 0.15
+spot_angle = 90.0
+
+[node name="SpotLight3D7" type="SpotLight3D" parent="Arena/Lights"]
+transform = Transform3D(0.7333065, -0.23017497, 0.6397508, -0.24353045, 0.78959674, 0.56323165, -0.63478696, -0.56882024, 0.52296185, 52.246292, 7.6551695, 51.57036)
+light_color = Color(1, 1, 0.8235294, 1)
+light_energy = 2.0
+spot_range = 35.936
+spot_attenuation = 0.15
+spot_angle = 90.0
+
+[node name="SpotLight3D8" type="SpotLight3D" parent="Arena/Lights"]
+transform = Transform3D(0.55829066, 0.58898306, -0.5843035, -0.24353045, 0.78959674, 0.5632317, 0.7930981, -0.17215133, 0.58425975, 5.9837008, 7.6551695, 52.150295)
+light_color = Color(1, 1, 0.8235294, 1)
+light_energy = 2.0
+spot_range = 35.936
+spot_attenuation = 0.15
+spot_angle = 90.0
+
+[node name="SpotLight3D17" type="SpotLight3D" parent="Arena/Lights"]
+transform = Transform3D(0.46792984, 0.88376564, 3.090862e-08, 1.2852912e-08, -4.1779042e-08, 1, 0.88376564, -0.46792984, -3.090862e-08, 28.81532, 20.156643, 29.04115)
+light_energy = 3.196
+spot_range = 35.936
+spot_attenuation = 0.1
 
 [node name="EnemySpawnManager" parent="." instance=ExtResource("2_k2uda")]
 _meleeScene = ExtResource("4_t3e81")
