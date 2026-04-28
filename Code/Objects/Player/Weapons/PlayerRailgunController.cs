@@ -191,7 +191,19 @@ namespace EHE.BoltBusters
                     EmitSignal(SignalName.RailgunConfigurationChanged);
                 }
             }
+
             SecondaryUpgradeCount++;
+
+            var playerData = GameManager.Instance.CurrentPlayerData;
+            if (playerData == null)
+            {
+                this.LogWarning("Current player data is null.");
+            }
+            else
+            {
+                playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
+            }
+
             return true;
         }
 
@@ -210,6 +222,19 @@ namespace EHE.BoltBusters
                     EmitSignal(SignalName.RailgunConfigurationChanged);
                 }
             }
+
+            SecondaryUpgradeCount--;
+
+            var playerData = GameManager.Instance.CurrentPlayerData;
+            if (playerData == null)
+            {
+                this.LogWarning("Current player data is null.");
+            }
+            else
+            {
+                playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
+            }
+
             return true;
         }
 
