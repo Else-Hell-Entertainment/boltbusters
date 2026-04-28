@@ -108,7 +108,7 @@ namespace EHE.BoltBusters
         [Export]
         private float _coolingUpgradeIncrease = 1f;
 
-        // How many times can cooling be upgraded.
+        // How many times cooling can be upgraded.
         [Export]
         private int _maxCoolingUpgrades = 6;
 
@@ -216,6 +216,7 @@ namespace EHE.BoltBusters
                     AddHeat(_heatBuildupRate);
                     _attackTimer = 0;
                     _audioStream.Loop = true;
+
                     if (!_shootingAudio.IsPlaying())
                     {
                         _shootingAudio.Play();
@@ -268,11 +269,11 @@ namespace EHE.BoltBusters
             if (SecondaryUpgradeCount < _maxCoolingUpgrades)
             {
                 SecondaryUpgradeCount++;
-                this.LogDebug("Chaingun cooling upgraded.");
+                this.LogDebug("Cooling upgraded.");
                 return true;
             }
 
-            this.LogDebug("Chaingun cooling maxed out. Cannot upgrade.");
+            this.LogDebug("Cannot upgrade cooling any further.");
             return false;
         }
 
@@ -284,11 +285,11 @@ namespace EHE.BoltBusters
             if (SecondaryUpgradeCount >= 0)
             {
                 SecondaryUpgradeCount--;
-                this.LogDebug("Chaingun cooling downgraded.");
+                this.LogDebug("Cooling downgraded.");
                 return true;
             }
 
-            this.LogDebug("Chaingun cooling could not be downgraded further.");
+            this.LogDebug("Cannot not downgrade cooling any further.");
             return false;
         }
 
@@ -325,13 +326,16 @@ namespace EHE.BoltBusters
 
             _currentHeat -= heatAmount;
             _currentHeat = Mathf.Clamp(_currentHeat, 0, _overheatLimit);
+
             // Inform UI of heat change.
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
+
             // Handle case where weapon was overheating and has cooled down.
             if (CurrentPersistentState == ChaingunState.Overheat && !MusicManager.Instance.OverheatAlarmSFX.IsPlaying())
             {
                 MusicManager.Instance.OverheatAlarmSFX.Play();
             }
+
             if (CurrentPersistentState == ChaingunState.Overheat && _currentHeat < _overheatRecoveryThreshold)
             {
                 CurrentPersistentState = ChaingunState.ReadyToFire;
@@ -435,6 +439,7 @@ namespace EHE.BoltBusters
             {
                 float gunCooldown = _cooldown;
                 _attackInterval = gunCooldown / numberOfGuns; // Denominator is confirmed to be > 0.
+                this.LogDebug($"Attack interval set to {_attackInterval}");
             }
         }
 

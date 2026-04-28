@@ -179,7 +179,7 @@ namespace EHE.BoltBusters
         {
             if (SecondaryUpgradeCount >= _maxSecondaryUpgrades)
             {
-                GD.Print("Cannot upgrade railgun further.");
+                this.LogDebug("Cannot upgrade charge speed any further.");
                 return false;
             }
 
@@ -193,6 +193,7 @@ namespace EHE.BoltBusters
             }
 
             SecondaryUpgradeCount++;
+            this.LogDebug("Charge speed upgraded.");
             return true;
         }
 
@@ -200,7 +201,7 @@ namespace EHE.BoltBusters
         {
             if (SecondaryUpgradeCount <= 0)
             {
-                GD.Print("Cannot downgrade railgun further.");
+                this.LogDebug("Cannot downgrade charge speed any further.");
                 return false;
             }
             foreach (BaseWeapon weapon in Weapons)
@@ -213,6 +214,7 @@ namespace EHE.BoltBusters
             }
 
             SecondaryUpgradeCount--;
+            this.LogDebug("Charge speed downgraded.");
             return true;
         }
 

@@ -82,7 +82,7 @@ namespace EHE.BoltBusters
         {
             if (Weapons.Count >= _weaponSlots.Count)
             {
-                GD.Print("Not enough slots!");
+                this.LogDebug("Not enough slots!");
                 return false;
             }
 
@@ -129,9 +129,10 @@ namespace EHE.BoltBusters
         public bool Initialize(int weaponCount)
         {
             this.PrintDebug($"Initializing {WeaponType} controller");
+
             if (weaponCount > MaxWeaponCount)
             {
-                GD.PushError($"Cannot initialize controller for {WeaponType}, weapon count exceeded.");
+                this.LogError($"Cannot initialize controller for {WeaponType}, weapon count exceeded.");
                 return false;
             }
 
@@ -144,7 +145,7 @@ namespace EHE.BoltBusters
             // Add new weapons.
             for (int i = 0; i < weaponCount; i++)
             {
-                this.PrintDebug($"Adding weapons {i + 1}/{weaponCount} ");
+                this.LogDebug($"Adding weapons {i + 1}/{weaponCount} ");
                 AddWeapon();
             }
 
@@ -270,7 +271,7 @@ namespace EHE.BoltBusters
         {
             for (int i = CurrentWeaponCount; i > 0; i--)
             {
-                this.PrintDebug("Removing all weapons.");
+                this.LogDebug("Removing all weapons.");
                 RemoveWeapon();
             }
         }

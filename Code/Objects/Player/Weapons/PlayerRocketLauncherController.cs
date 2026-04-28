@@ -67,25 +67,24 @@ namespace EHE.BoltBusters
 
         public bool UpgradeSalvoSize()
         {
-            if (SecondaryUpgradeCount < _maxSecondaryUpgradeCount)
+            if (SecondaryUpgradeCount >= _maxSecondaryUpgradeCount)
             {
-                SecondaryUpgradeCount++;
-
-                foreach (BaseWeapon weapon in Weapons)
-                {
-                    if (weapon is RocketLauncher launcher)
-                    {
-                        launcher.IncreaseSalvoSize();
-#if Debug
-                        GD.Print("Increasing rocket launcher salvo size");
-#endif
-                    }
-                }
-                EmitSignal(SignalName.RocketLauncherConfigurationChanged);
-                return true;
+                return false;
             }
 
-            return false;
+            SecondaryUpgradeCount++;
+
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon is RocketLauncher launcher)
+                {
+                    launcher.IncreaseSalvoSize();
+                    this.LogDebug("Increasing rocket launcher salvo size");
+                }
+            }
+
+            EmitSignal(SignalName.RocketLauncherConfigurationChanged);
+            return true;
         }
 
         public bool DowngradeSalvoSize()
@@ -96,16 +95,16 @@ namespace EHE.BoltBusters
             }
 
             SecondaryUpgradeCount--;
+
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is RocketLauncher launcher)
                 {
                     launcher.DecreaseSalvoSize();
-#if Debug
-                    GD.Print("Decreasing rocket launcher salvo size");
-#endif
+                    this.LogDebug("Decreasing rocket launcher salvo size");
                 }
             }
+
             EmitSignal(SignalName.RocketLauncherConfigurationChanged);
             return true;
         }
