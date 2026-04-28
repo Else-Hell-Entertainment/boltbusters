@@ -36,6 +36,8 @@ public partial class MusicManager : Node
     public AudioStreamPlayer PlayerDeathSFX;
     public AudioStreamPlayer AlarmSFX;
     public AudioStreamPlayer OverheatAlarmSFX;
+    public AudioStreamPlayer ButtonSoundPlayer;
+    public AudioStreamPlayer ButtonSoundPlayer2;
 
     private float _fadeDuration;
     private Tween _currentAudioTween;
@@ -55,6 +57,9 @@ public partial class MusicManager : Node
         PlayerDeathSFX = new AudioStreamPlayer();
         AlarmSFX = new AudioStreamPlayer();
         OverheatAlarmSFX = new AudioStreamPlayer();
+        ButtonSoundPlayer = new AudioStreamPlayer();
+        ButtonSoundPlayer2 = new AudioStreamPlayer();
+
         MainThemePlayer.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
         EndThemePlayer.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
         StageThemePlayer1.Bus = SettingsConfig.Audio.MUSIC_BUS_NAME;
@@ -67,6 +72,9 @@ public partial class MusicManager : Node
         PlayerDeathSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
         AlarmSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
         OverheatAlarmSFX.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
+        ButtonSoundPlayer.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
+        ButtonSoundPlayer2.Bus = SettingsConfig.Audio.SFX_BUS_NAME;
+
         AddChild(MainThemePlayer);
         AddChild(EndThemePlayer);
         AddChild(StageThemePlayer1);
@@ -79,6 +87,8 @@ public partial class MusicManager : Node
         AddChild(PlayerDeathSFX);
         AddChild(AlarmSFX);
         AddChild(OverheatAlarmSFX);
+        AddChild(ButtonSoundPlayer);
+        AddChild(ButtonSoundPlayer2);
 
         _music[Song.MainTheme] = GD.Load<AudioStream>("res://Assets/Music/MainTheme.ogg");
         _music[Song.EndTheme] = GD.Load<AudioStream>("res://Assets/Music/EndTheme.ogg");
@@ -93,10 +103,14 @@ public partial class MusicManager : Node
         PlayerDeathSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/PlayerDeath.ogg");
         AlarmSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/AlarmSound.ogg");
         OverheatAlarmSFX.Stream = GD.Load<AudioStream>("res://Assets/SFX/AlarmSound.ogg");
+        ButtonSoundPlayer.Stream = GD.Load<AudioStream>("res://Assets/SFX/ButtonSound.ogg");
+        ButtonSoundPlayer2.Stream = GD.Load<AudioStream>("res://Assets/SFX/ButtonSound2.ogg");
 
         NutCollectSFX.VolumeDb = -14f;
         BoltCollectSFX.VolumeDb = -14f;
         WrenchCollectSFX.VolumeDb = -14f;
+        ButtonSoundPlayer.VolumeDb = -14f;
+        ButtonSoundPlayer2.VolumeDb = -12f;
     }
 
     public void PlayMusic(AudioStreamPlayer player, Song title)
