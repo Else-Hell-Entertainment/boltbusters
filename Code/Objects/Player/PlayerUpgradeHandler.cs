@@ -189,11 +189,16 @@ namespace EHE.BoltBusters
         /// <param name="weaponCounts">
         ///  Dictionary containing the counts for each weapon type.
         /// </param>
-        public void InitializeWeaponCounts(GDCollections.Dictionary<WeaponType, int> weaponCounts)
+        public void InitializeWeaponCounts(
+            GDCollections.Dictionary<WeaponType, int> weaponCounts,
+            GDCollections.Dictionary<WeaponType, int> secondaryUpgradeCounts
+        )
         {
-            foreach (var (weaponType, count) in weaponCounts)
+            foreach (var (type, controller) in _weaponControllers)
             {
-                _weaponControllers[weaponType].Initialize(count);
+                var primaryCount = weaponCounts[type];
+                var secondaryCount = secondaryUpgradeCounts[type];
+                controller.Initialize(primaryCount, secondaryCount);
             }
         }
     }

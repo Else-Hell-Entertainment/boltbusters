@@ -126,7 +126,7 @@ namespace EHE.BoltBusters
         ///  <c>true</c> initialization is performed successfully,
         ///  <c>false</c> otherwise.
         /// </returns>
-        public bool Initialize(int weaponCount)
+        public bool Initialize(int weaponCount, int secondaryCount)
         {
             this.PrintDebug($"Initializing {WeaponType} controller");
 
@@ -148,6 +148,9 @@ namespace EHE.BoltBusters
                 this.LogDebug($"Adding weapons {i + 1}/{weaponCount} ");
                 AddWeapon();
             }
+
+            // Set secondary upgrade count.
+            SecondaryUpgradeCount = secondaryCount;
 
             UpdatePlayerData();
             return true;

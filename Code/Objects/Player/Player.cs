@@ -150,7 +150,10 @@ namespace EHE.BoltBusters
         {
             // TODO: Move these to a Reset method?
             HealthComponent.RestoreToInitial();
-            _upgradeHandler.InitializeWeaponCounts(playerData.GetWeaponCounts());
+            _upgradeHandler.InitializeWeaponCounts(
+                playerData.GetWeaponCounts(),
+                playerData.GetSecondaryUpgradeCounts()
+            );
         }
 
         /// <summary>
