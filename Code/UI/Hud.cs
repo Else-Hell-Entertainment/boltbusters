@@ -49,6 +49,13 @@ namespace EHE.BoltBusters.Ui
             GameManager.Instance.CurrentPlayerData.CollectibleCountChanged += UpdateCollectibleUi;
             GameManager.Instance.RequestHudRefresh += UpdateWeaponUi;
             GameManager.Instance.RequestHudRefreshWithPlayerData += UpdateAllUi;
+
+            // Makes sure the hud is always up to date after it has entered the
+            // scene. The signal responsible for hud refresh can sometimes be
+            // emitted before the HUD has been loaded which causes the values
+            // not to update correctly. This has been a problem mainly when
+            // loading the game to the shop state from save.
+            CallDeferred(nameof(UpdateAllUi), GameManager.Instance.CurrentPlayerData);
         }
 
         /// <summary>
