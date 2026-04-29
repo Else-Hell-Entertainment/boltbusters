@@ -10,6 +10,7 @@ using EHE.BoltBusters.Config;
 using EHE.BoltBusters.EnemyAI;
 using EHE.BoltBusters.States;
 using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -62,6 +63,9 @@ namespace EHE.BoltBusters
     {
         [Signal]
         public delegate void InitializedEventHandler();
+
+        [Signal]
+        public delegate void RoundStartingEventHandler();
 
         [Signal]
         public delegate void RoundEndedEventHandler();
@@ -324,9 +328,11 @@ namespace EHE.BoltBusters
         ///   </list>
         ///  </para>
         /// </remarks>
-        public void StartRound()
+        public async void StartRound()
         {
-            this.PrintDebug("Starting round...");
+            this.LogInfo("Round starting in 6.5 s.");
+            EmitSignal(SignalName.RoundStarting);
+            await Task.Delay(6500);
             _roundTimer.Start();
             RoundInProgress = true;
             _enemySpawnManager.StartRound(_roundData);
@@ -487,7 +493,6 @@ namespace EHE.BoltBusters
             else
             {
                 GameManager.Instance.SaveGame();
-                // TODO: Wait 5s before transitioning to shop state.
                 GameManager.Instance.StateMachine.TransitionTo(StateType.Shop);
             }
         }

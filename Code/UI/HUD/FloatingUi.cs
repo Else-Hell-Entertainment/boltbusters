@@ -46,6 +46,7 @@ namespace EHE.BoltBusters.Ui
                 return;
             }
 
+            LevelManager.Active.RoundStarting += PlayCountdown;
             LevelManager.Active.RoundEnded += OnRoundEnded;
         }
 
@@ -53,8 +54,14 @@ namespace EHE.BoltBusters.Ui
         {
             if (LevelManager.Active != null)
             {
+                LevelManager.Active.RoundStarting -= PlayCountdown;
                 LevelManager.Active.RoundEnded -= OnRoundEnded;
             }
+        }
+
+        private void PlayCountdown()
+        {
+            _animationPlayer.Play("round_starting");
         }
 
         private void OnRoundEnded()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dibuxv5a07sr1"]
+[gd_scene load_steps=19 format=3 uid="uid://dibuxv5a07sr1"]
 
 [ext_resource type="Script" uid="uid://c65gxirc8hmf3" path="res://Code/UI/HUD/Hud.cs" id="1_kkyb6"]
 [ext_resource type="Script" uid="uid://sv650skqn02e" path="res://Code/UI/HUD/HealthUi.cs" id="2_grqg4"]
@@ -17,140 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://b0gqbpsrsosyh" path="res://Assets/Sprites/UI/UIRailgun.png" id="15_0hsig"]
 [ext_resource type="Script" uid="uid://cw8ha2ktfq4by" path="res://Code/UI/HUD/WeaponHud/RocketHud.cs" id="16_kum8b"]
 [ext_resource type="Texture2D" uid="uid://bvfxddngkgif2" path="res://Assets/Sprites/UI/UIRocket.png" id="17_3ggfo"]
-[ext_resource type="Script" uid="uid://c3ai67c2v4cxe" path="res://Code/UI/HUD/FloatingUi.cs" id="18_grqg4"]
-
-[sub_resource type="Animation" id="Animation_aei0q"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:pivot_offset")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(59, 10)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:anchors_preset")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [8]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1e-05, 1e-05)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath(".:text")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": ["Round ended!"]
-}
-
-[sub_resource type="Animation" id="Animation_lvwdj"]
-resource_name = "pop_up"
-length = 2.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:pivot_offset")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(59, 10)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:anchors_preset")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [8]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.5, 1, 1.25, 1.5, 2, 2.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(1e-05, 1e-05), Vector2(1.5, 1.5), Vector2(1.5, 1.5), Vector2(2, 2), Vector2(1.5, 1.5), Vector2(1.5, 1.5), Vector2(1e-05, 1e-05)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 2.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath(".:text")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": ["Round ended!"]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_aei0q"]
-_data = {
-&"RESET": SubResource("Animation_aei0q"),
-&"round_ended": SubResource("Animation_lvwdj")
-}
+[ext_resource type="PackedScene" uid="uid://7ynajsbwgymr" path="res://Scenes/UI/HUD/FloatingUi.tscn" id="18_grqg4"]
 
 [node name="Hud" type="MarginContainer"]
 anchors_preset = 15
@@ -329,37 +196,8 @@ texture = ExtResource("17_3ggfo")
 layout_mode = 2
 texture = ExtResource("17_3ggfo")
 
-[node name="FloatingUi" type="Control" parent="." node_paths=PackedStringArray("_popUpLabel", "_animationPlayer")]
+[node name="FloatingUi" parent="." instance=ExtResource("18_grqg4")]
 layout_mode = 2
-mouse_filter = 2
-script = ExtResource("18_grqg4")
-_popUpLabel = NodePath("RoundEndedLabel")
-_animationPlayer = NodePath("AnimationPlayer")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="FloatingUi"]
-root_node = NodePath("../RoundEndedLabel")
-libraries = {
-&"": SubResource("AnimationLibrary_aei0q")
-}
-
-[node name="RoundEndedLabel" type="Label" parent="FloatingUi"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -59.0
-offset_top = -10.0
-offset_right = 59.0
-offset_bottom = 10.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1e-05, 1e-05)
-pivot_offset = Vector2(59, 10)
-text = "Round ended!"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [editable path="VBoxContainer/TopUi/CollectibleUi/NutCounter"]
 [editable path="VBoxContainer/TopUi/CollectibleUi/BoltCounter"]

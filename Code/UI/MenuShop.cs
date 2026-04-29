@@ -71,7 +71,7 @@ namespace EHE.BoltBusters.Ui
         {
             GameManager.Instance.StateMachine.TransitionTo(StateType.Round);
             LevelManager.Active.InitializeLevel(GameManager.Instance.RoundIndex);
-            GameManager.Instance.SceneTree.CreateTimer(2).Timeout += LevelManager.Active.StartRound;
+            LevelManager.Active.StartRound();
         }
 
         private void OnWeaponUpgradeSucceeded(int weaponType)
