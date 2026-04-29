@@ -82,7 +82,7 @@ namespace EHE.BoltBusters
         {
             if (Weapons.Count >= _weaponSlots.Count)
             {
-                GD.Print("Not enough slots!");
+                this.LogDebug("Not enough slots!");
                 return false;
             }
 
@@ -92,16 +92,6 @@ namespace EHE.BoltBusters
             Node3D node = _weaponSlots[newIndex];
             weapon.Position = node.GetPosition();
             AddChild(weapon);
-
-            var playerData = GameManager.Instance.CurrentPlayerData;
-            if (playerData == null)
-            {
-                // Player data can be null when in main menu.
-                // In this case, there is nothing to update so we just return.
-                return true;
-            }
-
-            playerData.IncreaseWeaponCount(WeaponType);
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
             return true;
         }
@@ -117,16 +107,6 @@ namespace EHE.BoltBusters
                 BaseWeapon weapon = Weapons[lastIndex];
                 Weapons.RemoveAt(lastIndex);
                 weapon.QueueFree();
-
-                var playerData = GameManager.Instance.CurrentPlayerData;
-                if (playerData == null)
-                {
-                    // Player data can be null when in main menu.
-                    // In this case, there is nothing to update so we just return.
-                    return true;
-                }
-
-                playerData.IncreaseWeaponCount(WeaponType);
                 GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
                 return true;
             }
@@ -146,12 +126,13 @@ namespace EHE.BoltBusters
         ///  <c>true</c> initialization is performed successfully,
         ///  <c>false</c> otherwise.
         /// </returns>
-        public bool Initialize(int weaponCount)
+        public bool Initialize(int weaponCount, int secondaryCount)
         {
             this.PrintDebug($"Initializing {WeaponType} controller");
+
             if (weaponCount > MaxWeaponCount)
             {
-                GD.PushError($"Cannot initialize controller for {WeaponType}, weapon count exceeded.");
+                this.LogError($"Cannot initialize controller for {WeaponType}, weapon count exceeded.");
                 return false;
             }
 
@@ -164,10 +145,13 @@ namespace EHE.BoltBusters
             // Add new weapons.
             for (int i = 0; i < weaponCount; i++)
             {
-                this.PrintDebug($"Adding weapons {i + 1}/{weaponCount} ");
+                this.LogDebug($"Adding weapons {i + 1}/{weaponCount} ");
                 AddWeapon();
             }
 
+            InitializeSecondaryUpgrades(secondaryCount);
+
+            UpdatePlayerData();
             return true;
         }
 
@@ -227,12 +211,59 @@ namespace EHE.BoltBusters
         }
 
         /// <inheritdoc/>
-        public abstract bool Upgrade(UpgradeType type);
+        public bool Upgrade(UpgradeType type)
+        {
+            var wasUpgraded = OnUpgrade(type);
+            if (wasUpgraded)
+            {
+                UpdatePlayerData();
+            }
+            return wasUpgraded;
+        }
 
         /// <inheritdoc/>
-        public abstract bool Downgrade(UpgradeType type);
+        public bool Downgrade(UpgradeType type)
+        {
+            var wasDowngraded = OnDowngrade(type);
+            if (wasDowngraded)
+            {
+                UpdatePlayerData();
+            }
+            return wasDowngraded;
+        }
 
         #endregion IUpgradeable
+
+
+        #region Protected Implementations
+
+        protected abstract bool InitializeSecondaryUpgrades(int secondaryCount);
+
+        /// <summary>
+        ///  Handles the actual upgrade logic for different upgrade types.
+        /// </summary>
+        ///
+        /// <param name="upgradeType">Type of the upgrade to perform.</param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if upgrade was performed successfully,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        protected abstract bool OnUpgrade(UpgradeType upgradeType);
+
+        /// <summary>
+        ///  Handles the actual downgrade logic for different upgrade types.
+        /// </summary>
+        ///
+        /// <param name="upgradeType">Type of the downgrade to perform.</param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if downgrade was performed successfully,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        protected abstract bool OnDowngrade(UpgradeType upgradeType);
+
+        #endregion Protected Implementations
 
 
         #region Private Implementations
@@ -244,9 +275,28 @@ namespace EHE.BoltBusters
         {
             for (int i = CurrentWeaponCount; i > 0; i--)
             {
-                this.PrintDebug("Removing all weapons.");
+                this.LogDebug("Removing all weapons.");
                 RemoveWeapon();
             }
+        }
+
+        /// <summary>
+        ///  Updates the weapon status information to
+        ///  <see cref="GameManager.CurrentPlayerData"/> if possible.
+        /// </summary>
+        private void UpdatePlayerData()
+        {
+            var playerData = GameManager.Instance.CurrentPlayerData;
+
+            if (playerData == null)
+            {
+                this.LogWarning("Current player data is null.");
+                return;
+            }
+
+            // TODO: Make sure this doesn't cause issues in case the values were the same as before!
+            playerData.SetWeaponCount(WeaponType, CurrentWeaponCount);
+            playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
         }
 
         #endregion Private Implementations
