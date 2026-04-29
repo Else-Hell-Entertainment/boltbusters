@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c3on2c58of0pi"]
 
-[ext_resource type="Script" uid="uid://cox88j2hnu7m0" path="res://Code/UI/CollectibleCounter.cs" id="1_qy57m"]
+[ext_resource type="Script" uid="uid://cox88j2hnu7m0" path="res://Code/UI/HUD/CollectibleCounter.cs" id="1_qy57m"]
 [ext_resource type="Texture2D" uid="uid://h5iw764dh18q" path="res://icon.svg" id="2_r634r"]
 
 [node name="CollectibleCounter" type="HBoxContainer" node_paths=PackedStringArray("_iconRect", "_valueLabel")]
