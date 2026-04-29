@@ -65,16 +65,19 @@ namespace EHE.BoltBusters.Ui
 
         private void OnBtnCreditsPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             throw new NotImplementedException("No credits window implemented.");
         }
 
         private void OnBtnMainMenuPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             GameManager.Instance.StateMachine.TransitionTo(StateType.MainMenu);
         }
 
         private void OnBtnQuitPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer2.Play();
             GameManager.Instance.Quit();
         }
     }

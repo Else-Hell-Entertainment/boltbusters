@@ -39,21 +39,25 @@ namespace EHE.BoltBusters.Ui
 
         private void OnBtnRestartPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             GameManager.Instance.LoadGame();
         }
 
         private void OnBtnSettingsPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             GameManager.Instance.StateMachine.TransitionTo(StateType.SettingsMenu);
         }
 
         private void OnBtnMainMenuPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             GameManager.Instance.StateMachine.TransitionTo(StateType.MainMenu);
         }
 
         private void OnBtnQuitPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer2.Play();
             GameManager.Instance.Quit();
         }
     }
