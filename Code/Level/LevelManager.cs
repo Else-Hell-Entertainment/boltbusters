@@ -5,6 +5,7 @@
 //            Miko Reinholm <miko.reinholm@tuni.fi>
 
 using System;
+using System.Threading.Tasks;
 using EHE.BoltBusters.Config;
 using EHE.BoltBusters.EnemyAI;
 using EHE.BoltBusters.States;
@@ -61,6 +62,9 @@ namespace EHE.BoltBusters
     {
         [Signal]
         public delegate void InitializedEventHandler();
+
+        [Signal]
+        public delegate void RoundEndedEventHandler();
 
         #region Fields
 
@@ -457,17 +461,21 @@ namespace EHE.BoltBusters
         ///   </list>
         ///  </para>
         /// </remarks>
-        private void OnRoundEnded()
+        private async void OnRoundEnded()
         {
             this.PrintDebug("Round ended.");
+            EmitSignal(SignalName.RoundEnded);
             _roundTimer.Stop();
+            DespawnLevelObjects();
+            Player.ToggleInputListening(false);
+            await Task.Delay(2500); // TODO: Remove hardcoding. This is the length of the round ended label animation.
+
             if (_currentMusicPlayer != null)
             {
                 MusicManager.Instance.FadeToBackgroundLevel(_currentMusicPlayer);
             }
             RoundInProgress = false;
             ResetLevel();
-            Player.ToggleInputListening(false);
             // TODO: Disable enemy movement.
             GameManager.Instance.CurrentPlayerData.StartFromShop = true;
             GameManager.Instance.RoundIndex++;

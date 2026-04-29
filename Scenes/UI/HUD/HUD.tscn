@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dibuxv5a07sr1"]
+[gd_scene load_steps=22 format=3 uid="uid://dibuxv5a07sr1"]
 
 [ext_resource type="Script" uid="uid://c65gxirc8hmf3" path="res://Code/UI/HUD/Hud.cs" id="1_kkyb6"]
 [ext_resource type="Script" uid="uid://sv650skqn02e" path="res://Code/UI/HUD/HealthUi.cs" id="2_grqg4"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://b0gqbpsrsosyh" path="res://Assets/Sprites/UI/UIRailgun.png" id="15_0hsig"]
 [ext_resource type="Script" uid="uid://cw8ha2ktfq4by" path="res://Code/UI/HUD/WeaponHud/RocketHud.cs" id="16_kum8b"]
 [ext_resource type="Texture2D" uid="uid://bvfxddngkgif2" path="res://Assets/Sprites/UI/UIRocket.png" id="17_3ggfo"]
+[ext_resource type="Script" uid="uid://c3ai67c2v4cxe" path="res://Code/UI/HUD/FloatingUi.cs" id="18_grqg4"]
 
 [sub_resource type="Animation" id="Animation_aei0q"]
 length = 0.001
@@ -328,11 +329,20 @@ texture = ExtResource("17_3ggfo")
 layout_mode = 2
 texture = ExtResource("17_3ggfo")
 
-[node name="FloatingUi" type="Control" parent="."]
+[node name="FloatingUi" type="Control" parent="." node_paths=PackedStringArray("_popUpLabel", "_animationPlayer")]
 layout_mode = 2
 mouse_filter = 2
+script = ExtResource("18_grqg4")
+_popUpLabel = NodePath("RoundEndedLabel")
+_animationPlayer = NodePath("AnimationPlayer")
 
-[node name="PopupLabel" type="Label" parent="FloatingUi"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FloatingUi"]
+root_node = NodePath("../RoundEndedLabel")
+libraries = {
+&"": SubResource("AnimationLibrary_aei0q")
+}
+
+[node name="RoundEndedLabel" type="Label" parent="FloatingUi"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -350,12 +360,6 @@ pivot_offset = Vector2(59, 10)
 text = "Round ended!"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="FloatingUi"]
-root_node = NodePath("../PopupLabel")
-libraries = {
-&"": SubResource("AnimationLibrary_aei0q")
-}
 
 [editable path="VBoxContainer/TopUi/CollectibleUi/NutCounter"]
 [editable path="VBoxContainer/TopUi/CollectibleUi/BoltCounter"]
