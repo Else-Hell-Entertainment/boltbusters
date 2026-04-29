@@ -167,6 +167,7 @@ layout_mode = 2
 texture = ExtResource("13_jt2rc")
 
 [node name="BottomUi" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(24, 47)
 layout_mode = 2
 alignment = 1
 
