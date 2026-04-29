@@ -109,6 +109,17 @@ namespace EHE.BoltBusters
             return true;
         }
 
+        /// <inheritdoc />
+        protected override bool InitializeSecondaryUpgrades(int secondaryCount)
+        {
+            for (var i = 0; i < secondaryCount; i++)
+            {
+                UpgradeSalvoSize(); // This already makes sure the max is not exceeded.
+            }
+
+            return true;
+        }
+
         /// <summary>
         ///  Upgrades the rocket launcher. <see cref="UpgradeType.Primary"/>
         ///  adds more weapons to this controller.

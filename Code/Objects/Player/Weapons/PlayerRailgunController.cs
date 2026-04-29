@@ -283,6 +283,17 @@ namespace EHE.BoltBusters
             }
         }
 
+        /// <inheritdoc />
+        protected override bool InitializeSecondaryUpgrades(int secondaryCount)
+        {
+            for (var i = 0; i < secondaryCount; i++)
+            {
+                UpgradeChargeSpeed(); // This already makes sure the max is not exceeded.
+            }
+
+            return true;
+        }
+
         /// <summary>
         ///  Upgrades the railgun. <see cref="UpgradeType.Primary"/> adds more
         ///  weapons to this controller. <see cref="UpgradeType.Secondary"/>

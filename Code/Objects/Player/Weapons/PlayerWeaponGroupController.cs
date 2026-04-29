@@ -149,8 +149,7 @@ namespace EHE.BoltBusters
                 AddWeapon();
             }
 
-            // Set secondary upgrade count.
-            SecondaryUpgradeCount = secondaryCount;
+            InitializeSecondaryUpgrades(secondaryCount);
 
             UpdatePlayerData();
             return true;
@@ -237,6 +236,8 @@ namespace EHE.BoltBusters
 
 
         #region Protected Implementations
+
+        protected abstract bool InitializeSecondaryUpgrades(int secondaryCount);
 
         /// <summary>
         ///  Handles the actual upgrade logic for different upgrade types.

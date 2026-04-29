@@ -379,6 +379,17 @@ namespace EHE.BoltBusters
             //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
         }
 
+        /// <inheritdoc />
+        protected override bool InitializeSecondaryUpgrades(int secondaryCount)
+        {
+            for (var i = 0; i < secondaryCount; i++)
+            {
+                UpgradeCooling(); // This already makes sure the max is not exceeded.
+            }
+
+            return true;
+        }
+
         /// <summary>
         ///  Upgrades the chaingun. <see cref="UpgradeType.Primary"/> adds
         ///  more weapons to this controller. <see cref="UpgradeType.Secondary"/>
