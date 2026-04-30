@@ -348,32 +348,6 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        ///  <b>[WIP]</b>
-        ///  Despawns enemies, projectiles, and collectibles. Resets the
-        ///  player position.
-        /// </summary>
-        ///
-        /// <remarks>
-        ///  <para>
-        ///   <b>Status:</b> This method is a Work In Progress and not fully functional.
-        ///   It is likely to become a private method in a future refactoring.
-        ///  </para>
-        ///  <para>
-        ///   <b>Incomplete Features:</b>
-        ///   <list type="bullet">
-        ///    <item>Make player immobile during reset</item>
-        ///    <item>Reset player health to full</item>
-        ///   </list>
-        ///  </para>
-        /// </remarks>
-        public void ResetLevel()
-        {
-            this.PrintDebug("Resetting level...");
-            DespawnLevelObjects();
-            GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, false);
-        }
-
-        /// <summary>
         ///  <b>[WIP]</b> Adds the given level object to the appropriate root
         ///  node in the level.
         /// </summary>
@@ -487,47 +461,37 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        /// <b>[WIP]</b> Called when the round timer expires.
-        /// Handles round completion and transitions to the next state.
+        ///  Handles round completion and transitions to the next state.
         /// </summary>
         ///
         /// <remarks>
         ///  <para>
-        ///   <b>Status:</b>
-        ///   This method contains incomplete features and planned refactorings.
+        ///   This method is called automatically when the
+        ///   <see cref="_roundTimer"/> invokes its <see cref="Timer.Timeout"/>
+        ///   event.
         ///  </para>
         ///  <para>
-        ///   <b>Current Functionality:</b>
-        ///   <list type="bullet">
-        ///    <item>Stops the round timer</item>
-        ///    <item>Sets <see cref="RoundInProgress"/> to <c>false</c></item>
-        ///    <item>Despawns all level objects via <see cref="ResetLevel"/></item>
-        ///    <item>Increments the round index in GameManager</item>
-        ///    <item>Saves the current game state</item>
-        ///    <item>Transitions to the Shop state</item>
-        ///   </list>
-        ///  </para>
-        ///  <para>
-        ///   <b>Incomplete Features:</b>
-        ///   <list type="bullet">
-        ///    <item>Disable player movement when round ends</item>
-        ///    <item>Disable enemy movement when round ends</item>
-        ///    <item>Add delay before transitioning to shop state</item>
-        ///   </list>
+        ///   This method handles stopping the <see cref="_roundTimer"/>,
+        ///   disabling player input, requesting level objects to be despawned,
+        ///   autosaving the game, and handling transition to the next game
+        ///   state (game over or victory).
         ///  </para>
         /// </remarks>
         private void OnRoundEnded()
         {
-            this.PrintDebug("Round ended.");
+            this.LogInfo("Round ended.");
+
             _roundTimer.Stop();
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, RoundInProgress);
+
+            Player.ToggleInputListening(false);
+            DespawnLevelObjects();
+
             if (_currentMusicPlayer != null)
             {
                 MusicManager.Instance.FadeToBackgroundLevel(_currentMusicPlayer);
             }
-            RoundInProgress = false;
-            ResetLevel();
-            Player.ToggleInputListening(false);
-            // TODO: Disable enemy movement.
+
             GameManager.Instance.CurrentPlayerData.StartFromShop = true;
             GameManager.Instance.RoundIndex++;
 
