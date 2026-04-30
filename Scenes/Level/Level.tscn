@@ -70,8 +70,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.951, 0.2, 27.928)
 
 [node name="CollectibleSpawnManager" parent="." instance=ExtResource("6_ksici")]
 
-[node name="RoundTimer" type="Timer" parent="."]
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_t3e81")
 
