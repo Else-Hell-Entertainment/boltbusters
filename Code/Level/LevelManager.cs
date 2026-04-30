@@ -110,11 +110,27 @@ namespace EHE.BoltBusters
         public Player Player => _player;
 
         /// <summary>
-        ///  Gets a value indicating whether a round is currently in progress.
-        ///  <c>true</c> after <see cref="StartRound"/> is called,
-        ///  <c>false</c> after the round timer expires.
+        ///  Indicates whether the round is in progress or not.
         /// </summary>
-        public bool RoundInProgress { get; private set; }
+        ///
+        /// <remarks>
+        ///  This property returns the status of the internal round timer.
+        ///  If the timer is currently running, returns <c>true</c>. If the
+        ///  timer is stopped or if the timer has not been set up, returns
+        ///  <c>false</c>.
+        /// </remarks>
+        public bool RoundInProgress
+        {
+            get
+            {
+                if (_roundTimer == null)
+                {
+                    return false;
+                }
+
+                return !_roundTimer.IsStopped();
+            }
+        }
 
         #endregion Properties
 
@@ -321,7 +337,6 @@ namespace EHE.BoltBusters
         {
             this.PrintDebug("Starting round...");
             _roundTimer.Start();
-            RoundInProgress = true;
             _enemySpawnManager.StartRound(_roundData);
             GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, true);
 
@@ -577,7 +592,6 @@ namespace EHE.BoltBusters
             this.PrintDebug("Player died.");
             Player.ToggleInputListening(false);
             _roundTimer.Stop();
-            RoundInProgress = false;
             GameManager.Instance.StateMachine.TransitionTo(StateType.GameOver);
             Player.PlayerDied -= OnPlayerDeath;
         }
