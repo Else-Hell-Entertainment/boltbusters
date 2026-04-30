@@ -128,18 +128,18 @@ namespace EHE.BoltBusters
 
             // Signal to let other elements (mainly UI) know the player is now ready.
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
-            GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
+            // GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
         }
 
         // TODO: Convert this to a public Reset method that can be called from LevelManager.
-        private void OnRoundStateChanged(bool inProgress)
-        {
-            if (!inProgress)
-            {
-                ResetWeapons();
-                HealthComponent.RestoreToInitial();
-            }
-        }
+        // private void OnRoundStateChanged(bool inProgress)
+        // {
+        //     if (!inProgress)
+        //     {
+        //         ResetWeapons();
+        //         HealthComponent.RestoreToInitial();
+        //     }
+        // }
 
         /// <summary>
         /// Remove player from TargetProvider when exiting tree.
