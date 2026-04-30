@@ -183,12 +183,11 @@ namespace EHE.BoltBusters
         /// </param>
         public void Initialize(PlayerData playerData)
         {
-            // TODO: Move these to a Reset method?
-            HealthComponent.RestoreToInitial();
             _upgradeHandler.InitializeWeaponCounts(
                 playerData.GetWeaponCounts(),
                 playerData.GetSecondaryUpgradeCounts()
             );
+            ResetAll();
         }
 
         /// <summary>
@@ -209,6 +208,28 @@ namespace EHE.BoltBusters
             return _playerController.AcceptCommands;
         }
 
+        /// <summary>
+        ///  Resets the player's health and the state of their weapons.
+        /// </summary>
+        public void ResetAll()
+        {
+            ResetHealth();
+            ResetWeapons();
+        }
+
+        /// <summary>
+        ///  Resets the player's health to the initial value.
+        /// </summary>
+        ///
+        /// <seealso cref="HealthComponent.RestoreToInitial"/>
+        public void ResetHealth()
+        {
+            HealthComponent.RestoreToInitial();
+        }
+
+        /// <summary>
+        ///  Resets the state of player's weapons.
+        /// </summary>
         public void ResetWeapons()
         {
             RailgunController.ResetWeapons();
