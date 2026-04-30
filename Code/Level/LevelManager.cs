@@ -14,49 +14,19 @@ using Godot;
 namespace EHE.BoltBusters
 {
     /// <summary>
-    ///  <para>Manages the overall state and lifecycle of a game level.</para>
     ///  <para>
-    ///   This class is responsible for:
-    ///   <list type="bullet">
-    ///    <item>Initializing and managing the game level structure</item>
-    ///    <item>Controlling round timing and progression</item>
-    ///    <item>Keeping track of the player instance</item>
-    ///    <item>
-    ///     Spawning and managing enemies through the
-    ///     <see cref="EnemySpawnManager"/>
-    ///    </item>
-    ///    <item>
-    ///     Managing level objects (enemies, projectiles, collectibles) through
-    ///     dedicated root nodes
-    ///    </item>
-    ///    <item>Handling end-of-round transitions and level cleanup</item>
-    ///   </list>
-    /// </para>
-    ///
-    /// <para>
+    ///   The LevelManager is a singleton-like class that orchestrates the
+    ///   events happening during a single round from the initialization of the
+    ///   level to round completion and level cleanup. It serves as a
+    ///   coordinator for different subsystems such as enemy spawning and game
+    ///   state transitions.
+    ///  </para>
+    ///  <para>
     ///   The LevelManager maintains a static reference to the currently active
-    ///   level instance via the <see cref="Active"/> property, allowing other
-    ///   systems to access level data without maintaining their own references.
+    ///   instance via the <see cref="Active"/> property, allowing other systems
+    ///   to access level data without maintaining their own references.
     ///  </para>
     /// </summary>
-    ///
-    /// <remarks>
-    ///  <b>[WIP]</b> This class contains several unfinished features and
-    ///  planned refactorings:
-    ///  <list type="bullet">
-    ///   <item>
-    ///    Architecture: Planned to split into Background and Gameplay level
-    ///    manager subclasses
-    ///   </item>
-    ///   <item>
-    ///    ResetLevel: Method may become private; functionality is incomplete
-    ///   </item>
-    ///   <item>
-    ///    AddLevelObject: Needs validation for null root nodes and type
-    ///    checking
-    ///   </item>
-    ///  </list>
-    /// </remarks>
     public partial class LevelManager : Node3D
     {
         [Signal]
@@ -102,7 +72,8 @@ namespace EHE.BoltBusters
         public LevelType LevelType => _levelType;
 
         /// <summary>
-        ///  Gets a reference to the Player instance in this level.
+        ///  Gets a reference to the <see cref="Player"/> instance in this
+        ///  level.
         /// </summary>
         public Player Player { get; private set; }
 
@@ -227,7 +198,8 @@ namespace EHE.BoltBusters
         /// </summary>
         ///
         /// <param name="roundIndex">
-        ///  Numerical index for the round data file to load.
+        ///  Numerical index for the round data file to load. This corresponds
+        ///  to the number in the file name of the round data resource.
         /// </param>
         ///
         /// <remarks>
@@ -239,7 +211,7 @@ namespace EHE.BoltBusters
         ///  <para>
         ///   If the round data file cannot be found at the computed path, an
         ///   error is logged and the method returns without completing
-        ///  initialization.
+        ///   initialization.
         ///  </para>
         /// </remarks>
         ///
@@ -295,32 +267,15 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        ///  Starts the round by activating the round timer and enemy spawn
-        ///  manager.
+        ///  Starts the round.
         /// </summary>
         ///
         /// <remarks>
-        ///  <para>
-        ///   This method must be called after <see cref="InitializeLevel(int)"/>
-        ///   and <see cref="InitializePlayer(PlayerData)"/> to begin round
-        ///   execution.
-        ///  </para>
-        ///  <para>
-        ///   This method performs the following:
-        ///    <list type="bullet">
-        ///    <item>
-        ///     Sets the <see cref="RoundInProgress"/> flag to <c>true</c>
-        ///    </item>
-        ///    <item>
-        ///     Starts the round timer using the duration configured in
-        ///     <see cref="InitializeLevel(int)"/>
-        ///    </item>
-        ///    <item>
-        ///     Signals the <see cref="EnemySpawnManager"/> to begin spawning
-        ///     enemies
-        ///    </item>
-        ///   </list>
-        ///  </para>
+        ///  This method starts the round timer, instructs the enemy spawner
+        ///  to start its logic, and instructs the music player to play the
+        ///  appropriate song. At the end, the
+        ///  <seealso cref="GameManager.RoundStateChanged"/> signal is emitted
+        ///  telling other systems that the round has started.
         /// </remarks>
         public void StartRound()
         {
@@ -337,13 +292,15 @@ namespace EHE.BoltBusters
         }
 
         /// <summary>
-        ///  <b>[WIP]</b> Adds the given level object to the appropriate root
-        ///  node in the level.
+        ///  Adds the given level objects under their appropriate root nodes.
+        ///  Unidentified level objects are added to the level root and a
+        ///  warning is logged.
         /// </summary>
         ///
         /// <param name="levelObject">
-        ///  The level object to add. Must be an <see cref="Enemy"/>,
-        ///  <see cref="Projectile"/>, or <see cref="Collectible"/>.
+        ///  The level object to add. This should be one of the following types:
+        ///  <see cref="Enemy"/>, <see cref="Projectile"/>, or
+        ///  <see cref="Collectible"/>.
         /// </param>
         ///
         /// <remarks>
