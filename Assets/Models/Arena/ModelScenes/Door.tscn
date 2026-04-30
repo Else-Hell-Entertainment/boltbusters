@@ -1,44 +1,44 @@
 [gd_scene load_steps=8 format=3 uid="uid://be87e1fpew6nj"]
 
-[ext_resource type="Script" uid="uid://cyxl7ckxniv3v" path="res://Assets/Models/Arena/Door.cs" id="1_c05iq"]
-[ext_resource type="Material" uid="uid://do048e2b52egy" path="res://Assets/Shaders/EffectShaderShaderMaterial.tres" id="1_cvdlv"]
-[ext_resource type="Script" uid="uid://douxkfuevapga" path="res://Code/Components/DoorShaderComponent.cs" id="3_c05iq"]
-[ext_resource type="Resource" uid="uid://dw52jxte7gm6v" path="res://Assets/Shaders/Door.tres" id="4_6qw1w"]
+[ext_resource type="Script" uid="uid://cyxl7ckxniv3v" path="res://Code/Objects/Door.cs" id="1_7ywun"]
+[ext_resource type="Material" uid="uid://do048e2b52egy" path="res://Assets/Shaders/EffectShaderShaderMaterial.tres" id="2_efnpc"]
+[ext_resource type="Script" uid="uid://douxkfuevapga" path="res://Code/Components/DoorShaderComponent.cs" id="3_ikxl1"]
+[ext_resource type="Resource" uid="uid://dw52jxte7gm6v" path="res://Assets/Shaders/Door.tres" id="4_fcjs6"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_fs85l"]
-size = Vector3(6, 4, 0.1)
+size = Vector3(6, 3, 0.01)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fs85l"]
 transparency = 3
 alpha_hash_scale = 1.0
 alpha_antialiasing_mode = 0
-albedo_color = Color(0.393, 4.416, 1.658, 0.2)
+albedo_color = Color(1.5802358, 0.18274765, 0.46224532, 0.2)
 emission = Color(0.15594886, 0.6777837, 1, 1)
 emission_energy_multiplier = 5.0
 emission_operator = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_cvdlv"]
-size = Vector3(6, 4, 0.1)
+size = Vector3(6, 3, 1)
 
 [node name="Door" type="Node3D" node_paths=PackedStringArray("_doorShaderComponent")]
-script = ExtResource("1_c05iq")
+script = ExtResource("1_7ywun")
 _doorShaderComponent = NodePath("DoorShaderComponent")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, 0, 0, 0)
-material_overlay = ExtResource("1_cvdlv")
+material_overlay = ExtResource("2_efnpc")
 mesh = SubResource("BoxMesh_fs85l")
 surface_material_override/0 = SubResource("StandardMaterial3D_fs85l")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
-collision_layer = 32768
+collision_layer = 32
+collision_mask = 193
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
-visible = false
 shape = SubResource("BoxShape3D_cvdlv")
 
 [node name="DoorShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
-script = ExtResource("3_c05iq")
-_doorEffectShaderPreset = ExtResource("4_6qw1w")
+script = ExtResource("3_ikxl1")
+_doorEffectShaderPreset = ExtResource("4_fcjs6")
 _meshes = [NodePath("../MeshInstance3D")]
 metadata/_custom_type_script = "uid://douxkfuevapga"

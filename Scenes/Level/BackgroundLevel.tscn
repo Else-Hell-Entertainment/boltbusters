@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bfj6ftk2qkfw8"]
 
 [ext_resource type="Script" uid="uid://d0hobigx0gyeh" path="res://Code/Level/LevelManager.cs" id="1_ma5ef"]
-[ext_resource type="MeshLibrary" uid="uid://c6xxp4aew2t3p" path="res://Assets/Models/Arena/MeshLibraryArena3.tres" id="3_ma5ef"]
+[ext_resource type="MeshLibrary" uid="uid://c6xxp4aew2t3p" path="res://Assets/Models/Arena/OldArena/MeshLibraryArena3.tres" id="3_ma5ef"]
 [ext_resource type="PackedScene" uid="uid://c4h2yy8w0gt3l" path="res://Scenes/Player/player.tscn" id="5_a0nov"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_5hxus"]

@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3obcf4jwksbu"
-path.s3tc="res://.godot/imported/Arena_FloorNew.png-398c582249b8ef667bc3229bea962fff.s3tc.ctex"
+uid="uid://c0txa1b4ec5n1"
+path.s3tc="res://.godot/imported/Arena_MetalWall.png-ce27da0a1a7ba512e36938346232795e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "33c1b3726c165b21ffcf657f6bde552b"
+"md5": "d84fbf6a7824ea26ae61f9e384e0d2a3"
 }
 
 [deps]
 
-source_file="res://Assets/Models/Arena/Arena_FloorNew.png"
-dest_files=["res://.godot/imported/Arena_FloorNew.png-398c582249b8ef667bc3229bea962fff.s3tc.ctex"]
+source_file="res://Assets/Models/Arena/Resources/Arena_MetalWall.png"
+dest_files=["res://.godot/imported/Arena_MetalWall.png-ce27da0a1a7ba512e36938346232795e.s3tc.ctex"]
 
 [params]
 

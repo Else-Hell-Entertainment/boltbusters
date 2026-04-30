@@ -3,9 +3,10 @@ render_mode blend_add, cull_disabled;
 
 // ------------------------------------------------------------
 // EFFECT MODE
-// 0 = Flash
-// 1 = Pulse
-// 2 = Accelerating Pulse
+// 0 = None
+// 1 = Flash
+// 2 = Pulse
+// 3 = Accelerating Pulse
 // ------------------------------------------------------------
 uniform int effect_mode : hint_enum("None", "Flash", "Pulse", "AcceleratingPulse") = 0;
 

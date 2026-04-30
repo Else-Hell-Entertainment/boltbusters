@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://by4d3gf4td2jh"
-path.s3tc="res://.godot/imported/Arena2_OilSpill.png-6d0b9388ce0872ce2d4d256d5e1a1719.s3tc.ctex"
+uid="uid://dcjl4epcw8wl4"
+path.s3tc="res://.godot/imported/Arena2_OilSpill2.png-f853742fdbb8d5f268c647dd3f88a119.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "6ae7ddcf044cde6619710ab3630b1753"
+"md5": "6fdede11624885bb1b58de27bb97f81d"
 }
 
 [deps]
 
-source_file="res://Assets/Models/Arena/Arena2_OilSpill.png"
-dest_files=["res://.godot/imported/Arena2_OilSpill.png-6d0b9388ce0872ce2d4d256d5e1a1719.s3tc.ctex"]
+source_file="res://Assets/Models/Arena/Resources/Arena2_OilSpill2.png"
+dest_files=["res://.godot/imported/Arena2_OilSpill2.png-f853742fdbb8d5f268c647dd3f88a119.s3tc.ctex"]
 
 [params]
 
