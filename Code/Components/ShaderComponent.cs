@@ -20,7 +20,6 @@ namespace EHE.BoltBusters
 
         private int _effectVersion = 0;
 
-        // Pulse TIME replacement (script-driven), needed especially for infinite pulses.
         private bool _pulseTimeEnabled = false;
         private float _pulseTime = 0.0f;
 
