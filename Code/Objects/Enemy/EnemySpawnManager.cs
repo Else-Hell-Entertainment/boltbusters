@@ -301,6 +301,10 @@ namespace EHE.BoltBusters
 
                     timer.Start();
                 }
+                else if (time == 0)
+                {
+                    OnWaveTimerTimeout(wave);
+                }
             }
         }
 
