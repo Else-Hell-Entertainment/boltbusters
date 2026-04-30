@@ -593,6 +593,7 @@ namespace EHE.BoltBusters
             // is necessary, see the comments in StartNewGame.
             LevelManager.Active.InitializeLevel(RoundIndex);
             LevelManager.Active.InitializePlayer(CurrentPlayerData);
+            LevelManager.Active.StartRound();
         }
 
         /// <summary>

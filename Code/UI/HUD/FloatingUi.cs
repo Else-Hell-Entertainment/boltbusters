@@ -13,10 +13,7 @@ namespace EHE.BoltBusters.Ui
         private AnimationPlayer _animationPlayer;
 
         /// <inheritdoc />
-        public override void _EnterTree()
-        {
-            CallDeferred(nameof(ConnectSignals));
-        }
+        public override void _EnterTree() { }
 
         /// <inheritdoc />
         public override void _ExitTree()
@@ -36,13 +33,18 @@ namespace EHE.BoltBusters.Ui
                     this.LogError($"No suitable node for {nameof(_animationPlayer)} found in the scene!");
                 }
             }
+
+            CallDeferred(nameof(ConnectSignals));
         }
 
         private void ConnectSignals()
         {
-            if (LevelManager.Active == null)
+            this.LogDebug("Connecting signals.");
+            GD.Print(LevelManager.Active.LevelType);
+
+            if (LevelManager.Active == null || LevelManager.Active.LevelType != LevelType.Gameplay)
             {
-                this.LogError("No active level manager found. Cannot connect signals!");
+                this.LogError("No suitable level manager found. Cannot connect signals!");
                 return;
             }
 
@@ -52,6 +54,7 @@ namespace EHE.BoltBusters.Ui
 
         private void DisconnectSignals()
         {
+            this.LogDebug("Disconnecting signals.");
             if (LevelManager.Active != null)
             {
                 LevelManager.Active.RoundStarting -= PlayCountdown;
@@ -61,6 +64,7 @@ namespace EHE.BoltBusters.Ui
 
         private void PlayCountdown()
         {
+            GD.Print("C O U N T D O W N !!");
             _animationPlayer.Play("round_starting");
         }
 

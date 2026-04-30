@@ -10,6 +10,9 @@ namespace EHE.BoltBusters.Ui
     public partial class MenuShop : Menu
     {
         [Export]
+        private AnimationPlayer _animationPlayer;
+
+        [Export]
         private Button _btnEnterNextRound;
 
         [Export]
@@ -49,6 +52,8 @@ namespace EHE.BoltBusters.Ui
 
             GameManager.Instance.WeaponUpgradeSucceeded += OnWeaponUpgradeSucceeded;
             GameManager.Instance.WeaponUpgradeFailed += OnWeaponUpgradeFailed;
+
+            _animationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "slide_up");
         }
 
         public override void _ExitTree()
@@ -67,8 +72,10 @@ namespace EHE.BoltBusters.Ui
             GameManager.Instance.WeaponUpgradeFailed -= OnWeaponUpgradeFailed;
         }
 
-        private void OnBtnEnterNextRoundPressed()
+        private async void OnBtnEnterNextRoundPressed()
         {
+            _animationPlayer.PlayBackwards("slide_up");
+            await ToSignal(_animationPlayer, AnimationMixer.SignalName.AnimationFinished);
             GameManager.Instance.StateMachine.TransitionTo(StateType.Round);
             LevelManager.Active.InitializeLevel(GameManager.Instance.RoundIndex);
             LevelManager.Active.StartRound();
