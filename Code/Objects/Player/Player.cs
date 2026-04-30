@@ -52,6 +52,8 @@ namespace EHE.BoltBusters
         public override void _Input(InputEvent inputEvent)
         {
 #if DEBUG
+            // Primary upgrades
+            // Chaingun
             if (inputEvent.IsActionPressed("DebugDowngradeChaingun"))
             {
                 _upgradeHandler.DowngradeWeapon(WeaponType.Chaingun, UpgradeType.Primary);
@@ -61,6 +63,7 @@ namespace EHE.BoltBusters
                 _upgradeHandler.UpgradeWeapon(WeaponType.Chaingun, UpgradeType.Primary, out _, true);
             }
 
+            // Railgun
             if (inputEvent.IsActionPressed("DebugDowngradeRailgun"))
             {
                 _upgradeHandler.DowngradeWeapon(WeaponType.Railgun, UpgradeType.Primary);
@@ -70,6 +73,7 @@ namespace EHE.BoltBusters
                 _upgradeHandler.UpgradeWeapon(WeaponType.Railgun, UpgradeType.Primary, out _, true);
             }
 
+            // Rocket Launcher
             if (inputEvent.IsActionPressed("DebugDowngradeMissile"))
             {
                 _upgradeHandler.DowngradeWeapon(WeaponType.Rocket, UpgradeType.Primary);
@@ -77,6 +81,37 @@ namespace EHE.BoltBusters
             else if (inputEvent.IsActionPressed("DebugUpgradeMissile"))
             {
                 _upgradeHandler.UpgradeWeapon(WeaponType.Rocket, UpgradeType.Primary, out _, true);
+            }
+
+            // Secondary upgrades
+            // Chaingun
+            if (inputEvent.IsActionPressed("DebugDowngradeChaingunSecondary"))
+            {
+                _upgradeHandler.DowngradeWeapon(WeaponType.Chaingun, UpgradeType.Secondary);
+            }
+            else if (inputEvent.IsActionPressed("DebugUpgradeChaingunSecondary"))
+            {
+                _upgradeHandler.UpgradeWeapon(WeaponType.Chaingun, UpgradeType.Secondary, out _, true);
+            }
+
+            // Railgun
+            if (inputEvent.IsActionPressed("DebugDowngradeRailgunSecondary"))
+            {
+                _upgradeHandler.DowngradeWeapon(WeaponType.Railgun, UpgradeType.Secondary);
+            }
+            else if (inputEvent.IsActionPressed("DebugUpgradeRailgunSecondary"))
+            {
+                _upgradeHandler.UpgradeWeapon(WeaponType.Railgun, UpgradeType.Secondary, out _, true);
+            }
+
+            // Rocket Launcher
+            if (inputEvent.IsActionPressed("DebugDowngradeMissileSecondary"))
+            {
+                _upgradeHandler.DowngradeWeapon(WeaponType.Rocket, UpgradeType.Secondary);
+            }
+            else if (inputEvent.IsActionPressed("DebugUpgradeMissileSecondary"))
+            {
+                _upgradeHandler.UpgradeWeapon(WeaponType.Rocket, UpgradeType.Secondary, out _, true);
             }
 #endif
         }
@@ -93,18 +128,18 @@ namespace EHE.BoltBusters
 
             // Signal to let other elements (mainly UI) know the player is now ready.
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
-            GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
+            // GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
         }
 
         // TODO: Convert this to a public Reset method that can be called from LevelManager.
-        private void OnRoundStateChanged(bool inProgress)
-        {
-            if (!inProgress)
-            {
-                ResetWeapons();
-                HealthComponent.RestoreToInitial();
-            }
-        }
+        // private void OnRoundStateChanged(bool inProgress)
+        // {
+        //     if (!inProgress)
+        //     {
+        //         ResetWeapons();
+        //         HealthComponent.RestoreToInitial();
+        //     }
+        // }
 
         /// <summary>
         /// Remove player from TargetProvider when exiting tree.
@@ -148,9 +183,11 @@ namespace EHE.BoltBusters
         /// </param>
         public void Initialize(PlayerData playerData)
         {
-            // TODO: Move these to a Reset method?
-            HealthComponent.RestoreToInitial();
-            _upgradeHandler.InitializeWeaponCounts(playerData.GetWeaponCounts());
+            _upgradeHandler.InitializeWeaponCounts(
+                playerData.GetWeaponCounts(),
+                playerData.GetSecondaryUpgradeCounts()
+            );
+            ResetAll();
         }
 
         /// <summary>
@@ -171,6 +208,28 @@ namespace EHE.BoltBusters
             return _playerController.AcceptCommands;
         }
 
+        /// <summary>
+        ///  Resets the player's health and the state of their weapons.
+        /// </summary>
+        public void ResetAll()
+        {
+            ResetHealth();
+            ResetWeapons();
+        }
+
+        /// <summary>
+        ///  Resets the player's health to the initial value.
+        /// </summary>
+        ///
+        /// <seealso cref="HealthComponent.RestoreToInitial"/>
+        public void ResetHealth()
+        {
+            HealthComponent.RestoreToInitial();
+        }
+
+        /// <summary>
+        ///  Resets the state of player's weapons.
+        /// </summary>
         public void ResetWeapons()
         {
             RailgunController.ResetWeapons();

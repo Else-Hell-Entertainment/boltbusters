@@ -57,6 +57,7 @@ namespace EHE.BoltBusters.Ui
 
         private void OnBtnBackPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             GameManager.Instance.SettingsManager.SaveSettings();
             GameManager.Instance.SettingsManager.SaveSettingsToFile(SettingsConfig.USER_SETTINGS_FILE_PATH);
             GameManager.Instance.StateMachine.TransitionToPrevious();

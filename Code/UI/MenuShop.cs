@@ -76,12 +76,14 @@ namespace EHE.BoltBusters.Ui
 
         private void OnWeaponUpgradeSucceeded(int weaponType)
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             _toastLabel.Text = "Weapon upgraded!";
             _toastLabel.Toast();
         }
 
         private void OnWeaponUpgradeFailed(int weaponType, int reason)
         {
+            MusicManager.Instance.ButtonSoundPlayer2.Play();
             switch ((WeaponUpgradeResult)reason)
             {
                 case WeaponUpgradeResult.FailedNoMoney:
@@ -100,6 +102,7 @@ namespace EHE.BoltBusters.Ui
 
         private void RequestWeaponUpgrade(WeaponType weaponType, UpgradeType upgradeType)
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             GameManager.Instance.EmitSignal(
                 GameManager.SignalName.RequestWeaponUpgrade,
                 (int)weaponType,

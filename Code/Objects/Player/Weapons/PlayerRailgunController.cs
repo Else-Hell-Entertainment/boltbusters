@@ -179,7 +179,7 @@ namespace EHE.BoltBusters
         {
             if (SecondaryUpgradeCount >= _maxSecondaryUpgrades)
             {
-                GD.Print("Cannot upgrade railgun further.");
+                this.LogDebug("Cannot upgrade charge speed any further.");
                 return false;
             }
 
@@ -191,7 +191,9 @@ namespace EHE.BoltBusters
                     EmitSignal(SignalName.RailgunConfigurationChanged);
                 }
             }
+
             SecondaryUpgradeCount++;
+            this.LogDebug("Charge speed upgraded.");
             return true;
         }
 
@@ -199,7 +201,7 @@ namespace EHE.BoltBusters
         {
             if (SecondaryUpgradeCount <= 0)
             {
-                GD.Print("Cannot downgrade railgun further.");
+                this.LogDebug("Cannot downgrade charge speed any further.");
                 return false;
             }
             foreach (BaseWeapon weapon in Weapons)
@@ -210,6 +212,9 @@ namespace EHE.BoltBusters
                     EmitSignal(SignalName.RailgunConfigurationChanged);
                 }
             }
+
+            SecondaryUpgradeCount--;
+            this.LogDebug("Charge speed downgraded.");
             return true;
         }
 
@@ -282,12 +287,24 @@ namespace EHE.BoltBusters
         }
 
         /// <inheritdoc />
-        /// <remarks>
-        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
-        ///  controller. <see cref="UpgradeType.Secondary"/> upgrades the
-        ///  charge speed.
-        /// </remarks>
-        public override bool Upgrade(UpgradeType type)
+        protected override bool InitializeSecondaryUpgrades(int secondaryCount)
+        {
+            for (var i = 0; i < secondaryCount; i++)
+            {
+                UpgradeChargeSpeed(); // This already makes sure the max is not exceeded.
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///  Upgrades the railgun. <see cref="UpgradeType.Primary"/> adds more
+        ///  weapons to this controller. <see cref="UpgradeType.Secondary"/>
+        ///  upgrades the charge speed.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnUpgrade(UpgradeType type)
         {
             switch (type)
             {
@@ -303,13 +320,14 @@ namespace EHE.BoltBusters
             return false;
         }
 
-        /// <inheritdoc />
-        /// <remarks>
-        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
-        ///  controller. <see cref="UpgradeType.Secondary"/> downgrades the
-        ///  charge speed.
-        /// </remarks>
-        public override bool Downgrade(UpgradeType type)
+        /// <summary>
+        ///  Upgrades the railgun. <see cref="UpgradeType.Primary"/> removes
+        ///  weapons from this controller. <see cref="UpgradeType.Secondary"/>
+        ///  downgrades the charge speed.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnDowngrade(UpgradeType type)
         {
             switch (type)
             {

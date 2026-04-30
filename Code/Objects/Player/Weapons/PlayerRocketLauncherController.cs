@@ -67,24 +67,24 @@ namespace EHE.BoltBusters
 
         public bool UpgradeSalvoSize()
         {
-            if (SecondaryUpgradeCount < _maxSecondaryUpgradeCount)
+            if (SecondaryUpgradeCount >= _maxSecondaryUpgradeCount)
             {
-                SecondaryUpgradeCount++;
-                foreach (BaseWeapon weapon in Weapons)
-                {
-                    if (weapon is RocketLauncher launcher)
-                    {
-                        launcher.IncreaseSalvoSize();
-#if Debug
-                        GD.Print("Increasing rocket launcher salvo size");
-#endif
-                    }
-                }
-                EmitSignal(SignalName.RocketLauncherConfigurationChanged);
-                return true;
+                return false;
             }
 
-            return false;
+            SecondaryUpgradeCount++;
+
+            foreach (BaseWeapon weapon in Weapons)
+            {
+                if (weapon is RocketLauncher launcher)
+                {
+                    launcher.IncreaseSalvoSize();
+                    this.LogDebug("Increasing rocket launcher salvo size");
+                }
+            }
+
+            EmitSignal(SignalName.RocketLauncherConfigurationChanged);
+            return true;
         }
 
         public bool DowngradeSalvoSize()
@@ -93,28 +93,41 @@ namespace EHE.BoltBusters
             {
                 return false;
             }
+
             SecondaryUpgradeCount--;
+
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is RocketLauncher launcher)
                 {
                     launcher.DecreaseSalvoSize();
-#if Debug
-                    GD.Print("Decreasing rocket launcher salvo size");
-#endif
+                    this.LogDebug("Decreasing rocket launcher salvo size");
                 }
             }
+
             EmitSignal(SignalName.RocketLauncherConfigurationChanged);
             return true;
         }
 
-        /// <inheritdoc/>
-        /// <remarks>
-        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
-        ///  controller. <see cref="UpgradeType.Secondary"/> upgrades the salvo
-        ///  size.
-        /// </remarks>
-        public override bool Upgrade(UpgradeType type)
+        /// <inheritdoc />
+        protected override bool InitializeSecondaryUpgrades(int secondaryCount)
+        {
+            for (var i = 0; i < secondaryCount; i++)
+            {
+                UpgradeSalvoSize(); // This already makes sure the max is not exceeded.
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///  Upgrades the rocket launcher. <see cref="UpgradeType.Primary"/>
+        ///  adds more weapons to this controller.
+        ///  <see cref="UpgradeType.Secondary"/> upgrades the salvo size.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnUpgrade(UpgradeType type)
         {
             switch (type)
             {
@@ -130,13 +143,14 @@ namespace EHE.BoltBusters
             return false;
         }
 
-        /// <inheritdoc />
-        /// <remarks>
-        ///  <see cref="UpgradeType.Primary"/> adds more weapons to this
-        ///  controller. <see cref="UpgradeType.Secondary"/> downgrades the
-        ///  salvo size.
-        /// </remarks>
-        public override bool Downgrade(UpgradeType type)
+        /// <summary>
+        ///  Downgrades the rocket launcher. <see cref="UpgradeType.Primary"/>
+        ///  removes weapons from this controller.
+        ///  <see cref="UpgradeType.Secondary"/> downgrades the salvo size.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnDowngrade(UpgradeType type)
         {
             switch (type)
             {
