@@ -14,7 +14,9 @@ namespace EHE.BoltBusters
     /// </summary>
     public partial class Chaingun : BaseWeapon
     {
-        private const int COLLISION_MASK_LAYER = 2;
+        private const int LAYER_ENEMIES = 2;
+        private const int LAYER_FLOORS_WALLS = 5;
+        private const int LAYER_DOORS = 6;
 
         [Export]
         private Timer _cooldownTimer;
@@ -171,8 +173,14 @@ namespace EHE.BoltBusters
             Vector3 end = start + direction.Normalized() * 100f;
 
             var query = PhysicsRayQueryParameters3D.Create(start, end);
+
+            query.CollisionMask = 0;
             query.CollideWithAreas = true;
-            query.CollisionMask = COLLISION_MASK_LAYER;
+
+            query.CollisionMask |= 1 << (LAYER_ENEMIES - 1);
+            query.CollisionMask |= 1 << (LAYER_FLOORS_WALLS - 1);
+            query.CollisionMask |= 1 << (LAYER_DOORS - 1);
+
             var result = spaceState.IntersectRay(query);
             if (result.ContainsKey("position"))
             {

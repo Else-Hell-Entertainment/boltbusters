@@ -18,7 +18,7 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rqpuh"]
 resource_name = "Wheel"
 cull_mode = 2
-albedo_color = Color(0, 0, 0, 1)
+albedo_color = Color(0.19793725, 0.19793722, 0.19793722, 1)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_mxhum"]
 _surfaces = [{
@@ -271,7 +271,9 @@ _data = {
 }
 
 [node name="EnemyCannonBot" type="CharacterBody3D" node_paths=PackedStringArray("_rayCaster", "Controller", "_animationPlayer", "_cannonController", "_healthComponent")]
-collision_layer = 3
+collision_layer = 2
+collision_mask = 83
+axis_lock_linear_y = true
 script = ExtResource("1_k6seb")
 _range = 12.0
 _rayCaster = NodePath("Turret/Muzzle/RayCast3D")
@@ -279,7 +281,6 @@ Controller = NodePath("Controller")
 _cannonBallScene = ExtResource("1_mqbn8")
 _animationPlayer = NodePath("AnimationPlayer")
 _cannonController = NodePath("Controller")
-EnemyType = 2
 _deathAnimation = ExtResource("3_s1vxn")
 _healthComponent = NodePath("EnemyHealthComponent")
 
@@ -314,6 +315,7 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 
 [node name="Wheel" type="MeshInstance3D" parent="Body/Node3D"]
 transform = Transform3D(0, -0.20300695, 0, 0.4561433, 0, 0, 0, 0, 0.4561433, 0, 0.45, 0)
+material_overlay = ExtResource("6_wagaa")
 mesh = SubResource("ArrayMesh_ghdcm")
 skeleton = NodePath("")
 
@@ -343,7 +345,6 @@ draw_pass_1 = SubResource("QuadMesh_y2xl8")
 
 [node name="MuzzleFlash" type="OmniLight3D" parent="Turret"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6414611, -1.0716403)
-visible = false
 light_color = Color(0.91040766, 0.8755824, 0.07474276, 1)
 light_energy = 10.0
 omni_range = 2.0
@@ -364,7 +365,7 @@ transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 1.683, -
 target_position = Vector3(0, 0, -15)
 
 [node name="Collider" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.205, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_wagaa")
 
 [node name="ReloadTimer" type="Timer" parent="."]
@@ -380,7 +381,7 @@ metadata/_custom_type_script = "uid://b620lyqticbmf"
 [node name="EnemyShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]
 script = ExtResource("7_82su2")
 _enemyEffectShaderPreset = ExtResource("8_wagaa")
-_meshes = [NodePath("../Turret/EnemyRanged/Cannon")]
+_meshes = [NodePath("../Turret/EnemyRanged/Cannon"), NodePath("../Body/Node3D/Wheel")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Turret/MuzzleFlash")
