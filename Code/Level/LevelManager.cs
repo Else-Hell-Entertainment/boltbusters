@@ -241,28 +241,31 @@ namespace EHE.BoltBusters
         /// <seealso cref="FilePathConfig.ROUND_DATA_FILE_PATH_FORMAT"/>
         public void InitializeLevel(int roundIndex)
         {
-            this.PrintDebug($"Initializing level '{roundIndex}'...");
-            var roundDataPath = string.Format(DataConfig.ROUND_DATA_FILE_PATH_FORMAT, roundIndex);
-            this.PrintDebug($"Loading round data from '{roundDataPath}'...");
-            _roundData = GD.Load<RoundData>(roundDataPath);
+            this.LogInfo($"Initializing level {roundIndex}.");
 
-            if (_roundData == null)
+            // Load new round data.
+            if (!LoadRoundData(roundIndex))
             {
-                GD.PushError($"Failed to load round data from path '{roundDataPath}'");
                 return;
             }
 
-            GameManager.Instance.CurrentPlayerData.StartFromShop = false;
             DespawnLevelObjects();
-            _roundTimer.WaitTime = _roundData.RoundLength;
-            GameManager.Instance.SaveGame();
-            this.PrintDebug("Initialized.");
-            Player.PlayerDied += OnPlayerDeath;
+            ResetRoundTimer();
 
+            // Reset player.
+            Player.ResetAll();
+            Player.GlobalPosition = _playerSpawnPosition.GlobalPosition;
             // Re-enable player input when a new round is loaded since it's
             // disabled when the round ends or when the player dies.
             Player.ToggleInputListening(true);
+            Player.PlayerDied += OnPlayerDeath;
 
+            // Perform autosave.
+            // TODO: Move these to GameManager.
+            GameManager.Instance.CurrentPlayerData.StartFromShop = false;
+            GameManager.Instance.SaveGame();
+
+            this.LogInfo($"Level {roundIndex} initialized.");
             EmitSignal(SignalName.Initialized);
         }
 
@@ -353,10 +356,6 @@ namespace EHE.BoltBusters
             this.PrintDebug("Resetting level...");
             DespawnLevelObjects();
             GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, false);
-
-            // TODO: Make player immobile.
-            Player.GlobalPosition = _playerSpawnPosition.GlobalPosition; // TODO: Is this too hacky?
-            // TODO: Reset player health.
         }
 
         /// <summary>
@@ -433,8 +432,44 @@ namespace EHE.BoltBusters
             }
         }
 
-        // TODO: Add Load method that takes round index as param and loads the
-        //       round data from a file.
+        /// <summary>
+        ///  Loads the round data from a resource file defined by the round
+        ///  index. Saved to the <seealso cref="_roundData"/> variable.
+        /// </summary>
+        ///
+        /// <param name="roundIndex">
+        ///  Index number of the round. This corresponds to the number in the
+        ///  file name of the resource file.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if round data was loaded successfully,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        private bool LoadRoundData(int roundIndex)
+        {
+            var roundDataPath = string.Format(FilePathConfig.ROUND_DATA_FILE_PATH_FORMAT, roundIndex);
+            this.LogInfo($"Loading data from '{roundDataPath}'");
+            _roundData = GD.Load<RoundData>(roundDataPath);
+
+            if (_roundData != null)
+            {
+                return true;
+            }
+
+            this.LogError($"Failed to load round data from path '{roundDataPath}'!");
+            return false;
+        }
+
+        /// <summary>
+        ///  Stops <seealso cref="_roundTimer"/> and sets its wait time to
+        ///  what's defined in <seealso cref="_roundData"/>.
+        /// </summary>
+        private void ResetRoundTimer()
+        {
+            _roundTimer.Stop();
+            _roundTimer.SetWaitTime(_roundData.RoundLength);
+        }
 
         /// <summary>
         /// <b>[WIP]</b> Called when the round timer expires.
