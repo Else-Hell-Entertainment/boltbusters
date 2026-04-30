@@ -4,7 +4,6 @@
 //            Pekka Heljakka <pekka.heljakka@tuni.fi>
 //            Miko Reinholm <miko.reinholm@tuni.fi>
 
-using System;
 using EHE.BoltBusters.Config;
 using EHE.BoltBusters.EnemyAI;
 using EHE.BoltBusters.States;
@@ -70,9 +69,7 @@ namespace EHE.BoltBusters
         private LevelType _levelType = LevelType.None;
 
         // Nodes that are visible in the editor's node tree.
-        private Node3D _arena;
         private EnemySpawnManager _enemySpawnManager;
-        private Player _player;
         private Node3D _playerSpawnPosition;
         private Node3D _enemyRoot;
         private Node3D _projectileRoot;
@@ -107,7 +104,7 @@ namespace EHE.BoltBusters
         /// <summary>
         ///  Gets a reference to the Player instance in this level.
         /// </summary>
-        public Player Player => _player;
+        public Player Player { get; private set; }
 
         /// <summary>
         ///  Indicates whether the round is in progress or not.
@@ -159,11 +156,9 @@ namespace EHE.BoltBusters
             Active = this;
 
             // Get references to nodes defined in the editor.
-            // TODO: Replace getting by name with extension method.
-            _arena = GetNodeOrNull<Node3D>("Arena");
-            _enemySpawnManager = GetNodeOrNull<EnemySpawnManager>("EnemySpawnManager");
-            _player = GetNodeOrNull<Player>("Player");
-            _playerSpawnPosition = GetNodeOrNull<Node3D>("PlayerSpawnPosition");
+            _enemySpawnManager = this.GetFirstChildOfType<EnemySpawnManager>(recurse: true);
+            _playerSpawnPosition = this.GetFirstChildOfType<Marker3D>(recurse: false);
+            Player = this.GetFirstChildOfType<Player>(recurse: true);
 
             // TODO: Replace this with a proper differentiation between bg level and regular level.
             if (LevelType != LevelType.Background)
@@ -171,19 +166,13 @@ namespace EHE.BoltBusters
                 // TODO: Refactor validation code to a separate method.
                 bool hasErrors = false;
 
-                if (_arena == null)
-                {
-                    this.LogError("Arena node not found in level!");
-                    hasErrors = true;
-                }
-
                 if (_enemySpawnManager == null)
                 {
                     this.LogError("Enemy Spawner node not found in level!");
                     hasErrors = true;
                 }
 
-                if (_player == null)
+                if (Player == null)
                 {
                     this.LogError("Player node not found in level!");
                     hasErrors = true;
@@ -302,7 +291,7 @@ namespace EHE.BoltBusters
         /// </remarks>
         public void InitializePlayer(PlayerData playerData)
         {
-            _player.Initialize(playerData);
+            Player.Initialize(playerData);
         }
 
         /// <summary>
@@ -335,10 +324,10 @@ namespace EHE.BoltBusters
         /// </remarks>
         public void StartRound()
         {
-            this.PrintDebug("Starting round...");
+            this.LogDebug("Starting round...");
             _roundTimer.Start();
             _enemySpawnManager.StartRound(_roundData);
-            GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, true);
+            GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, RoundInProgress);
 
             UpdateMusicForRound(GameManager.Instance.RoundIndex);
             if (_currentMusicPlayer != null && !_isFirstRoundOfSong)
@@ -371,21 +360,25 @@ namespace EHE.BoltBusters
         /// </remarks>
         public void AddLevelObject(Node3D levelObject)
         {
-            this.PrintDebug($"Adding level object '{levelObject.GetType()}'");
-            if (levelObject is Enemy enemy)
+            this.LogDebug($"Adding level object of type '{levelObject.GetType()}'.");
+
+            switch (levelObject)
             {
-                _enemyRoot.AddChild(enemy);
-                _enemyGroupManager.AddEnemy(enemy);
+                case Enemy enemy:
+                    _enemyRoot.AddChild(enemy);
+                    _enemyGroupManager.AddEnemy(enemy);
+                    break;
+                case Projectile projectile:
+                    _projectileRoot.AddChild(projectile);
+                    break;
+                case Collectible collectible:
+                    _collectibleRoot.AddChild(collectible);
+                    break;
+                default:
+                    AddChild(levelObject);
+                    this.LogWarning("Unidentified level object added to level root.");
+                    break;
             }
-            else if (levelObject is Projectile projectile)
-            {
-                _projectileRoot.AddChild(projectile);
-            }
-            else if (levelObject is Collectible collectible)
-            {
-                _collectibleRoot.AddChild(collectible);
-            }
-            // TODO: Check for null root nodes and incompatible levelObjects.
         }
 
         /// <summary>
@@ -553,7 +546,7 @@ namespace EHE.BoltBusters
         /// <seealso cref="GameOverState"/>
         private void OnPlayerDeath(Player player)
         {
-            this.PrintDebug("Player died.");
+            this.LogDebug("Player died.");
             Player.ToggleInputListening(false);
             _roundTimer.Stop();
             GameManager.Instance.StateMachine.TransitionTo(StateType.GameOver);
