@@ -9,6 +9,7 @@ using EHE.BoltBusters.Config;
 using EHE.BoltBusters.EnemyAI;
 using EHE.BoltBusters.States;
 using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -149,45 +150,41 @@ namespace EHE.BoltBusters
             _playerSpawnPosition = GetNodeOrNull<Node3D>("PlayerSpawnPosition");
 
             // TODO: Replace this with a proper differentiation between bg level and regular level.
-            if (LevelType == LevelType.Background)
+            if (LevelType != LevelType.Background)
             {
-                goto ValidationEnd;
+                // TODO: Refactor validation code to a separate method.
+                bool hasErrors = false;
+
+                if (_arena == null)
+                {
+                    this.LogError("Arena node not found in level!");
+                    hasErrors = true;
+                }
+
+                if (_enemySpawnManager == null)
+                {
+                    this.LogError("Enemy Spawner node not found in level!");
+                    hasErrors = true;
+                }
+
+                if (_player == null)
+                {
+                    this.LogError("Player node not found in level!");
+                    hasErrors = true;
+                }
+
+                if (_playerSpawnPosition == null)
+                {
+                    this.LogError("Player Spawn Position node not found in level!");
+                    hasErrors = true;
+                }
+
+                if (hasErrors)
+                {
+                    this.LogError($"Encountered problems when creating {Name} ({typeof(LevelManager)}).");
+                    return;
+                }
             }
-
-            // TODO: Refactor validation code to a separate method.
-            bool hasErrors = false;
-
-            if (_arena == null)
-            {
-                GD.PushError("Arena node not found in level!");
-                hasErrors = true;
-            }
-
-            if (_enemySpawnManager == null)
-            {
-                GD.PushError("Enemy Spawner node not found in level!");
-                hasErrors = true;
-            }
-
-            if (_player == null)
-            {
-                GD.PushError("Player node not found in level!");
-                hasErrors = true;
-            }
-
-            if (_playerSpawnPosition == null)
-            {
-                GD.PushError("Player Spawn Position node not found in level!");
-                hasErrors = true;
-            }
-
-            if (hasErrors)
-            {
-                GD.PushError($"Encountered problems when creating {Name} ({typeof(LevelManager)}).");
-                return;
-            }
-
-            ValidationEnd:
 
             // Create object root nodes.
             _enemyRoot = new Node3D();
@@ -207,13 +204,10 @@ namespace EHE.BoltBusters
             _enemyGroupManager.SetName("EnemyGroupManager");
             AddChild(_enemyGroupManager);
 
-            // Create round timer.
-            // TODO: Create timer in separate method when round starts.
-            _roundTimer = new Timer();
-            _roundTimer.Timeout += OnRoundEnded;
-            AddChild(_roundTimer);
+            CreateRoundTimer();
+
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
-            this.PrintDebug($"{LevelType} level ready.");
+            this.LogDebug($"{LevelType} level scene is ready.");
         }
 
         #endregion Overrides
@@ -423,6 +417,21 @@ namespace EHE.BoltBusters
 
 
         #region Private Methods
+
+        /// <summary>
+        ///  Creates a new timer for tracking the round timer if one doesn't
+        ///  exist already and connects its <see cref="Timer.Timeout"/> signal
+        ///  to the <see cref="OnRoundEnded"/> method.
+        /// </summary>
+        private void CreateRoundTimer()
+        {
+            if (_roundTimer == null)
+            {
+                _roundTimer = new Timer();
+                _roundTimer.Timeout += OnRoundEnded;
+                AddChild(_roundTimer);
+            }
+        }
 
         // TODO: Add Load method that takes round index as param and loads the
         //       round data from a file.
