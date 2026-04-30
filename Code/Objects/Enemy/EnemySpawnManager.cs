@@ -280,8 +280,27 @@ namespace EHE.BoltBusters
                     time = _roundLength;
                 }
 
-                SceneTreeTimer timer = GetTree().CreateTimer((float)time, false);
-                timer.Timeout += () => OnWaveTimerTimeout(wave);
+                // Old timer system
+                // SceneTreeTimer timer = GetTree().CreateTimer((float)time, false);
+                // timer.Timeout += () => OnWaveTimerTimeout(wave);
+
+                // New timer system
+                if (time > 0)
+                {
+                    Timer timer = new Timer();
+                    timer.OneShot = true;
+                    timer.WaitTime = time;
+
+                    AddChild(timer);
+
+                    timer.Timeout += () =>
+                    {
+                        OnWaveTimerTimeout(wave);
+                        timer.QueueFree();
+                    };
+
+                    timer.Start();
+                }
             }
         }
 
@@ -538,9 +557,30 @@ namespace EHE.BoltBusters
                 return;
             }
 
-            SceneTreeTimer timer = GetTree().CreateTimer(WAVE_SPAWN_OVERFLOW_DELAY, false);
-            int capturedNextStartIndex = nextStartIndex;
-            timer.Timeout += () => SpawnWaveBatch(wave, roster, capturedNextStartIndex);
+            // Old timer system
+            // SceneTreeTimer timer = GetTree().CreateTimer(WAVE_SPAWN_OVERFLOW_DELAY, false);
+            // int capturedNextStartIndex = nextStartIndex;
+            // timer.Timeout += () => SpawnWaveBatch(wave, roster, capturedNextStartIndex);
+
+            // New timer system
+            if (WAVE_SPAWN_OVERFLOW_DELAY > 0)
+            {
+                Timer timer = new Timer();
+                timer.OneShot = true;
+                timer.WaitTime = WAVE_SPAWN_OVERFLOW_DELAY;
+
+                int capturedNextStartIndex = nextStartIndex;
+
+                AddChild(timer);
+
+                timer.Timeout += () =>
+                {
+                    SpawnWaveBatch(wave, roster, capturedNextStartIndex);
+                    timer.QueueFree();
+                };
+
+                timer.Start();
+            }
         }
 
         /// <summary>
