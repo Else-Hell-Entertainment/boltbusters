@@ -26,6 +26,10 @@ render_target_update_mode = 4
 MaxX = 66.0
 MinZ = -2.0
 MaxZ = 51.0
+HeightAboveGround = 18.5
+
+[node name="Camera3D" parent="CameraViewport/CameraRig" index="0"]
+keep_aspect = 0
 
 [node name="AudioListener3D" type="AudioListener3D" parent="CameraViewport"]
 current = true
