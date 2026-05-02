@@ -147,6 +147,10 @@ namespace EHE.BoltBusters.Systems
                 // TODO: Make sure this works when more state have custom logic or audio calls are added!
                 foreach (var state in _stateHistory)
                 {
+                    if (state == nextState)
+                    {
+                        break;
+                    }
                     state.Exit();
                 }
                 _stateHistory.Clear();
