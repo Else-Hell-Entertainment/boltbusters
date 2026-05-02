@@ -23,6 +23,8 @@ namespace EHE.BoltBusters.Ui
 
         public override void _Ready()
         {
+            base._Ready();
+
             var isValid = true;
 
             if (_btnCredits == null)
@@ -51,6 +53,8 @@ namespace EHE.BoltBusters.Ui
 
         public override void _EnterTree()
         {
+            base._EnterTree();
+
             _btnCredits.Pressed += OnBtnCreditsPressed;
             _btnMainMenu.Pressed += OnBtnMainMenuPressed;
             _btnQuit.Pressed += OnBtnQuitPressed;

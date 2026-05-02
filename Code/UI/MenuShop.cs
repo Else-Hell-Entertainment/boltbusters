@@ -40,6 +40,8 @@ namespace EHE.BoltBusters.Ui
 
         public override void _EnterTree()
         {
+            base._EnterTree();
+
             _btnPrimaryUpgradeChaingun.Pressed += OnBtnPrimaryUpgradeChaingunPressed;
             _btnPrimaryUpgradeRailgun.Pressed += OnBtnPrimaryUpgradeRailgunPressed;
             _btnPrimaryUpgradeRocket.Pressed += OnBtnPrimaryUpgradeRocketPressed;

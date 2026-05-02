@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using EHE.BoltBusters.Ui;
 using Godot;
 
 namespace EHE.BoltBusters.States
@@ -179,6 +180,11 @@ namespace EHE.BoltBusters.States
                 GameManager.Instance.SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _scene);
                 // TODO: Separate logic that is run each time the node is added vs each time the state is entered.
                 OnEntered();
+            }
+
+            if (_scene != null && _scene is Menu menu)
+            {
+                menu.CallDeferred(Menu.MethodName.FocusStart);
             }
 
             return true;
