@@ -222,7 +222,10 @@ namespace EHE.BoltBusters
         {
             _muzzle = GetNode<Node3D>("Muzzle");
             _shapeCast3D = GetNode<ShapeCast3D>("ShapeCast3D");
-            _shapeCast3D.CollisionMask = COLLISION_MASK_LAYER;
+            _shapeCast3D.SetCollisionMaskValue(2, true);
+            _shapeCast3D.SetCollisionMaskValue(5, true);
+            _shapeCast3D.SetCollisionMaskValue(6, true);
+            // _shapeCast3D.CollisionMask = (COLLISION_MASK_LAYER);
             _laserSightInstance = GetNode<MeshInstance3D>("LaserSight");
             _laserSightMesh = (CylinderMesh)_laserSightInstance.Mesh;
             _chargeEffectInstanceBeam = GetNode<MeshInstance3D>("ChargeEffectBeam");
@@ -387,12 +390,12 @@ namespace EHE.BoltBusters
                 {
                     var collider = collision["collider"];
                     Node target = (Node)collider;
+                    // Vector3 position = (Vector3)collision["point"];
+                    // Vector3 normal = (Vector3)collision["normal"];
+                    // GenerateSparks(position, -normal);
                     if (target is IDamageable damageable)
                     {
                         damageable.TakeDamage(_damageData);
-                        Vector3 position = (Vector3)collision["point"];
-                        Vector3 normal = (Vector3)collision["normal"];
-                        GenerateSparks(position, -normal);
                     }
                 }
             }
