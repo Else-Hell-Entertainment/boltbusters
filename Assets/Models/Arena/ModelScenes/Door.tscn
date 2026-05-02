@@ -30,7 +30,7 @@ material_overlay = ExtResource("2_efnpc")
 mesh = SubResource("BoxMesh_fs85l")
 surface_material_override/0 = SubResource("StandardMaterial3D_fs85l")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" groups=["door"]]
 collision_layer = 32
 collision_mask = 193
 
