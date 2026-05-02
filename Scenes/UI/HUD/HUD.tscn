@@ -1,25 +1,41 @@
-[gd_scene load_steps=19 format=3 uid="uid://dibuxv5a07sr1"]
+[gd_scene load_steps=24 format=3 uid="uid://ckpuaxf2b3fcq"]
 
 [ext_resource type="Script" uid="uid://c65gxirc8hmf3" path="res://Code/UI/HUD/Hud.cs" id="1_kkyb6"]
 [ext_resource type="Script" uid="uid://sv650skqn02e" path="res://Code/UI/HUD/HealthUi.cs" id="2_grqg4"]
-[ext_resource type="Texture2D" uid="uid://61fc5ie7xqvv" path="res://Assets/Sprites/UI/UIHealthBar.png" id="3_r24xl"]
 [ext_resource type="Texture2D" uid="uid://dih0jyt6rj1t6" path="res://Assets/Sprites/UI/UIHealthProgressBar.png" id="4_5tobq"]
 [ext_resource type="Script" uid="uid://cmyu4wbi217m2" path="res://Code/UI/HUD/RoundTimerUi.cs" id="5_ky4ba"]
 [ext_resource type="Script" uid="uid://ghaghpjeecs5" path="res://Code/UI/HUD/CollectibleUi.cs" id="6_4rvbt"]
 [ext_resource type="PackedScene" uid="uid://c3on2c58of0pi" path="res://Scenes/UI/HUD/CollectibleCounter.tscn" id="7_cbdv4"]
-[ext_resource type="Texture2D" uid="uid://d25pa21m771k0" path="res://Assets/Sprites/UI/UINut.png" id="8_bhu0h"]
+[ext_resource type="Material" uid="uid://bqvmiaadvjvx6" path="res://Assets/Sprites/UI/NeonFlickerShaderMaterial.tres" id="9_5tobq"]
 [ext_resource type="Texture2D" uid="uid://dkbncpmbr6fb0" path="res://Assets/Sprites/UI/UIBolt.png" id="9_vjr7d"]
 [ext_resource type="Texture2D" uid="uid://dk2uohofm0ug3" path="res://Assets/Sprites/UI/UIWrench.png" id="10_1ruup"]
 [ext_resource type="Script" uid="uid://dp5spw8x32s4r" path="res://Code/UI/HUD/WeaponHud/ChaingunHud.cs" id="11_m5lnj"]
 [ext_resource type="Texture2D" uid="uid://cfsfx0mtt8w72" path="res://Assets/Sprites/UI/UIOverheat.png" id="12_il6j8"]
+[ext_resource type="Texture2D" uid="uid://br1cj33i3rl2u" path="res://Assets/Sprites/UI/UIHealthBarLeft.png" id="13_ky4ba"]
 [ext_resource type="Texture2D" uid="uid://cqf7m0whlt4j2" path="res://Assets/Sprites/UI/OverheatProgressTexture.png" id="13_ts4jb"]
 [ext_resource type="Script" uid="uid://crgxjraru158m" path="res://Code/UI/HUD/WeaponHud/RailgunHud.cs" id="14_kd0qi"]
 [ext_resource type="Texture2D" uid="uid://b0gqbpsrsosyh" path="res://Assets/Sprites/UI/UIRailgun.png" id="15_0hsig"]
 [ext_resource type="Script" uid="uid://cw8ha2ktfq4by" path="res://Code/UI/HUD/WeaponHud/RocketHud.cs" id="16_kum8b"]
 [ext_resource type="Texture2D" uid="uid://bvfxddngkgif2" path="res://Assets/Sprites/UI/UIRocket.png" id="17_3ggfo"]
+[ext_resource type="Script" uid="uid://dw8ylpk6dsfmx" path="res://Code/UI/HUD/RoundIndexUi.cs" id="18_4rvbt"]
 [ext_resource type="PackedScene" uid="uid://7ynajsbwgymr" path="res://Scenes/UI/HUD/FloatingUi.tscn" id="18_grqg4"]
+[ext_resource type="FontFile" uid="uid://2w6q3amuekb6" path="res://ThirdParty/Assets/Fonts/AlarmClock/alarm clock.ttf" id="19_cbdv4"]
 
-[node name="Hud" type="MarginContainer"]
+[sub_resource type="Animation" id="Animation_fr22l"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_g2nqi"]
+resource_name = "hide_hud"
+length = 0.5
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fr22l"]
+_data = {
+&"RESET": SubResource("Animation_fr22l"),
+&"hide_hud": SubResource("Animation_g2nqi")
+}
+
+[node name="Hud" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -27,178 +43,232 @@ offset_left = 1.0
 offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
 script = ExtResource("1_kkyb6")
+metadata/_edit_horizontal_guides_ = [41.0]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_fr22l")
+}
+
+[node name="FloatingUi" parent="." instance=ExtResource("18_grqg4")]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 1137.0
+offset_bottom = 633.0
+
+[node name="HealthUi" type="BoxContainer" parent="." node_paths=PackedStringArray("_healthBar")]
+layout_mode = 1
+offset_left = 15.0
+offset_top = 25.000002
+offset_right = 76.0
+offset_bottom = 48.0
+scale = Vector2(2.5, 2.5)
+script = ExtResource("2_grqg4")
+_healthBar = NodePath("HealthBar")
+
+[node name="HealthBar" type="TextureProgressBar" parent="HealthUi"]
+custom_minimum_size = Vector2(61, 23)
 layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+nine_patch_stretch = true
+texture_over = ExtResource("13_ky4ba")
+texture_progress = ExtResource("4_5tobq")
 
-[node name="TopUi" type="HBoxContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 32)
+[node name="ProgessUi" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -98.5
+offset_top = 15.0
+offset_right = 98.5
+offset_bottom = 85.0
+grow_horizontal = 2
+
+[node name="RoundIndexUi" type="HBoxContainer" parent="ProgessUi" node_paths=PackedStringArray("_valueLabel")]
 layout_mode = 2
+alignment = 1
+script = ExtResource("18_4rvbt")
+_valueLabel = NodePath("IndexValue")
 
-[node name="HealthUi" type="HBoxContainer" parent="VBoxContainer/TopUi" node_paths=PackedStringArray("_healthBar")]
+[node name="IndexTitle" type="Label" parent="ProgessUi/RoundIndexUi"]
+material = ExtResource("9_5tobq")
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("19_cbdv4")
+theme_override_font_sizes/font_size = 30
+text = "ROUND "
+vertical_alignment = 1
+
+[node name="IndexValue" type="Label" parent="ProgessUi/RoundIndexUi"]
+material = ExtResource("9_5tobq")
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("19_cbdv4")
+theme_override_font_sizes/font_size = 30
+text = "88"
+
+[node name="RoundTimerUi" type="HBoxContainer" parent="ProgessUi" node_paths=PackedStringArray("_roundTimerLabel")]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
-script = ExtResource("2_grqg4")
-_green = Color(0.27058825, 1, 0.21960784, 1)
-_yellow = Color(0.89411765, 0.85882354, 0.09019608, 1)
-_red = Color(0.7137255, 0, 0.21568628, 1)
-_healthBar = NodePath("HealthBar")
-
-[node name="HealthBar" type="TextureProgressBar" parent="VBoxContainer/TopUi/HealthUi"]
-custom_minimum_size = Vector2(200, 50)
-layout_mode = 2
-size_flags_horizontal = 6
-value = 50.0
-nine_patch_stretch = true
-texture_over = ExtResource("3_r24xl")
-texture_progress = ExtResource("4_5tobq")
-
-[node name="RoundTimerUi" type="HBoxContainer" parent="VBoxContainer/TopUi" node_paths=PackedStringArray("_roundTimerLabel")]
-layout_mode = 2
-size_flags_horizontal = 3
 script = ExtResource("5_ky4ba")
-_roundTimerLabel = NodePath("RoundTimeLabel")
+_roundTimerLabel = NodePath("TimeValue")
 _alarmTimeThreshold = 5.0
 
-[node name="TimerText" type="Label" parent="VBoxContainer/TopUi/RoundTimerUi"]
+[node name="TimeTitle" type="Label" parent="ProgessUi/RoundTimerUi"]
+visible = false
+material = ExtResource("9_5tobq")
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "Time Remaining: "
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("19_cbdv4")
+theme_override_font_sizes/font_size = 30
+text = "TIME: "
+vertical_alignment = 1
 
-[node name="RoundTimeLabel" type="Label" parent="VBoxContainer/TopUi/RoundTimerUi"]
+[node name="TimeValue" type="Label" parent="ProgessUi/RoundTimerUi"]
+material = ExtResource("9_5tobq")
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("19_cbdv4")
+theme_override_font_sizes/font_size = 30
+text = "--:--"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="CollectibleUi" type="HBoxContainer" parent="VBoxContainer/TopUi"]
-layout_mode = 2
+[node name="CollectibleUi" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -325.0
+offset_top = 25.0
+offset_right = -25.0
+offset_bottom = 94.0
+grow_horizontal = 0
+pivot_offset = Vector2(300, 0)
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 alignment = 2
 script = ExtResource("6_4rvbt")
 
-[node name="NutCounter" parent="VBoxContainer/TopUi/CollectibleUi" instance=ExtResource("7_cbdv4")]
+[node name="NutCounter" parent="CollectibleUi" instance=ExtResource("7_cbdv4")]
 layout_mode = 2
 CollectibleType = 1
 
-[node name="Icon" parent="VBoxContainer/TopUi/CollectibleUi/NutCounter" index="0"]
-texture = ExtResource("8_bhu0h")
-
-[node name="Value" parent="VBoxContainer/TopUi/CollectibleUi/NutCounter" index="1"]
-theme_override_font_sizes/font_size = 22
-
-[node name="BoltCounter" parent="VBoxContainer/TopUi/CollectibleUi" instance=ExtResource("7_cbdv4")]
+[node name="BoltCounter" parent="CollectibleUi" instance=ExtResource("7_cbdv4")]
 layout_mode = 2
 CollectibleType = 2
 
-[node name="Icon" parent="VBoxContainer/TopUi/CollectibleUi/BoltCounter" index="0"]
+[node name="Icon" parent="CollectibleUi/BoltCounter" index="0"]
 texture = ExtResource("9_vjr7d")
 
-[node name="Value" parent="VBoxContainer/TopUi/CollectibleUi/BoltCounter" index="1"]
-theme_override_font_sizes/font_size = 22
-
-[node name="WrenchCounter" parent="VBoxContainer/TopUi/CollectibleUi" instance=ExtResource("7_cbdv4")]
+[node name="WrenchCounter" parent="CollectibleUi" instance=ExtResource("7_cbdv4")]
 layout_mode = 2
 CollectibleType = 3
 
-[node name="Icon" parent="VBoxContainer/TopUi/CollectibleUi/WrenchCounter" index="0"]
+[node name="Icon" parent="CollectibleUi/WrenchCounter" index="0"]
 texture = ExtResource("10_1ruup")
 
-[node name="Value" parent="VBoxContainer/TopUi/CollectibleUi/WrenchCounter" index="1"]
-theme_override_font_sizes/font_size = 22
+[node name="ChaingunUi" type="BoxContainer" parent="." node_paths=PackedStringArray("_progressBar")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 15.0
+offset_top = -28.5
+offset_right = 43.0
+offset_bottom = 28.5
+grow_vertical = 2
+scale = Vector2(2.5, 2.5)
+pivot_offset = Vector2(0, 28)
+script = ExtResource("11_m5lnj")
+_progressBar = NodePath("OverheatBar")
 
-[node name="MiddleUi" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ChaingunHud" type="VBoxContainer" parent="VBoxContainer/MiddleUi" node_paths=PackedStringArray("_progressBar")]
+[node name="OverheatBar" type="TextureProgressBar" parent="ChaingunUi"]
+custom_minimum_size = Vector2(28, 57)
 layout_mode = 2
 size_flags_horizontal = 3
-alignment = 1
-script = ExtResource("11_m5lnj")
-_green = Color(0.27058825, 1, 0.21960784, 1)
-_yellow = Color(0.89411765, 0.85882354, 0.09019608, 1)
-_red = Color(0.7137255, 0, 0.21568628, 1)
-_progressBar = NodePath("TextureProgressBar")
-
-[node name="TextureProgressBar" type="TextureProgressBar" parent="VBoxContainer/MiddleUi/ChaingunHud"]
-custom_minimum_size = Vector2(67, 136)
-layout_mode = 2
-size_flags_horizontal = 0
 fill_mode = 3
 nine_patch_stretch = true
 texture_over = ExtResource("12_il6j8")
 texture_progress = ExtResource("13_ts4jb")
 tint_progress = Color(0.27058825, 1, 0.21960784, 1)
 
-[node name="RailgunHud" type="VBoxContainer" parent="VBoxContainer/MiddleUi" node_paths=PackedStringArray("_railgunIcon1", "_railgunIcon2", "_railgunIcon3", "_railgunIcon4")]
-layout_mode = 2
-size_flags_horizontal = 3
+[node name="RailgunUi" type="VBoxContainer" parent="." node_paths=PackedStringArray("_railgunIcon1", "_railgunIcon2", "_railgunIcon3", "_railgunIcon4")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.9592014
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_right = -15.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset = Vector2(47, 324)
+size_flags_horizontal = 8
 alignment = 1
 script = ExtResource("14_kd0qi")
-_railgunIcon1 = NodePath("VBoxContainer/Railgun1")
-_railgunIcon2 = NodePath("VBoxContainer/Railgun2")
-_railgunIcon3 = NodePath("VBoxContainer/Railgun3")
-_railgunIcon4 = NodePath("VBoxContainer/Railgun4")
+_railgunIcon1 = NodePath("Railgun1")
+_railgunIcon2 = NodePath("Railgun2")
+_railgunIcon3 = NodePath("Railgun3")
+_railgunIcon4 = NodePath("Railgun4")
+metadata/_edit_use_anchors_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MiddleUi/RailgunHud"]
-layout_mode = 2
-size_flags_horizontal = 8
-alignment = 2
-
-[node name="Railgun4" type="TextureRect" parent="VBoxContainer/MiddleUi/RailgunHud/VBoxContainer"]
+[node name="Railgun4" type="TextureRect" parent="RailgunUi"]
 layout_mode = 2
 texture = ExtResource("15_0hsig")
 
-[node name="Railgun3" type="TextureRect" parent="VBoxContainer/MiddleUi/RailgunHud/VBoxContainer"]
+[node name="Railgun3" type="TextureRect" parent="RailgunUi"]
 layout_mode = 2
 texture = ExtResource("15_0hsig")
 
-[node name="Railgun2" type="TextureRect" parent="VBoxContainer/MiddleUi/RailgunHud/VBoxContainer"]
+[node name="Railgun2" type="TextureRect" parent="RailgunUi"]
 layout_mode = 2
 texture = ExtResource("15_0hsig")
 
-[node name="Railgun1" type="TextureRect" parent="VBoxContainer/MiddleUi/RailgunHud/VBoxContainer"]
+[node name="Railgun1" type="TextureRect" parent="RailgunUi"]
 layout_mode = 2
 texture = ExtResource("15_0hsig")
 
-[node name="BottomUi" type="HBoxContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(24, 47)
-layout_mode = 2
+[node name="RocketLauncherUi" type="HBoxContainer" parent="." node_paths=PackedStringArray("_launcherIcon1", "_launcherIcon2", "_launcherIcon3", "_launcherIcon4")]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.92746913
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -15.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 0
 alignment = 1
-
-[node name="RocketHud" type="HBoxContainer" parent="VBoxContainer/BottomUi" node_paths=PackedStringArray("_launcherIcon1", "_launcherIcon2", "_launcherIcon3", "_launcherIcon4")]
-layout_mode = 2
 script = ExtResource("16_kum8b")
 _launcherIcon1 = NodePath("Rocket1")
 _launcherIcon2 = NodePath("Rocket2")
 _launcherIcon3 = NodePath("Rocket3")
 _launcherIcon4 = NodePath("Rocket4")
+metadata/_edit_use_anchors_ = true
 
-[node name="Rocket1" type="TextureRect" parent="VBoxContainer/BottomUi/RocketHud"]
+[node name="Rocket1" type="TextureRect" parent="RocketLauncherUi"]
 layout_mode = 2
 texture = ExtResource("17_3ggfo")
 
-[node name="Rocket2" type="TextureRect" parent="VBoxContainer/BottomUi/RocketHud"]
+[node name="Rocket2" type="TextureRect" parent="RocketLauncherUi"]
 layout_mode = 2
 texture = ExtResource("17_3ggfo")
 
-[node name="Rocket3" type="TextureRect" parent="VBoxContainer/BottomUi/RocketHud"]
+[node name="Rocket3" type="TextureRect" parent="RocketLauncherUi"]
 layout_mode = 2
 texture = ExtResource("17_3ggfo")
 
-[node name="Rocket4" type="TextureRect" parent="VBoxContainer/BottomUi/RocketHud"]
+[node name="Rocket4" type="TextureRect" parent="RocketLauncherUi"]
 layout_mode = 2
 texture = ExtResource("17_3ggfo")
 
-[node name="FloatingUi" parent="." instance=ExtResource("18_grqg4")]
-layout_mode = 2
-
-[editable path="VBoxContainer/TopUi/CollectibleUi/NutCounter"]
-[editable path="VBoxContainer/TopUi/CollectibleUi/BoltCounter"]
-[editable path="VBoxContainer/TopUi/CollectibleUi/WrenchCounter"]
+[editable path="CollectibleUi/NutCounter"]
+[editable path="CollectibleUi/BoltCounter"]
+[editable path="CollectibleUi/WrenchCounter"]
