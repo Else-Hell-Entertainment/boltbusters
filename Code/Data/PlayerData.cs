@@ -63,6 +63,17 @@ namespace EHE.BoltBusters
         public delegate void HealthChangedEventHandler(int newHealth);
 
         /// <summary>
+        ///  Emitted when the <see cref="LevelIndex"/> property
+        ///  changes.
+        /// </summary>
+        ///
+        /// <param name="newLevelIndex">
+        ///  The new value of <see cref="LevelIndex"/>.
+        /// </param>
+        [Signal]
+        public delegate void LevelIndexChangedEventHandler(int newLevelIndex);
+
+        /// <summary>
         ///  Emitted when the number of collected items changes.
         /// </summary>
         ///
@@ -230,7 +241,11 @@ namespace EHE.BoltBusters
         public int LevelIndex
         {
             get => _levelIndex;
-            set => _levelIndex = Mathf.Clamp(value, min: 1, max: int.MaxValue);
+            set
+            {
+                _levelIndex = Mathf.Clamp(value, min: 1, max: int.MaxValue);
+                EmitSignal(SignalName.LevelIndexChanged, _levelIndex);
+            }
         }
 
         /// <summary>
