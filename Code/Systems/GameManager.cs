@@ -342,7 +342,10 @@ namespace EHE.BoltBusters
                 return;
             }
 
-            CurrentPlayerData = (PlayerData)DefaultPlayerData.Duplicate(deep: true);
+            // Don't replace the current reference unless null. Without this
+            // signal links from other systems break since the reference to the
+            // original object is "lost".
+            CurrentPlayerData ??= (PlayerData)DefaultPlayerData.Duplicate(deep: true);
             CurrentPlayerData.Load((Godot.Collections.Dictionary)playerData);
 
             this.PrintDebug("Game loaded successfully.");
