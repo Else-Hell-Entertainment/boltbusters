@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bqvmiaadvjvx6"]
+
+[ext_resource type="Shader" uid="uid://cnk7fgtkrib83" path="res://Assets/Sprites/UI/NeonFlicker.gdshader" id="1_8hwib"]
+
+[resource]
+shader = ExtResource("1_8hwib")
+shader_parameter/glow_color = Color(0.91, 0.31850004, 0, 1)
+shader_parameter/glow_strength = 1.3
+shader_parameter/glow_radius = 2.0
+shader_parameter/flicker_speed = 20.0
+shader_parameter/flicker_amount = 0.3
