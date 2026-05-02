@@ -2,7 +2,9 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.BoltBusters.States;
 using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 using GDCollections = Godot.Collections;
 
@@ -23,9 +25,16 @@ namespace EHE.BoltBusters.Ui
     /// </remarks>
     public partial class Hud : Control
     {
+        [Export]
+        private AnimationPlayer _animationPlayer;
+
+        [Export]
         private CollectibleUi _collectibleUi;
 
+        [Export]
         private HealthUi _healthUi;
+
+        private bool _isVisible = false;
 
         //private WeaponHud _weaponUi;
 
@@ -36,19 +45,20 @@ namespace EHE.BoltBusters.Ui
         {
             if (GameManager.Instance == null)
             {
-                GD.PushError("GameManager instance not found!");
+                this.LogError($"Cannot connect signals: {nameof(GameManager.Instance)} is null!");
                 return;
             }
 
+            GameManager.Instance.RequestHudRefresh += UpdateWeaponUi;
+            GameManager.Instance.RequestHudRefreshWithPlayerData += UpdateAllUi;
+
             if (GameManager.Instance.CurrentPlayerData == null)
             {
-                GD.PushError($"Cannot connect signals. {nameof(GameManager.Instance.CurrentPlayerData)} is null!");
+                this.LogError($"Cannot connect signals: {nameof(GameManager.Instance.CurrentPlayerData)} is null!");
                 return;
             }
 
             GameManager.Instance.CurrentPlayerData.CollectibleCountChanged += UpdateCollectibleUi;
-            GameManager.Instance.RequestHudRefresh += UpdateWeaponUi;
-            GameManager.Instance.RequestHudRefreshWithPlayerData += UpdateAllUi;
 
             // Makes sure the hud is always up to date after it has entered the
             // scene. The signal responsible for hud refresh can sometimes be
@@ -56,6 +66,22 @@ namespace EHE.BoltBusters.Ui
             // not to update correctly. This has been a problem mainly when
             // loading the game to the shop state from save.
             CallDeferred(nameof(UpdateAllUi), GameManager.Instance.CurrentPlayerData);
+
+            if (GameManager.Instance.StateMachine == null)
+            {
+                this.LogError($"Cannot connect signals: {nameof(GameManager.Instance.StateMachine)} is null!");
+                return;
+            }
+
+            GameManager.Instance.StateMachine.StateChanged += OnGameStateChanged;
+
+            if (LevelManager.Active == null)
+            {
+                this.LogError($"Cannot connect signals: {nameof(LevelManager.Active)} is null!");
+                return;
+            }
+
+            CallDeferred(nameof(ConnectLevelManagerSignals));
         }
 
         /// <summary>
@@ -69,6 +95,11 @@ namespace EHE.BoltBusters.Ui
                 GameManager.Instance.RequestHudRefresh -= UpdateWeaponUi;
                 GameManager.Instance.RequestHudRefreshWithPlayerData -= UpdateAllUi;
             }
+
+            if (GameManager.Instance != null && GameManager.Instance.StateMachine != null)
+            {
+                GameManager.Instance.StateMachine.StateChanged -= OnGameStateChanged;
+            }
         }
 
         public override void _Ready()
@@ -76,10 +107,11 @@ namespace EHE.BoltBusters.Ui
             _collectibleUi = this.GetFirstChildOfType<CollectibleUi>(recurse: true);
             _healthUi = this.GetFirstChildOfType<HealthUi>(recurse: true);
             //_weaponUi = this.GetFirstChildOfType<WeaponHud>();
+            _animationPlayer = this.GetFirstChildOfType<AnimationPlayer>(recurse: false);
 
             if (_collectibleUi == null)
             {
-                GD.PushError("Collectible UI node not found!");
+                this.LogError("Collectible UI not assigned!");
             }
 
             if (_healthUi == null)
@@ -91,6 +123,16 @@ namespace EHE.BoltBusters.Ui
             // {
             //     GD.PushError("Weapon UI node not found!");
             // }
+
+            if (_animationPlayer == null)
+            {
+                this.LogError("Animation player not assigned!");
+            }
+        }
+
+        private void ConnectLevelManagerSignals()
+        {
+            LevelManager.Active.RoundStarted += SlideIn;
         }
 
         private void UpdateCollectibleUi(CollectibleType type, int value)
@@ -126,6 +168,51 @@ namespace EHE.BoltBusters.Ui
             UpdateCollectibleUi(playerData.GetCollectibleCounts());
             UpdateWeaponUi();
             UpdateHealthUi();
+        }
+
+        private void OnGameStateChanged(StateType nextStateType)
+        {
+            if (_animationPlayer == null)
+            {
+                this.LogError("Animation player not assigned!");
+                return;
+            }
+
+            if (nextStateType == StateType.Shop)
+            {
+                SlideOut();
+            }
+
+            // if (!_isVisible && nextStateType == StateType.Round)
+            // {
+            //     SlideIn();
+            // }
+            // else if (_isVisible && nextStateType == StateType.Shop)
+            // {
+            //     SlideOut();
+            // }
+        }
+
+        private void SlideIn()
+        {
+            if (_isVisible)
+            {
+                return;
+            }
+
+            _isVisible = true;
+            _animationPlayer.Play("show_hud");
+        }
+
+        private void SlideOut()
+        {
+            if (!_isVisible)
+            {
+                return;
+            }
+
+            _isVisible = false;
+            _animationPlayer.Play("hide_hud");
         }
     }
 }

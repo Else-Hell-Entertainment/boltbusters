@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://ckpuaxf2b3fcq"]
+[gd_scene load_steps=25 format=3 uid="uid://ckpuaxf2b3fcq"]
 
 [ext_resource type="Script" uid="uid://c65gxirc8hmf3" path="res://Code/UI/HUD/Hud.cs" id="1_kkyb6"]
 [ext_resource type="Script" uid="uid://sv650skqn02e" path="res://Code/UI/HUD/HealthUi.cs" id="2_grqg4"]
@@ -23,18 +23,203 @@
 
 [sub_resource type="Animation" id="Animation_fr22l"]
 length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HealthUi:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(15, 25.000002)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ProgessUi:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(477.5, 15)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ChaingunUi:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(15, 295.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RailgunUi:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1090, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RocketLauncherUi:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 586)]
+}
 
 [sub_resource type="Animation" id="Animation_g2nqi"]
 resource_name = "hide_hud"
 length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HealthUi:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.13, 7.73),
+"update": 0,
+"values": [Vector2(15, 25.000002), Vector2(15, -75)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ProgessUi:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.13, 7.73),
+"update": 0,
+"values": [Vector2(477.5, 15), Vector2(477.5, -85)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ChaingunUi:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.13, 7.73),
+"update": 0,
+"values": [Vector2(15, 295.5), Vector2(-85, 295.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RailgunUi:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.13, 7.73),
+"update": 0,
+"values": [Vector2(1090, 0), Vector2(1190, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RocketLauncherUi:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.13, 7.73),
+"update": 0,
+"values": [Vector2(0, 586), Vector2(0, 661)]
+}
+
+[sub_resource type="Animation" id="Animation_5tobq"]
+resource_name = "show_hud"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HealthUi:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.13, 7.73),
+"update": 0,
+"values": [Vector2(15, -75), Vector2(15, 25.000002)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ProgessUi:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.13, 7.73),
+"update": 0,
+"values": [Vector2(477.5, -85), Vector2(477.5, 15)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ChaingunUi:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.13, 7.73),
+"update": 0,
+"values": [Vector2(-85, 295.5), Vector2(15, 295.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RailgunUi:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.13, 7.73),
+"update": 0,
+"values": [Vector2(1190, 0), Vector2(1090, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RocketLauncherUi:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.13, 7.73),
+"update": 0,
+"values": [Vector2(0, 661), Vector2(0, 586)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fr22l"]
 _data = {
 &"RESET": SubResource("Animation_fr22l"),
-&"hide_hud": SubResource("Animation_g2nqi")
+&"hide_hud": SubResource("Animation_g2nqi"),
+&"show_hud": SubResource("Animation_5tobq")
 }
 
-[node name="Hud" type="Control"]
+[node name="Hud" type="Control" node_paths=PackedStringArray("_animationPlayer", "_collectibleUi", "_healthUi")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,6 +229,9 @@ offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_kkyb6")
+_animationPlayer = NodePath("AnimationPlayer")
+_collectibleUi = NodePath("CollectibleUi")
+_healthUi = NodePath("HealthUi")
 metadata/_edit_horizontal_guides_ = [41.0]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
