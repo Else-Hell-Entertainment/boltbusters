@@ -4,6 +4,7 @@
 //            Pekka Heljakka <pekka.heljakka@tuni.fi>
 //            Miko Reinholm <miko.reinholm@tuni.fi>
 
+using System.Threading.Tasks;
 using EHE.BoltBusters.Config;
 using EHE.BoltBusters.EnemyAI;
 using EHE.BoltBusters.States;
@@ -31,6 +32,18 @@ namespace EHE.BoltBusters
     {
         [Signal]
         public delegate void InitializedEventHandler();
+
+        [Signal]
+        public delegate void RoundStartingEventHandler();
+
+        [Signal]
+        public delegate void RoundEndedEventHandler();
+
+        /// <summary>
+        ///  Emitted when the round has started.
+        /// </summary>
+        [Signal]
+        public delegate void RoundStartedEventHandler();
 
         #region Fields
 
@@ -277,9 +290,11 @@ namespace EHE.BoltBusters
         ///  <seealso cref="GameManager.RoundStateChanged"/> signal is emitted
         ///  telling other systems that the round has started.
         /// </remarks>
-        public void StartRound()
+        public async void StartRound()
         {
-            this.LogDebug("Starting round...");
+            this.LogInfo("Round starting in 6.5 s.");
+            EmitSignal(SignalName.RoundStarting);
+            await Task.Delay(6500);
             _roundTimer.Start();
             _enemySpawnManager.StartRound(_roundData);
             GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, RoundInProgress);
@@ -289,6 +304,9 @@ namespace EHE.BoltBusters
             {
                 MusicManager.Instance.FadeInPlayer(_currentMusicPlayer);
             }
+
+            EmitSignal(SignalName.RoundStarted);
+            this.LogInfo("Round started.");
         }
 
         /// <summary>
@@ -427,15 +445,18 @@ namespace EHE.BoltBusters
         ///   state (game over or victory).
         ///  </para>
         /// </remarks>
-        private void OnRoundEnded()
+        private async void OnRoundEnded()
         {
             this.LogInfo("Round ended.");
 
             _roundTimer.Stop();
+            EmitSignal(SignalName.RoundEnded);
             GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, RoundInProgress);
 
-            Player.ToggleInputListening(false);
             DespawnLevelObjects();
+            Player.ToggleInputListening(false);
+
+            await Task.Delay(2500); // TODO: Remove hardcoding. This is the length of the round ended label animation.
 
             if (_currentMusicPlayer != null)
             {
@@ -452,7 +473,6 @@ namespace EHE.BoltBusters
             else
             {
                 GameManager.Instance.SaveGame();
-                // TODO: Wait 5s before transitioning to shop state.
                 GameManager.Instance.StateMachine.TransitionTo(StateType.Shop);
             }
         }

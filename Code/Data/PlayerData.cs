@@ -63,6 +63,17 @@ namespace EHE.BoltBusters
         public delegate void HealthChangedEventHandler(int newHealth);
 
         /// <summary>
+        ///  Emitted when the <see cref="LevelIndex"/> property
+        ///  changes.
+        /// </summary>
+        ///
+        /// <param name="newLevelIndex">
+        ///  The new value of <see cref="LevelIndex"/>.
+        /// </param>
+        [Signal]
+        public delegate void LevelIndexChangedEventHandler(int newLevelIndex);
+
+        /// <summary>
         ///  Emitted when the number of collected items changes.
         /// </summary>
         ///
@@ -230,7 +241,11 @@ namespace EHE.BoltBusters
         public int LevelIndex
         {
             get => _levelIndex;
-            set => _levelIndex = Mathf.Clamp(value, min: 1, max: int.MaxValue);
+            set
+            {
+                _levelIndex = Mathf.Clamp(value, min: 1, max: int.MaxValue);
+                EmitSignal(SignalName.LevelIndexChanged, _levelIndex);
+            }
         }
 
         /// <summary>
@@ -896,6 +911,12 @@ namespace EHE.BoltBusters
         ///
         /// <remarks>
         ///  <para>
+        ///   This method will reset all the values to their defaults first
+        ///   before loading new values in. This should prevent old data
+        ///   getting mixed up with new data since not all values are saved to
+        ///   disk.
+        ///  </para>
+        ///  <para>
         ///   If any required data is missing or invalid, this method will use
         ///   default values and log an error message via
         ///   <see cref="Godot.GD.PushError(string)"/>.
@@ -910,6 +931,7 @@ namespace EHE.BoltBusters
         /// <seealso cref="ISaveable"/>
         public void Load(Dictionary data)
         {
+            Reset();
             LoadLevelIndex(data);
             LoadLevelClearedFlag(data);
             LoadCollectibleCounts(data);
@@ -921,6 +943,19 @@ namespace EHE.BoltBusters
 
 
         #region Private Load Helpers
+
+        /// <summary>
+        ///  Resets all values to their defaults.
+        /// </summary>
+        private void Reset()
+        {
+            Health = s_defaultHealth;
+            LevelIndex = s_defaultLevelIndex;
+            StartFromShop = s_defaultStartFromShop;
+            _collectibleCounts = s_defaultCollectibleCounts.Duplicate();
+            _weaponCounts = s_defaultWeaponCounts.Duplicate();
+            _secondaryUpgradeCounts = s_defaultSecondaryUpgradeCounts.Duplicate();
+        }
 
         /// <summary>
         ///  Attempts to load the level index from save data with validation.
