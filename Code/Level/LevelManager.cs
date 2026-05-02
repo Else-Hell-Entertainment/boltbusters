@@ -39,6 +39,12 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void RoundEndedEventHandler();
 
+        /// <summary>
+        ///  Emitted when the round has started.
+        /// </summary>
+        [Signal]
+        public delegate void RoundStartedEventHandler();
+
         #region Fields
 
         // Fields that are editable in the inspector.
@@ -299,6 +305,7 @@ namespace EHE.BoltBusters
                 MusicManager.Instance.FadeInPlayer(_currentMusicPlayer);
             }
 
+            EmitSignal(SignalName.RoundStarted);
             this.LogInfo("Round started.");
         }
 
