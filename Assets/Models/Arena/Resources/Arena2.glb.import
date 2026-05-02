@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://p4w6lt5g4fse"
-path="res://.godot/imported/Arena2.glb-971ccb63de37a5eda28034d939d8d57e.scn"
+path="res://.godot/imported/Arena2.glb-9c04ce2ac9ad75157c04cbb8ca1eb384.scn"
 
 [deps]
 
-source_file="res://Assets/Models/Arena/Arena2.glb"
-dest_files=["res://.godot/imported/Arena2.glb-971ccb63de37a5eda28034d939d8d57e.scn"]
+source_file="res://Assets/Models/Arena/Resources/Arena2.glb"
+dest_files=["res://.godot/imported/Arena2.glb-9c04ce2ac9ad75157c04cbb8ca1eb384.scn"]
 
 [params]
 

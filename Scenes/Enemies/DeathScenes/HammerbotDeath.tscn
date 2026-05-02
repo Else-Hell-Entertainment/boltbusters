@@ -281,7 +281,7 @@ _despawnTimer = NodePath("DespawnTimer")
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.15165758)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 56
 
 [node name="Head_Wheels" type="MeshInstance3D" parent="RigidBody3D"]
 transform = Transform3D(0.23772654, 0, 0, 0, 0.28714886, 0, 0, 0, 0.2282728, 0, 0.44016513, 0.20452091)
@@ -295,7 +295,7 @@ shape = SubResource("BoxShape3D_5jcxm")
 [node name="RigidBody3D2" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5062187, 0.067115664, 0)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 56
 
 [node name="Track_001" type="MeshInstance3D" parent="RigidBody3D2"]
 transform = Transform3D(0, 1, 0, 0, 0, -1, -1, 0, 0, 0.120098054, -0.067115664, 0)
@@ -309,7 +309,7 @@ shape = SubResource("BoxShape3D_8sn2a")
 [node name="RigidBody3D3" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52980286, 0.046309292, 0)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 56
 
 [node name="Track" type="MeshInstance3D" parent="RigidBody3D3"]
 transform = Transform3D(0, 1, 0, 0, 0, -1, -1, 0, 0, -0.14899707, -0.046309292, 0)
@@ -323,7 +323,7 @@ shape = SubResource("BoxShape3D_3qvy1")
 [node name="RigidBody3D4" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8560116, 0)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 56
 
 [node name="Hammer" type="MeshInstance3D" parent="RigidBody3D4"]
 transform = Transform3D(0.22308668, 0, 0, 0, 0.3321382, 0, 0, 0, 0.22308668, 0, -0.063358545, 0.0027669668)

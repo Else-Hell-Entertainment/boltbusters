@@ -188,6 +188,11 @@ DebugSaveGame={
 3d_physics/layer_1="Player"
 3d_physics/layer_2="Enemies"
 3d_physics/layer_3="LevelObjects"
+3d_physics/layer_4="DeathAnimations"
+3d_physics/layer_5="FloorsAndWalls"
+3d_physics/layer_6="Doors"
+3d_physics/layer_7="PlayerProjectiles"
+3d_physics/layer_8="EnemyProjectiles"
 
 [physics]
 

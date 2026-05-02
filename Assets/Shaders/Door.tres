@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_fx5s8")
-_pulseColor = Color(0, 1.6471456, 2.454227, 0.2)
-_pulseStrength = 0.1
+_pulseColor = Color(1.9039272, 0, 0.5328414, 0.101960786)
+_pulseStrength = 0.5
 _pulseSpeed = 1.0
 metadata/_custom_type_script = "uid://cf7dtnecrln56"

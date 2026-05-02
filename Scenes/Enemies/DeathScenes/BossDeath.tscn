@@ -274,7 +274,7 @@ _hardDeathStrength = 8.0
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.927914, 0)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 56
 
 [node name="RibCage" type="MeshInstance3D" parent="RigidBody3D"]
 transform = Transform3D(0.37606955, 0, 0, 0, 0.50205296, 0, 0, 0, 0.6870079, 0, 0.6408869, 0)
@@ -287,7 +287,7 @@ shape = SubResource("BoxShape3D_njyf3")
 [node name="RigidBody3D2" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7841171, 0)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 56
 
 [node name="Torso" type="MeshInstance3D" parent="RigidBody3D2"]
 mesh = SubResource("ArrayMesh_lbc6n")
@@ -304,5 +304,4 @@ wait_time = 3.0
 stream = ExtResource("2_njyf3")
 max_db = 5.0
 pitch_scale = 0.7
-stream_paused = true
 bus = &"Sfx"

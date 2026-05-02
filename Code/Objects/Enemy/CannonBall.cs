@@ -74,6 +74,10 @@ namespace EHE.BoltBusters
                 Reset();
                 //QueueFree();
             }
+            else if (body.IsInGroup("door") || body is GridMap)
+            {
+                Reset();
+            }
         }
     }
 }

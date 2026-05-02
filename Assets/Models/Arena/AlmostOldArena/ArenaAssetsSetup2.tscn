@@ -1,12 +1,12 @@
-[gd_scene load_steps=50 format=4 uid="uid://5pygdehds75p"]
+[gd_scene load_steps=50 format=4 uid="uid://daroq8so4l8i7"]
 
-[ext_resource type="Texture2D" uid="uid://dqpd8pfmjm477" path="res://Assets/Models/Arena/Arena_MetalWall.png" id="1_yrf4v"]
-[ext_resource type="Texture2D" uid="uid://b3obcf4jwksbu" path="res://Assets/Models/Arena/Arena_FloorNew.png" id="2_sl6pk"]
+[ext_resource type="Texture2D" uid="uid://dqpd8pfmjm477" path="res://Assets/Models/Arena/Resources/Arena_MetalWall (2).png" id="1_jij7p"]
+[ext_resource type="Texture2D" uid="uid://b3obcf4jwksbu" path="res://Assets/Models/Arena/Resources/Arena_FloorNew (2).png" id="2_c6yic"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rfygl"]
 resource_name = "Material"
 cull_mode = 2
-albedo_texture = ExtResource("1_yrf4v")
+albedo_texture = ExtResource("1_jij7p")
 roughness = 0.5
 texture_filter = 2
 
@@ -118,7 +118,7 @@ size = Vector3(4, 1, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fii0y"]
 resource_name = "floot"
 cull_mode = 2
-albedo_texture = ExtResource("2_sl6pk")
+albedo_texture = ExtResource("2_c6yic")
 metallic = 1.0
 roughness = 0.68
 texture_filter = 2
@@ -161,7 +161,7 @@ size = Vector3(2, 0.01, 2)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_26d3l"]
 resource_name = "Material.001"
 cull_mode = 2
-albedo_texture = ExtResource("1_yrf4v")
+albedo_texture = ExtResource("1_jij7p")
 roughness = 0.5
 texture_filter = 2
 
@@ -418,7 +418,7 @@ size = Vector3(1, 0.01, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wrvae"]
 resource_name = "FloorFence"
 cull_mode = 2
-albedo_texture = ExtResource("1_yrf4v")
+albedo_texture = ExtResource("1_jij7p")
 metallic = 0.4684685
 roughness = 0.6576577
 texture_filter = 2
