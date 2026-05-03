@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://swv573pgo35e"
-path="res://.godot/imported/UIButton.png-26b1cb299d1012df205bfb57880bad52.ctex"
+uid="uid://cqf7m0whlt4j2"
+path="res://.godot/imported/OverheatProgressTexture.png-12fdfa9920e2069afd6eb15e105371cf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/UI/UIButton.png"
-dest_files=["res://.godot/imported/UIButton.png-26b1cb299d1012df205bfb57880bad52.ctex"]
+source_file="res://Assets/UI/HUD/OverheatProgressTexture.png"
+dest_files=["res://.godot/imported/OverheatProgressTexture.png-12fdfa9920e2069afd6eb15e105371cf.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d25pa21m771k0"
-path="res://.godot/imported/UINut.png-7466555548af430f57ba7b9e4c78e61c.ctex"
+uid="uid://wa0l1j2j2p51"
+path="res://.godot/imported/RadioChecked.png-f545a6c6479aecea44626a3cb652968e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/UI/UINut.png"
-dest_files=["res://.godot/imported/UINut.png-7466555548af430f57ba7b9e4c78e61c.ctex"]
+source_file="res://Assets/UI/Menus/RadioChecked.png"
+dest_files=["res://.godot/imported/RadioChecked.png-f545a6c6479aecea44626a3cb652968e.ctex"]
 
 [params]
 

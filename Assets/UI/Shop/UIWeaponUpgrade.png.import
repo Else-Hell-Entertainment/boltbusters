@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://61fc5ie7xqvv"
-path="res://.godot/imported/UIHealthBar.png-b22979c73660160332e1b1a2202c95df.ctex"
+uid="uid://brb57udogepky"
+path="res://.godot/imported/UIWeaponUpgrade.png-6cf2fbd8e501a658f2dbe67fc580630c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/UI/UIHealthBar.png"
-dest_files=["res://.godot/imported/UIHealthBar.png-b22979c73660160332e1b1a2202c95df.ctex"]
+source_file="res://Assets/UI/Shop/UIWeaponUpgrade.png"
+dest_files=["res://.godot/imported/UIWeaponUpgrade.png-6cf2fbd8e501a658f2dbe67fc580630c.ctex"]
 
 [params]
 

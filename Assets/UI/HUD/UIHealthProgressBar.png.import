@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dv4ymkbaumdk1"
-path="res://.godot/imported/UIOverheatProgress.png-1ba28c08fd435b91251b421c8085c1a3.ctex"
+uid="uid://dih0jyt6rj1t6"
+path="res://.godot/imported/UIHealthProgressBar.png-57662456a9ca6e5048aab48a16894783.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/UI/UIOverheatProgress.png"
-dest_files=["res://.godot/imported/UIOverheatProgress.png-1ba28c08fd435b91251b421c8085c1a3.ctex"]
+source_file="res://Assets/UI/HUD/UIHealthProgressBar.png"
+dest_files=["res://.godot/imported/UIHealthProgressBar.png-57662456a9ca6e5048aab48a16894783.ctex"]
 
 [params]
 

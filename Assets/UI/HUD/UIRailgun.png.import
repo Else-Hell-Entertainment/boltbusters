@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://br1cj33i3rl2u"
-path="res://.godot/imported/UIHealthBarLeft.png-80665b68e8377976b3613e4cf8bd9385.ctex"
+uid="uid://b0gqbpsrsosyh"
+path="res://.godot/imported/UIRailgun.png-7572601f7569962d28c85d6803ffdc40.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/UI/UIHealthBarLeft.png"
-dest_files=["res://.godot/imported/UIHealthBarLeft.png-80665b68e8377976b3613e4cf8bd9385.ctex"]
+source_file="res://Assets/UI/HUD/UIRailgun.png"
+dest_files=["res://.godot/imported/UIRailgun.png-7572601f7569962d28c85d6803ffdc40.ctex"]
 
 [params]
 

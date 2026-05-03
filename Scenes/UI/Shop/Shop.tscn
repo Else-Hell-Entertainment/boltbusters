@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://burthnjbxe21w" path="res://Code/UI/MenuShop.cs" id="1_myvqj"]
 [ext_resource type="Script" uid="uid://7ui2iiup5syj" path="res://Code/UI/ToastLabel.cs" id="2_6ymty"]
 [ext_resource type="PackedScene" uid="uid://dpjeng088sxql" path="res://Scenes/UI/Shop/UpgradeUI.tscn" id="3_vbx4c"]
-[ext_resource type="Texture2D" uid="uid://dkbncpmbr6fb0" path="res://Assets/Sprites/UI/UIBolt.png" id="4_m4eil"]
-[ext_resource type="Texture2D" uid="uid://dk2uohofm0ug3" path="res://Assets/Sprites/UI/UIWrench.png" id="5_3tygk"]
+[ext_resource type="Texture2D" uid="uid://dkbncpmbr6fb0" path="res://Assets/UI/HUD/UIBolt.png" id="4_m4eil"]
+[ext_resource type="Texture2D" uid="uid://dk2uohofm0ug3" path="res://Assets/UI/HUD/UIWrench.png" id="5_3tygk"]
 
 [sub_resource type="Animation" id="Animation_tgufs"]
 length = 0.001

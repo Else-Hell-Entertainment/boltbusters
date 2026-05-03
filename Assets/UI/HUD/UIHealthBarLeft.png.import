@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvfxddngkgif2"
-path="res://.godot/imported/UIRocket.png-e669d0a40483d3d8fa9c33d59539604e.ctex"
+uid="uid://br1cj33i3rl2u"
+path="res://.godot/imported/UIHealthBarLeft.png-231f449f44197759e9453d75b612a89b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/UI/UIRocket.png"
-dest_files=["res://.godot/imported/UIRocket.png-e669d0a40483d3d8fa9c33d59539604e.ctex"]
+source_file="res://Assets/UI/HUD/UIHealthBarLeft.png"
+dest_files=["res://.godot/imported/UIHealthBarLeft.png-231f449f44197759e9453d75b612a89b.ctex"]
 
 [params]
 

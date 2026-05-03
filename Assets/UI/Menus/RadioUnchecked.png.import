@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wa0l1j2j2p51"
-path="res://.godot/imported/RadioChecked.png-3271b163f21b5a0daeaddea060b1dc9a.ctex"
+uid="uid://dayy7lklklsq5"
+path="res://.godot/imported/RadioUnchecked.png-336e6cb4845e127da56668760cda4c52.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/UI/RadioChecked.png"
-dest_files=["res://.godot/imported/RadioChecked.png-3271b163f21b5a0daeaddea060b1dc9a.ctex"]
+source_file="res://Assets/UI/Menus/RadioUnchecked.png"
+dest_files=["res://.godot/imported/RadioUnchecked.png-336e6cb4845e127da56668760cda4c52.ctex"]
 
 [params]
 

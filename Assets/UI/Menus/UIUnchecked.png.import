@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ha2s8ufdatdl"
-path="res://.godot/imported/CheckButtonChecked.png-99a7fd86fe6e10699a20aaf6f9af0342.ctex"
+uid="uid://qvll75ma6flh"
+path="res://.godot/imported/UIUnchecked.png-9924ed82b6dbc17dffb8bcb91a9f84dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/UI/CheckButtonChecked.png"
-dest_files=["res://.godot/imported/CheckButtonChecked.png-99a7fd86fe6e10699a20aaf6f9af0342.ctex"]
+source_file="res://Assets/UI/Menus/UIUnchecked.png"
+dest_files=["res://.godot/imported/UIUnchecked.png-9924ed82b6dbc17dffb8bcb91a9f84dc.ctex"]
 
 [params]
 

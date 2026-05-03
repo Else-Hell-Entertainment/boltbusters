@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dk2uohofm0ug3"
-path="res://.godot/imported/UIWrench.png-7bd592e416e69ab61c28adb264b7101a.ctex"
+uid="uid://bvfxddngkgif2"
+path="res://.godot/imported/UIRocket.png-3707bbb06126554849b70f165aeca884.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/UI/UIWrench.png"
-dest_files=["res://.godot/imported/UIWrench.png-7bd592e416e69ab61c28adb264b7101a.ctex"]
+source_file="res://Assets/UI/HUD/UIRocket.png"
+dest_files=["res://.godot/imported/UIRocket.png-3707bbb06126554849b70f165aeca884.ctex"]
 
 [params]
 

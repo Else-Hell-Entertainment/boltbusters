@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dg4wxldicnno4"
-path="res://.godot/imported/UIChecked.png-0a69c4e1e086394bc43da6811ec9000a.ctex"
+uid="uid://d25pa21m771k0"
+path="res://.godot/imported/UINut.png-4969ee87fd2dc8c4fbdfd9d39a7c6b01.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/UI/UIChecked.png"
-dest_files=["res://.godot/imported/UIChecked.png-0a69c4e1e086394bc43da6811ec9000a.ctex"]
+source_file="res://Assets/UI/HUD/UINut.png"
+dest_files=["res://.godot/imported/UINut.png-4969ee87fd2dc8c4fbdfd9d39a7c6b01.ctex"]
 
 [params]
 

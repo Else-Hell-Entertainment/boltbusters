@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0gqbpsrsosyh"
-path="res://.godot/imported/UIRailgun.png-7a8de07490112f3ee468b3b19fbda809.ctex"
+uid="uid://coylr88q32fe6"
+path="res://.godot/imported/UIColors.png-ab63d86ecaddcf5796ffce7f632bfcb7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/UI/UIRailgun.png"
-dest_files=["res://.godot/imported/UIRailgun.png-7a8de07490112f3ee468b3b19fbda809.ctex"]
+source_file="res://Assets/UI/HUD/UIColors.png"
+dest_files=["res://.godot/imported/UIColors.png-ab63d86ecaddcf5796ffce7f632bfcb7.ctex"]
 
 [params]
 

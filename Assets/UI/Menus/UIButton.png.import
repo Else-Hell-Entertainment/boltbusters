@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxui1f7jlqfsq"
-path="res://.godot/imported/HealthProgressBar.png-3222d420b30a5621ac7d2d799f958729.ctex"
+uid="uid://swv573pgo35e"
+path="res://.godot/imported/UIButton.png-2b6ed6ad55fe9af26863506e90be03b5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/UI/HealthProgressBar.png"
-dest_files=["res://.godot/imported/HealthProgressBar.png-3222d420b30a5621ac7d2d799f958729.ctex"]
+source_file="res://Assets/UI/Menus/UIButton.png"
+dest_files=["res://.godot/imported/UIButton.png-2b6ed6ad55fe9af26863506e90be03b5.ctex"]
 
 [params]
 
