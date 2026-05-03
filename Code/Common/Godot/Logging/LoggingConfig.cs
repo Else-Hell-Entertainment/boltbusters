@@ -32,7 +32,7 @@ namespace EHE.Common.Godot.Logging
         /// <summary>
         ///  The name of the color to use with debug logs.
         /// </summary>
-        public const string DEBUG_COLOR = "blue";
+        public const string DEBUG_COLOR = "darkgray";
 
         /// <summary>
         ///  The indentation for stack trace output.
