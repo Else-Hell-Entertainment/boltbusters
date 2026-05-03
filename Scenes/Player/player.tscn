@@ -326,6 +326,8 @@ skeleton = NodePath("")
 
 [node name="PlayerController" type="Node3D" parent="." node_paths=PackedStringArray("_playerBody", "_bodyNode", "_turretNode", "_inputHandler", "_chaingunController", "_railgunController", "_rocketLauncherController")]
 script = ExtResource("5_gk6dx")
+_movementSpeed = 8.0
+_bodyRotationSpeed = 5.0
 _turretRotationSpeed = 5.0
 _playerBody = NodePath("..")
 _bodyNode = NodePath("../PlayerBody")
