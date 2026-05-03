@@ -117,6 +117,7 @@ namespace EHE.BoltBusters.Ui
             if ((WeaponType)weaponType == _weaponType)
             {
                 _lblCurrentPrimaryCount.Text = $"{newValue}";
+                _btnSecondaryUpgrade.Disabled = newValue < 1;
             }
         }
 
