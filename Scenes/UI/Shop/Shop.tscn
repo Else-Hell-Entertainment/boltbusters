@@ -122,6 +122,15 @@ _weaponType = 1
 [node name="WeaponName" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ChaingunUpgrade" index="0"]
 theme_type_variation = &"HeaderSmall"
 
+[node name="BuyButton" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ChaingunUpgrade/PrimaryUpgrade" index="3"]
+focus_neighbor_left = NodePath("../../../RocketUpgrade/PrimaryUpgrade/BuyButton")
+focus_neighbor_right = NodePath("../../../RailgunUpgrade/PrimaryUpgrade/BuyButton")
+
+[node name="BuyButton" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ChaingunUpgrade/SecondaryUpgrade" index="3"]
+focus_neighbor_left = NodePath("../../../RocketUpgrade/SecondaryUpgrade/BuyButton")
+focus_neighbor_right = NodePath("../../../RailgunUpgrade/SecondaryUpgrade/BuyButton")
+focus_neighbor_bottom = NodePath("../../../../NextRoundButton")
+
 [node name="RailgunUpgrade" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_vbx4c")]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -135,9 +144,14 @@ text = "Railgun"
 texture = ExtResource("5_cxd3k")
 
 [node name="BuyButton" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade/PrimaryUpgrade" index="3"]
+focus_neighbor_left = NodePath("../../../ChaingunUpgrade/PrimaryUpgrade/BuyButton")
+focus_neighbor_right = NodePath("../../../RocketUpgrade/PrimaryUpgrade/BuyButton")
 icon = ExtResource("4_vbx4c")
 
 [node name="BuyButton" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade/SecondaryUpgrade" index="3"]
+focus_neighbor_left = NodePath("../../../ChaingunUpgrade/SecondaryUpgrade/BuyButton")
+focus_neighbor_right = NodePath("../../../RocketUpgrade/SecondaryUpgrade/BuyButton")
+focus_neighbor_bottom = NodePath("../../../../NextRoundButton")
 icon = ExtResource("5_m4eil")
 
 [node name="RocketUpgrade" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_vbx4c")]
@@ -153,9 +167,14 @@ text = "Rocket Launcher"
 texture = ExtResource("8_yrk82")
 
 [node name="BuyButton" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade/PrimaryUpgrade" index="3"]
+focus_neighbor_left = NodePath("../../../RailgunUpgrade/PrimaryUpgrade/BuyButton")
+focus_neighbor_right = NodePath("../../../ChaingunUpgrade/PrimaryUpgrade/BuyButton")
 icon = ExtResource("7_3tygk")
 
 [node name="BuyButton" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade/SecondaryUpgrade" index="3"]
+focus_neighbor_left = NodePath("../../../RailgunUpgrade/SecondaryUpgrade/BuyButton")
+focus_neighbor_right = NodePath("../../../ChaingunUpgrade/SecondaryUpgrade/BuyButton")
+focus_neighbor_bottom = NodePath("../../../../NextRoundButton")
 icon = ExtResource("9_3tygk")
 
 [node name="NextRoundButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer"]

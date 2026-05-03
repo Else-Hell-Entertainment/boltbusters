@@ -57,6 +57,7 @@ text = "88 "
 [node name="BuyButton" type="Button" parent="PrimaryUpgrade"]
 layout_mode = 2
 size_flags_horizontal = 0
+focus_neighbor_bottom = NodePath("../../SecondaryUpgrade/BuyButton")
 text = "Buy "
 icon = ExtResource("2_yagbj")
 
@@ -82,5 +83,6 @@ text = "88 "
 [node name="BuyButton" type="Button" parent="SecondaryUpgrade"]
 layout_mode = 2
 size_flags_horizontal = 0
+focus_neighbor_top = NodePath("../../PrimaryUpgrade/BuyButton")
 text = "Buy "
 icon = ExtResource("3_yagbj")
