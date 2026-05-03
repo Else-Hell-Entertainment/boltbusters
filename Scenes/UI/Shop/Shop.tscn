@@ -1,10 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://cfmobgo6w8ab6"]
+[gd_scene load_steps=13 format=3 uid="uid://cfmobgo6w8ab6"]
 
 [ext_resource type="Script" uid="uid://burthnjbxe21w" path="res://Code/UI/MenuShop.cs" id="1_myvqj"]
 [ext_resource type="Script" uid="uid://7ui2iiup5syj" path="res://Code/UI/ToastLabel.cs" id="2_6ymty"]
 [ext_resource type="PackedScene" uid="uid://dpjeng088sxql" path="res://Scenes/UI/Shop/UpgradeUI.tscn" id="3_vbx4c"]
 [ext_resource type="Texture2D" uid="uid://dkbncpmbr6fb0" path="res://Assets/UI/HUD/UIBolt.png" id="4_m4eil"]
+[ext_resource type="Texture2D" uid="uid://dsoqy1nsxo05o" path="res://Assets/UI/Shop/UIRailgunPrimaryUpgrade.tres" id="4_vbx4c"]
 [ext_resource type="Texture2D" uid="uid://dk2uohofm0ug3" path="res://Assets/UI/HUD/UIWrench.png" id="5_3tygk"]
+[ext_resource type="Texture2D" uid="uid://5d60ltaxg7i5" path="res://Assets/UI/Shop/UIRailgunSecondaryUpgrade.tres" id="5_m4eil"]
+[ext_resource type="Texture2D" uid="uid://bayqwli2bg5s2" path="res://Assets/UI/Shop/UIRocketPrimaryUpgrade.tres" id="6_m4eil"]
+[ext_resource type="Texture2D" uid="uid://chhfqh77yutqd" path="res://Assets/UI/Shop/UIRocketSecondaryUpgrade.tres" id="7_3tygk"]
 
 [sub_resource type="Animation" id="Animation_tgufs"]
 length = 0.001
@@ -44,7 +48,7 @@ _data = {
 &"slide_up": SubResource("Animation_klb40")
 }
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("_animationPlayer", "_btnEnterNextRound", "_toastLabel", "_btnPrimaryUpgradeChaingun", "_btnPrimaryUpgradeRailgun", "_btnPrimaryUpgradeRocket", "_btnSecondaryUpgradeChaingun", "_btnSecondaryUpgradeRailgun", "_btnSecondaryUpgradeRocket")]
+[node name="Shop" type="Control" node_paths=PackedStringArray("_animationPlayer", "_btnEnterNextRound", "_toastLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,12 +59,6 @@ script = ExtResource("1_myvqj")
 _animationPlayer = NodePath("AnimationPlayer")
 _btnEnterNextRound = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/NextRoundButton")
 _toastLabel = NodePath("NoMoneyToast")
-_btnPrimaryUpgradeChaingun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ChaingunUpgrade/PrimaryUpgradeButton")
-_btnPrimaryUpgradeRailgun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade/PrimaryUpgradeButton")
-_btnPrimaryUpgradeRocket = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade/PrimaryUpgradeButton")
-_btnSecondaryUpgradeChaingun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ChaingunUpgrade/SecondaryUpgradeButton")
-_btnSecondaryUpgradeRailgun = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade/SecondaryUpgradeButton")
-_btnSecondaryUpgradeRocket = NodePath("CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade/SecondaryUpgradeButton")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -108,100 +106,55 @@ theme_override_constants/separation = 15
 
 [node name="Title" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_type_variation = &"HeaderLarge"
 text = "Shop"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 20
 
 [node name="ChaingunUpgrade" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_vbx4c")]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+
+[node name="WeaponName" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ChaingunUpgrade" index="0"]
+theme_type_variation = &"HeaderSmall"
 
 [node name="RailgunUpgrade" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_vbx4c")]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
 [node name="WeaponName" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade" index="0"]
+theme_type_variation = &"HeaderSmall"
 text = "Railgun"
+
+[node name="BuyButton" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade/PrimaryUpgrade" index="3"]
+icon = ExtResource("4_vbx4c")
+
+[node name="BuyButton" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade/SecondaryUpgrade" index="3"]
+disabled = true
+icon = ExtResource("5_m4eil")
 
 [node name="RocketUpgrade" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_vbx4c")]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
 [node name="WeaponName" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade" index="0"]
+theme_type_variation = &"HeaderSmall"
 text = "Rocket Launcher"
 
-[node name="GridContainer" type="GridContainer" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_constants/h_separation = 15
-theme_override_constants/v_separation = 5
-columns = 3
+[node name="BuyButton" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade/PrimaryUpgrade" index="3"]
+icon = ExtResource("6_m4eil")
 
-[node name="RailgunLabel" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(140, 0)
-layout_mode = 2
-text = "Railgun"
-horizontal_alignment = 1
-
-[node name="MissileLabel" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(140, 0)
-layout_mode = 2
-text = "Rocket Launcher"
-horizontal_alignment = 1
-
-[node name="RailgunPrice" type="HBoxContainer" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/RailgunPrice"]
-layout_mode = 2
-texture = ExtResource("4_m4eil")
-expand_mode = 2
-
-[node name="Label" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/RailgunPrice"]
-layout_mode = 2
-text = " x 2"
-
-[node name="MissilePrice" type="HBoxContainer" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/MissilePrice"]
-layout_mode = 2
-texture = ExtResource("5_3tygk")
-expand_mode = 2
-
-[node name="Label" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/MissilePrice"]
-layout_mode = 2
-text = " x 2"
-
-[node name="RailgunPrimaryButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(140, 0)
-layout_mode = 2
-text = "Primary++"
-
-[node name="RocketPrimaryButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(140, 0)
-layout_mode = 2
-text = "Primary++"
-
-[node name="RailgunSecondaryButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(140, 0)
-layout_mode = 2
-text = "Secondary++"
-
-[node name="RocketSecondaryButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(140, 0)
-layout_mode = 2
-text = "Secondary++"
+[node name="BuyButton" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade/SecondaryUpgrade" index="3"]
+disabled = true
+icon = ExtResource("7_3tygk")
 
 [node name="NextRoundButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Continue to Next Round"
+text = " Next Round "
 
 [editable path="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ChaingunUpgrade"]
 [editable path="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade"]
