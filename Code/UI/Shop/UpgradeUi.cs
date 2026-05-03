@@ -47,8 +47,8 @@ namespace EHE.BoltBusters.Ui
 
             if (controller != null)
             {
-                _lblMaxPrimaryCount.Text = $"{controller.MaxWeaponCount}";
-                _lblMaxSecondaryCount.Text = $"{controller.MaxSecondaryUpgradeCount}";
+                _lblMaxPrimaryCount.Text = $"{controller.MaxWeaponCount} ";
+                _lblMaxSecondaryCount.Text = $"{controller.MaxSecondaryUpgradeCount} ";
                 _primaryPrice = controller.GetPrice(UpgradeType.Primary);
                 _secondaryPrice = controller.GetPrice(UpgradeType.Secondary);
             }
@@ -62,12 +62,19 @@ namespace EHE.BoltBusters.Ui
 
             if (_playerData != null)
             {
-                _playerData.WeaponCountChanged += OnPrimaryUpgradeCountChanged;
-                _playerData.SecondaryUpgradeCountChanged += OnSecondaryUpgradeCountChanged;
+                var currentPrimaryCount = _playerData.GetWeaponCount(_weaponType);
+                var currentSecondaryCount = _playerData.GetSecondaryUpgradeCount(_weaponType);
+
+                // Enable secondary upgrades if applicable.
+                _btnSecondaryUpgrade.Disabled = currentPrimaryCount < 1;
 
                 // Initialize current upgrade counts.
-                OnPrimaryUpgradeCountChanged((int)_weaponType, _playerData.GetWeaponCount(_weaponType));
-                OnSecondaryUpgradeCountChanged((int)_weaponType, _playerData.GetSecondaryUpgradeCount(_weaponType));
+                OnPrimaryUpgradeCountChanged((int)_weaponType, currentPrimaryCount);
+                OnSecondaryUpgradeCountChanged((int)_weaponType, currentSecondaryCount);
+
+                // Connect signals.
+                _playerData.WeaponCountChanged += OnPrimaryUpgradeCountChanged;
+                _playerData.SecondaryUpgradeCountChanged += OnSecondaryUpgradeCountChanged;
             }
             else
             {
