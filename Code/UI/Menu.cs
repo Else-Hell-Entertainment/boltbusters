@@ -3,6 +3,7 @@
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
 using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters.Ui
@@ -27,9 +28,14 @@ namespace EHE.BoltBusters.Ui
 
         public void FocusStart()
         {
+            _focusStart = this.GetFirstChildOfType<TabContainer>(recurse: true);
+            if (_focusStart is TabContainer tabContainer)
+            {
+                _focusStart = tabContainer.GetTabBar();
+            }
             _focusStart ??= this.GetFirstChildOfType<Range>(recurse: true);
             _focusStart ??= this.GetFirstChildOfType<Button>(recurse: true);
-            _focusStart.CallDeferred(Control.MethodName.GrabFocus);
+            _focusStart?.CallDeferred(Control.MethodName.GrabFocus);
         }
     }
 }
