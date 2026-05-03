@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bkcwthqijqr72"
-path="res://.godot/imported/TEMP_BackgroundVictory.png-b9bf6fdfe210cbea16c81d2f23c33b19.ctex"
+uid="uid://b04dearfnf2cu"
+path="res://.godot/imported/VictoryBackground.png-e67ae0173d35664095f4383d7b8aa4fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/UI/TEMP_BackgroundVictory.png"
-dest_files=["res://.godot/imported/TEMP_BackgroundVictory.png-b9bf6fdfe210cbea16c81d2f23c33b19.ctex"]
+source_file="res://Assets/Backgrounds/VictoryBackground.png"
+dest_files=["res://.godot/imported/VictoryBackground.png-e67ae0173d35664095f4383d7b8aa4fa.ctex"]
 
 [params]
 
