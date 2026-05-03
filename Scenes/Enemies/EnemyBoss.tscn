@@ -268,7 +268,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ouqvm")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wa2ls"]
-size = Vector3(1.3747864, 2.1939697, 2.9213867)
+size = Vector3(1.4, 2.2, 2.6)
 
 [sub_resource type="Animation" id="Animation_h2luo"]
 resource_name = "Attack"
@@ -346,7 +346,7 @@ size = Vector3(1, 1.7110596, 1.6173096)
 
 [node name="EnemyBoss" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent")]
 collision_layer = 2
-collision_mask = 83
+collision_mask = 19
 axis_lock_linear_y = true
 script = ExtResource("1_1a4lf")
 _deathAnimation = ExtResource("2_g4dv0")
@@ -378,7 +378,7 @@ mesh = SubResource("ArrayMesh_x1nyi")
 skeleton = NodePath("")
 
 [node name="Collider" type="CollisionShape3D" parent="."]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -8.191217e-09, 1.0968329, 0.047714233)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 1.15, 0)
 shape = SubResource("BoxShape3D_wa2ls")
 
 [node name="MeleeWeapon" type="Node3D" parent="." node_paths=PackedStringArray("_meleeOwner", "_triggerArea", "_attackArea", "_cooldownTimer", "_animationPlayer")]
