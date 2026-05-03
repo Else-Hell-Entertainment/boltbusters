@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="RoundData" load_steps=9 format=3 uid="uid://4h4bcnhfuf1e"]
+[gd_resource type="Resource" script_class="RoundData" load_steps=10 format=3 uid="uid://4h4bcnhfuf1e"]
 
 [ext_resource type="Script" uid="uid://dy1moahlf6gxp" path="res://Code/Data/WaveData.cs" id="1_wrpr4"]
 [ext_resource type="Script" uid="uid://cl3rtewo80fc5" path="res://Code/Data/RoundData.cs" id="2_d6yt5"]
@@ -6,9 +6,9 @@
 [sub_resource type="Resource" id="Resource_g283j"]
 script = ExtResource("1_wrpr4")
 Enemies = Dictionary[int, int]({
-1: 0,
-2: 0,
-3: 3
+1: 2,
+2: 2,
+3: 0
 })
 
 [sub_resource type="Resource" id="Resource_wrpr4"]
@@ -16,8 +16,8 @@ script = ExtResource("1_wrpr4")
 SpawnTimeAfterStart = 5.0
 Enemies = Dictionary[int, int]({
 1: 2,
-2: 0,
-3: 2
+2: 1,
+3: 0
 })
 metadata/_custom_type_script = "uid://dy1moahlf6gxp"
 
@@ -35,8 +35,8 @@ metadata/_custom_type_script = "uid://dy1moahlf6gxp"
 script = ExtResource("1_wrpr4")
 SpawnTimeAfterStart = 15.0
 Enemies = Dictionary[int, int]({
-1: 2,
-2: 1,
+1: 4,
+2: 2,
 3: 0
 })
 metadata/_custom_type_script = "uid://dy1moahlf6gxp"
@@ -56,13 +56,23 @@ script = ExtResource("1_wrpr4")
 SpawnTimeAfterStart = 25.0
 Enemies = Dictionary[int, int]({
 1: 2,
-2: 0,
+2: 1,
+3: 0
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_hm6y1"]
+script = ExtResource("1_wrpr4")
+SpawnTimeAfterStart = 30.0
+Enemies = Dictionary[int, int]({
+1: 2,
+2: 2,
 3: 0
 })
 metadata/_custom_type_script = "uid://dy1moahlf6gxp"
 
 [resource]
 script = ExtResource("2_d6yt5")
-RoundLength = 35.0
-Waves = Array[ExtResource("1_wrpr4")]([SubResource("Resource_g283j"), SubResource("Resource_wrpr4"), SubResource("Resource_d6yt5"), SubResource("Resource_2j0rn"), SubResource("Resource_igjds"), SubResource("Resource_6u18j")])
+RoundLength = 45.0
+Waves = Array[ExtResource("1_wrpr4")]([SubResource("Resource_g283j"), SubResource("Resource_wrpr4"), SubResource("Resource_d6yt5"), SubResource("Resource_2j0rn"), SubResource("Resource_igjds"), SubResource("Resource_6u18j"), SubResource("Resource_hm6y1")])
 metadata/_custom_type_script = "uid://cl3rtewo80fc5"
