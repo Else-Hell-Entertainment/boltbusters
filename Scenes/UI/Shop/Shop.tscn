@@ -122,6 +122,9 @@ _weaponType = 1
 [node name="WeaponName" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ChaingunUpgrade" index="0"]
 theme_type_variation = &"HeaderSmall"
 
+[node name="Value" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ChaingunUpgrade/PriceInfo" index="0"]
+text = "10 x"
+
 [node name="BuyButton" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ChaingunUpgrade/PrimaryUpgrade" index="3"]
 focus_neighbor_left = NodePath("../../../RocketUpgrade/PrimaryUpgrade/BuyButton")
 focus_neighbor_right = NodePath("../../../RailgunUpgrade/PrimaryUpgrade/BuyButton")
@@ -139,6 +142,9 @@ _weaponType = 2
 [node name="WeaponName" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade" index="0"]
 theme_type_variation = &"HeaderSmall"
 text = "Railgun"
+
+[node name="Value" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade/PriceInfo" index="0"]
+text = "10 x"
 
 [node name="Icon" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade/PriceInfo" index="1"]
 texture = ExtResource("5_cxd3k")
@@ -162,6 +168,9 @@ _weaponType = 3
 [node name="WeaponName" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade" index="0"]
 theme_type_variation = &"HeaderSmall"
 text = "Rocket Launcher"
+
+[node name="Value" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade/PriceInfo" index="0"]
+text = "10 x"
 
 [node name="Icon" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade/PriceInfo" index="1"]
 texture = ExtResource("8_yrk82")
