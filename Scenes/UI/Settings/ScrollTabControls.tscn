@@ -5,95 +5,136 @@
 
 [node name="Controls" instance=ExtResource("1_q6y72")]
 
-[node name="Boost" parent="MarginContainer/VBoxContainer" index="0" instance=ExtResource("2_gq3ie")]
+[node name="Weapons" type="Label" parent="MarginContainer/VBoxContainer" index="0"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Weapons"
+
+[node name="Aim" parent="MarginContainer/VBoxContainer" index="1" instance=ExtResource("2_gq3ie")]
 layout_mode = 2
 
-[node name="ControlName" parent="MarginContainer/VBoxContainer/Boost" index="0"]
-text = "Boost"
+[node name="ControlName" parent="MarginContainer/VBoxContainer/Aim" index="0"]
+text = "Aim"
 
-[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Boost" index="1"]
-text = "LShift
-"
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Aim" index="1"]
+disabled = true
+text = "MOUSE"
 
-[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Boost" index="2"]
-text = "Right Trigger"
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Aim" index="2"]
+disabled = true
+text = "R STICK"
 
-[node name="Accelerate" parent="MarginContainer/VBoxContainer" index="1" instance=ExtResource("2_gq3ie")]
+[node name="Chaingun" parent="MarginContainer/VBoxContainer" index="2" instance=ExtResource("2_gq3ie")]
 layout_mode = 2
 
-[node name="ControlName" parent="MarginContainer/VBoxContainer/Accelerate" index="0"]
-text = "Accelerate"
+[node name="ControlName" parent="MarginContainer/VBoxContainer/Chaingun" index="0"]
+text = "Chaingun"
 
-[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Accelerate" index="1"]
-text = "D"
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Chaingun" index="1"]
+disabled = true
+text = "LMB"
 
-[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Accelerate" index="2"]
-text = "Gamepad R"
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Chaingun" index="2"]
+disabled = true
+text = "RB"
 
-[node name="Decelerate" parent="MarginContainer/VBoxContainer" index="2" instance=ExtResource("2_gq3ie")]
+[node name="Railgun" parent="MarginContainer/VBoxContainer" index="3" instance=ExtResource("2_gq3ie")]
 layout_mode = 2
 
-[node name="ControlName" parent="MarginContainer/VBoxContainer/Decelerate" index="0"]
-text = "Decelerate"
+[node name="ControlName" parent="MarginContainer/VBoxContainer/Railgun" index="0"]
+text = "Railgun"
 
-[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Decelerate" index="1"]
-text = "A"
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Railgun" index="1"]
+disabled = true
+text = "RMB"
 
-[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Decelerate" index="2"]
-text = "Gamepad L"
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Railgun" index="2"]
+disabled = true
+text = "LB"
 
-[node name="Jump" parent="MarginContainer/VBoxContainer" index="3" instance=ExtResource("2_gq3ie")]
+[node name="Rocket Launcher" parent="MarginContainer/VBoxContainer" index="4" instance=ExtResource("2_gq3ie")]
 layout_mode = 2
 
-[node name="ControlName" parent="MarginContainer/VBoxContainer/Jump" index="0"]
-text = "Jump"
+[node name="ControlName" parent="MarginContainer/VBoxContainer/Rocket Launcher" index="0"]
+text = "Rocket Launcher"
 
-[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Jump" index="1"]
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Rocket Launcher" index="1"]
+disabled = true
 text = "SPACE"
 
-[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Jump" index="2"]
-text = "Bottom Action"
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Rocket Launcher" index="2"]
+disabled = true
+text = "RT"
 
-[node name="Melee" parent="MarginContainer/VBoxContainer" index="4" instance=ExtResource("2_gq3ie")]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" index="5"]
 layout_mode = 2
 
-[node name="ControlName" parent="MarginContainer/VBoxContainer/Melee" index="0"]
-text = "Melee"
+[node name="Movement" type="Label" parent="MarginContainer/VBoxContainer" index="6"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Movement"
 
-[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Melee" index="1"]
-text = "RMB / H"
-
-[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Melee" index="2"]
-text = "Top Action"
-
-[node name="ShootUp" parent="MarginContainer/VBoxContainer" index="5" instance=ExtResource("2_gq3ie")]
+[node name="Up" parent="MarginContainer/VBoxContainer" index="7" instance=ExtResource("2_gq3ie")]
 layout_mode = 2
 
-[node name="ControlName" parent="MarginContainer/VBoxContainer/ShootUp" index="0"]
-text = "Shoot Up"
+[node name="ControlName" parent="MarginContainer/VBoxContainer/Up" index="0"]
+text = "Up"
 
-[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/ShootUp" index="1"]
-text = "W / K"
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Up" index="1"]
+disabled = true
+text = "W"
 
-[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/ShootUp" index="2"]
-text = "Right Action"
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Up" index="2"]
+disabled = true
+text = "L STICK"
 
-[node name="ShootFront" parent="MarginContainer/VBoxContainer" index="6" instance=ExtResource("2_gq3ie")]
+[node name="Left" parent="MarginContainer/VBoxContainer" index="8" instance=ExtResource("2_gq3ie")]
 layout_mode = 2
 
-[node name="ControlName" parent="MarginContainer/VBoxContainer/ShootFront" index="0"]
-text = "Shoot Front"
+[node name="ControlName" parent="MarginContainer/VBoxContainer/Left" index="0"]
+text = "Left"
 
-[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/ShootFront" index="1"]
-text = "LMB / J"
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Left" index="1"]
+disabled = true
+text = "A"
 
-[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/ShootFront" index="2"]
-text = "Left Action"
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Left" index="2"]
+disabled = true
+text = "L STICK"
 
-[editable path="MarginContainer/VBoxContainer/Boost"]
-[editable path="MarginContainer/VBoxContainer/Accelerate"]
-[editable path="MarginContainer/VBoxContainer/Decelerate"]
-[editable path="MarginContainer/VBoxContainer/Jump"]
-[editable path="MarginContainer/VBoxContainer/Melee"]
-[editable path="MarginContainer/VBoxContainer/ShootUp"]
-[editable path="MarginContainer/VBoxContainer/ShootFront"]
+[node name="Down" parent="MarginContainer/VBoxContainer" index="9" instance=ExtResource("2_gq3ie")]
+layout_mode = 2
+
+[node name="ControlName" parent="MarginContainer/VBoxContainer/Down" index="0"]
+text = "Down"
+
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Down" index="1"]
+disabled = true
+text = "S"
+
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Down" index="2"]
+disabled = true
+text = "L STICK"
+
+[node name="Right" parent="MarginContainer/VBoxContainer" index="10" instance=ExtResource("2_gq3ie")]
+layout_mode = 2
+
+[node name="ControlName" parent="MarginContainer/VBoxContainer/Right" index="0"]
+text = "Right"
+
+[node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Right" index="1"]
+disabled = true
+text = "D"
+
+[node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Right" index="2"]
+disabled = true
+text = "L STICK"
+
+[editable path="MarginContainer/VBoxContainer/Aim"]
+[editable path="MarginContainer/VBoxContainer/Chaingun"]
+[editable path="MarginContainer/VBoxContainer/Railgun"]
+[editable path="MarginContainer/VBoxContainer/Rocket Launcher"]
+[editable path="MarginContainer/VBoxContainer/Up"]
+[editable path="MarginContainer/VBoxContainer/Left"]
+[editable path="MarginContainer/VBoxContainer/Down"]
+[editable path="MarginContainer/VBoxContainer/Right"]
