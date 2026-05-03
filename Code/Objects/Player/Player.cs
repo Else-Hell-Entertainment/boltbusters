@@ -237,6 +237,25 @@ namespace EHE.BoltBusters
             ChaingunController.ResetWeapons();
         }
 
+        // TODO:
+        // This is a hack that is needed by the shop UI to fetch the max
+        // weapon counts and price info.
+        public PlayerWeaponGroupController GetWeaponController(WeaponType weaponType)
+        {
+            switch (weaponType)
+            {
+                case WeaponType.Chaingun:
+                    return ChaingunController;
+                case WeaponType.Railgun:
+                    return RailgunController;
+                case WeaponType.Rocket:
+                    return RocketLauncherController;
+                case WeaponType.None:
+                default:
+                    return null;
+            }
+        }
+
         /// <summary>
         ///  Handles the <see cref="GameManager.RequestWeaponUpgrade"/> event.
         /// </summary>
