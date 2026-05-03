@@ -20,8 +20,8 @@ _explosionSound = NodePath("RocketBody/ExplosionSound")
 _vfxAnimationPlayer = NodePath("RocketBody/VFX/Explosion/AnimationPlayer")
 
 [node name="RocketBody" type="CharacterBody3D" parent="."]
-collision_layer = 0
-collision_mask = 2
+collision_layer = 64
+collision_mask = 50
 
 [node name="RocketBodyCollider" type="CollisionShape3D" parent="RocketBody"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.48225397)

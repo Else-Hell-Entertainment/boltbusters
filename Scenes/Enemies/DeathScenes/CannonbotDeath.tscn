@@ -155,8 +155,11 @@ wait_time = 2.0
 
 [node name="DeathSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_7bd87")
+bus = &"Sfx"
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
+collision_layer = 8
+collision_mask = 56
 
 [node name="Wheel" type="MeshInstance3D" parent="RigidBody3D"]
 transform = Transform3D(0, -0.13139609, 0, 0.29523838, 0, 0, 0, 0, 0.29523838, 0, 0.30795574, -0.16903622)
@@ -168,6 +171,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.024414063, 0.37271118, -0.
 shape = SubResource("BoxShape3D_pak6e")
 
 [node name="RigidBody3D2" type="RigidBody3D" parent="."]
+collision_layer = 8
+collision_mask = 56
 
 [node name="Cannon" type="MeshInstance3D" parent="RigidBody3D2"]
 transform = Transform3D(0, -0.17822373, 0, 0.17822373, 0, 0, 0, 0, 0.17822373, -0.00436756, 0.29999995, -0.18239841)

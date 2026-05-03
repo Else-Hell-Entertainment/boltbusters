@@ -3,6 +3,7 @@
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 //            Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -13,17 +14,17 @@ namespace EHE.BoltBusters
         [Export]
         private float _range = 12f;
 
+        [Export]
+        private int _maxSecondaryUpgradeCount = 4;
+
         private Sprite3D _reticle;
 
         public override WeaponType WeaponType => WeaponType.Rocket;
 
-        /// <summary>
-        /// Counter for how many salvo size upgrades have been bought. Use Upgrade/DowngradeSalvoSize to change.
-        /// </summary>
-        public int SalvoSizeUpgradeCount { get; private set; }
-
         [Signal]
         public delegate void RocketLauncherConfigurationChangedEventHandler();
+
+        public override int MaxSecondaryUpgradeCount => _maxSecondaryUpgradeCount;
 
         public override void _Ready()
         {
@@ -66,37 +67,105 @@ namespace EHE.BoltBusters
             return false;
         }
 
-        public void UpgradeSalvoSize()
+        public bool UpgradeSalvoSize()
         {
-            SalvoSizeUpgradeCount++;
+            if (SecondaryUpgradeCount >= _maxSecondaryUpgradeCount)
+            {
+                return false;
+            }
+
+            SecondaryUpgradeCount++;
+
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is RocketLauncher launcher)
                 {
                     launcher.IncreaseSalvoSize();
-#if Debug
-                    GD.Print("Increasing rocket launcher salvo size");
-#endif
+                    this.LogDebug("Increasing rocket launcher salvo size");
                 }
             }
 
             EmitSignal(SignalName.RocketLauncherConfigurationChanged);
+            return true;
         }
 
-        public void DowngradeSalvoSize()
+        public bool DowngradeSalvoSize()
         {
-            SalvoSizeUpgradeCount--;
+            if (SecondaryUpgradeCount <= 0)
+            {
+                return false;
+            }
+
+            SecondaryUpgradeCount--;
+
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is RocketLauncher launcher)
                 {
                     launcher.DecreaseSalvoSize();
-#if Debug
-                    GD.Print("Decreasing rocket launcher salvo size");
-#endif
+                    this.LogDebug("Decreasing rocket launcher salvo size");
                 }
             }
+
             EmitSignal(SignalName.RocketLauncherConfigurationChanged);
+            return true;
+        }
+
+        /// <inheritdoc />
+        protected override bool InitializeSecondaryUpgrades(int secondaryCount)
+        {
+            for (var i = 0; i < secondaryCount; i++)
+            {
+                UpgradeSalvoSize(); // This already makes sure the max is not exceeded.
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///  Upgrades the rocket launcher. <see cref="UpgradeType.Primary"/>
+        ///  adds more weapons to this controller.
+        ///  <see cref="UpgradeType.Secondary"/> upgrades the salvo size.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnUpgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return AddWeapon();
+                case UpgradeType.Secondary:
+                    return UpgradeSalvoSize();
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        ///  Downgrades the rocket launcher. <see cref="UpgradeType.Primary"/>
+        ///  removes weapons from this controller.
+        ///  <see cref="UpgradeType.Secondary"/> downgrades the salvo size.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnDowngrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return RemoveWeapon();
+                case UpgradeType.Secondary:
+                    return DowngradeSalvoSize();
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
         }
     }
 }

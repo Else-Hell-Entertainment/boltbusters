@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -56,6 +57,7 @@ namespace EHE.BoltBusters
         public override void _Ready()
         {
             Node3D points = GetNode<Node3D>("LaunchPoints");
+
             foreach (var point in points.GetChildren())
             {
                 if (point is Node3D node3D)
@@ -66,7 +68,7 @@ namespace EHE.BoltBusters
 
             if (_launchPoints.Count == 0)
             {
-                GD.PrintErr("Rocket launcher missing launch points!");
+                this.LogError("Rocket launcher missing launch points!");
             }
 
             _intervalTimer = GetNode<Timer>("IntervalTimer");
@@ -122,7 +124,7 @@ namespace EHE.BoltBusters
             }
             else
             {
-                GD.PrintErr("Attempting to remove non-existing salvo size upgrade from rocket launcher " + this);
+                this.LogError("Attempting to remove non-existing salvo size upgrade from rocket launcher " + this);
             }
         }
 
@@ -190,12 +192,14 @@ namespace EHE.BoltBusters
             {
                 return;
             }
+
             if (_shotCounter < _baseSalvoSize + SalvoSizeUpgrades)
             {
                 var rocket = FindNextAvailableRocket();
+
                 if (rocket == null)
                 {
-                    GD.PushError(
+                    this.LogError(
                         "Rocket launcher did not have available rocket when one was expected. \n"
                             + "Adding new rocket to pool. Please report this error. "
                     );
@@ -203,6 +207,7 @@ namespace EHE.BoltBusters
                     _intervalTimer.Start();
                     return;
                 }
+
                 Node3D point = _launchPoints[_launchPointIndex];
                 _launchPointIndex = (_launchPointIndex + 1) % _launchPoints.Count;
                 rocket.LaunchRocket(point, Vector3.Forward);

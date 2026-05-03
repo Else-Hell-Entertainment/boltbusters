@@ -5,6 +5,7 @@
 
 using System.Collections.Generic;
 using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -14,12 +15,19 @@ namespace EHE.BoltBusters
     /// work, add any number of Node3D nodes as children of the WeaponSlots node in the editor. Weapons will be spawned
     /// to these points.
     /// </summary>
-    public partial class PlayerWeaponGroupController : Node3D, IAttacker, IUpgradeable
+    public abstract partial class PlayerWeaponGroupController : Node3D, IAttacker, IUpgradeable
     {
         private List<Node3D> _weaponSlots = new List<Node3D>();
 
         [Export]
         private PackedScene _weaponScene;
+
+        /// <summary>
+        ///  Price info for each supported upgrades. <see cref="UpgradeType"/>
+        ///  are used as keys and <see cref="PriceInfo"/> as values.
+        /// </summary>
+        [Export]
+        protected Godot.Collections.Dictionary<UpgradeType, PriceInfo> Prices { get; set; }
 
         public List<BaseWeapon> Weapons { get; } = new List<BaseWeapon>();
 
@@ -38,10 +46,12 @@ namespace EHE.BoltBusters
         /// </summary>
         public virtual WeaponType WeaponType => WeaponType.None;
 
-        /// <inheritdoc/>
-        [ExportCategory("IUpgradeable")]
-        [Export]
-        public virtual PriceInfo PriceInfo { get; private set; }
+        public int SecondaryUpgradeCount { get; protected set; }
+
+        /// <summary>
+        ///  Maximum number of secondary upgrades for this weapon controller.
+        /// </summary>
+        public abstract int MaxSecondaryUpgradeCount { get; }
 
         public override void _Ready()
         {
@@ -77,7 +87,7 @@ namespace EHE.BoltBusters
         {
             if (Weapons.Count >= _weaponSlots.Count)
             {
-                GD.Print("Not enough slots!");
+                this.LogDebug("Not enough slots!");
                 return false;
             }
 
@@ -121,12 +131,13 @@ namespace EHE.BoltBusters
         ///  <c>true</c> initialization is performed successfully,
         ///  <c>false</c> otherwise.
         /// </returns>
-        public bool Initialize(int weaponCount)
+        public bool Initialize(int weaponCount, int secondaryCount)
         {
             this.PrintDebug($"Initializing {WeaponType} controller");
+
             if (weaponCount > MaxWeaponCount)
             {
-                GD.PushError($"Cannot initialize controller for {WeaponType}, weapon count exceeded.");
+                this.LogError($"Cannot initialize controller for {WeaponType}, weapon count exceeded.");
                 return false;
             }
 
@@ -139,27 +150,14 @@ namespace EHE.BoltBusters
             // Add new weapons.
             for (int i = 0; i < weaponCount; i++)
             {
-                this.PrintDebug($"Adding weapons {i + 1}/{weaponCount} ");
+                this.LogDebug($"Adding weapons {i + 1}/{weaponCount} ");
                 AddWeapon();
             }
 
+            InitializeSecondaryUpgrades(secondaryCount);
+
+            UpdatePlayerData();
             return true;
-        }
-
-        public virtual bool Upgrade()
-        {
-#if DEBUG
-            GD.Print($"Upgrading {Name} ({GetType()})");
-#endif
-            return AddWeapon();
-        }
-
-        public virtual bool Downgrade()
-        {
-#if DEBUG
-            GD.Print($"Downgrading {Name} ({GetType()})");
-#endif
-            return RemoveWeapon();
         }
 
         /// <summary>
@@ -175,6 +173,106 @@ namespace EHE.BoltBusters
             }
         }
 
+        #region IUpgradeable
+
+        /// <summary>
+        ///  Returns the price for the given upgrade type or <c>null</c> if
+        ///  info is not found.
+        /// </summary>
+        ///
+        /// <param name="upgradeType"><inheritdoc/></param>
+        ///
+        /// <returns>
+        ///  The price of the given upgrade as a <see cref="PriceInfo"/> object
+        ///  if one is defined; <c>null</c> otherwise.
+        /// </returns>
+        ///
+        /// <remarks>
+        ///  This method logs an error message with the stack trace if finding
+        ///  the upgrade type fails.
+        /// </remarks>
+        public PriceInfo GetPrice(UpgradeType upgradeType)
+        {
+            if (Prices.TryGetValue(upgradeType, out var priceInfo))
+            {
+                return priceInfo;
+            }
+
+            this.LogError($"Cannot get upgrade price for '{upgradeType}': Key not found!");
+            return null;
+        }
+
+        /// <inheritdoc/>
+        public bool SetPrice(UpgradeType upgradeType, PriceInfo priceInfo)
+        {
+            if (Prices.ContainsKey(upgradeType))
+            {
+                Prices[upgradeType] = priceInfo;
+                return true;
+            }
+
+            this.LogError($"Cannot set upgrade price for '{upgradeType}': Key not found!");
+            return false;
+        }
+
+        /// <inheritdoc/>
+        public bool Upgrade(UpgradeType type)
+        {
+            var wasUpgraded = OnUpgrade(type);
+            if (wasUpgraded)
+            {
+                UpdatePlayerData();
+            }
+            return wasUpgraded;
+        }
+
+        /// <inheritdoc/>
+        public bool Downgrade(UpgradeType type)
+        {
+            var wasDowngraded = OnDowngrade(type);
+            if (wasDowngraded)
+            {
+                UpdatePlayerData();
+            }
+            return wasDowngraded;
+        }
+
+        #endregion IUpgradeable
+
+
+        #region Protected Implementations
+
+        protected abstract bool InitializeSecondaryUpgrades(int secondaryCount);
+
+        /// <summary>
+        ///  Handles the actual upgrade logic for different upgrade types.
+        /// </summary>
+        ///
+        /// <param name="upgradeType">Type of the upgrade to perform.</param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if upgrade was performed successfully,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        protected abstract bool OnUpgrade(UpgradeType upgradeType);
+
+        /// <summary>
+        ///  Handles the actual downgrade logic for different upgrade types.
+        /// </summary>
+        ///
+        /// <param name="upgradeType">Type of the downgrade to perform.</param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if downgrade was performed successfully,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        protected abstract bool OnDowngrade(UpgradeType upgradeType);
+
+        #endregion Protected Implementations
+
+
+        #region Private Implementations
+
         /// <summary>
         ///  Removes all weapons from the controller.
         /// </summary>
@@ -182,9 +280,30 @@ namespace EHE.BoltBusters
         {
             for (int i = CurrentWeaponCount; i > 0; i--)
             {
-                this.PrintDebug("Removing all weapons.");
+                this.LogDebug("Removing all weapons.");
                 RemoveWeapon();
             }
         }
+
+        /// <summary>
+        ///  Updates the weapon status information to
+        ///  <see cref="GameManager.CurrentPlayerData"/> if possible.
+        /// </summary>
+        private void UpdatePlayerData()
+        {
+            var playerData = GameManager.Instance.CurrentPlayerData;
+
+            if (playerData == null)
+            {
+                this.LogWarning("Current player data is null.");
+                return;
+            }
+
+            // TODO: Make sure this doesn't cause issues in case the values were the same as before!
+            playerData.SetWeaponCount(WeaponType, CurrentWeaponCount);
+            playerData.SetSecondaryUpgradeCount(WeaponType, SecondaryUpgradeCount);
+        }
+
+        #endregion Private Implementations
     }
 }

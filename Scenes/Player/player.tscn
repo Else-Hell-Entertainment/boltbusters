@@ -50,7 +50,6 @@ _surfaces = [{
 "vertex_count": 47,
 "vertex_data": PackedByteArray("mOlbjwAAAAD/f8zMAAAAAJjpzMwAAAAAmOnMzP//AAD//1uPAAAAAP//MrMAAAAA////////AAD//1uP//8AAJjpW4///wAA///MTP//AAD//8xMAAAAAJjpMzMAAAAAmOkzM///AAD/f8zM//8AAP9/epT//wAA/396lAAAAADMVMzMAAAAAGYWW48AAAAAZlbMzFGGAABmTszMmp8AAGZOzMz//wAAZibMzP//AABmFluP//8AAGYWzMz//wAAzCTMzF7CAABmFszM3JoAAMwEUbh3OgAAZhYzMwAAAAAAAP////8AAAAAMrMAAAAAAABbj///AAAAAFuPAAAAAGYWMzP//wAAAADMTP//AAAAAMxMAAAAAP9fZWbq8QAA/58AAOrxAAD/XwAA6vEAAP+fZWbq8QAA/19lZv+/AAD/n2Vm/78AAP9fAAAUDgAA/59mZhQOAAD/X2ZmFA4AAP+fAAAUDgAA/59mZv8/AAD/X2Zm/z8AAA==")
 }]
-blend_shape_mode = 0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_b3bgk"]
 resource_name = "PlayerRev3_Cube_013"
@@ -301,13 +300,14 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_nv43w")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jlvik"]
-radius = 0.72753906
+radius = 0.72
 height = 2.4870558
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_jlvik"]
 radius = 1.5
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_playerController", "_healthComponent")]
+collision_mask = 178
 axis_lock_linear_y = true
 script = ExtResource("1_4wape")
 _playerController = NodePath("PlayerController")
@@ -364,11 +364,15 @@ _range = 9.0
 
 [node name="RocketLauncherController" parent="Turret" instance=ExtResource("3_jlvik")]
 
+[node name="MeshInstance3D" parent="Turret/RocketLauncherController" index="1"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.5, 0)
+
 [node name="RailgunController" parent="Turret" instance=ExtResource("6_gk6dx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.014, 1.4, 0.052)
 
 [node name="Crosshair" parent="Turret" instance=ExtResource("8_06tpx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+visible = false
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1967016, 0)
@@ -381,7 +385,8 @@ _damageSoundPlayer = NodePath("../PlayerHurtSFX")
 metadata/_custom_type_script = "uid://d2knauna4hn3f"
 
 [node name="CollectArea" type="Area3D" parent="."]
-collision_mask = 5
+collision_layer = 0
+collision_mask = 4
 script = ExtResource("8_jlvik")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CollectArea"]

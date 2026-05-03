@@ -58,8 +58,12 @@ namespace EHE.BoltBusters
         /// <param name="weaponType">
         ///  Numerical representation of the weapon type to upgrade.
         /// </param>
+        /// <param name="upgradeType">
+        ///  Numerical representation of the downgrade type. Must be castable
+        ///  to <see cref="UpgradeType"/>.
+        /// </param>
         [Signal]
-        public delegate bool RequestWeaponUpgradeEventHandler(int weaponType);
+        public delegate bool RequestWeaponUpgradeEventHandler(int weaponType, int upgradeType);
 
         /// <summary>
         ///  Emitted when the player chooses to downgrade a weapon in the shop.
@@ -68,8 +72,12 @@ namespace EHE.BoltBusters
         /// <param name="weaponType">
         ///  Numerical representation of the weapon type to downgrade.
         /// </param>
+        /// <param name="upgradeType">
+        ///  Numerical representation of the downgrade type. Must be castable
+        ///  to <see cref="UpgradeType"/>.
+        /// </param>
         [Signal]
-        public delegate bool RequestWeaponDowngradeEventHandler(int weaponType);
+        public delegate bool RequestWeaponDowngradeEventHandler(int weaponType, int upgradeType);
 
         /// <summary>
         ///  Emitted when the HUD should refresh its display.
@@ -334,7 +342,10 @@ namespace EHE.BoltBusters
                 return;
             }
 
-            CurrentPlayerData = (PlayerData)DefaultPlayerData.Duplicate(deep: true);
+            // Don't replace the current reference unless null. Without this
+            // signal links from other systems break since the reference to the
+            // original object is "lost".
+            CurrentPlayerData ??= (PlayerData)DefaultPlayerData.Duplicate(deep: true);
             CurrentPlayerData.Load((Godot.Collections.Dictionary)playerData);
 
             this.PrintDebug("Game loaded successfully.");
@@ -348,18 +359,8 @@ namespace EHE.BoltBusters
         ///
         /// <seealso cref="StartFromRound"/>
         /// <seealso cref="StartFromShop"/>
-        /// <seealso cref="OnLevelStartDelayTimeout"/>
         public void StartNewGame()
         {
-            // IMPORTANT!
-            // Creating a timer and linking it directly to a method call that
-            // starts the round cannot be done here because connecting the
-            // signal seems to pass the references that are valid during this
-            // frame. E.g., the linked method would call the StartRound method
-            // on the background level that is no longer present. The timer is
-            // therefore created in the StartFromRound method and the timeout
-            // is connected to the OnLevelStartDelayTimeout method.
-
             CurrentPlayerData = (PlayerData)DefaultPlayerData.Duplicate(deep: true);
             this.PrintDebug("Starting new game...");
             StartGame();
@@ -588,7 +589,6 @@ namespace EHE.BoltBusters
         /// <seealso cref="StartNewGame"/>
         /// <seealso cref="StartGame"/>
         /// <seealso cref="StartFromShop"/>
-        /// <seealso cref="OnLevelStartDelayTimeout"/>
         private void StartFromRound()
         {
             // Used specifically to add delay between starting entering the
@@ -596,7 +596,7 @@ namespace EHE.BoltBusters
             // is necessary, see the comments in StartNewGame.
             LevelManager.Active.InitializeLevel(RoundIndex);
             LevelManager.Active.InitializePlayer(CurrentPlayerData);
-            SceneTree.CreateTimer(5f).Timeout += OnLevelStartDelayTimeout;
+            LevelManager.Active.StartRound();
         }
 
         /// <summary>
@@ -615,23 +615,6 @@ namespace EHE.BoltBusters
         {
             StateMachine.TransitionTo(StateType.Shop);
             LevelManager.Active.InitializePlayer(CurrentPlayerData);
-        }
-
-        /// <summary>
-        ///  Called when the level start delay timer expires.
-        /// </summary>
-        ///
-        /// <remarks>
-        ///  This method is invoked after the delay timer created in
-        ///  <see cref="StartFromRound"/> times out. It instructs the currently
-        ///  active <see cref="LevelManager"/> to begin the round.
-        /// </remarks>
-        ///
-        /// <seealso cref="StartFromRound"/>
-        /// <seealso cref="StartGame"/>
-        private void OnLevelStartDelayTimeout()
-        {
-            LevelManager.Active.StartRound();
         }
 
         /// <summary>

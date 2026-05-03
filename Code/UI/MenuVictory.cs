@@ -23,6 +23,8 @@ namespace EHE.BoltBusters.Ui
 
         public override void _Ready()
         {
+            base._Ready();
+
             var isValid = true;
 
             if (_btnCredits == null)
@@ -51,6 +53,8 @@ namespace EHE.BoltBusters.Ui
 
         public override void _EnterTree()
         {
+            base._EnterTree();
+
             _btnCredits.Pressed += OnBtnCreditsPressed;
             _btnMainMenu.Pressed += OnBtnMainMenuPressed;
             _btnQuit.Pressed += OnBtnQuitPressed;
@@ -65,16 +69,19 @@ namespace EHE.BoltBusters.Ui
 
         private void OnBtnCreditsPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             throw new NotImplementedException("No credits window implemented.");
         }
 
         private void OnBtnMainMenuPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             GameManager.Instance.StateMachine.TransitionTo(StateType.MainMenu);
         }
 
         private void OnBtnQuitPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer2.Play();
             GameManager.Instance.Quit();
         }
     }

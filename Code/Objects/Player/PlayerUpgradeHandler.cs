@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.Common.Godot.Logging;
 using Godot;
 using GDCollections = Godot.Collections;
 using GenSysCollections = System.Collections.Generic;
@@ -79,6 +80,9 @@ namespace EHE.BoltBusters
         /// <param name="weaponType">
         ///  Type of the weapon controller to upgrade.
         /// </param>
+        /// <param name="upgradeType">
+        ///  Type of the upgrade to perform.
+        /// </param>
         /// <param name="weaponUpgradeResult">
         ///  The result of the upgrade. Use this if different actions are
         ///  needed for different fail conditions.
@@ -94,6 +98,7 @@ namespace EHE.BoltBusters
         /// </returns>
         public bool UpgradeWeapon(
             WeaponType weaponType,
+            UpgradeType upgradeType,
             out WeaponUpgradeResult weaponUpgradeResult,
             bool ignorePrice = false
         )
@@ -101,13 +106,23 @@ namespace EHE.BoltBusters
             // Get the controller that matches the given type.
             if (!_weaponControllers.TryGetValue(weaponType, out var weaponController))
             {
-                GD.PushWarning($"Cannot upgrade weapon controller for type '{weaponType}': not found.");
+                this.LogError($"Failed to upgrade '{weaponType}': controller not found!");
                 weaponUpgradeResult = WeaponUpgradeResult.None;
                 return false;
             }
 
+            // Get price info for the upgrade.
+            var priceInfo = weaponController.GetPrice(upgradeType);
+
+            if (priceInfo == null)
+            {
+                this.LogError($"Failed to upgrade '{weaponType}': Price undefined!");
+                weaponUpgradeResult = WeaponUpgradeResult.None;
+                return false;
+            }
+
+            // Check if the player has enough money to perform the upgrade.
             var playerData = GameManager.Instance.CurrentPlayerData;
-            var priceInfo = weaponController.PriceInfo;
 
             if (!ignorePrice)
             {
@@ -122,14 +137,12 @@ namespace EHE.BoltBusters
                 }
             }
 
-            if (!weaponController.Upgrade())
+            if (!weaponController.Upgrade(upgradeType))
             {
-                // Weapon is already maxed out (not enough slots available).
+                // The given upgrade is already maxed out.
                 weaponUpgradeResult = WeaponUpgradeResult.FailedNoSlots;
                 return false;
             }
-
-            playerData.IncreaseWeaponCount(weaponType);
 
             if (!ignorePrice)
             {
@@ -149,27 +162,23 @@ namespace EHE.BoltBusters
         /// <param name="weaponType">
         ///  Type of the weapon controller to downgrade.
         /// </param>
+        /// <param name="upgradeType">
+        ///  Type of the downgrade to be performed.
+        /// </param>
         ///
         /// <returns>
         ///  <c>true</c> if downgrade was performed successfully,
         ///  <c>false</c> otherwise.
         /// </returns>
-        public bool DowngradeWeapon(WeaponType weaponType)
+        public bool DowngradeWeapon(WeaponType weaponType, UpgradeType upgradeType)
         {
             if (!_weaponControllers.TryGetValue(weaponType, out var weaponController))
             {
-                GD.PushWarning($"Cannot downgrade weapon controller for type '{weaponType}': not found.");
+                this.LogError($"Failed to downgrade '{weaponType}': controller not found!");
                 return false;
             }
 
-            var isDowngraded = weaponController.Downgrade();
-
-            if (isDowngraded)
-            {
-                GameManager.Instance.CurrentPlayerData.DecreaseWeaponCount(weaponType);
-            }
-
-            return isDowngraded;
+            return weaponController.Downgrade(upgradeType);
         }
 
         /// <summary>
@@ -180,11 +189,16 @@ namespace EHE.BoltBusters
         /// <param name="weaponCounts">
         ///  Dictionary containing the counts for each weapon type.
         /// </param>
-        public void InitializeWeaponCounts(GDCollections.Dictionary<WeaponType, int> weaponCounts)
+        public void InitializeWeaponCounts(
+            GDCollections.Dictionary<WeaponType, int> weaponCounts,
+            GDCollections.Dictionary<WeaponType, int> secondaryUpgradeCounts
+        )
         {
-            foreach (var (weaponType, count) in weaponCounts)
+            foreach (var (type, controller) in _weaponControllers)
             {
-                _weaponControllers[weaponType].Initialize(count);
+                var primaryCount = weaponCounts[type];
+                var secondaryCount = secondaryUpgradeCounts[type];
+                controller.Initialize(primaryCount, secondaryCount);
             }
         }
     }

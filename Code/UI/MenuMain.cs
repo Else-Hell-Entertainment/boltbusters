@@ -23,6 +23,8 @@ namespace EHE.BoltBusters.Ui
 
         public override void _EnterTree()
         {
+            base._EnterTree();
+
             _btnNewGame.Pressed += OnBtnNewGamePressed;
             _btnLoadGame.Pressed += OnBtnLoadGamePressed;
             _btnSettings.Pressed += OnBtnSettingsPressed;
@@ -39,21 +41,25 @@ namespace EHE.BoltBusters.Ui
 
         private void OnBtnNewGamePressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             GameManager.Instance.StartNewGame();
         }
 
         private void OnBtnLoadGamePressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             GameManager.Instance.LoadGame();
         }
 
         private void OnBtnSettingsPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             GameManager.Instance.StateMachine.TransitionTo(StateType.SettingsMenu);
         }
 
         private void OnBtnQuitPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer2.Play();
             GameManager.Instance.Quit();
         }
     }

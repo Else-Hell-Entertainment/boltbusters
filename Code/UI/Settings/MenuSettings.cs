@@ -16,8 +16,19 @@ namespace EHE.BoltBusters.Ui
         [Export]
         private Button _btnBack;
 
+        /// <inheritdoc />
+        public override void _Input(InputEvent @event)
+        {
+            if (Input.IsActionJustPressed("ui_cancel"))
+            {
+                OnBtnBackPressed();
+            }
+        }
+
         public override void _EnterTree()
         {
+            base._EnterTree();
+
             _btnBack.Pressed += OnBtnBackPressed;
         }
 
@@ -28,6 +39,8 @@ namespace EHE.BoltBusters.Ui
 
         public override void _Ready()
         {
+            base._Ready();
+
             _audioTab = this.GetFirstChildOfType<AudioTab>(recurse: true);
             _videoTab = this.GetFirstChildOfType<VideoTab>(recurse: true);
 
@@ -57,6 +70,7 @@ namespace EHE.BoltBusters.Ui
 
         private void OnBtnBackPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             GameManager.Instance.SettingsManager.SaveSettings();
             GameManager.Instance.SettingsManager.SaveSettingsToFile(SettingsConfig.USER_SETTINGS_FILE_PATH);
             GameManager.Instance.StateMachine.TransitionToPrevious();

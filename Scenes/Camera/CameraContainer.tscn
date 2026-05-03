@@ -23,6 +23,13 @@ size = Vector2i(576, 324)
 render_target_update_mode = 4
 
 [node name="CameraRig" parent="CameraViewport" instance=ExtResource("1_kikub")]
+MinX = -1.0
+MaxX = 59.0
+MaxZ = 50.1
+HeightAboveGround = 18.5
+
+[node name="Camera3D" parent="CameraViewport/CameraRig" index="0"]
+keep_aspect = 0
 
 [node name="AudioListener3D" type="AudioListener3D" parent="CameraViewport"]
 current = true

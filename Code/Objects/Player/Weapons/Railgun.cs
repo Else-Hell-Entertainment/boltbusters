@@ -30,7 +30,7 @@ namespace EHE.BoltBusters
         /// How much the base charging rate is increased per bought upgrade.
         /// </summary>
         [Export]
-        private float _chargingUpgradeIncrease = 5f;
+        private float _chargingUpgradeIncrease = 50f;
 
         /// <summary>
         /// How many % per second the charge meter drops if the weapon is not charging. Both after firing or if the
@@ -110,9 +110,15 @@ namespace EHE.BoltBusters
             _reloadTimer.Stop();
         }
 
-        public void UpgradeChargingSpeed() { }
+        public void UpgradeChargingSpeed()
+        {
+            ChargingUpgradeCount++;
+        }
 
-        public void DowngradeChargingSpeed() { }
+        public void DowngradeChargingSpeed()
+        {
+            ChargingUpgradeCount--;
+        }
 
         private void IncreaseCharge()
         {

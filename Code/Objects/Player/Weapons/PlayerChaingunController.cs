@@ -3,6 +3,8 @@
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 //            Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -106,6 +108,10 @@ namespace EHE.BoltBusters
         [Export]
         private float _coolingUpgradeIncrease = 1f;
 
+        // How many times cooling can be upgraded.
+        [Export]
+        private int _maxCoolingUpgrades = 6;
+
         // After overheating the weapon must cool down below this level to be able to fire again.
         [Export]
         private float _overheatRecoveryThreshold = 80f;
@@ -113,6 +119,9 @@ namespace EHE.BoltBusters
         [ExportGroup("References")]
         [Export]
         private AudioStreamPlayer3D _shootingAudio;
+
+        [Export]
+        private AudioStreamPlayer3D _overheatAudio;
 
         private float _attackTimer;
         private float _attackInterval = 0.5f;
@@ -129,7 +138,7 @@ namespace EHE.BoltBusters
         /// </summary>
         public ChaingunState CurrentPersistentState { get; private set; } = ChaingunState.None;
 
-        public float CoolingRateUpgrade { get; private set; } = 0;
+        //public int CoolingUpgradesBought { get; private set; }
 
         public override WeaponType WeaponType => WeaponType.Chaingun;
 
@@ -139,6 +148,8 @@ namespace EHE.BoltBusters
         private AudioStreamOggVorbis _audioStream;
         private float _audioTimer;
         private float _audioBufferTime = 0.1f;
+
+        public override int MaxSecondaryUpgradeCount => _maxCoolingUpgrades;
 
         public enum ChaingunState
         {
@@ -207,6 +218,7 @@ namespace EHE.BoltBusters
                     AddHeat(_heatBuildupRate);
                     _attackTimer = 0;
                     _audioStream.Loop = true;
+
                     if (!_shootingAudio.IsPlaying())
                     {
                         _shootingAudio.Play();
@@ -237,7 +249,7 @@ namespace EHE.BoltBusters
                 _audioTimer = 0;
             }
 
-            ReduceHeat((_baseCoolingRate + CoolingRateUpgrade) * deltaTime);
+            ReduceHeat((_baseCoolingRate + (SecondaryUpgradeCount * _coolingUpgradeIncrease)) * deltaTime);
         }
 
         #region Heating mechanics
@@ -254,21 +266,33 @@ namespace EHE.BoltBusters
         /// <summary>
         /// Adds one level of cooling upgrade (defined in code).
         /// </summary>
-        public void UpgradeCooling()
+        public bool UpgradeCooling()
         {
-            CoolingRateUpgrade += _coolingUpgradeIncrease;
+            if (SecondaryUpgradeCount < _maxCoolingUpgrades)
+            {
+                SecondaryUpgradeCount++;
+                this.LogDebug("Cooling upgraded.");
+                return true;
+            }
+
+            this.LogDebug("Cannot upgrade cooling any further.");
+            return false;
         }
 
         /// <summary>
         /// Removes one level of cooling upgrades. Total cooling can never drop below base value defined in code.
         /// </summary>
-        public void DowngradeCooling()
+        public bool DowngradeCooling()
         {
-            CoolingRateUpgrade -= _coolingUpgradeIncrease;
-            if (CoolingRateUpgrade < 0)
+            if (SecondaryUpgradeCount >= 0)
             {
-                CoolingRateUpgrade = 0;
+                SecondaryUpgradeCount--;
+                this.LogDebug("Cooling downgraded.");
+                return true;
             }
+
+            this.LogDebug("Cannot not downgrade cooling any further.");
+            return false;
         }
 
         /// <summary>
@@ -280,6 +304,7 @@ namespace EHE.BoltBusters
         private void AddHeat(float heatAmount)
         {
             _currentHeat += heatAmount;
+
             if (_currentHeat > _overheatLimit)
             {
                 TriggerOverheat();
@@ -303,9 +328,16 @@ namespace EHE.BoltBusters
 
             _currentHeat -= heatAmount;
             _currentHeat = Mathf.Clamp(_currentHeat, 0, _overheatLimit);
+
             // Inform UI of heat change.
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
+
             // Handle case where weapon was overheating and has cooled down.
+            if (CurrentPersistentState == ChaingunState.Overheat && !MusicManager.Instance.OverheatAlarmSFX.IsPlaying())
+            {
+                MusicManager.Instance.OverheatAlarmSFX.Play();
+            }
+
             if (CurrentPersistentState == ChaingunState.Overheat && _currentHeat < _overheatRecoveryThreshold)
             {
                 CurrentPersistentState = ChaingunState.ReadyToFire;
@@ -319,6 +351,8 @@ namespace EHE.BoltBusters
         private void TriggerOverheat()
         {
             CurrentPersistentState = ChaingunState.Overheat;
+            _overheatAudio.Play();
+            MusicManager.Instance.OverheatAlarmSFX.Play();
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.Overheat);
             EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.NotReadyToFire);
         }
@@ -347,6 +381,63 @@ namespace EHE.BoltBusters
             //EmitSignal(SignalName.ChaingunStateChanged, (int)ChaingunState.HeatChanged);
         }
 
+        /// <inheritdoc />
+        protected override bool InitializeSecondaryUpgrades(int secondaryCount)
+        {
+            for (var i = 0; i < secondaryCount; i++)
+            {
+                UpgradeCooling(); // This already makes sure the max is not exceeded.
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///  Upgrades the chaingun. <see cref="UpgradeType.Primary"/> adds
+        ///  more weapons to this controller. <see cref="UpgradeType.Secondary"/>
+        ///  upgrades the cooling.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnUpgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return AddWeapon();
+                case UpgradeType.Secondary:
+                    return UpgradeCooling();
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        ///  Downgrades the chaingun. <see cref="UpgradeType.Primary"/> removes
+        ///  weapons from this controller. <see cref="UpgradeType.Secondary"/>
+        ///  downgrades the cooling.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnDowngrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return RemoveWeapon();
+                case UpgradeType.Secondary:
+                    return DowngradeCooling();
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Sets the attack interval based on number of guns and the individual gun's cooldown to create a continuous
         /// firing effect while making sure the individual ROF is still accounted for. Example: if gun's cooldown is
@@ -361,6 +452,7 @@ namespace EHE.BoltBusters
             {
                 float gunCooldown = _cooldown;
                 _attackInterval = gunCooldown / numberOfGuns; // Denominator is confirmed to be > 0.
+                this.LogDebug($"Attack interval set to {_attackInterval}");
             }
         }
 

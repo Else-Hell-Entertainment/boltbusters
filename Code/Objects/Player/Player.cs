@@ -52,31 +52,66 @@ namespace EHE.BoltBusters
         public override void _Input(InputEvent inputEvent)
         {
 #if DEBUG
+            // Primary upgrades
+            // Chaingun
             if (inputEvent.IsActionPressed("DebugDowngradeChaingun"))
             {
-                _upgradeHandler.DowngradeWeapon(WeaponType.Chaingun);
+                _upgradeHandler.DowngradeWeapon(WeaponType.Chaingun, UpgradeType.Primary);
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeChaingun"))
             {
-                _upgradeHandler.UpgradeWeapon(WeaponType.Chaingun, out _, true);
+                _upgradeHandler.UpgradeWeapon(WeaponType.Chaingun, UpgradeType.Primary, out _, true);
             }
 
+            // Railgun
             if (inputEvent.IsActionPressed("DebugDowngradeRailgun"))
             {
-                _upgradeHandler.DowngradeWeapon(WeaponType.Railgun);
+                _upgradeHandler.DowngradeWeapon(WeaponType.Railgun, UpgradeType.Primary);
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeRailgun"))
             {
-                _upgradeHandler.UpgradeWeapon(WeaponType.Railgun, out _, true);
+                _upgradeHandler.UpgradeWeapon(WeaponType.Railgun, UpgradeType.Primary, out _, true);
             }
 
+            // Rocket Launcher
             if (inputEvent.IsActionPressed("DebugDowngradeMissile"))
             {
-                _upgradeHandler.DowngradeWeapon(WeaponType.Rocket);
+                _upgradeHandler.DowngradeWeapon(WeaponType.Rocket, UpgradeType.Primary);
             }
             else if (inputEvent.IsActionPressed("DebugUpgradeMissile"))
             {
-                _upgradeHandler.UpgradeWeapon(WeaponType.Rocket, out _, true);
+                _upgradeHandler.UpgradeWeapon(WeaponType.Rocket, UpgradeType.Primary, out _, true);
+            }
+
+            // Secondary upgrades
+            // Chaingun
+            if (inputEvent.IsActionPressed("DebugDowngradeChaingunSecondary"))
+            {
+                _upgradeHandler.DowngradeWeapon(WeaponType.Chaingun, UpgradeType.Secondary);
+            }
+            else if (inputEvent.IsActionPressed("DebugUpgradeChaingunSecondary"))
+            {
+                _upgradeHandler.UpgradeWeapon(WeaponType.Chaingun, UpgradeType.Secondary, out _, true);
+            }
+
+            // Railgun
+            if (inputEvent.IsActionPressed("DebugDowngradeRailgunSecondary"))
+            {
+                _upgradeHandler.DowngradeWeapon(WeaponType.Railgun, UpgradeType.Secondary);
+            }
+            else if (inputEvent.IsActionPressed("DebugUpgradeRailgunSecondary"))
+            {
+                _upgradeHandler.UpgradeWeapon(WeaponType.Railgun, UpgradeType.Secondary, out _, true);
+            }
+
+            // Rocket Launcher
+            if (inputEvent.IsActionPressed("DebugDowngradeMissileSecondary"))
+            {
+                _upgradeHandler.DowngradeWeapon(WeaponType.Rocket, UpgradeType.Secondary);
+            }
+            else if (inputEvent.IsActionPressed("DebugUpgradeMissileSecondary"))
+            {
+                _upgradeHandler.UpgradeWeapon(WeaponType.Rocket, UpgradeType.Secondary, out _, true);
             }
 #endif
         }
@@ -93,18 +128,18 @@ namespace EHE.BoltBusters
 
             // Signal to let other elements (mainly UI) know the player is now ready.
             GameManager.Instance.EmitSignal(GameManager.SignalName.RequestHudRefresh);
-            GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
+            // GameManager.Instance.RoundStateChanged += OnRoundStateChanged;
         }
 
         // TODO: Convert this to a public Reset method that can be called from LevelManager.
-        private void OnRoundStateChanged(bool inProgress)
-        {
-            if (!inProgress)
-            {
-                ResetWeapons();
-                HealthComponent.RestoreToInitial();
-            }
-        }
+        // private void OnRoundStateChanged(bool inProgress)
+        // {
+        //     if (!inProgress)
+        //     {
+        //         ResetWeapons();
+        //         HealthComponent.RestoreToInitial();
+        //     }
+        // }
 
         /// <summary>
         /// Remove player from TargetProvider when exiting tree.
@@ -127,6 +162,7 @@ namespace EHE.BoltBusters
 
         public override void HandleDeath()
         {
+            MusicManager.Instance.PlayPlayerDeathSound();
             EmitSignal(SignalName.PlayerDied, this);
             // OnDespawn();
         }
@@ -147,9 +183,11 @@ namespace EHE.BoltBusters
         /// </param>
         public void Initialize(PlayerData playerData)
         {
-            // TODO: Move these to a Reset method?
-            HealthComponent.RestoreToInitial();
-            _upgradeHandler.InitializeWeaponCounts(playerData.GetWeaponCounts());
+            _upgradeHandler.InitializeWeaponCounts(
+                playerData.GetWeaponCounts(),
+                playerData.GetSecondaryUpgradeCounts()
+            );
+            ResetAll();
         }
 
         /// <summary>
@@ -170,11 +208,52 @@ namespace EHE.BoltBusters
             return _playerController.AcceptCommands;
         }
 
+        /// <summary>
+        ///  Resets the player's health and the state of their weapons.
+        /// </summary>
+        public void ResetAll()
+        {
+            ResetHealth();
+            ResetWeapons();
+        }
+
+        /// <summary>
+        ///  Resets the player's health to the initial value.
+        /// </summary>
+        ///
+        /// <seealso cref="HealthComponent.RestoreToInitial"/>
+        public void ResetHealth()
+        {
+            HealthComponent.RestoreToInitial();
+        }
+
+        /// <summary>
+        ///  Resets the state of player's weapons.
+        /// </summary>
         public void ResetWeapons()
         {
             RailgunController.ResetWeapons();
             RocketLauncherController.ResetWeapons();
             ChaingunController.ResetWeapons();
+        }
+
+        // TODO:
+        // This is a hack that is needed by the shop UI to fetch the max
+        // weapon counts and price info.
+        public PlayerWeaponGroupController GetWeaponController(WeaponType weaponType)
+        {
+            switch (weaponType)
+            {
+                case WeaponType.Chaingun:
+                    return ChaingunController;
+                case WeaponType.Railgun:
+                    return RailgunController;
+                case WeaponType.Rocket:
+                    return RocketLauncherController;
+                case WeaponType.None:
+                default:
+                    return null;
+            }
         }
 
         /// <summary>
@@ -184,14 +263,22 @@ namespace EHE.BoltBusters
         /// <param name="weaponType">
         ///  Integer representation of the weapon type to upgrade.
         /// </param>
+        /// <param name="upgradeType">
+        ///  Integer representation of the upgrade type to perform.
+        ///  Must be castable to <see cref="UpgradeType"/>!
+        /// </param>
         ///
         /// <returns>
         ///  <c>true</c> if upgrade was performed successfully,
         ///  <c>false</c> otherwise.
         /// </returns>
-        private bool OnWeaponUpgradeRequested(int weaponType)
+        private bool OnWeaponUpgradeRequested(int weaponType, int upgradeType)
         {
-            var isSuccess = _upgradeHandler.UpgradeWeapon((WeaponType)weaponType, out var upgradeResult);
+            var isSuccess = _upgradeHandler.UpgradeWeapon(
+                (WeaponType)weaponType,
+                (UpgradeType)upgradeType,
+                out var upgradeResult
+            );
 
             if (isSuccess)
             {
@@ -220,14 +307,18 @@ namespace EHE.BoltBusters
         /// <param name="weaponType">
         ///  Integer representation of the weapon type to downgrade.
         /// </param>
+        /// <param name="upgradeType">
+        ///  Integer representation of the downgrade type to be performed.
+        ///  Must be castable to <see cref="UpgradeType"/>!
+        /// </param>
         ///
         /// <returns>
         ///  <c>true</c> if downgrade was performed successfully,
         ///  <c>false</c> otherwise.
         /// </returns>
-        private bool OnWeaponDowngradeRequested(int weaponType)
+        private bool OnWeaponDowngradeRequested(int weaponType, int upgradeType)
         {
-            return _upgradeHandler.DowngradeWeapon((WeaponType)weaponType);
+            return _upgradeHandler.DowngradeWeapon((WeaponType)weaponType, (UpgradeType)upgradeType);
         }
     }
 }

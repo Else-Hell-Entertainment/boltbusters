@@ -10,22 +10,7 @@ namespace EHE.BoltBusters.Ui
     public partial class MenuShop : Menu
     {
         [Export]
-        private Button _btnUpgradeChaingun;
-
-        [Export]
-        private Button _btnUpgradeRailgun;
-
-        [Export]
-        private Button _btnUpgradeRocketLauncher;
-
-        [Export]
-        private Button _btnDowngradeChaingun;
-
-        [Export]
-        private Button _btnDowngradeRailgun;
-
-        [Export]
-        private Button _btnDowngradeRocketLauncher;
+        private AnimationPlayer _animationPlayer;
 
         [Export]
         private Button _btnEnterNextRound;
@@ -35,87 +20,38 @@ namespace EHE.BoltBusters.Ui
 
         public override void _EnterTree()
         {
-            _btnUpgradeChaingun.Pressed += OnBtnUpgradeChaingunPressed;
-            _btnUpgradeRailgun.Pressed += OnBtnUpgradeRailgunPressed;
-            _btnUpgradeRocketLauncher.Pressed += OnBtnUpgradeRocketLauncherPressed;
-            _btnDowngradeChaingun.Pressed += OnBtnDowngradeChaingunPressed;
-            _btnDowngradeRailgun.Pressed += OnBtnDowngradeRailgunPressed;
-            _btnDowngradeRocketLauncher.Pressed += OnBtnDowngradeRocketLauncherPressed;
             _btnEnterNextRound.Pressed += OnBtnEnterNextRoundPressed;
-
             GameManager.Instance.WeaponUpgradeSucceeded += OnWeaponUpgradeSucceeded;
             GameManager.Instance.WeaponUpgradeFailed += OnWeaponUpgradeFailed;
+            _animationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "slide_up");
         }
 
         public override void _ExitTree()
         {
-            _btnUpgradeChaingun.Pressed -= OnBtnUpgradeChaingunPressed;
-            _btnUpgradeRailgun.Pressed -= OnBtnUpgradeRailgunPressed;
-            _btnUpgradeRocketLauncher.Pressed -= OnBtnUpgradeRocketLauncherPressed;
-            _btnDowngradeChaingun.Pressed -= OnBtnDowngradeChaingunPressed;
-            _btnDowngradeRailgun.Pressed -= OnBtnDowngradeRailgunPressed;
-            _btnDowngradeRocketLauncher.Pressed -= OnBtnDowngradeRocketLauncherPressed;
             _btnEnterNextRound.Pressed -= OnBtnEnterNextRoundPressed;
-
             GameManager.Instance.WeaponUpgradeSucceeded -= OnWeaponUpgradeSucceeded;
             GameManager.Instance.WeaponUpgradeFailed -= OnWeaponUpgradeFailed;
         }
 
-        private void RequestWeaponUpgrade(WeaponType weaponType)
+        private async void OnBtnEnterNextRoundPressed()
         {
-            GameManager.Instance.EmitSignal(GameManager.SignalName.RequestWeaponUpgrade, (int)weaponType);
-        }
-
-        private void RequestWeaponDowngrade(WeaponType weaponType)
-        {
-            GameManager.Instance.EmitSignal(GameManager.SignalName.RequestWeaponDowngrade, (int)weaponType);
-        }
-
-        private void OnBtnUpgradeChaingunPressed()
-        {
-            RequestWeaponUpgrade(WeaponType.Chaingun);
-        }
-
-        private void OnBtnUpgradeRailgunPressed()
-        {
-            RequestWeaponUpgrade(WeaponType.Railgun);
-        }
-
-        private void OnBtnUpgradeRocketLauncherPressed()
-        {
-            RequestWeaponUpgrade(WeaponType.Rocket);
-        }
-
-        private void OnBtnDowngradeChaingunPressed()
-        {
-            RequestWeaponDowngrade(WeaponType.Chaingun);
-        }
-
-        private void OnBtnDowngradeRailgunPressed()
-        {
-            RequestWeaponDowngrade(WeaponType.Railgun);
-        }
-
-        private void OnBtnDowngradeRocketLauncherPressed()
-        {
-            RequestWeaponDowngrade(WeaponType.Rocket);
-        }
-
-        private void OnBtnEnterNextRoundPressed()
-        {
+            _animationPlayer.PlayBackwards("slide_up");
+            await ToSignal(_animationPlayer, AnimationMixer.SignalName.AnimationFinished);
             GameManager.Instance.StateMachine.TransitionTo(StateType.Round);
             LevelManager.Active.InitializeLevel(GameManager.Instance.RoundIndex);
-            GameManager.Instance.SceneTree.CreateTimer(2).Timeout += LevelManager.Active.StartRound;
+            LevelManager.Active.StartRound();
         }
 
         private void OnWeaponUpgradeSucceeded(int weaponType)
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             _toastLabel.Text = "Weapon upgraded!";
             _toastLabel.Toast();
         }
 
         private void OnWeaponUpgradeFailed(int weaponType, int reason)
         {
+            MusicManager.Instance.ButtonSoundPlayer2.Play();
             switch ((WeaponUpgradeResult)reason)
             {
                 case WeaponUpgradeResult.FailedNoMoney:
