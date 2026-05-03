@@ -80,7 +80,7 @@ namespace EHE.BoltBusters
             _cooldownTimer.WaitTime = _cooldown;
             _cooldownTimer.OneShot = true;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
-            CallDeferred(MethodName.InitializeRockets);
+            //CallDeferred(MethodName.InitializeRockets);
 
             EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.ReadyToFire);
         }
@@ -139,6 +139,10 @@ namespace EHE.BoltBusters
 
         private void AddNewRocket()
         {
+            if (_rockets == null)
+            {
+                InitializeRockets();
+            }
             Rocket rocket = _rocketScene.Instantiate<Rocket>();
             LevelManager.Active.AddLevelObject(rocket);
             _rockets.Add(rocket);
