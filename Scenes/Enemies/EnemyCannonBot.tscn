@@ -377,6 +377,8 @@ shape = SubResource("CylinderShape3D_wagaa")
 script = ExtResource("4_vqqcb")
 _enemyShaderComponent = NodePath("../EnemyShaderComponent")
 _damageSoundPlayer = NodePath("../EnemyDamageSFX")
+MaxHealth = 200
+InitialHealth = 200
 metadata/_custom_type_script = "uid://b620lyqticbmf"
 
 [node name="EnemyShaderComponent" type="Node" parent="." node_paths=PackedStringArray("_meshes")]

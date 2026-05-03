@@ -418,8 +418,8 @@ metadata/_custom_type_script = "uid://dn3xdtkt00s1k"
 script = ExtResource("3_58rly")
 _enemyShaderComponent = NodePath("../EnemyShaderComponent")
 _damageSoundPlayer = NodePath("../EnemyDamageSFX")
-MaxHealth = 300
-InitialHealth = 300
+MaxHealth = 400
+InitialHealth = 400
 metadata/_custom_type_script = "uid://b620lyqticbmf"
 
 [node name="EnemyDamageSFX" type="AudioStreamPlayer3D" parent="."]

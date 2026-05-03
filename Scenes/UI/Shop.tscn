@@ -6,6 +6,21 @@
 [ext_resource type="Texture2D" uid="uid://dkbncpmbr6fb0" path="res://Assets/Sprites/UI/UIBolt.png" id="4_tgufs"]
 [ext_resource type="Texture2D" uid="uid://dk2uohofm0ug3" path="res://Assets/Sprites/UI/UIWrench.png" id="5_1wyn2"]
 
+[sub_resource type="Animation" id="Animation_tgufs"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CenterContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 450)]
+}
+
 [sub_resource type="Animation" id="Animation_klb40"]
 resource_name = "slide_up"
 length = 0.5
@@ -21,21 +36,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(0.2414839, 3.7321312),
 "update": 0,
 "values": [Vector2(0, 450), Vector2(0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_tgufs"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CenterContainer:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 450)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1wyn2"]
@@ -146,7 +146,7 @@ expand_mode = 2
 
 [node name="Label" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/ChaingunPrice"]
 layout_mode = 2
-text = " x 2"
+text = " x 10"
 
 [node name="RailgunPrice" type="HBoxContainer" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -159,7 +159,7 @@ expand_mode = 2
 
 [node name="Label" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/RailgunPrice"]
 layout_mode = 2
-text = " x 2"
+text = " x 10"
 
 [node name="MissilePrice" type="HBoxContainer" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -172,7 +172,7 @@ expand_mode = 2
 
 [node name="Label" type="Label" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer/MissilePrice"]
 layout_mode = 2
-text = " x 2"
+text = " x 10"
 
 [node name="ChaingunPrimaryButton" type="Button" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(140, 0)
