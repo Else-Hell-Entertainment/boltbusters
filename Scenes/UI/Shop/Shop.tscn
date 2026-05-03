@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://drbsvkr0eau6k" path="res://Assets/UI/Shop/IconCollectibleBolt.tres" id="5_cxd3k"]
 [ext_resource type="Texture2D" uid="uid://5d60ltaxg7i5" path="res://Assets/UI/Shop/IconUpgradeSecondaryRailgun.tres" id="5_m4eil"]
 [ext_resource type="Texture2D" uid="uid://bayqwli2bg5s2" path="res://Assets/UI/Shop/IconUpgradePrimaryRocket.tres" id="6_m4eil"]
-[ext_resource type="Texture2D" uid="uid://chhfqh77yutqd" path="res://Assets/UI/Shop/IconUpgradeSecondaryRocket.tres" id="7_3tygk"]
+[ext_resource type="Texture2D" uid="uid://bayqwli2bg5s2" path="res://Assets/UI/Shop/IconUpgradeSecondaryRocket.tres" id="7_3tygk"]
 [ext_resource type="Texture2D" uid="uid://b5qkj6nelw7g0" path="res://Assets/UI/Shop/IconCollectibleWrench.tres" id="8_yrk82"]
 
 [sub_resource type="Animation" id="Animation_tgufs"]
@@ -117,6 +117,7 @@ theme_override_constants/separation = 20
 [node name="ChaingunUpgrade" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_vbx4c")]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+_weaponType = 1
 
 [node name="WeaponName" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ChaingunUpgrade" index="0"]
 theme_type_variation = &"HeaderSmall"
@@ -124,6 +125,7 @@ theme_type_variation = &"HeaderSmall"
 [node name="RailgunUpgrade" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_vbx4c")]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+_weaponType = 2
 
 [node name="WeaponName" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade" index="0"]
 theme_type_variation = &"HeaderSmall"
@@ -142,6 +144,7 @@ icon = ExtResource("5_m4eil")
 [node name="RocketUpgrade" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_vbx4c")]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+_weaponType = 3
 
 [node name="WeaponName" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade" index="0"]
 theme_type_variation = &"HeaderSmall"
