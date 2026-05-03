@@ -11,10 +11,12 @@ config_version=5
 [application]
 
 config/name="Bolt Busters"
-config/version="a1.0.0"
+config/version="1.0.0"
 run/main_scene="uid://b35amjbo2hqe5"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/image="uid://c1ljmegxet2li"
+config/icon="uid://caao7ug18kma6"
+boot_splash/minimum_display_time=500
 
 [autoload]
 
