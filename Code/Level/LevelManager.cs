@@ -175,6 +175,11 @@ namespace EHE.BoltBusters
                 }
             }
 
+            if (LevelType == LevelType.Background)
+            {
+                Player.ToggleInputListening(false);
+            }
+
             // Create object root nodes.
             _enemyRoot = new Node3D();
             _projectileRoot = new Node3D();
