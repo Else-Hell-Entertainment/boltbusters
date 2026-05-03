@@ -149,6 +149,8 @@ namespace EHE.BoltBusters
         private float _audioTimer;
         private float _audioBufferTime = 0.1f;
 
+        public override int MaxSecondaryUpgradeCount => _maxCoolingUpgrades;
+
         public enum ChaingunState
         {
             None,

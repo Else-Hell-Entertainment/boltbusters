@@ -1,22 +1,23 @@
-[gd_scene load_steps=25 format=3 uid="uid://ckpuaxf2b3fcq"]
+[gd_scene load_steps=26 format=3 uid="uid://ckpuaxf2b3fcq"]
 
 [ext_resource type="Script" uid="uid://c65gxirc8hmf3" path="res://Code/UI/HUD/Hud.cs" id="1_kkyb6"]
 [ext_resource type="Script" uid="uid://sv650skqn02e" path="res://Code/UI/HUD/HealthUi.cs" id="2_grqg4"]
-[ext_resource type="Texture2D" uid="uid://dih0jyt6rj1t6" path="res://Assets/Sprites/UI/UIHealthProgressBar.png" id="4_5tobq"]
+[ext_resource type="Texture2D" uid="uid://dih0jyt6rj1t6" path="res://Assets/UI/HUD/UIHealthProgressBar.png" id="4_5tobq"]
 [ext_resource type="Script" uid="uid://cmyu4wbi217m2" path="res://Code/UI/HUD/RoundTimerUi.cs" id="5_ky4ba"]
 [ext_resource type="Script" uid="uid://ghaghpjeecs5" path="res://Code/UI/HUD/CollectibleUi.cs" id="6_4rvbt"]
 [ext_resource type="PackedScene" uid="uid://c3on2c58of0pi" path="res://Scenes/UI/HUD/CollectibleCounter.tscn" id="7_cbdv4"]
-[ext_resource type="Material" uid="uid://bqvmiaadvjvx6" path="res://Assets/Sprites/UI/NeonFlickerShaderMaterial.tres" id="9_5tobq"]
-[ext_resource type="Texture2D" uid="uid://dkbncpmbr6fb0" path="res://Assets/Sprites/UI/UIBolt.png" id="9_vjr7d"]
-[ext_resource type="Texture2D" uid="uid://dk2uohofm0ug3" path="res://Assets/Sprites/UI/UIWrench.png" id="10_1ruup"]
+[ext_resource type="Material" uid="uid://bqvmiaadvjvx6" path="res://Assets/UI/NeonFlickerShaderMaterial.tres" id="9_5tobq"]
 [ext_resource type="Script" uid="uid://dp5spw8x32s4r" path="res://Code/UI/HUD/WeaponHud/ChaingunHud.cs" id="11_m5lnj"]
-[ext_resource type="Texture2D" uid="uid://cfsfx0mtt8w72" path="res://Assets/Sprites/UI/UIOverheat.png" id="12_il6j8"]
-[ext_resource type="Texture2D" uid="uid://br1cj33i3rl2u" path="res://Assets/Sprites/UI/UIHealthBarLeft.png" id="13_ky4ba"]
-[ext_resource type="Texture2D" uid="uid://cqf7m0whlt4j2" path="res://Assets/Sprites/UI/OverheatProgressTexture.png" id="13_ts4jb"]
+[ext_resource type="Texture2D" uid="uid://cfsfx0mtt8w72" path="res://Assets/UI/HUD/UIOverheat.png" id="12_il6j8"]
+[ext_resource type="Texture2D" uid="uid://cpyin0dx2gxlt" path="res://Assets/UI/HUD/HUDCollectibleNut.tres" id="12_ky4ba"]
+[ext_resource type="Texture2D" uid="uid://u5cwsjqxu8ac" path="res://Assets/UI/HUD/HUDCollectibleBolt.tres" id="13_4rvbt"]
+[ext_resource type="Texture2D" uid="uid://br1cj33i3rl2u" path="res://Assets/UI/HUD/UIHealthBarLeft.png" id="13_ky4ba"]
+[ext_resource type="Texture2D" uid="uid://cqf7m0whlt4j2" path="res://Assets/UI/HUD/OverheatProgressTexture.png" id="13_ts4jb"]
 [ext_resource type="Script" uid="uid://crgxjraru158m" path="res://Code/UI/HUD/WeaponHud/RailgunHud.cs" id="14_kd0qi"]
-[ext_resource type="Texture2D" uid="uid://b0gqbpsrsosyh" path="res://Assets/Sprites/UI/UIRailgun.png" id="15_0hsig"]
+[ext_resource type="Texture2D" uid="uid://bfkm85kymsolv" path="res://Assets/UI/HUD/HUDCollectibleWrench.tres" id="14_ky4ba"]
+[ext_resource type="Texture2D" uid="uid://b0gqbpsrsosyh" path="res://Assets/UI/HUD/UIRailgun.png" id="15_0hsig"]
 [ext_resource type="Script" uid="uid://cw8ha2ktfq4by" path="res://Code/UI/HUD/WeaponHud/RocketHud.cs" id="16_kum8b"]
-[ext_resource type="Texture2D" uid="uid://bvfxddngkgif2" path="res://Assets/Sprites/UI/UIRocket.png" id="17_3ggfo"]
+[ext_resource type="Texture2D" uid="uid://bvfxddngkgif2" path="res://Assets/UI/HUD/UIRocket.png" id="17_3ggfo"]
 [ext_resource type="Script" uid="uid://dw8ylpk6dsfmx" path="res://Code/UI/HUD/RoundIndexUi.cs" id="18_4rvbt"]
 [ext_resource type="PackedScene" uid="uid://7ynajsbwgymr" path="res://Scenes/UI/HUD/FloatingUi.tscn" id="18_grqg4"]
 [ext_resource type="FontFile" uid="uid://2w6q3amuekb6" path="res://ThirdParty/Assets/Fonts/AlarmClock/alarm clock.ttf" id="19_cbdv4"]
@@ -348,19 +349,22 @@ script = ExtResource("6_4rvbt")
 layout_mode = 2
 CollectibleType = 1
 
+[node name="Icon" parent="CollectibleUi/NutCounter" index="0"]
+texture = ExtResource("12_ky4ba")
+
 [node name="BoltCounter" parent="CollectibleUi" instance=ExtResource("7_cbdv4")]
 layout_mode = 2
 CollectibleType = 2
 
 [node name="Icon" parent="CollectibleUi/BoltCounter" index="0"]
-texture = ExtResource("9_vjr7d")
+texture = ExtResource("13_4rvbt")
 
 [node name="WrenchCounter" parent="CollectibleUi" instance=ExtResource("7_cbdv4")]
 layout_mode = 2
 CollectibleType = 3
 
 [node name="Icon" parent="CollectibleUi/WrenchCounter" index="0"]
-texture = ExtResource("10_1ruup")
+texture = ExtResource("14_ky4ba")
 
 [node name="ChaingunUi" type="BoxContainer" parent="." node_paths=PackedStringArray("_progressBar")]
 layout_mode = 1
