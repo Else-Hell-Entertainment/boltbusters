@@ -1,12 +1,24 @@
-[gd_scene load_steps=39 format=4 uid="uid://cfcvy3x00knug"]
+[gd_scene load_steps=41 format=4 uid="uid://cfcvy3x00knug"]
 
 [ext_resource type="Script" uid="uid://164vao156e32" path="res://Code/Objects/Player/Weapons/PlayerRailgunController.cs" id="1_my7ni"]
-[ext_resource type="PackedScene" uid="uid://dj0xgg1j51b1b" path="res://Assets/VFX/RailgunSparkEffect.tscn" id="2_pq4sq"]
 [ext_resource type="Material" uid="uid://u5hd3nb2o86u" path="res://Assets/VFX/Materials/ChargeEffectMaterial.tres" id="2_tjti4"]
 [ext_resource type="PackedScene" uid="uid://bta8cuhn6twxu" path="res://Scenes/Player/Weapons/Railgun.tscn" id="3_0euta"]
+[ext_resource type="Script" uid="uid://cwjigbn7c1w4e" path="res://Code/CustomTypes/PriceInfo.cs" id="4_d4tbh"]
 [ext_resource type="AudioStream" uid="uid://d1dbgtu0eyym8" path="res://Assets/SFX/RailgunShoot.ogg" id="5_0euta"]
 [ext_resource type="Shader" uid="uid://b2nwseojfukcj" path="res://Assets/Shaders/Turbulence.gdshader" id="6_5wg3p"]
 [ext_resource type="AudioStream" uid="uid://csedsihitcjm0" path="res://Assets/SFX/RailgunCharge1.ogg" id="7_gkl2d"]
+
+[sub_resource type="Resource" id="Resource_d4tbh"]
+script = ExtResource("4_d4tbh")
+RequiredItem = 2
+RequiredAmount = 2
+metadata/_custom_type_script = "uid://cwjigbn7c1w4e"
+
+[sub_resource type="Resource" id="Resource_duau7"]
+script = ExtResource("4_d4tbh")
+RequiredItem = 2
+RequiredAmount = 2
+metadata/_custom_type_script = "uid://cwjigbn7c1w4e"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_my7ni"]
 height = 100.0
@@ -401,10 +413,13 @@ _chargeEmissionModifier = 15.0
 _chargeBeamBaseRadius = 0.1
 _chargeBeamWidthModifier = 0.3
 _animationPlayer = NodePath("AnimationPlayer")
-_railgunSparkEffect = ExtResource("2_pq4sq")
 _shootingSound = NodePath("RailgunShootingSound")
 _chargingSound = NodePath("RailgunChargeSound")
 _weaponScene = ExtResource("3_0euta")
+Prices = Dictionary[int, Object]({
+1: SubResource("Resource_d4tbh"),
+2: SubResource("Resource_duau7")
+})
 
 [node name="WeaponSlots" type="Node3D" parent="."]
 
@@ -427,6 +442,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0046524405, 0, 0)
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -1, -50)
 shape = SubResource("CapsuleShape3D_my7ni")
 target_position = Vector3(0, 0, -1)
+collision_mask = 50
 
 [node name="LaserSight" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -1.0912449)
@@ -497,3 +513,4 @@ bus = &"Sfx"
 stream = ExtResource("7_gkl2d")
 volume_db = -12.0
 max_db = -6.0
+bus = &"Sfx"

@@ -1,12 +1,25 @@
-[gd_scene load_steps=10 format=3 uid="uid://b4w446hov1iq4"]
+[gd_scene load_steps=13 format=3 uid="uid://b4w446hov1iq4"]
 
 [ext_resource type="Script" uid="uid://csfsxcmayp2td" path="res://Code/Objects/Player/Weapons/PlayerRocketLauncherController.cs" id="1_qfr55"]
 [ext_resource type="PackedScene" uid="uid://bweyw22j1yyt8" path="res://Scenes/Player/Weapons/RocketLauncher.tscn" id="2_qfr55"]
+[ext_resource type="Script" uid="uid://cwjigbn7c1w4e" path="res://Code/CustomTypes/PriceInfo.cs" id="3_22532"]
 [ext_resource type="Texture2D" uid="uid://ceqe6b24k56lo" path="res://Assets/Sprites/BombSight.png" id="3_qfr55"]
 [ext_resource type="PackedScene" uid="uid://cik5ei25kqkvv" path="res://Assets/Models/Weapons/PlayerRocketR1.glb" id="4_i3bw6"]
 [ext_resource type="PackedScene" uid="uid://drtgc53ebour2" path="res://Assets/Models/Weapons/PlayerRocketL1.glb" id="4_wnb2b"]
 [ext_resource type="PackedScene" uid="uid://72jsxf4j3unv" path="res://Assets/Models/Weapons/PlayerRocketL2.glb" id="5_22532"]
 [ext_resource type="PackedScene" uid="uid://cks5t587g6hld" path="res://Assets/Models/Weapons/PlayerRocketR2.glb" id="6_mbktp"]
+
+[sub_resource type="Resource" id="Resource_22532"]
+script = ExtResource("3_22532")
+RequiredItem = 3
+RequiredAmount = 2
+metadata/_custom_type_script = "uid://cwjigbn7c1w4e"
+
+[sub_resource type="Resource" id="Resource_mbktp"]
+script = ExtResource("3_22532")
+RequiredItem = 3
+RequiredAmount = 2
+metadata/_custom_type_script = "uid://cwjigbn7c1w4e"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wnb2b"]
 albedo_color = Color(0.16862746, 0.4, 0.21960784, 1)
@@ -22,6 +35,10 @@ height = 0.2
 [node name="RocketLauncherController" type="Node3D"]
 script = ExtResource("1_qfr55")
 _weaponScene = ExtResource("2_qfr55")
+Prices = Dictionary[int, Object]({
+1: SubResource("Resource_22532"),
+2: SubResource("Resource_mbktp")
+})
 
 [node name="WeaponSlots" type="Node3D" parent="."]
 

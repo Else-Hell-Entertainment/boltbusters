@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://c4h2yy8w0gt3l"]
+[gd_scene load_steps=31 format=4 uid="uid://c4h2yy8w0gt3l"]
 
 [ext_resource type="Script" uid="uid://d1dql4pbawoly" path="res://Code/Objects/Player/Player.cs" id="1_4wape"]
 [ext_resource type="PackedScene" uid="uid://4x3awqn6r5eh" path="res://Scenes/Player/Weapons/ChaingunController.tscn" id="2_0u5uq"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cbgtfntk84sv1" path="res://Code/Objects/Player/PlayerController.cs" id="5_gk6dx"]
 [ext_resource type="PackedScene" uid="uid://cfcvy3x00knug" path="res://Scenes/Player/Weapons/RailgunController.tscn" id="6_gk6dx"]
 [ext_resource type="Script" uid="uid://d2knauna4hn3f" path="res://Code/Objects/Player/PlayerHealthComponent.cs" id="7_0u5uq"]
+[ext_resource type="PackedScene" uid="uid://b5f4sa0o0o0xk" path="res://Scenes/UI/CrosshairSimple.tscn" id="8_06tpx"]
 [ext_resource type="Script" uid="uid://ijwkg2xovq7l" path="res://Code/CollectArea.cs" id="8_jlvik"]
 [ext_resource type="Script" uid="uid://15bogyux3w3m" path="res://Code/Components/PlayerShaderComponent.cs" id="10_74mp2"]
 [ext_resource type="Resource" uid="uid://cwashgb0tg3w3" path="res://Assets/Shaders/PlayerShaderPreset.tres" id="11_oikmp"]
@@ -49,7 +50,6 @@ _surfaces = [{
 "vertex_count": 47,
 "vertex_data": PackedByteArray("mOlbjwAAAAD/f8zMAAAAAJjpzMwAAAAAmOnMzP//AAD//1uPAAAAAP//MrMAAAAA////////AAD//1uP//8AAJjpW4///wAA///MTP//AAD//8xMAAAAAJjpMzMAAAAAmOkzM///AAD/f8zM//8AAP9/epT//wAA/396lAAAAADMVMzMAAAAAGYWW48AAAAAZlbMzFGGAABmTszMmp8AAGZOzMz//wAAZibMzP//AABmFluP//8AAGYWzMz//wAAzCTMzF7CAABmFszM3JoAAMwEUbh3OgAAZhYzMwAAAAAAAP////8AAAAAMrMAAAAAAABbj///AAAAAFuPAAAAAGYWMzP//wAAAADMTP//AAAAAMxMAAAAAP9fZWbq8QAA/58AAOrxAAD/XwAA6vEAAP+fZWbq8QAA/19lZv+/AAD/n2Vm/78AAP9fAAAUDgAA/59mZhQOAAD/X2ZmFA4AAP+fAAAUDgAA/59mZv8/AAD/X2Zm/z8AAA==")
 }]
-blend_shape_mode = 0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_b3bgk"]
 resource_name = "PlayerRev3_Cube_013"
@@ -300,13 +300,14 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_nv43w")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jlvik"]
-radius = 0.72753906
+radius = 0.72
 height = 2.4870558
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_jlvik"]
 radius = 1.5
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_playerController", "_healthComponent")]
+collision_mask = 178
 axis_lock_linear_y = true
 script = ExtResource("1_4wape")
 _playerController = NodePath("PlayerController")
@@ -363,21 +364,29 @@ _range = 9.0
 
 [node name="RocketLauncherController" parent="Turret" instance=ExtResource("3_jlvik")]
 
+[node name="MeshInstance3D" parent="Turret/RocketLauncherController" index="1"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.5, 0)
+
 [node name="RailgunController" parent="Turret" instance=ExtResource("6_gk6dx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.014, 1.4, 0.052)
+
+[node name="Crosshair" parent="Turret" instance=ExtResource("8_06tpx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+visible = false
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1967016, 0)
 shape = SubResource("CapsuleShape3D_jlvik")
 
-[node name="PlayerHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_playerShaderComponent", "_playerDamageSoundPlayer")]
+[node name="PlayerHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_playerShaderComponent", "_damageSoundPlayer")]
 script = ExtResource("7_0u5uq")
 _playerShaderComponent = NodePath("../PlayerShaderComponent")
-_playerDamageSoundPlayer = NodePath("../PlayerHurtSFX")
+_damageSoundPlayer = NodePath("../PlayerHurtSFX")
 metadata/_custom_type_script = "uid://d2knauna4hn3f"
 
 [node name="CollectArea" type="Area3D" parent="."]
-collision_mask = 5
+collision_layer = 0
+collision_mask = 4
 script = ExtResource("8_jlvik")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CollectArea"]

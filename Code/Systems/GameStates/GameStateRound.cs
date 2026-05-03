@@ -9,7 +9,7 @@ namespace EHE.BoltBusters.States
     public class GameStateRound : GameState
     {
         public override StateType StateType => StateType.Round;
-        public override StringName ScenePath => "res://Scenes/UI/HUD.tscn";
+        public override StringName ScenePath => "res://Scenes/UI/HUD/HUD.tscn";
 
         public GameStateRound()
         {

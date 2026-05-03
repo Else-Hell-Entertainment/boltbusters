@@ -2,7 +2,9 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using System;
 using EHE.Common.Godot;
+using EHE.Common.Godot.Logging;
 using Godot;
 using Godot.Collections;
 
@@ -42,6 +44,7 @@ namespace EHE.BoltBusters
         private const string KEY_WEAPON_COUNTS = "WeaponCounts";
         private const string KEY_LEVEL_INDEX = "LevelIndex";
         private const string KEY_START_FROM_SHOP = "StartFromShop";
+        private const string KEY_SECONDARY_UPGRADE_COUNTS = "SecondaryUpgradeCounts";
         private const string LOAD_ERROR_FORMAT = "Failed to load '{0}' from save data; using default value of '{1}'.";
 
         #endregion Constants
@@ -58,6 +61,17 @@ namespace EHE.BoltBusters
         /// </param>
         [Signal]
         public delegate void HealthChangedEventHandler(int newHealth);
+
+        /// <summary>
+        ///  Emitted when the <see cref="LevelIndex"/> property
+        ///  changes.
+        /// </summary>
+        ///
+        /// <param name="newLevelIndex">
+        ///  The new value of <see cref="LevelIndex"/>.
+        /// </param>
+        [Signal]
+        public delegate void LevelIndexChangedEventHandler(int newLevelIndex);
 
         /// <summary>
         ///  Emitted when the number of collected items changes.
@@ -92,6 +106,19 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void WeaponCountChangedEventHandler(int weaponType, int newCount);
 
+        /// <summary>
+        ///  Emitted when the number of secondary upgrades changes.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  The type of affected weapon as an integer.
+        /// </param>
+        /// <param name="newCount">
+        ///  The new number of secondary upgrades.
+        /// </param>
+        [Signal]
+        public delegate void SecondaryUpgradeCountChangedEventHandler(int weaponType, int newCount);
+
         #endregion Signals
 
 
@@ -112,6 +139,12 @@ namespace EHE.BoltBusters
         private static Dictionary<WeaponType, int> s_defaultWeaponCounts = new()
         {
             { WeaponType.Chaingun, 1 },
+            { WeaponType.Railgun, 0 },
+            { WeaponType.Rocket, 0 },
+        };
+        private static Dictionary<WeaponType, int> s_defaultSecondaryUpgradeCounts = new()
+        {
+            { WeaponType.Chaingun, 0 },
             { WeaponType.Railgun, 0 },
             { WeaponType.Rocket, 0 },
         };
@@ -136,6 +169,14 @@ namespace EHE.BoltBusters
         private Dictionary<WeaponType, int> _weaponCounts = new()
         {
             { WeaponType.Chaingun, 1 },
+            { WeaponType.Railgun, 0 },
+            { WeaponType.Rocket, 0 },
+        };
+
+        [Export]
+        private Dictionary<WeaponType, int> _secondaryUpgradeCounts = new()
+        {
+            { WeaponType.Chaingun, 0 },
             { WeaponType.Railgun, 0 },
             { WeaponType.Rocket, 0 },
         };
@@ -200,7 +241,11 @@ namespace EHE.BoltBusters
         public int LevelIndex
         {
             get => _levelIndex;
-            set => _levelIndex = Mathf.Clamp(value, min: 1, max: int.MaxValue);
+            set
+            {
+                _levelIndex = Mathf.Clamp(value, min: 1, max: int.MaxValue);
+                EmitSignal(SignalName.LevelIndexChanged, _levelIndex);
+            }
         }
 
         /// <summary>
@@ -220,7 +265,6 @@ namespace EHE.BoltBusters
 
 
         #region Public Methods
-
 
         /// <summary>
         ///  <para>
@@ -256,8 +300,10 @@ namespace EHE.BoltBusters
             s_defaultStartFromShop = defaultPlayerData.StartFromShop;
             s_defaultCollectibleCounts = defaultPlayerData._collectibleCounts;
             s_defaultWeaponCounts = defaultPlayerData._weaponCounts;
+            s_defaultSecondaryUpgradeCounts = defaultPlayerData._secondaryUpgradeCounts;
         }
 
+        // MARK: Collectible counts.
         /// <summary>
         ///  Returns all collectible counts as a dictionary where
         ///  <see cref="CollectibleType"/>s are the keys and the amounts are
@@ -304,7 +350,7 @@ namespace EHE.BoltBusters
         {
             if (!_collectibleCounts.TryGetValue(collectibleType, out var amount))
             {
-                GD.PushError($"Key not found '{collectibleType}'");
+                this.LogError($"Key not found '{collectibleType}'");
                 return -1;
             }
 
@@ -397,13 +443,14 @@ namespace EHE.BoltBusters
             // Invalid collectible type.
             if (current < 0)
             {
+                this.LogError($"Cannot increase collectible count: invalid collectible type '{collectibleType}'!");
                 return false;
             }
 
             // Invalid increment.
             if (increment < 0)
             {
-                GD.PushError($"Cannot increase collectible count by a negative value ({increment}).");
+                this.LogError($"Cannot increase collectible count: increment cannot be negative!");
                 return false;
             }
 
@@ -442,19 +489,21 @@ namespace EHE.BoltBusters
             // Invalid collectible type.
             if (current < 0)
             {
+                this.LogError($"Cannot decrease collectible count: invalid collectible type '{collectibleType}'!");
                 return false;
             }
 
             // Invalid decrement.
             if (decrement < 0)
             {
-                GD.PushError($"Cannot decrease collectible count by a negative value ({decrement}).");
+                this.LogError($"Cannot decrease collectible count: decrement cannot be negative!");
                 return false;
             }
 
             return SetCollectibleCount(collectibleType, amount: current - decrement);
         }
 
+        // MARK: Primary weapon upgrades (weapon counts).
         /// <summary>
         ///  Returns all weapon counts as a dictionary where
         ///  <see cref="WeaponType"/>s are the keys and the number of weapons
@@ -494,7 +543,7 @@ namespace EHE.BoltBusters
         {
             if (!_weaponCounts.TryGetValue(weaponType, out var amount))
             {
-                GD.PushError($"Key not found '{weaponType}'");
+                this.LogError($"Key not found '{weaponType}'");
                 return -1;
             }
 
@@ -538,13 +587,13 @@ namespace EHE.BoltBusters
         {
             if (!_weaponCounts.ContainsKey(weaponType))
             {
-                GD.PushError($"Cannot set weapon count: key '{weaponType}' not found!");
+                this.LogError($"Cannot set weapon count: key '{weaponType}' not found!");
                 return false;
             }
 
             if (count < 0)
             {
-                GD.PushError("Cannot set weapon count: count cannot be negative!");
+                this.LogError("Cannot set weapon count: count cannot be negative!");
                 return false;
             }
 
@@ -592,7 +641,7 @@ namespace EHE.BoltBusters
             // Invalid increment.
             if (increment < 0)
             {
-                GD.PrintErr($"Cannot increase weapon count by a negative value ({increment}).");
+                this.LogError($"Cannot increase weapon count by a negative value ({increment}).");
                 return false;
             }
 
@@ -637,11 +686,175 @@ namespace EHE.BoltBusters
             // Invalid decrement.
             if (decrement < 0)
             {
-                GD.PrintErr($"Cannot decrease weapon count by a negative value ({decrement}).");
+                this.LogError($"Cannot decrease weapon count by a negative value ({decrement}).");
                 return false;
             }
 
             return SetWeaponCount(weaponType, count: current - decrement);
+        }
+
+        // MARK: Secondary weapon upgrades.
+        /// <summary>
+        ///  Returns all secondary weapon upgrade counts as a dictionary where
+        ///  <see cref="WeaponType"/>s are the keys and the number count of
+        ///  upgrades are the values.
+        /// </summary>
+        ///
+        /// <returns>
+        ///  A duplicate of the internal secondary upgrade counts dictionary.
+        ///  As the returned dictionary is a copy, modifications will NOT
+        ///  affect the state of the internal state. Use
+        ///  <see cref="SetSecondaryUpgradeCount"/>,
+        ///  <see cref="IncreaseSecondaryUpgradeCount"/>, and
+        ///  <see cref="DecreaseSecondaryUpgradeCount"/> to modify the values.
+        /// </returns>
+        public Dictionary<WeaponType, int> GetSecondaryUpgradeCounts()
+        {
+            return _secondaryUpgradeCounts.Duplicate();
+        }
+
+        /// <summary>
+        ///  Gets the current count of secondary upgrades purchased for the
+        ///  specified weapon.
+        /// </summary>
+        ///
+        /// <param name="weaponType">
+        ///  Type of the weapon to query.
+        /// </param>
+        ///
+        /// <returns>
+        ///  The number of secondary upgrades purchased or <c>-1</c> if the
+        ///  given weapon type is invalid.
+        /// </returns>
+        ///
+        /// <seealso cref="GetSecondaryUpgradeCounts"/>
+        /// <seealso cref="SetSecondaryUpgradeCount"/>
+        /// <seealso cref="IncreaseSecondaryUpgradeCount"/>
+        /// <seealso cref="DecreaseSecondaryUpgradeCount"/>
+        public int GetSecondaryUpgradeCount(WeaponType weaponType)
+        {
+            if (_secondaryUpgradeCounts.TryGetValue(weaponType, out var count))
+            {
+                return count;
+            }
+
+            this.LogError($"Cannot get secondary upgrade count: key '{weaponType}' not found!");
+            return -1;
+        }
+
+        /// <summary>
+        ///  Sets the number of secondary upgrades for the given weapon.
+        /// </summary>
+        ///
+        /// <param name="weaponType">Type of the weapon affected.</param>
+        /// <param name="count">The new count of secondary upgrades.</param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if the value was set successfully,
+        ///  <c>false</c> if the weapon type is invalid or if the count
+        ///  provided is negative.
+        /// </returns>
+        ///
+        /// <remarks>
+        ///  <para>
+        ///   This method emits the <see cref="SecondaryUpgradeCountChanged"/>
+        ///   signal when the value has been set successfully.
+        ///  </para>
+        ///  <para>
+        ///   The value is clamped between 0 and <see cref="int.MaxValue"/>.
+        ///   This does NOT reflect the actual maximum allowed count set by the
+        ///   weapon controller itself. See the code for the controllers to
+        ///   find out the actual maximums.
+        ///  </para>
+        /// </remarks>
+        public bool SetSecondaryUpgradeCount(WeaponType weaponType, int count)
+        {
+            if (!_secondaryUpgradeCounts.ContainsKey(weaponType))
+            {
+                this.LogError($"Cannot set secondary upgrade count: key '{weaponType}' not found!");
+                return false;
+            }
+
+            if (count < 0)
+            {
+                this.LogError("Cannot set secondary upgrade count: count cannot be negative!");
+                return false;
+            }
+
+            // TODO: The max secondary count should be queried from the weapon controller!
+            _secondaryUpgradeCounts[weaponType] = Mathf.Clamp(count, min: 0, max: int.MaxValue);
+            EmitSignal(SignalName.SecondaryUpgradeCountChanged, (int)weaponType, count);
+            return true;
+        }
+
+        /// <summary>
+        ///  Increases the number of secondary upgrades for the given weapon
+        ///  type. If no increment is specified, 1 is used by default.
+        /// </summary>
+        ///
+        /// <param name="weaponType">The type of the affected weapon.</param>
+        /// <param name="increment">
+        ///  How many secondary upgrades should be added.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if the value is successfully increased,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        public bool IncreaseSecondaryUpgradeCount(WeaponType weaponType, int increment = 1)
+        {
+            var current = GetSecondaryUpgradeCount(weaponType);
+
+            // Weapon type not found.
+            if (current < 0)
+            {
+                this.LogError($"Cannot increase secondary upgrade count: key not found '{weaponType}'!");
+                return false;
+            }
+
+            // Invalid increment.
+            if (increment < 0)
+            {
+                this.LogError($"Cannot increase secondary upgrade count: increment cannot be negative!");
+                return false;
+            }
+
+            return SetWeaponCount(weaponType, count: current + increment);
+        }
+
+        /// <summary>
+        ///  Decreases the number of secondary upgrades for the given weapon
+        ///  type. If no decrement is specified, 1 is used by default.
+        /// </summary>
+        ///
+        /// <param name="weaponType">The type of the affected weapon.</param>
+        /// <param name="decrement">
+        ///  How many secondary upgrades should be removed.
+        /// </param>
+        ///
+        /// <returns>
+        ///  <c>true</c> if the value is successfully decreased,
+        ///  <c>false</c> otherwise.
+        /// </returns>
+        public bool DecreaseSecondaryUpgradeCount(WeaponType weaponType, int decrement = 1)
+        {
+            var current = GetSecondaryUpgradeCount(weaponType);
+
+            // Weapon type not found.
+            if (current < 0)
+            {
+                this.LogError($"Cannot decrease secondary upgrade count: key not found '{weaponType}'!");
+                return false;
+            }
+
+            // Invalid decrement.
+            if (decrement < 0)
+            {
+                this.LogError($"Cannot decrease secondary upgrade count: decrement cannot be negative!");
+                return false;
+            }
+
+            return SetSecondaryUpgradeCount(weaponType, count: current - decrement);
         }
 
         #endregion Public Methods
@@ -680,6 +893,7 @@ namespace EHE.BoltBusters
                 [KEY_START_FROM_SHOP] = StartFromShop,
                 [KEY_COLLECTIBLE_COUNTS] = _collectibleCounts,
                 [KEY_WEAPON_COUNTS] = _weaponCounts,
+                [KEY_SECONDARY_UPGRADE_COUNTS] = _secondaryUpgradeCounts,
             };
         }
 
@@ -697,6 +911,12 @@ namespace EHE.BoltBusters
         ///
         /// <remarks>
         ///  <para>
+        ///   This method will reset all the values to their defaults first
+        ///   before loading new values in. This should prevent old data
+        ///   getting mixed up with new data since not all values are saved to
+        ///   disk.
+        ///  </para>
+        ///  <para>
         ///   If any required data is missing or invalid, this method will use
         ///   default values and log an error message via
         ///   <see cref="Godot.GD.PushError(string)"/>.
@@ -711,16 +931,31 @@ namespace EHE.BoltBusters
         /// <seealso cref="ISaveable"/>
         public void Load(Dictionary data)
         {
+            Reset();
             LoadLevelIndex(data);
             LoadLevelClearedFlag(data);
             LoadCollectibleCounts(data);
             LoadWeaponCounts(data);
+            LoadSecondaryUpgradeCounts(data);
         }
 
         #endregion ISaveable
 
 
         #region Private Load Helpers
+
+        /// <summary>
+        ///  Resets all values to their defaults.
+        /// </summary>
+        private void Reset()
+        {
+            Health = s_defaultHealth;
+            LevelIndex = s_defaultLevelIndex;
+            StartFromShop = s_defaultStartFromShop;
+            _collectibleCounts = s_defaultCollectibleCounts.Duplicate();
+            _weaponCounts = s_defaultWeaponCounts.Duplicate();
+            _secondaryUpgradeCounts = s_defaultSecondaryUpgradeCounts.Duplicate();
+        }
 
         /// <summary>
         ///  Attempts to load the level index from save data with validation.
@@ -747,7 +982,7 @@ namespace EHE.BoltBusters
             )
             {
                 LevelIndex = s_defaultLevelIndex;
-                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_LEVEL_INDEX, LevelIndex));
+                this.LogError(string.Format(LOAD_ERROR_FORMAT, KEY_LEVEL_INDEX, LevelIndex));
             }
             else
             {
@@ -779,7 +1014,7 @@ namespace EHE.BoltBusters
             )
             {
                 StartFromShop = s_defaultStartFromShop;
-                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_START_FROM_SHOP, StartFromShop));
+                this.LogError(string.Format(LOAD_ERROR_FORMAT, KEY_START_FROM_SHOP, StartFromShop));
             }
             else
             {
@@ -813,7 +1048,7 @@ namespace EHE.BoltBusters
             )
             {
                 _collectibleCounts = s_defaultCollectibleCounts.Duplicate();
-                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_COLLECTIBLE_COUNTS, _collectibleCounts.Values));
+                this.LogError(string.Format(LOAD_ERROR_FORMAT, KEY_COLLECTIBLE_COUNTS, _collectibleCounts.Values));
             }
             else
             {
@@ -850,13 +1085,53 @@ namespace EHE.BoltBusters
             )
             {
                 _weaponCounts = s_defaultWeaponCounts.Duplicate();
-                GD.PushError(string.Format(LOAD_ERROR_FORMAT, KEY_WEAPON_COUNTS, _weaponCounts.Values));
+                this.LogError(string.Format(LOAD_ERROR_FORMAT, KEY_WEAPON_COUNTS, _weaponCounts.Values));
             }
             else
             {
                 foreach (var (type, count) in (Dictionary)weaponCounts)
                 {
                     SetWeaponCount((WeaponType)(int)type, (int)count);
+                }
+            }
+        }
+
+        /// <summary>
+        ///  Attempts to load secondary upgrade counts from save data with
+        ///  validation.
+        /// </summary>
+        ///
+        /// <param name="data">
+        ///  The save data dictionary containing serialized player information.
+        /// </param>
+        ///
+        /// <remarks>
+        ///  If the secondary upgrade counts dictionary is missing or invalid,
+        ///  this method will reset to default values and log an error message.
+        ///  Each entry is expected to have a <see cref="WeaponType"/> key and
+        ///  an integer count value.
+        /// </remarks>
+        ///
+        /// <seealso cref="GetSecondaryUpgradeCounts"/>
+        /// <seealso cref="WeaponType"/>
+        private void LoadSecondaryUpgradeCounts(Dictionary data)
+        {
+            if (
+                !data.TryGetValue(KEY_SECONDARY_UPGRADE_COUNTS, out var secondaryUpgradeCounts)
+                || secondaryUpgradeCounts.VariantType != Variant.Type.Dictionary
+                || ((Dictionary)secondaryUpgradeCounts).Count != s_defaultSecondaryUpgradeCounts.Count
+            )
+            {
+                _secondaryUpgradeCounts = s_defaultSecondaryUpgradeCounts.Duplicate();
+                this.LogError(
+                    string.Format(LOAD_ERROR_FORMAT, KEY_SECONDARY_UPGRADE_COUNTS, _secondaryUpgradeCounts.Values)
+                );
+            }
+            else
+            {
+                foreach (var (type, count) in (Dictionary)secondaryUpgradeCounts)
+                {
+                    SetSecondaryUpgradeCount((WeaponType)(int)type, (int)count);
                 }
             }
         }

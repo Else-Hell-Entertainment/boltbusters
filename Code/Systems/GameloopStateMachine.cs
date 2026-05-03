@@ -25,8 +25,20 @@ namespace EHE.BoltBusters.Systems
     ///  </para>
     /// </summary>
     /// <seealso cref="GameState"/>
-    public class GameloopStateMachine
+    public class GameloopStateMachine : IDisposable
     {
+        /// <summary>
+        ///  Handles the <see cref="StateChanged"/> event.
+        /// </summary>
+        /// <param name="stateType">The type of the new state.</param>
+        public delegate void StateChangedEventHandler(StateType stateType);
+
+        /// <summary>
+        ///  Invoked when the game state changes.
+        /// </summary>
+        /// <seealso cref="StateChangedEventHandler"/>
+        public event StateChangedEventHandler StateChanged;
+
         // Created based on pseudocode implementation by M365 Copilot and
         // working implementation by Sami Kojo.
 
@@ -147,6 +159,10 @@ namespace EHE.BoltBusters.Systems
                 // TODO: Make sure this works when more state have custom logic or audio calls are added!
                 foreach (var state in _stateHistory)
                 {
+                    if (state == nextState)
+                    {
+                        break;
+                    }
                     state.Exit();
                 }
                 _stateHistory.Clear();
@@ -155,6 +171,8 @@ namespace EHE.BoltBusters.Systems
             // Add next state to state history and enter the state.
             _stateHistory.Push(nextState);
             nextState.Enter(forceLoad);
+
+            StateChanged?.Invoke(CurrentState.StateType);
             return true;
         }
 
@@ -180,11 +198,21 @@ namespace EHE.BoltBusters.Systems
             currentState.Exit();
             previousState.Enter();
 
+            StateChanged?.Invoke(CurrentState.StateType);
             return true;
         }
 
         #endregion Public Methods
 
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            StateChanged = null;
+        }
+
+        #endregion IDisposable
 
         ///////////////////////////////////////////////////////////////////////
         // Private Methods

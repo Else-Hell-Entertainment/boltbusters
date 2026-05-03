@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EffectShaderPreset" load_steps=2 format=3 uid="uid://dw52jxte7gm6v"]
+
+[ext_resource type="Script" uid="uid://cf7dtnecrln56" path="res://Code/EffectShaderPreset.cs" id="1_fx5s8"]
+
+[resource]
+script = ExtResource("1_fx5s8")
+_pulseColor = Color(1.9039272, 0, 0.5328414, 0.101960786)
+_pulseStrength = 0.5
+_pulseSpeed = 1.0
+metadata/_custom_type_script = "uid://cf7dtnecrln56"

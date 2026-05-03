@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
 
+using EHE.Common.Godot.Logging;
 using Godot;
 using Godot.Collections;
 
@@ -42,6 +43,9 @@ namespace EHE.BoltBusters
 
         [Export]
         private float _chargeVolumeWindDownTime = 1f;
+
+        [Export]
+        private int _maxSecondaryUpgrades = 4;
 
         public override WeaponType WeaponType => WeaponType.Railgun;
 
@@ -171,8 +175,14 @@ namespace EHE.BoltBusters
             return false;
         }
 
-        public void UpgradeChargeSpeed()
+        public bool UpgradeChargeSpeed()
         {
+            if (SecondaryUpgradeCount >= _maxSecondaryUpgrades)
+            {
+                this.LogDebug("Cannot upgrade charge speed any further.");
+                return false;
+            }
+
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is Railgun railgun)
@@ -181,10 +191,19 @@ namespace EHE.BoltBusters
                     EmitSignal(SignalName.RailgunConfigurationChanged);
                 }
             }
+
+            SecondaryUpgradeCount++;
+            this.LogDebug("Charge speed upgraded.");
+            return true;
         }
 
-        public void DowngradeChargeSpeed()
+        public bool DowngradeChargeSpeed()
         {
+            if (SecondaryUpgradeCount <= 0)
+            {
+                this.LogDebug("Cannot downgrade charge speed any further.");
+                return false;
+            }
             foreach (BaseWeapon weapon in Weapons)
             {
                 if (weapon is Railgun railgun)
@@ -193,13 +212,20 @@ namespace EHE.BoltBusters
                     EmitSignal(SignalName.RailgunConfigurationChanged);
                 }
             }
+
+            SecondaryUpgradeCount--;
+            this.LogDebug("Charge speed downgraded.");
+            return true;
         }
 
         private void InitializeNodes()
         {
             _muzzle = GetNode<Node3D>("Muzzle");
             _shapeCast3D = GetNode<ShapeCast3D>("ShapeCast3D");
-            _shapeCast3D.CollisionMask = COLLISION_MASK_LAYER;
+            _shapeCast3D.SetCollisionMaskValue(2, true);
+            _shapeCast3D.SetCollisionMaskValue(5, true);
+            _shapeCast3D.SetCollisionMaskValue(6, true);
+            // _shapeCast3D.CollisionMask = (COLLISION_MASK_LAYER);
             _laserSightInstance = GetNode<MeshInstance3D>("LaserSight");
             _laserSightMesh = (CylinderMesh)_laserSightInstance.Mesh;
             _chargeEffectInstanceBeam = GetNode<MeshInstance3D>("ChargeEffectBeam");
@@ -260,6 +286,63 @@ namespace EHE.BoltBusters
             }
         }
 
+        /// <inheritdoc />
+        protected override bool InitializeSecondaryUpgrades(int secondaryCount)
+        {
+            for (var i = 0; i < secondaryCount; i++)
+            {
+                UpgradeChargeSpeed(); // This already makes sure the max is not exceeded.
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///  Upgrades the railgun. <see cref="UpgradeType.Primary"/> adds more
+        ///  weapons to this controller. <see cref="UpgradeType.Secondary"/>
+        ///  upgrades the charge speed.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnUpgrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return AddWeapon();
+                case UpgradeType.Secondary:
+                    return UpgradeChargeSpeed();
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        ///  Upgrades the railgun. <see cref="UpgradeType.Primary"/> removes
+        ///  weapons from this controller. <see cref="UpgradeType.Secondary"/>
+        ///  downgrades the charge speed.
+        /// </summary>
+        ///
+        /// <param name="type"><inheritdoc/></param>
+        protected override bool OnDowngrade(UpgradeType type)
+        {
+            switch (type)
+            {
+                case UpgradeType.Primary:
+                    return RemoveWeapon();
+                case UpgradeType.Secondary:
+                    return DowngradeChargeSpeed();
+                default:
+                    this.LogWarning("Unknown upgrade type.");
+                    break;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Custom method to handle what happens when player has released the attack input and clicks it again.
         /// This is complicated but purely for game feel purposes.
@@ -307,12 +390,12 @@ namespace EHE.BoltBusters
                 {
                     var collider = collision["collider"];
                     Node target = (Node)collider;
+                    // Vector3 position = (Vector3)collision["point"];
+                    // Vector3 normal = (Vector3)collision["normal"];
+                    // GenerateSparks(position, -normal);
                     if (target is IDamageable damageable)
                     {
                         damageable.TakeDamage(_damageData);
-                        Vector3 position = (Vector3)collision["point"];
-                        Vector3 normal = (Vector3)collision["normal"];
-                        GenerateSparks(position, -normal);
                     }
                 }
             }

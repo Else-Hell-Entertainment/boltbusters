@@ -17,5 +17,11 @@ namespace EHE.BoltBusters.States
             AddTargetState(StateType.Paused);
             AddTargetState(StateType.Round);
         }
+
+        protected override void OnEntered()
+        {
+            // TODO: There should probably be a better way to access the current player.
+            LevelManager.Active.Player?.ToggleInputListening(false);
+        }
     }
 }

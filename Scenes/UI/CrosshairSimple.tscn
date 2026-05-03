@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5f4sa0o0o0xk"]
+
+[ext_resource type="PackedScene" uid="uid://mp4wv067kdgb" path="res://Scenes/UI/CrosshairControl.tscn" id="1_0ew7y"]
+[ext_resource type="Texture2D" uid="uid://bh8x67xr0ok6g" path="res://Assets/Sprites/Crosshair/CHCenter.png" id="1_d7iq3"]
+
+[node name="Crosshair" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+modulate = Color(0.45730186, 0.44814754, 9.62615e-08, 1)
+texture = ExtResource("1_d7iq3")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(256, 256)
+
+[node name="Crosshair" parent="SubViewport" instance=ExtResource("1_0ew7y")]
+script = null

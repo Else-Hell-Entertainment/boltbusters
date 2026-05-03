@@ -22,6 +22,8 @@ script = ExtResource("1_fx4c4")
 mesh = SubResource("SphereMesh_8ulpy")
 
 [node name="HitArea" type="Area3D" parent="."]
+collision_layer = 128
+collision_mask = 49
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitArea"]
 shape = SubResource("SphereShape3D_8ulpy")

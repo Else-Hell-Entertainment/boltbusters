@@ -1,6 +1,6 @@
 // (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
-// Author(s): Rihu, Miska <miska.rihu@tuni.fi>
+// Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
 using System;
 using EHE.BoltBusters.States;
@@ -65,16 +65,19 @@ namespace EHE.BoltBusters.Ui
 
         private void OnBtnCreditsPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             throw new NotImplementedException("No credits window implemented.");
         }
 
         private void OnBtnMainMenuPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer.Play();
             GameManager.Instance.StateMachine.TransitionTo(StateType.MainMenu);
         }
 
         private void OnBtnQuitPressed()
         {
+            MusicManager.Instance.ButtonSoundPlayer2.Play();
             GameManager.Instance.Quit();
         }
     }
