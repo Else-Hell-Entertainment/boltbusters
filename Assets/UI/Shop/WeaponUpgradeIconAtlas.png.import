@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dk2uohofm0ug3"
-path="res://.godot/imported/UIWrench.png-661ca2328bb6b99ff63c91fbb841bd7c.ctex"
+uid="uid://brb57udogepky"
+path="res://.godot/imported/WeaponUpgradeIconAtlas.png-1b8541c9643cba2ace817f1c162e20b2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI/HUD/UIWrench.png"
-dest_files=["res://.godot/imported/UIWrench.png-661ca2328bb6b99ff63c91fbb841bd7c.ctex"]
+source_file="res://Assets/UI/Shop/WeaponUpgradeIconAtlas.png"
+dest_files=["res://.godot/imported/WeaponUpgradeIconAtlas.png-1b8541c9643cba2ace817f1c162e20b2.ctex"]
 
 [params]
 

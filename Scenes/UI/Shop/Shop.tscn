@@ -3,12 +3,12 @@
 [ext_resource type="Script" uid="uid://burthnjbxe21w" path="res://Code/UI/MenuShop.cs" id="1_myvqj"]
 [ext_resource type="Script" uid="uid://7ui2iiup5syj" path="res://Code/UI/ToastLabel.cs" id="2_6ymty"]
 [ext_resource type="PackedScene" uid="uid://dpjeng088sxql" path="res://Scenes/UI/Shop/UpgradeUI.tscn" id="3_vbx4c"]
-[ext_resource type="Texture2D" uid="uid://dkbncpmbr6fb0" path="res://Assets/UI/HUD/UIBolt.png" id="4_m4eil"]
-[ext_resource type="Texture2D" uid="uid://dsoqy1nsxo05o" path="res://Assets/UI/Shop/UIRailgunPrimaryUpgrade.tres" id="4_vbx4c"]
-[ext_resource type="Texture2D" uid="uid://dk2uohofm0ug3" path="res://Assets/UI/HUD/UIWrench.png" id="5_3tygk"]
-[ext_resource type="Texture2D" uid="uid://5d60ltaxg7i5" path="res://Assets/UI/Shop/UIRailgunSecondaryUpgrade.tres" id="5_m4eil"]
-[ext_resource type="Texture2D" uid="uid://bayqwli2bg5s2" path="res://Assets/UI/Shop/UIRocketPrimaryUpgrade.tres" id="6_m4eil"]
-[ext_resource type="Texture2D" uid="uid://chhfqh77yutqd" path="res://Assets/UI/Shop/UIRocketSecondaryUpgrade.tres" id="7_3tygk"]
+[ext_resource type="Texture2D" uid="uid://dsoqy1nsxo05o" path="res://Assets/UI/Shop/IconUpgradePrimaryRailgun.tres" id="4_vbx4c"]
+[ext_resource type="Texture2D" uid="uid://drbsvkr0eau6k" path="res://Assets/UI/Shop/IconCollectibleBolt.tres" id="5_cxd3k"]
+[ext_resource type="Texture2D" uid="uid://5d60ltaxg7i5" path="res://Assets/UI/Shop/IconUpgradeSecondaryRailgun.tres" id="5_m4eil"]
+[ext_resource type="Texture2D" uid="uid://bayqwli2bg5s2" path="res://Assets/UI/Shop/IconUpgradePrimaryRocket.tres" id="6_m4eil"]
+[ext_resource type="Texture2D" uid="uid://chhfqh77yutqd" path="res://Assets/UI/Shop/IconUpgradeSecondaryRocket.tres" id="7_3tygk"]
+[ext_resource type="Texture2D" uid="uid://b5qkj6nelw7g0" path="res://Assets/UI/Shop/IconCollectibleWrench.tres" id="8_yrk82"]
 
 [sub_resource type="Animation" id="Animation_tgufs"]
 length = 0.001
@@ -129,6 +129,9 @@ layout_mode = 2
 theme_type_variation = &"HeaderSmall"
 text = "Railgun"
 
+[node name="Icon" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade/PriceInfo" index="1"]
+texture = ExtResource("5_cxd3k")
+
 [node name="BuyButton" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RailgunUpgrade/PrimaryUpgrade" index="3"]
 icon = ExtResource("4_vbx4c")
 
@@ -143,6 +146,9 @@ layout_mode = 2
 [node name="WeaponName" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade" index="0"]
 theme_type_variation = &"HeaderSmall"
 text = "Rocket Launcher"
+
+[node name="Icon" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade/PriceInfo" index="1"]
+texture = ExtResource("8_yrk82")
 
 [node name="BuyButton" parent="CenterContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RocketUpgrade/PrimaryUpgrade" index="3"]
 icon = ExtResource("6_m4eil")

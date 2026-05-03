@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://brb57udogepky"
-path="res://.godot/imported/UIWeaponUpgrade.png-6cf2fbd8e501a658f2dbe67fc580630c.ctex"
+uid="uid://c1jwsggd3oayu"
+path="res://.godot/imported/CollectibleIconAtlas.png-ccbe050c4330b137ea6d27c7ede453dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI/Shop/UIWeaponUpgrade.png"
-dest_files=["res://.godot/imported/UIWeaponUpgrade.png-6cf2fbd8e501a658f2dbe67fc580630c.ctex"]
+source_file="res://Assets/UI/CollectibleIconAtlas.png"
+dest_files=["res://.godot/imported/CollectibleIconAtlas.png-ccbe050c4330b137ea6d27c7ede453dc.ctex"]
 
 [params]
 

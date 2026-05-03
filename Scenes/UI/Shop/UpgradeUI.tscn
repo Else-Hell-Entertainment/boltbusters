@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dpjeng088sxql"]
 
-[ext_resource type="Texture2D" uid="uid://d25pa21m771k0" path="res://Assets/UI/HUD/UINut.png" id="1_l5r26"]
+[ext_resource type="Texture2D" uid="uid://deymt6yuwevgc" path="res://Assets/UI/Shop/IconCollectibleNut.tres" id="2_fkiwu"]
 [ext_resource type="FontFile" uid="uid://2w6q3amuekb6" path="res://ThirdParty/Assets/Fonts/AlarmClock/alarm clock.ttf" id="2_xc2e1"]
-[ext_resource type="Texture2D" uid="uid://cesdp5dvuebsg" path="res://Assets/UI/Shop/UIChaingunPrimaryUpgrade.tres" id="2_yagbj"]
-[ext_resource type="Texture2D" uid="uid://d3l3ieeb4oy6q" path="res://Assets/UI/Shop/UIChaingunSecondaryUpgrade.tres" id="3_yagbj"]
+[ext_resource type="Texture2D" uid="uid://cesdp5dvuebsg" path="res://Assets/UI/Shop/IconUpgradePrimaryChaingun.tres" id="2_yagbj"]
+[ext_resource type="Texture2D" uid="uid://d3l3ieeb4oy6q" path="res://Assets/UI/Shop/IconUpgradeChaingunSecondary.tres" id="3_yagbj"]
 
 [node name="UpgradeUI" type="VBoxContainer"]
 
@@ -24,7 +24,7 @@ text = "2 x"
 
 [node name="Icon" type="TextureRect" parent="PriceInfo"]
 layout_mode = 2
-texture = ExtResource("1_l5r26")
+texture = ExtResource("2_fkiwu")
 expand_mode = 2
 
 [node name="PrimaryUpgrade" type="HBoxContainer" parent="."]
