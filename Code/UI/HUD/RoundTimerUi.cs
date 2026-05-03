@@ -17,6 +17,11 @@ public partial class RoundTimerUi : Control
     [Export]
     private float _alarmVolumeDb = 9f;
 
+    public override void _EnterTree()
+    {
+        CallDeferred(MethodName.ConnectSignals);
+    }
+
     public override void _Process(double delta)
     {
         if (LevelManager.Active.RoundInProgress)
@@ -39,6 +44,19 @@ public partial class RoundTimerUi : Control
             }
 
             _roundTimerLabel.Text = timeString;
+        }
+    }
+
+    private void ResetTimer()
+    {
+        _roundTimerLabel.Text = "--:--";
+    }
+
+    private void ConnectSignals()
+    {
+        if (LevelManager.Active != null)
+        {
+            LevelManager.Active.Initialized += ResetTimer;
         }
     }
 }
