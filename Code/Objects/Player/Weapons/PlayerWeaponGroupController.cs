@@ -48,6 +48,11 @@ namespace EHE.BoltBusters
 
         public int SecondaryUpgradeCount { get; protected set; }
 
+        /// <summary>
+        ///  Maximum number of secondary upgrades for this weapon controller.
+        /// </summary>
+        public abstract int MaxSecondaryUpgradeCount { get; }
+
         public override void _Ready()
         {
             Node3D weaponSlots = GetNode<Node3D>("WeaponSlots");
