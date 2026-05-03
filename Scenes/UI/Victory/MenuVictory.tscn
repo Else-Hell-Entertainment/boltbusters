@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://cceg8s5v0y6gr"]
+[gd_scene load_steps=5 format=3 uid="uid://cceg8s5v0y6gr"]
 
-[ext_resource type="Texture2D" uid="uid://bkcwthqijqr72" path="res://Assets/Sprites/UI/TEMP_BackgroundVictory.png" id="1_8jkxk"]
 [ext_resource type="Script" uid="uid://d0wr5mwgkpvdw" path="res://Code/UI/MenuVictory.cs" id="1_fm0ib"]
-[ext_resource type="Texture2D" uid="uid://4x4sokvwtqu7" path="res://Assets/Sprites/UI/TEMP_UiHeaderVictory.png" id="2_8jkxk"]
+[ext_resource type="Texture2D" uid="uid://b04dearfnf2cu" path="res://Assets/Backgrounds/VictoryBackground.png" id="2_fm0ib"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fm0ib"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_53ojk"]
 
 [node name="MenuVictory" type="Control" node_paths=PackedStringArray("_btnCredits", "_btnMainMenu", "_btnQuit")]
 layout_mode = 3
@@ -23,7 +26,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_8jkxk")
+texture = ExtResource("2_fm0ib")
 expand_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
@@ -35,26 +38,25 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_fm0ib")
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Header" type="TextureRect" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 32)
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-texture = ExtResource("2_8jkxk")
-expand_mode = 3
+theme_type_variation = &"HeaderLarge"
+text = "Victory!"
+horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_53ojk")
 
 [node name="CreditsButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 visible = false
@@ -63,7 +65,7 @@ text = "Credits"
 
 [node name="MainMenuButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Main Menu"
+text = "Exit to Menu"
 
 [node name="QuitButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

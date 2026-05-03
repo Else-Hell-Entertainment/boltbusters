@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://c3on2c58of0pi"]
 
 [ext_resource type="Script" uid="uid://cox88j2hnu7m0" path="res://Code/UI/HUD/CollectibleCounter.cs" id="1_qy57m"]
-[ext_resource type="Texture2D" uid="uid://d25pa21m771k0" path="res://Assets/Sprites/UI/UINut.png" id="2_vviqs"]
-[ext_resource type="Material" uid="uid://bqvmiaadvjvx6" path="res://Assets/Sprites/UI/NeonFlickerShaderMaterial.tres" id="3_vd850"]
+[ext_resource type="Texture2D" uid="uid://cpyin0dx2gxlt" path="res://Assets/UI/HUD/HUDCollectibleNut.tres" id="2_vd850"]
+[ext_resource type="Material" uid="uid://bqvmiaadvjvx6" path="res://Assets/UI/NeonFlickerShaderMaterial.tres" id="3_vd850"]
 [ext_resource type="FontFile" uid="uid://2w6q3amuekb6" path="res://ThirdParty/Assets/Fonts/AlarmClock/alarm clock.ttf" id="3_vviqs"]
 
 [node name="CollectibleCounter" type="VBoxContainer"]
@@ -13,7 +13,7 @@ script = ExtResource("1_qy57m")
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
-texture = ExtResource("2_vviqs")
+texture = ExtResource("2_vd850")
 stretch_mode = 4
 
 [node name="Value" type="Label" parent="."]

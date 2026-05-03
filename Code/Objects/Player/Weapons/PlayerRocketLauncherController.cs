@@ -24,6 +24,8 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void RocketLauncherConfigurationChangedEventHandler();
 
+        public override int MaxSecondaryUpgradeCount => _maxSecondaryUpgradeCount;
+
         public override void _Ready()
         {
             base._Ready();

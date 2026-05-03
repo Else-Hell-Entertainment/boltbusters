@@ -78,6 +78,8 @@ namespace EHE.BoltBusters
         [Signal]
         public delegate void RailgunConfigurationChangedEventHandler();
 
+        public override int MaxSecondaryUpgradeCount => _maxSecondaryUpgrades;
+
         public override void _Ready()
         {
             base._Ready();

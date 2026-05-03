@@ -23,6 +23,8 @@ namespace EHE.BoltBusters.Ui
 
         public override void _EnterTree()
         {
+            base._EnterTree();
+
             _btnRestart.Pressed += OnBtnRestartPressed;
             _btnSettings.Pressed += OnBtnSettingsPressed;
             _btnMainMenu.Pressed += OnBtnMainMenuPressed;

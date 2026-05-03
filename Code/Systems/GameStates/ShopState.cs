@@ -9,7 +9,7 @@ namespace EHE.BoltBusters.States
     public class ShopState : GameState
     {
         public override StateType StateType => StateType.Shop;
-        public override StringName ScenePath => "res://Scenes/UI/Shop.tscn";
+        public override StringName ScenePath => "res://Scenes/UI/Shop/Shop.tscn";
         public override bool IsAdditive => true;
 
         public ShopState()

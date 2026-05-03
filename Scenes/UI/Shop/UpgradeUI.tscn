@@ -1,0 +1,88 @@
+[gd_scene load_steps=6 format=3 uid="uid://dpjeng088sxql"]
+
+[ext_resource type="Script" uid="uid://c2eta8rvfpuhs" path="res://Code/UI/Shop/UpgradeUi.cs" id="1_fkiwu"]
+[ext_resource type="Texture2D" uid="uid://deymt6yuwevgc" path="res://Assets/UI/Shop/IconCollectibleNut.tres" id="2_fkiwu"]
+[ext_resource type="FontFile" uid="uid://2w6q3amuekb6" path="res://ThirdParty/Assets/Fonts/AlarmClock/alarm clock.ttf" id="2_xc2e1"]
+[ext_resource type="Texture2D" uid="uid://cesdp5dvuebsg" path="res://Assets/UI/Shop/IconUpgradePrimaryChaingun.tres" id="2_yagbj"]
+[ext_resource type="Texture2D" uid="uid://d3l3ieeb4oy6q" path="res://Assets/UI/Shop/IconUpgradeChaingunSecondary.tres" id="3_yagbj"]
+
+[node name="UpgradeUI" type="VBoxContainer" node_paths=PackedStringArray("_lblCurrentPrimaryCount", "_lblMaxPrimaryCount", "_btnPrimaryUpgrade", "_lblCurrentSecondaryCount", "_lblMaxSecondaryCount", "_btnSecondaryUpgrade")]
+script = ExtResource("1_fkiwu")
+_lblCurrentPrimaryCount = NodePath("PrimaryUpgrade/CurrentCountLabel")
+_lblMaxPrimaryCount = NodePath("PrimaryUpgrade/MaxCountLabel")
+_btnPrimaryUpgrade = NodePath("PrimaryUpgrade/BuyButton")
+_lblCurrentSecondaryCount = NodePath("SecondaryUpgrade/CurrentCountLabel")
+_lblMaxSecondaryCount = NodePath("SecondaryUpgrade/MaxCountLabel")
+_btnSecondaryUpgrade = NodePath("SecondaryUpgrade/BuyButton")
+
+[node name="WeaponName" type="Label" parent="."]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+text = "Chaingun"
+horizontal_alignment = 1
+
+[node name="PriceInfo" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="Value" type="Label" parent="PriceInfo"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xc2e1")
+text = "2 x"
+
+[node name="Icon" type="TextureRect" parent="PriceInfo"]
+layout_mode = 2
+texture = ExtResource("2_fkiwu")
+expand_mode = 2
+
+[node name="PrimaryUpgrade" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="CurrentCountLabel" type="Label" parent="PrimaryUpgrade"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xc2e1")
+text = "88"
+
+[node name="SlashSymbol" type="Label" parent="PrimaryUpgrade"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xc2e1")
+text = "/"
+
+[node name="MaxCountLabel" type="Label" parent="PrimaryUpgrade"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xc2e1")
+text = "88 "
+
+[node name="BuyButton" type="Button" parent="PrimaryUpgrade"]
+layout_mode = 2
+size_flags_horizontal = 0
+focus_neighbor_bottom = NodePath("../../SecondaryUpgrade/BuyButton")
+text = "Buy "
+icon = ExtResource("2_yagbj")
+
+[node name="SecondaryUpgrade" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="CurrentCountLabel" type="Label" parent="SecondaryUpgrade"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xc2e1")
+text = "88"
+
+[node name="SlashSymbol" type="Label" parent="SecondaryUpgrade"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xc2e1")
+text = "/"
+
+[node name="MaxCountLabel" type="Label" parent="SecondaryUpgrade"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xc2e1")
+text = "88 "
+
+[node name="BuyButton" type="Button" parent="SecondaryUpgrade"]
+layout_mode = 2
+size_flags_horizontal = 0
+focus_neighbor_top = NodePath("../../PrimaryUpgrade/BuyButton")
+text = "Buy "
+icon = ExtResource("3_yagbj")
