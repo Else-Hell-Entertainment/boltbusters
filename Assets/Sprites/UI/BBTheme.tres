@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=34 format=3 uid="uid://37x8ktkfbdl6"]
+[gd_resource type="Theme" load_steps=35 format=3 uid="uid://37x8ktkfbdl6"]
 
 [ext_resource type="Texture2D" uid="uid://swv573pgo35e" path="res://Assets/Sprites/UI/UIButton.png" id="1_bqta6"]
 [ext_resource type="StyleBox" uid="uid://prbfus1hd6ry" path="res://Assets/Sprites/UI/UIPanel.tres" id="2_lmfp1"]
@@ -52,6 +52,8 @@ _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"16\">
 [sub_resource type="DPITexture" id="DPITexture_y3egp"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"16\"><g fill-opacity=\".5\"><rect width=\"30\" height=\"14\" x=\"1\" y=\"1\" fill=\"#1a1a1a\" rx=\"7\"/><circle cx=\"24\" cy=\"8\" r=\"5\" fill=\"#fff\"/></g></svg>
 "
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cqdh3"]
 
 [sub_resource type="DPITexture" id="DPITexture_kqw78"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><rect width=\"14\" height=\"14\" x=\"1\" y=\"1\" fill=\"#fff\" fill-opacity=\".37\" rx=\"2.333\"/><path fill=\"#1a1a1a\" fill-opacity=\".5\" d=\"m11.5 3.75-5.6 5.6-1.7-1.7-1.5 1.5 3.2 3.2 7.1-7.1z\"/></svg>
@@ -170,6 +172,8 @@ Control/colors/font_selected_color = Color(1, 0.8745098, 0.46666667, 1)
 Control/colors/font_unselected_color = Color(0.8745098, 0.44313726, 0.14901961, 1)
 Control/constants/outline_size = 10
 HBoxContainer/constants/separation = 4
+HSeparator/constants/separation = 10
+HSeparator/styles/separator = SubResource("StyleBoxEmpty_cqdh3")
 HSlider/constants/center_grabber = 0
 HSlider/constants/grabber_offset = 0
 HSlider/constants/tick_offset = 0
@@ -180,6 +184,10 @@ HSlider/icons/tick = ExtResource("1_bqta6")
 HSlider/styles/grabber_area = ExtResource("10_hco10")
 HSlider/styles/grabber_area_highlight = ExtResource("11_rq1h4")
 HSlider/styles/slider = ExtResource("2_lmfp1")
+MarginContainer/constants/margin_bottom = 15
+MarginContainer/constants/margin_left = 15
+MarginContainer/constants/margin_right = 15
+MarginContainer/constants/margin_top = 15
 MenuButton/constants/h_separation = 4
 MenuButton/font_sizes/font_size = 16
 MenuButton/styles/disabled = ExtResource("3_lmfp1")
