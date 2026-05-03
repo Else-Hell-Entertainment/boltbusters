@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.BoltBusters.Config;
 using EHE.BoltBusters.States;
 using Godot;
 
@@ -21,8 +22,24 @@ namespace EHE.BoltBusters.Ui
         [Export]
         private Button _btnQuit;
 
+        /// <inheritdoc />
+        public override void _Input(InputEvent @event)
+        {
+            if (Input.IsActionJustPressed("ui_cancel"))
+            {
+                OnBtnResumePressed();
+            }
+
+            if (Input.IsActionJustPressed(ControlConfig.PAUSE_GAME))
+            {
+                OnBtnResumePressed();
+            }
+        }
+
         public override void _EnterTree()
         {
+            base._EnterTree();
+
             _btnResume.Pressed += OnBtnResumePressed;
             _btnSettings.Pressed += OnBtnSettingsPressed;
             _btnMainMenu.Pressed += OnBtnMainMenuPressed;
