@@ -81,6 +81,7 @@ namespace EHE.BoltBusters
             _cooldownTimer.OneShot = true;
             _cooldownTimer.Timeout += OnCooldownTimerTimeout;
             //CallDeferred(MethodName.InitializeRockets);
+            InitializeRockets();
 
             EmitSignal(SignalName.RocketLauncherStateChanged, (int)LauncherState.ReadyToFire);
         }
