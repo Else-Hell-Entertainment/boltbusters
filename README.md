@@ -37,6 +37,11 @@ Player weapons:
 - Blender 5.0
 - JetBrains Rider IDE
 - Aseprite
+- Audacity
+- Reaper
+- Ardour
+- SurgeXT Synth/FX
+- VSCodium
 
 ## AI Disclaimer
 AI tools such as IDE integrated Github Copilot or web-based platforms such as ChatGPT or Claude were used to generate comments, debugging and general assistance in programming solutions. Spesifically AI agents were not used to generate any meaningful amounts of code and AI was not used at all in any part of the artistic asset creation pipeline.
