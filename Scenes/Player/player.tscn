@@ -301,7 +301,6 @@ shadow_mesh = SubResource("ArrayMesh_nv43w")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jlvik"]
 radius = 0.72
-height = 2.4870558
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_jlvik"]
 radius = 1.5
@@ -327,6 +326,8 @@ skeleton = NodePath("")
 
 [node name="PlayerController" type="Node3D" parent="." node_paths=PackedStringArray("_playerBody", "_bodyNode", "_turretNode", "_inputHandler", "_chaingunController", "_railgunController", "_rocketLauncherController")]
 script = ExtResource("5_gk6dx")
+_movementSpeed = 8.0
+_bodyRotationSpeed = 5.0
 _turretRotationSpeed = 5.0
 _playerBody = NodePath("..")
 _bodyNode = NodePath("../PlayerBody")
@@ -375,7 +376,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
 visible = false
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1967016, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
 shape = SubResource("CapsuleShape3D_jlvik")
 
 [node name="PlayerHealthComponent" type="Node" parent="." node_paths=PackedStringArray("_playerShaderComponent", "_damageSoundPlayer")]

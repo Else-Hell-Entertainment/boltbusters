@@ -125,7 +125,7 @@ namespace EHE.BoltBusters
             _bodyNode3DMover = new Node3DMover();
             AddChild(_bodyNode3DMover);
             _bodyNode3DMover.SetControlledNode(_bodyNode);
-            _bodyNode3DMover.RotationSpeed = _turretRotationSpeed;
+            _bodyNode3DMover.RotationSpeed = _bodyRotationSpeed;
 
             _turret3DMover = new Node3DMover();
             AddChild(_turret3DMover);

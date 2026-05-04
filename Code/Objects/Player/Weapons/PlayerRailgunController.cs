@@ -84,7 +84,7 @@ namespace EHE.BoltBusters
         {
             base._Ready();
             InitializeNodes();
-            _damageData = new DamageData(150, DamageType.Sniper);
+            _damageData = new DamageData(300, DamageType.Sniper);
             _shootingSoundLevel = _shootingSound.VolumeDb;
             _chargeSoundLevel = _chargingSound.VolumeDb;
         }

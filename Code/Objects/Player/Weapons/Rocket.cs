@@ -67,7 +67,7 @@ namespace EHE.BoltBusters
             _rocketBody = GetNodeOrNull<CharacterBody3D>("RocketBody");
             _explosionCast = _rocketBody.GetNodeOrNull<ShapeCast3D>("ExplosionCast");
             _rocketBodyMeshInstance = _rocketBody.GetNodeOrNull<MeshInstance3D>("RocketBodyMesh");
-            _damageData = new DamageData(40, DamageType.Missile);
+            _damageData = new DamageData(50, DamageType.Missile);
             _vfxAnimationPlayer = _rocketBody.GetNodeOrNull<AnimationPlayer>("VFX/Explosion/AnimationPlayer");
         }
 
