@@ -1,8 +1,8 @@
 # Bolt Busters
 
-Copyright © 2025 Else Hell Entertainment
+Copyright © 2026 Else Hell Entertainment
 
-This game was produced as a project work for Tampere University of Applied Sciences (TAMK) Games Academy course 4A00HB74 for spring 2026. The goal of the project was to create a simple 3D game using Godot game engine during the spring semester.
+This game was produced as a project work for Tampere University of Applied Sciences (TAMK) Games Academy course 4A00HB74 for spring 2026. The goal of the project was to create a simple 3D game using Godot game engine during the spring semester as a team of 6 people.
 
 Game was made in Godot 4.5.1
 
@@ -36,6 +36,7 @@ Player weapons:
 - C# with .NET SDK 8.0
 - Blender 5.0
 - JetBrains Rider IDE
+- Aseprite
 
 ## AI Disclaimer
-AI tools such as IDE integrated Github Copilot or web-based platforms such as ChatGPT or Claude were used to generate comments, debugging and general assistance in programming solutions. Spesifically AI agents were not used to generate any meaningful amounts of code and AI was not used at all in any part of the artistic asset generation pipeline.
+AI tools such as IDE integrated Github Copilot or web-based platforms such as ChatGPT or Claude were used to generate comments, debugging and general assistance in programming solutions. Spesifically AI agents were not used to generate any meaningful amounts of code and AI was not used at all in any part of the artistic asset creation pipeline.
