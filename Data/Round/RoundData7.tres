@@ -6,16 +6,16 @@
 [sub_resource type="Resource" id="Resource_fuhnl"]
 script = ExtResource("1_fuhnl")
 Enemies = Dictionary[int, int]({
-1: 6,
+1: 4,
 2: 0,
-3: 0
+3: 3
 })
 
 [sub_resource type="Resource" id="Resource_isxmd"]
 script = ExtResource("1_fuhnl")
 SpawnTimeAfterStart = 5.0
 Enemies = Dictionary[int, int]({
-1: 4,
+1: 2,
 2: 2,
 3: 0
 })
@@ -25,9 +25,9 @@ metadata/_custom_type_script = "uid://dy1moahlf6gxp"
 script = ExtResource("1_fuhnl")
 SpawnTimeAfterStart = 10.0
 Enemies = Dictionary[int, int]({
-1: 4,
+1: 2,
 2: 0,
-3: 0
+3: 1
 })
 metadata/_custom_type_script = "uid://dy1moahlf6gxp"
 
@@ -35,7 +35,7 @@ metadata/_custom_type_script = "uid://dy1moahlf6gxp"
 script = ExtResource("1_fuhnl")
 SpawnTimeAfterStart = 15.0
 Enemies = Dictionary[int, int]({
-1: 6,
+1: 4,
 2: 2,
 3: 0
 })
@@ -45,9 +45,9 @@ metadata/_custom_type_script = "uid://dy1moahlf6gxp"
 script = ExtResource("1_fuhnl")
 SpawnTimeAfterStart = 20.0
 Enemies = Dictionary[int, int]({
-1: 8,
+1: 6,
 2: 0,
-3: 0
+3: 1
 })
 metadata/_custom_type_script = "uid://dy1moahlf6gxp"
 
@@ -55,7 +55,7 @@ metadata/_custom_type_script = "uid://dy1moahlf6gxp"
 script = ExtResource("1_fuhnl")
 SpawnTimeAfterStart = 25.0
 Enemies = Dictionary[int, int]({
-1: 6,
+1: 4,
 2: 2,
 3: 0
 })
@@ -65,9 +65,9 @@ metadata/_custom_type_script = "uid://dy1moahlf6gxp"
 script = ExtResource("1_fuhnl")
 SpawnTimeAfterStart = 30.0
 Enemies = Dictionary[int, int]({
-1: 4,
+1: 2,
 2: 0,
-3: 0
+3: 1
 })
 metadata/_custom_type_script = "uid://dy1moahlf6gxp"
 
@@ -86,13 +86,13 @@ script = ExtResource("1_fuhnl")
 SpawnTimeAfterStart = 40.0
 Enemies = Dictionary[int, int]({
 1: 2,
-2: 0,
-3: 0
+2: 2,
+3: 1
 })
 metadata/_custom_type_script = "uid://dy1moahlf6gxp"
 
 [resource]
 script = ExtResource("2_isxmd")
-RoundLength = 50.0
+RoundLength = 55.0
 Waves = Array[ExtResource("1_fuhnl")]([SubResource("Resource_fuhnl"), SubResource("Resource_isxmd"), SubResource("Resource_6dnti"), SubResource("Resource_vb7pc"), SubResource("Resource_toq0f"), SubResource("Resource_dsi51"), SubResource("Resource_psorm"), SubResource("Resource_65ivs"), SubResource("Resource_fwqu1")])
 metadata/_custom_type_script = "uid://cl3rtewo80fc5"

@@ -12,13 +12,13 @@
 [sub_resource type="Resource" id="Resource_22532"]
 script = ExtResource("3_22532")
 RequiredItem = 3
-RequiredAmount = 2
+RequiredAmount = 10
 metadata/_custom_type_script = "uid://cwjigbn7c1w4e"
 
 [sub_resource type="Resource" id="Resource_mbktp"]
 script = ExtResource("3_22532")
 RequiredItem = 3
-RequiredAmount = 2
+RequiredAmount = 10
 metadata/_custom_type_script = "uid://cwjigbn7c1w4e"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wnb2b"]
