@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using EHE.BoltBusters.States;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters.Systems
@@ -128,13 +129,13 @@ namespace EHE.BoltBusters.Systems
 
             if (currentState == null)
             {
-                GD.PushWarning("Transitioning from non-existent state.");
+                this.LogWarning("Transitioning from non-existent state.");
             }
 
             // Current state exists but transition is illegal.
             if (currentState != null && !currentState.CanTransitionTo(targetStateType))
             {
-                GD.PushError(
+                this.LogError(
                     $"Cannot transition to '{targetStateType}', illegal transition ({currentState.StateType})."
                 );
                 return false;
@@ -143,7 +144,7 @@ namespace EHE.BoltBusters.Systems
             // Target state is not found.
             if (!_registeredStates.TryGetValue(targetStateType, out GameState nextState))
             {
-                GD.PushError($"Cannot transition to '{targetStateType}', not found.");
+                this.LogError($"Cannot transition to '{targetStateType}', not found.");
                 return false;
             }
 
@@ -188,7 +189,7 @@ namespace EHE.BoltBusters.Systems
         {
             if (_stateHistory.Count < 2)
             {
-                GD.PushError($"Cannot transition to previous state, not found.");
+                this.LogError($"Cannot transition to previous state, not found.");
                 return false;
             }
 
@@ -226,12 +227,12 @@ namespace EHE.BoltBusters.Systems
         /// <param name="gameStates">One or more unique game states to register.</param>
         private void RegisterStates(params GameState[] gameStates)
         {
-            GD.Print("Registering states");
+            this.LogInfo("Registering states.");
             foreach (var gameState in gameStates)
             {
                 if (!RegisterState(gameState))
                 {
-                    GD.PushError($"Failed to register state '{gameState.StateType}'.");
+                    this.LogError($"Failed to register state '{gameState.StateType}'.");
                 }
             }
         }
@@ -255,7 +256,7 @@ namespace EHE.BoltBusters.Systems
                 return true;
             }
 
-            GD.PushError($"Cannot register state '{stateType}', already registered.");
+            this.LogError($"Cannot register state '{stateType}', already registered.");
             return false;
         }
 

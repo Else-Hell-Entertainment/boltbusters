@@ -3,6 +3,7 @@
 // Author(s): TimeForNano tuominen.mika-95@hotmail.com
 
 using System.Threading.Tasks;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -36,8 +37,8 @@ namespace EHE.BoltBusters
 
             if (preset.FlashStrength <= 0.0f || preset.FlashDuration <= 0.0f)
             {
-                GD.PushWarning(
-                    $"{Name}: PlayFlashAsync called, but preset has non-positive FlashStrength or FlashDuration. No flash will be played."
+                this.LogWarning(
+                    $"PlayFlashAsync called, but preset has non-positive FlashStrength or FlashDuration. No flash will be played."
                 );
                 return;
             }
@@ -115,8 +116,8 @@ namespace EHE.BoltBusters
 
             if (preset.PulseStrength <= 0.0f)
             {
-                GD.PushWarning(
-                    $"{Name}: PlayPulseAsync called, but preset has non-positive PulseStrength. No pulse will be played."
+                this.LogWarning(
+                    $"PlayPulseAsync called, but preset has non-positive PulseStrength. No pulse will be played."
                 );
                 return;
             }
@@ -131,8 +132,8 @@ namespace EHE.BoltBusters
             // Infinite pulse cannot be "locked await" because it never completes.
             if (!preset.PulseUseDuration && policy == EffectAwaitPolicy.Locked)
             {
-                GD.PushWarning(
-                    $"{Name}: PlayPulseAsync called with Locked policy, but PulseUseDuration is false. "
+                this.LogWarning(
+                    $"PlayPulseAsync called with Locked policy, but PulseUseDuration is false. "
                         + "Infinite pulse cannot be awaited to completion; ignoring lock."
                 );
                 policy = EffectAwaitPolicy.Interruptible;
@@ -250,8 +251,8 @@ namespace EHE.BoltBusters
             float totalTime = Mathf.Max(0.0f, preset.TotalAcceleratingPulseTime);
             if (totalTime <= 0.0f)
             {
-                GD.PushWarning(
-                    $"{Name}: PlayAcceleratingPulseAsync called, but preset has non-positive TotalAcceleratingPulseTime. No accelerating pulse will be played."
+                this.LogWarning(
+                    $"PlayAcceleratingPulseAsync called, but preset has non-positive TotalAcceleratingPulseTime. No accelerating pulse will be played."
                 );
                 return;
             }

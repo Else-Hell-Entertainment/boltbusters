@@ -1,6 +1,8 @@
 // (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
+
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -70,7 +72,7 @@ namespace EHE.BoltBusters
             }
             else
             {
-                GD.PushWarning($"{Name}: Attempted to set MoveSpeed to a negative value ({newSpeed}).");
+                this.LogWarning($"Attempted to set MoveSpeed to a negative value ({newSpeed}).");
             }
         }
 

@@ -40,7 +40,6 @@ namespace EHE.BoltBusters.Ui
         private void ConnectSignals()
         {
             this.LogDebug("Connecting signals.");
-            GD.Print(LevelManager.Active.LevelType);
 
             if (LevelManager.Active == null || LevelManager.Active.LevelType != LevelType.Gameplay)
             {
@@ -55,6 +54,7 @@ namespace EHE.BoltBusters.Ui
         private void DisconnectSignals()
         {
             this.LogDebug("Disconnecting signals.");
+
             if (LevelManager.Active != null)
             {
                 LevelManager.Active.RoundStarting -= PlayCountdown;
@@ -64,7 +64,6 @@ namespace EHE.BoltBusters.Ui
 
         private void PlayCountdown()
         {
-            GD.Print("C O U N T D O W N !!");
             _animationPlayer.Play("round_starting");
         }
 

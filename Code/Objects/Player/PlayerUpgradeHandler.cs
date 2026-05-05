@@ -40,7 +40,7 @@ namespace EHE.BoltBusters
 
             if (!success)
             {
-                GD.PushError($"Cannot add weapon controller for type '{weaponType}': already added?");
+                this.LogError($"Cannot add weapon controller for type '{weaponType}': already added?");
             }
 
             return success;
@@ -65,7 +65,7 @@ namespace EHE.BoltBusters
 
             if (!success)
             {
-                GD.PushError($"Cannot remove weapon controller for type '{weaponType}': not found.");
+                this.LogError($"Cannot remove weapon controller for type '{weaponType}': not found.");
             }
 
             return success;

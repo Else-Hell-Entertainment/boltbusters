@@ -5,6 +5,7 @@
 using System;
 using EHE.BoltBusters.Config;
 using EHE.BoltBusters.Data;
+using EHE.Common.Godot.Logging;
 using Godot;
 using Godot.Collections;
 
@@ -72,7 +73,7 @@ namespace EHE.BoltBusters
 
             if (settingsFile == null)
             {
-                GD.Print($"Failed to read settings from file '{filePath}'. Using default settings.");
+                this.LogWarning($"Failed to read settings from file '{filePath}'. Using default settings.");
                 return DefaultSettingsData;
             }
 
@@ -82,7 +83,7 @@ namespace EHE.BoltBusters
 
             if (parseError != Error.Ok)
             {
-                GD.Print(
+                this.LogError(
                     $"Failed to parse settings: "
                         + $"{json.GetErrorMessage()} in {jsonString} at line {json.GetErrorLine()}. "
                         + $"Using default settings."
@@ -95,10 +96,8 @@ namespace EHE.BoltBusters
             settingsFile.Close();
             settingsFile.Dispose();
 
-#if DEBUG
-            GD.Print($"Read the following settings from file '{filePath}':");
-            GD.Print(jsonString);
-#endif
+            this.LogDebug($"Read the following settings from file '{filePath}':");
+            this.LogDebug(jsonString);
 
             return SettingsData.Deserialize(settingsDict);
         }
@@ -117,7 +116,7 @@ namespace EHE.BoltBusters
 
             if (settingsFile == null)
             {
-                GD.PrintErr($"Failed to write settings to file '{filePath}'.");
+                this.LogError($"Failed to write settings to file '{filePath}'.");
                 return false;
             }
 
@@ -126,10 +125,8 @@ namespace EHE.BoltBusters
             settingsFile.Close();
             settingsFile.Dispose();
 
-#if DEBUG
-            GD.Print($"Wrote the following settings to file '{filePath}':");
-            GD.Print(jsonString);
-#endif
+            this.LogDebug($"Wrote the following settings to file '{filePath}':");
+            this.LogDebug(jsonString);
 
             return true;
         }
@@ -151,7 +148,7 @@ namespace EHE.BoltBusters
         /// <param name="data"></param>
         public void ApplySettings(SettingsData data)
         {
-            GD.Print("SettingsManager - Applying settings from data dictionary.");
+            this.LogInfo("Applying settings from data dictionary.");
             CurrentSettingsData = data;
             CurrentSettingsData.ApplyValues();
         }
@@ -182,7 +179,7 @@ namespace EHE.BoltBusters
 
             if (DefaultSettingsData == null)
             {
-                GD.PushError($"Failed to load default settings from path '{filePath}'!");
+                this.LogError($"Failed to load default settings from path '{filePath}'!");
                 return false;
             }
 

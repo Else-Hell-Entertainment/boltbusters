@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
+using EHE.Common.Godot.Logging;
 using Godot;
 using Godot.Collections;
 
@@ -38,7 +39,7 @@ namespace EHE.BoltBusters.Systems
 
             if (file == null)
             {
-                GD.PushError(string.Format(ERR_FAILED_TO_OPEN_FILE, path));
+                this.LogError(string.Format(ERR_FAILED_TO_OPEN_FILE, path));
                 return false;
             }
 
@@ -67,7 +68,7 @@ namespace EHE.BoltBusters.Systems
 
             if (file == null)
             {
-                GD.PushError(string.Format(ERR_FAILED_TO_OPEN_FILE, path));
+                this.LogError(string.Format(ERR_FAILED_TO_OPEN_FILE, path));
                 return null;
             }
 
@@ -77,7 +78,7 @@ namespace EHE.BoltBusters.Systems
 
             if (dataObjectType != Variant.Type.Dictionary)
             {
-                GD.PushError($"Cannot parse save data: invalid format '{dataObjectType}'.");
+                this.LogError($"Cannot parse save data: invalid format '{dataObjectType}'.");
                 return null;
             }
 

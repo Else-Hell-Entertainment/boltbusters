@@ -4,6 +4,7 @@
 
 using System;
 using EHE.BoltBusters.Config;
+using EHE.Common.Godot.Logging;
 using Godot;
 using Godot.Collections;
 
@@ -68,11 +69,11 @@ namespace EHE.BoltBusters.Data
 
         public override void Load(Dictionary data, VideoSettingsData defaults = null)
         {
-            GD.Print("VideoSettingsData] Loading from data dictionary.");
+            this.LogInfo("Loading from data dictionary.");
 
             if (defaults == null)
             {
-                GD.Print("VideoSettingsData] No defaults provided, using new instance as fallback.");
+                this.LogWarning("No defaults provided, using new instance as fallback.");
                 defaults = new VideoSettingsData();
             }
 
@@ -103,10 +104,17 @@ namespace EHE.BoltBusters.Data
         /// </summary>
         public override void ApplyValues()
         {
+            var currentPosition = DisplayServer.WindowGetPosition();
+            var currentSize = DisplayServer.WindowGetSize();
+            var newSize = Resolution;
+            var difference = currentSize - newSize;
+            var newPosition = currentPosition + difference / 2;
+
             const int windowId = (int)DisplayServer.MainWindowId;
             var windowMode = IsFullscreen ? DisplayServer.WindowMode.Fullscreen : DisplayServer.WindowMode.Windowed;
             DisplayServer.WindowSetSize(Resolution, windowId);
             DisplayServer.WindowSetMode(windowMode, windowId);
+            DisplayServer.WindowSetPosition(newPosition, windowId);
         }
 
         /// <summary>

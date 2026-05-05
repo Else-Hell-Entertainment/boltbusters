@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using EHE.BoltBusters.Ui;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters.States
@@ -89,7 +90,7 @@ namespace EHE.BoltBusters.States
         {
             if (_targetStates.Contains(targetStateType))
             {
-                GD.PushError($"Cannot add target state to '{StateType}': '{targetStateType}' already added!");
+                this.LogError($"Cannot add target state to '{StateType}': '{targetStateType}' already added!");
                 return false;
             }
 
@@ -115,7 +116,7 @@ namespace EHE.BoltBusters.States
         {
             if (!_targetStates.Contains(targetStateType))
             {
-                GD.PushError($"Cannot remove target state from '{StateType}': '{targetStateType}' not found!");
+                this.LogError($"Cannot remove target state from '{StateType}': '{targetStateType}' not found!");
                 return false;
             }
 
@@ -171,7 +172,7 @@ namespace EHE.BoltBusters.States
             {
                 if (_packedScene == null)
                 {
-                    GD.PushError($"Cannot enter state '{StateType}': no scene found at '{ScenePath}'!");
+                    this.LogError($"Cannot enter state '{StateType}': no scene found at '{ScenePath}'!");
                     return false;
                 }
 
@@ -222,9 +223,7 @@ namespace EHE.BoltBusters.States
         /// </summary>
         protected virtual void OnEntered()
         {
-#if DEBUG
-            GD.Print($"Entered state '{StateType}'.");
-#endif
+            this.LogDebug($"Entered state '{StateType}'.");
         }
 
         /// <summary>
@@ -239,9 +238,7 @@ namespace EHE.BoltBusters.States
         /// <seealso cref="GameState.IsAdditive"/>
         protected virtual void OnExited(bool keepLoaded = false)
         {
-#if DEBUG
-            GD.Print($"Exited state '{StateType}' (keepLoaded={keepLoaded}).");
-#endif
+            this.LogDebug($"Exited state '{StateType}' (keepLoaded={keepLoaded}).");
         }
     }
 }

@@ -5,6 +5,7 @@
 //            TimeForNano <tuominen.mika-95@hotmail.com>
 
 using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -39,7 +40,7 @@ namespace EHE.BoltBusters
         {
             if (TargetProvider.Instance == null)
             {
-                GD.PushWarning($"Player: TargetProvider.Instance is null. Player was not registered.");
+                this.LogWarning($"TargetProvider.Instance is null. Player was not registered.");
                 return;
             }
 

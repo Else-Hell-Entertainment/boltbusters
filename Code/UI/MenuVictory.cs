@@ -27,25 +27,25 @@ namespace EHE.BoltBusters.Ui
 
             // if (_btnCredits == null)
             // {
-            //     this.LogErrorNoStackTrace($"{nameof(_btnCredits)} not assigned!");
+            //     this.LogError($"{nameof(_btnCredits)} not assigned!");
             //     isValid = false;
             // }
 
             if (_btnMainMenu == null)
             {
-                this.LogErrorNoStackTrace($"{nameof(_btnMainMenu)} not assigned!");
+                this.LogError($"{nameof(_btnMainMenu)} not assigned!");
                 isValid = false;
             }
 
             if (_btnQuit == null)
             {
-                this.LogErrorNoStackTrace($"{nameof(_btnQuit)} not assigned!");
+                this.LogError($"{nameof(_btnQuit)} not assigned!");
                 isValid = false;
             }
 
             if (!isValid)
             {
-                this.LogErrorNoStackTrace($"Errors encountered in {nameof(_Ready)}.");
+                this.LogError($"Errors encountered in {nameof(_Ready)}.");
             }
         }
 

@@ -4,6 +4,7 @@
 
 using EHE.BoltBusters.Config;
 using EHE.BoltBusters.Data;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters.Ui
@@ -75,7 +76,7 @@ namespace EHE.BoltBusters.Ui
 
             if (multiplierIndex < minMultiplierIndex)
             {
-                GD.PrintErr(
+                this.LogError(
                     $"Current multiplier index ({multiplierIndex}) is too low,"
                         + $"using default ({minMultiplierIndex})."
                 );
@@ -84,7 +85,7 @@ namespace EHE.BoltBusters.Ui
 
             if (multiplierIndex > maxMultiplierIndex)
             {
-                GD.PrintErr(
+                this.LogError(
                     $"Current multiplier index ({multiplierIndex}) is too high,"
                         + $"using default ({minMultiplierIndex})."
                 );
@@ -113,7 +114,13 @@ namespace EHE.BoltBusters.Ui
 
         private void ApplyResolution()
         {
+            var currentPosition = DisplayServer.WindowGetPosition();
+            var currentSize = DisplayServer.WindowGetSize();
             DisplayServer.WindowSetSize(ResolutionMultiplier * _baseResolution, WindowId);
+            var newSize = DisplayServer.WindowGetSize();
+            var difference = currentSize - newSize;
+            var newPosition = currentPosition + difference / 2;
+            DisplayServer.WindowSetPosition(newPosition);
         }
 
         private void ApplyFullscreenState(bool enabled)
