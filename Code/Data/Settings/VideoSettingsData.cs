@@ -104,10 +104,17 @@ namespace EHE.BoltBusters.Data
         /// </summary>
         public override void ApplyValues()
         {
+            var currentPosition = DisplayServer.WindowGetPosition();
+            var currentSize = DisplayServer.WindowGetSize();
+            var newSize = Resolution;
+            var difference = currentSize - newSize;
+            var newPosition = currentPosition + difference / 2;
+
             const int windowId = (int)DisplayServer.MainWindowId;
             var windowMode = IsFullscreen ? DisplayServer.WindowMode.Fullscreen : DisplayServer.WindowMode.Windowed;
             DisplayServer.WindowSetSize(Resolution, windowId);
             DisplayServer.WindowSetMode(windowMode, windowId);
+            DisplayServer.WindowSetPosition(newPosition, windowId);
         }
 
         /// <summary>

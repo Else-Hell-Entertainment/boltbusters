@@ -114,7 +114,13 @@ namespace EHE.BoltBusters.Ui
 
         private void ApplyResolution()
         {
+            var currentPosition = DisplayServer.WindowGetPosition();
+            var currentSize = DisplayServer.WindowGetSize();
             DisplayServer.WindowSetSize(ResolutionMultiplier * _baseResolution, WindowId);
+            var newSize = DisplayServer.WindowGetSize();
+            var difference = currentSize - newSize;
+            var newPosition = currentPosition + difference / 2;
+            DisplayServer.WindowSetPosition(newPosition);
         }
 
         private void ApplyFullscreenState(bool enabled)
