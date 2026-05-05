@@ -2,9 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
-using System;
 using EHE.BoltBusters.States;
-using EHE.BoltBusters.Ui;
 using EHE.Common.Godot.Logging;
 using Godot;
 
@@ -12,8 +10,8 @@ namespace EHE.BoltBusters.Ui
 {
     public partial class MenuVictory : Menu
     {
-        [Export]
-        private Button _btnCredits;
+        // [Export]
+        // private Button _btnCredits;
 
         [Export]
         private Button _btnMainMenu;
@@ -27,27 +25,27 @@ namespace EHE.BoltBusters.Ui
 
             var isValid = true;
 
-            if (_btnCredits == null)
-            {
-                this.LogErrorNoStackTrace($"{nameof(_btnCredits)} not assigned!");
-                isValid = false;
-            }
+            // if (_btnCredits == null)
+            // {
+            //     this.LogError($"{nameof(_btnCredits)} not assigned!");
+            //     isValid = false;
+            // }
 
             if (_btnMainMenu == null)
             {
-                this.LogErrorNoStackTrace($"{nameof(_btnMainMenu)} not assigned!");
+                this.LogError($"{nameof(_btnMainMenu)} not assigned!");
                 isValid = false;
             }
 
             if (_btnQuit == null)
             {
-                this.LogErrorNoStackTrace($"{nameof(_btnQuit)} not assigned!");
+                this.LogError($"{nameof(_btnQuit)} not assigned!");
                 isValid = false;
             }
 
             if (!isValid)
             {
-                this.LogErrorNoStackTrace($"Errors encountered in {nameof(_Ready)}.");
+                this.LogError($"Errors encountered in {nameof(_Ready)}.");
             }
         }
 
@@ -55,23 +53,25 @@ namespace EHE.BoltBusters.Ui
         {
             base._EnterTree();
 
-            _btnCredits.Pressed += OnBtnCreditsPressed;
+            MusicManager.Instance.KillAllMusic();
+            MusicManager.Instance.PlayMusic(MusicManager.Instance.EndThemePlayer, MusicManager.Song.EndTheme);
+            // _btnCredits.Pressed += OnBtnCreditsPressed;
             _btnMainMenu.Pressed += OnBtnMainMenuPressed;
             _btnQuit.Pressed += OnBtnQuitPressed;
         }
 
         public override void _ExitTree()
         {
-            _btnCredits.Pressed -= OnBtnCreditsPressed;
+            // _btnCredits.Pressed -= OnBtnCreditsPressed;
             _btnMainMenu.Pressed -= OnBtnMainMenuPressed;
             _btnQuit.Pressed -= OnBtnQuitPressed;
         }
 
-        private void OnBtnCreditsPressed()
-        {
-            MusicManager.Instance.ButtonSoundPlayer.Play();
-            throw new NotImplementedException("No credits window implemented.");
-        }
+        // private void OnBtnCreditsPressed()
+        // {
+        //     MusicManager.Instance.ButtonSoundPlayer.Play();
+        //     throw new NotImplementedException("No credits window implemented.");
+        // }
 
         private void OnBtnMainMenuPressed()
         {

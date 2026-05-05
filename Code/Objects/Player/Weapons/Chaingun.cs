@@ -3,6 +3,7 @@
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 
 using System;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -71,10 +72,7 @@ namespace EHE.BoltBusters
             _controller = GetParentOrNull<PlayerChaingunController>();
             if (_controller == null)
             {
-                GD.PushError(
-                    $"{Name}: Missing 'ChaingunController' parent node. Chaingun values not initialized "
-                        + $"correctly."
-                );
+                this.LogError($"Missing 'ChaingunController' parent node. Chaingun values not initialized correctly.");
             }
             else
             {
@@ -97,7 +95,7 @@ namespace EHE.BoltBusters
             _bulletMesh = (CylinderMesh)_bulletTrail.GetMesh();
             if (_bulletMesh == null)
             {
-                GD.PrintErr("Couldn't find a bullet trail mesh!");
+                this.LogError("Couldn't find a bullet trail mesh!");
             }
         }
 

@@ -3,6 +3,7 @@
 // Author(s): TimeForNano <tuominen.mika-95@hotmail.com>
 
 using System.Collections.Generic;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -105,13 +106,13 @@ namespace EHE.BoltBusters
         {
             if (!_enemyToCollectibleType.TryGetValue(enemyType, out CollectibleType collectibleType))
             {
-                GD.PushWarning($"No CollectibleType mapping for enemy type: {enemyType}");
+                this.LogWarning($"No CollectibleType mapping for enemy type: {enemyType}");
                 return;
             }
 
             if (!_collectibleTypeScenes.TryGetValue(collectibleType, out PackedScene scene) || scene == null)
             {
-                GD.PushWarning($"No scene mapping for collectible type: {collectibleType}");
+                this.LogWarning($"No scene mapping for collectible type: {collectibleType}");
                 return;
             }
 

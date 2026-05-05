@@ -1,0 +1,168 @@
+[gd_resource type="Resource" script_class="RoundData" load_steps=19 format=3 uid="uid://dhsfr2lniugff"]
+
+[ext_resource type="Script" uid="uid://dy1moahlf6gxp" path="res://Code/Data/WaveData.cs" id="1_gxw04"]
+[ext_resource type="Script" uid="uid://cl3rtewo80fc5" path="res://Code/Data/RoundData.cs" id="2_ly476"]
+
+[sub_resource type="Resource" id="Resource_d7cgx"]
+script = ExtResource("1_gxw04")
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 10
+})
+
+[sub_resource type="Resource" id="Resource_gxw04"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 5.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 10
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_ly476"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 10.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 5
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_owa2h"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 15.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 5
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_k31lc"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 20.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 5
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_d71h6"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 25.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 10
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_e3m1y"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 30.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 10
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_n246u"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 35.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 5
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_hyhap"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 40.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 5
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_63dgr"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 45.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 5
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_p2dx0"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 50.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 10
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_f3gsh"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 55.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 10
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_ghen4"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 60.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 5
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_21b38"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 65.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 5
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_nymvw"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 70.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 5
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[sub_resource type="Resource" id="Resource_tpgdw"]
+script = ExtResource("1_gxw04")
+SpawnTimeAfterStart = 75.0
+Enemies = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 5
+})
+metadata/_custom_type_script = "uid://dy1moahlf6gxp"
+
+[resource]
+script = ExtResource("2_ly476")
+RoundLength = 90.0
+Waves = Array[ExtResource("1_gxw04")]([SubResource("Resource_d7cgx"), SubResource("Resource_gxw04"), SubResource("Resource_ly476"), SubResource("Resource_owa2h"), SubResource("Resource_k31lc"), SubResource("Resource_d71h6"), SubResource("Resource_e3m1y"), SubResource("Resource_n246u"), SubResource("Resource_hyhap"), SubResource("Resource_63dgr"), SubResource("Resource_p2dx0"), SubResource("Resource_f3gsh"), SubResource("Resource_ghen4"), SubResource("Resource_21b38"), SubResource("Resource_nymvw"), SubResource("Resource_tpgdw")])
+metadata/_custom_type_script = "uid://cl3rtewo80fc5"

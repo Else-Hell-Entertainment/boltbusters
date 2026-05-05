@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): TimeForNano tuominen.mika-95@hotmail.com
 
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -92,14 +93,14 @@ namespace EHE.BoltBusters
         {
             if (preset == null)
             {
-                GD.PushWarning($"{Name}: ShaderComponent effect called, but EffectShaderPreset is null.");
+                this.LogWarning($"ShaderComponent effect called, but EffectShaderPreset is null.");
                 return false;
             }
 
             if (_materials.Count == 0)
             {
-                GD.PushWarning(
-                    $"{Name}: ShaderComponent has no prepared materials. Check mesh overlay materials and shader setup."
+                this.LogWarning(
+                    $"ShaderComponent has no prepared materials. Check mesh overlay materials and shader setup."
                 );
                 return false;
             }

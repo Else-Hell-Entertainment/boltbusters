@@ -93,7 +93,7 @@ namespace EHE.BoltBusters
             /*
             if (!IsInstanceValid(_player))
             {
-                GD.Print("Player not found");
+                this.LogError("Player not found");
                 return;
             }
 

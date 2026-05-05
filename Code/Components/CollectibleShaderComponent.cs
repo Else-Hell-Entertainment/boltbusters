@@ -3,6 +3,7 @@
 // Author(s): TimeForNano
 
 using System.Threading.Tasks;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -38,7 +39,7 @@ namespace EHE.BoltBusters
         {
             if (_collectibleEffectShaderPreset == null)
             {
-                GD.PushWarning($"{Name}: CollectibleShaderComponent has no EffectShaderPreset assigned.");
+                this.LogWarning($"EffectShaderPreset not assigned.");
                 return;
             }
 
@@ -49,7 +50,7 @@ namespace EHE.BoltBusters
         {
             if (_collectibleEffectShaderPreset == null)
             {
-                GD.PushWarning($"{Name}: CollectibleShaderComponent has no EffectShaderPreset assigned.");
+                this.LogWarning($"EffectShaderPreset not assigned.");
                 return Task.CompletedTask;
             }
 

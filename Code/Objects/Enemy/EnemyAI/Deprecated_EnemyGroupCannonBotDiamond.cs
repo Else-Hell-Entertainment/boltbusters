@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using EHE.BoltBusters.EnemyAI;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -31,7 +32,7 @@ namespace EHE.BoltBusters
             }
             else
             {
-                GD.PrintErr("Invalid attempt to register CannonBot to Diamond Group");
+                this.LogError("Invalid attempt to register CannonBot to Diamond Group");
             }
         }
 

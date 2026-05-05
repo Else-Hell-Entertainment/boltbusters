@@ -3,6 +3,7 @@
 // Author(s): TimeForNano
 
 using System.Threading.Tasks;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -38,7 +39,7 @@ namespace EHE.BoltBusters
         {
             if (_doorEffectShaderPreset == null)
             {
-                GD.PushWarning($"{Name}: DoorShaderComponent has no EffectShaderPreset assigned.");
+                this.LogWarning($"DoorShaderComponent has no EffectShaderPreset assigned.");
                 return;
             }
 
@@ -49,7 +50,7 @@ namespace EHE.BoltBusters
         {
             if (_doorEffectShaderPreset == null)
             {
-                GD.PushWarning($"{Name}: DoorShaderComponent has no EffectShaderPreset assigned.");
+                this.LogWarning($"DoorShaderComponent has no EffectShaderPreset assigned.");
                 return Task.CompletedTask;
             }
 

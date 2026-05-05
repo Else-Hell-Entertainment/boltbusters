@@ -3,6 +3,7 @@
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
 using EHE.BoltBusters.Config;
+using EHE.Common.Godot.Logging;
 using Godot;
 using Godot.Collections;
 
@@ -28,11 +29,11 @@ namespace EHE.BoltBusters.Data
 
         public override void Load(Dictionary data, SettingsData defaults = null)
         {
-            GD.Print("[SettingsData] Loading from data dictionary.");
+            this.LogInfo("Loading from data dictionary.");
 
             if (defaults == null)
             {
-                GD.Print("[SettingsData] No defaults provided, using new instance as fallback.");
+                this.LogWarning("No defaults provided, using new instance as fallback.");
                 defaults = new SettingsData();
             }
 

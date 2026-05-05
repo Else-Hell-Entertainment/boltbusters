@@ -7,6 +7,7 @@
 // License: https://github.com/samikojo-tuni/GArkanoid-2025/blob/8ce89d9e5dea3cdaa829bfdf62549168046435db/LICENSE
 
 using EHE.BoltBusters.Config;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters.Ui
@@ -85,7 +86,7 @@ namespace EHE.BoltBusters.Ui
             }
             else
             {
-                GD.PrintErr($"Failed to initialize volume slider, invalid bus name '{busName}'");
+                this.LogError($"Failed to initialize volume slider, invalid bus name '{busName}'");
             }
 
             return validBus;

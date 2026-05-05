@@ -116,12 +116,12 @@ namespace EHE.BoltBusters.Ui
 
             if (_healthUi == null)
             {
-                GD.PushError("Health UI node not found!");
+                this.LogError("Health UI node not found!");
             }
 
             // if (_weaponUi == null)
             // {
-            //     GD.PushError("Weapon UI node not found!");
+            //     this.LogError("Weapon UI node not found!");
             // }
 
             if (_animationPlayer == null)

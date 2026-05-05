@@ -26,7 +26,10 @@ MusicManager="*res://Code/Systems/MusicManager.cs"
 
 [display]
 
+window/size/resizable=false
+window/size/maximize_disabled=true
 window/stretch/mode="viewport"
+mouse_cursor/custom_image="uid://dqjamhl3ygmw"
 
 [dotnet]
 

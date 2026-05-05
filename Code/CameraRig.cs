@@ -1,3 +1,4 @@
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -136,15 +137,15 @@ namespace EHE.BoltBusters
         {
             if (CameraNode == null)
             {
-                GD.PushError(
+                this.LogError(
                     $"{nameof(CameraRig)}: CameraNode is not assigned. Assign a child Camera3D in the inspector."
                 );
             }
 
             if (ExplicitTarget == null && TargetProvider.Instance == null)
             {
-                GD.PushWarning(
-                    $"{nameof(CameraRig)}: No ExplicitTarget and TargetProvider.Instance is null. "
+                this.LogWarning(
+                    $"No ExplicitTarget and TargetProvider.Instance is null. "
                         + "Camera will not follow anything until one of these is set."
                 );
             }

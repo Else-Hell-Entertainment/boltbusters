@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters.Ui
@@ -39,7 +40,7 @@ namespace EHE.BoltBusters.Ui
         {
             if (!_collectibleCounters.TryGetValue(collectibleType, out var counter))
             {
-                GD.PushError($"Counter for '{collectibleType}' not found in {nameof(_collectibleCounters)}");
+                this.LogError($"Counter for '{collectibleType}' not found in {nameof(_collectibleCounters)}");
                 return;
             }
 
@@ -59,13 +60,13 @@ namespace EHE.BoltBusters.Ui
             {
                 if (!_collectibleCounters.TryAdd(counter.CollectibleType, counter))
                 {
-                    GD.PushWarning($"Cannot cache counter for type '{counter.CollectibleType}'. Already added?");
+                    this.LogWarning($"Cannot cache counter for type '{counter.CollectibleType}'. Already added?");
                 }
             }
 
             if (_collectibleCounters.Count == 0)
             {
-                GD.PushWarning("No counters found in children. Is this intended?");
+                this.LogWarning("No counters found in children. Is this intended?");
             }
         }
     }

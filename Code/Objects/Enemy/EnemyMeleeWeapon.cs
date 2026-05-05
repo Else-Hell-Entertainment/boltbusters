@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -135,7 +136,7 @@ namespace EHE.BoltBusters
 
             if (_cooldownTimer == null || _attackArea == null || _hitParticles == null || _animationPlayer == null)
             {
-                GD.PrintErr("Some of EnemyMeleeWeapon nodes not found during init. Node is broken.");
+                this.LogError("Some of EnemyMeleeWeapon nodes not found during init. Node is broken.");
                 return;
             }
             _cooldownTimer.WaitTime = _attackCooldown;

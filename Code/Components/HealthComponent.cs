@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -110,14 +111,14 @@ namespace EHE.BoltBusters
         public override void _Ready()
         {
             CurrentHealth = InitialHealth;
-            GD.Print($"CurrentHealth initialized to {CurrentHealth}.");
+            this.LogDebug($"CurrentHealth initialized to {CurrentHealth}.");
             if (_damageSoundPlayer != null)
             {
                 _damageSoundPlayer.MaxPolyphony = _damageSoundPolyphony;
             }
             else
             {
-                GD.PrintErr("Damage sound player not set in " + Name);
+                this.LogError("Damage sound player not set in " + Name);
             }
         }
 
@@ -135,7 +136,7 @@ namespace EHE.BoltBusters
         {
             if (amount < 0)
             {
-                GD.PrintErr($"Cannot increase health by negative amount ({amount}).");
+                this.LogError($"Cannot increase health by negative amount ({amount}).");
                 return;
             }
 
@@ -163,7 +164,7 @@ namespace EHE.BoltBusters
 
             if (amount < 0)
             {
-                GD.PrintErr($"Cannot decrease health by negative amount ({amount}).");
+                this.LogError($"Cannot decrease health by negative amount ({amount}).");
                 return false;
             }
 

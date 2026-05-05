@@ -124,6 +124,7 @@ namespace EHE.Common.Godot.Logging
         /// <param name="what">Arguments that are written to the log.</param>
         ///
         /// <seealso cref="LogWarning"/>
+        [Obsolete("Stack trace will always be omitted from release build logs and included in DEBUG build logs.")]
         public static void LogWarningNoStackTrace(this object obj, params object[] what) =>
             obj.Log(LogSeverity.Warning, includeStackTrace: false, what);
 
@@ -137,6 +138,7 @@ namespace EHE.Common.Godot.Logging
         /// <param name="what">Arguments that are written to the log.</param>
         ///
         /// <seealso cref="LogError"/>
+        [Obsolete("Stack trace will always be omitted from release build logs and included in DEBUG build logs.")]
         public static void LogErrorNoStackTrace(this object obj, params object[] what) =>
             obj.Log(LogSeverity.Error, includeStackTrace: false, what);
 
@@ -150,6 +152,7 @@ namespace EHE.Common.Godot.Logging
         /// <param name="what">Arguments that are written to the log.</param>
         ///
         /// <seealso cref="LogFatalError"/>
+        [Obsolete("Stack trace will always be omitted from release build logs and included in DEBUG build logs.")]
         public static void LogFatalErrorNoStackTrace(this object obj, params object[] what) =>
             obj.Log(LogSeverity.Fatal, includeStackTrace: false, what);
 
@@ -247,10 +250,12 @@ namespace EHE.Common.Godot.Logging
             var message =
                 $"[{DateTime.Now}] [{severity.ToString().ToUpper()}] [{sender}]" + $": {string.Join(" ", what).Trim()}";
 
-            if (includeStackTrace)
+#if DEBUG
+            if (severity is LogSeverity.Warning or LogSeverity.Error or LogSeverity.Fatal)
             {
                 message += GetStackTrace();
             }
+#endif
 
             return message;
         }
