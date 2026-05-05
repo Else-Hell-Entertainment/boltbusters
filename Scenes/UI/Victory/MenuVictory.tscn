@@ -15,7 +15,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fm0ib")
-_btnCredits = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CreditsButton")
+_btnCredits = NodePath("")
 _btnMainMenu = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/MainMenuButton")
 _btnQuit = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/QuitButton")
 
@@ -57,11 +57,6 @@ horizontal_alignment = 1
 [node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_53ojk")
-
-[node name="CreditsButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-text = "Credits"
 
 [node name="MainMenuButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
