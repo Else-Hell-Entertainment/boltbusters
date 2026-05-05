@@ -1,4 +1,3 @@
-// EnemySpawnManager.cs
 // (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): TimeForNano <tuominen.mika-95@hotmail.com>
@@ -23,11 +22,12 @@ namespace EHE.BoltBusters
     /// Spawn areas are collected from the assigned root node and used to determine
     /// valid positions for spawning wave batches.
     ///
-    /// This manager is driven by <see cref="RoundManager"/> which provides round and wave data.
+    /// This manager is driven by <see cref="LevelManager"/> which provides round and wave data.
     /// </remarks>
     public partial class EnemySpawnManager : Node3D
     {
         #region Nested types
+
         private sealed class SpawnAreaInfo
         {
             public Node3D SpawnAreaNode { get; }
@@ -53,13 +53,19 @@ namespace EHE.BoltBusters
                 Scene = scene;
             }
         }
+
         #endregion Nested types
 
+
         #region Constants
+
         private const float WAVE_SPAWN_OVERFLOW_DELAY = 0.5f;
+
         #endregion Constants
 
+
         #region Exported fields
+
         [Export]
         private PackedScene _meleeScene = null;
 
@@ -75,36 +81,43 @@ namespace EHE.BoltBusters
 
         [Export(PropertyHint.Range, "1,1,1,or_greater")]
         private int _maxAreasToUse = 6;
+
         #endregion Exported fields
+
 
         #region Runtime state
 
         private Queue<WaveData> _waveQueue = new Queue<WaveData>();
         private readonly List<SpawnAreaInfo> _spawnAreasList = new List<SpawnAreaInfo>();
         private Dictionary<EnemyType, PackedScene> _enemyScenes = new Dictionary<EnemyType, PackedScene>();
-
         private RoundData _currentRound = null;
         private double _timePassedSinceRoundStart = 0.0;
         private CollectibleSpawnManager _collectibleSpawnManager = null;
+
         #endregion Runtime state
 
+
         #region Properties
+
         private CharacterBody3D Player
         {
             get
             {
                 if (TargetProvider.Instance == null)
                 {
-                    GD.PushWarning("TargetProvider.Instance not found. Can't spawn enemies based on player position");
+                    this.LogWarning("TargetProvider.Instance not found. Can't spawn enemies based on player position");
                     return null;
                 }
 
                 return TargetProvider.Instance.Player;
             }
         }
+
         #endregion Properties
 
+
         #region Godot lifecycle
+
         public override void _Ready()
         {
             SetEnemyTypeSceneReference();
@@ -114,12 +127,12 @@ namespace EHE.BoltBusters
 
             if (_collectibleSpawnManager == null)
             {
-                GD.PushError("CollectibleSpawnManager not found as sibling to EnemySpawnManager.");
+                this.LogError("CollectibleSpawnManager not found as sibling to EnemySpawnManager.");
             }
 
             if (!ValidateSetup())
             {
-                GD.PushError("One or more exported references are not assigned OR resource not found.");
+                this.LogError("One or more exported references are not assigned OR resource not found.");
             }
         }
 
@@ -149,7 +162,9 @@ namespace EHE.BoltBusters
 
         #endregion Godot lifecycle
 
+
         #region Public Round API
+
         /// <summary>
         ///  Initializes the
         /// </summary>
@@ -199,7 +214,9 @@ namespace EHE.BoltBusters
 
         #endregion Public Round API
 
+
         #region Validation & Setup
+
         /// <summary>
         /// Assigns the PackedScene associated with each enemy type.
         /// </summary>
@@ -255,65 +272,72 @@ namespace EHE.BoltBusters
 
             if (_meleeScene == null)
             {
-                GD.PushError("Enemy Melee Scene is not assigned.");
+                this.LogError("Enemy Melee Scene is not assigned.");
                 isValid = false;
             }
 
             if (_rangedScene == null)
             {
-                GD.PushError("Enemy Ranged Scene is not assigned.");
+                this.LogError("Enemy Ranged Scene is not assigned.");
                 isValid = false;
             }
 
             if (_shieldedScene == null)
             {
-                GD.PushError("Enemy Shielded Scene is not assigned.");
+                this.LogError("Enemy Shielded Scene is not assigned.");
                 isValid = false;
             }
 
             if (_spawnAreasRoot == null)
             {
-                GD.PushError("SpawnAreasRoot is not assigned.");
+                this.LogError("SpawnAreasRoot is not assigned.");
                 isValid = false;
             }
 
             if (_spawnAreasList.Count == 0)
             {
-                GD.PushError("No spawn areas with markers found.");
+                this.LogError("No spawn areas with markers found.");
                 isValid = false;
             }
 
             return isValid;
         }
+
         #endregion Validation & Setup
+
 
         #region Wave Scheduling
 
         private void OnWaveTimerTimeout(WaveData wave)
         {
+            this.LogDebug("Wave timer timed out.");
+
             if (LevelManager.Active != null && !LevelManager.Active.RoundInProgress)
             {
-                GD.PushWarning("Wave timer ran out while round was set to stop.");
+                this.LogWarning("Wave timer ran out while round was set to stop.");
                 return;
             }
 
             if (_currentRound == null)
             {
-                GD.PushError("Wave timer ran out, but _currentRound is null.");
+                this.LogError("Wave timer ran out, but _currentRound is null.");
                 return;
             }
 
             if (_currentRound.Waves == null || !_currentRound.Waves.Contains(wave))
             {
-                GD.PushError("Wave timer ran out, but Waves is null OR doesn't contain waves.");
+                this.LogError("Wave timer ran out, but Waves is null OR doesn't contain waves.");
                 return;
             }
 
             SpawnWave(wave);
         }
+
         #endregion Wave Scheduling
 
+
         #region Spawning
+
         /// <summary>
         /// Creates a full roster for the wave and begins spawning it.
         /// </summary>
@@ -321,19 +345,18 @@ namespace EHE.BoltBusters
         {
             if (wave == null)
             {
-                GD.PushWarning("SpawnWave called with null WaveData.");
+                this.LogWarning("SpawnWave called with null WaveData.");
                 return;
             }
 
             List<EnemySpawnEntry> fullRoster = BuildEnemyRoster(wave);
             if (fullRoster.Count == 0)
             {
-                GD.PushWarning("Wave roster is empty; nothing to spawn.");
+                this.LogWarning("Wave roster is empty; nothing to spawn.");
                 return;
             }
 
             ShuffleRoster(fullRoster);
-
             SpawnWaveBatch(wave, fullRoster, 0);
         }
 
@@ -351,13 +374,13 @@ namespace EHE.BoltBusters
             CharacterBody3D player = Player;
             if (player == null)
             {
-                GD.PushWarning("Player is null. Spawning wave without distance-based area selection.");
+                this.LogWarning("Player is null. Spawning wave without distance-based area selection.");
             }
 
             List<SpawnAreaInfo> chosenAreas = GetSpawnAreasForBatch(player);
             if (chosenAreas.Count == 0)
             {
-                GD.PushWarning("No spawn areas available.");
+                this.LogWarning("No spawn areas available.");
                 return;
             }
 
@@ -370,7 +393,7 @@ namespace EHE.BoltBusters
                 )
             )
             {
-                GD.PushWarning("Chosen areas have no markers.");
+                this.LogWarning("Chosen areas have no markers.");
                 return;
             }
 
@@ -381,9 +404,7 @@ namespace EHE.BoltBusters
 
             int spawnedCount = SpawnEnemiesAtMarkers(roster, startIndex, chosenMarkers);
 
-            GD.Print(
-                string.Format("[{0}] Spawned batch: {1} enemies (wave total: {2}).", Name, spawnedCount, roster.Count)
-            );
+            this.LogInfo($"Spawned batch: {spawnedCount} enemies (wave total: {roster.Count}).");
 
             ScheduleNextBatchIfNeeded(wave, roster, startIndex, spawnedCount);
         }
@@ -392,31 +413,25 @@ namespace EHE.BoltBusters
         {
             if ((LevelManager.Active != null && !LevelManager.Active.RoundInProgress) || _currentRound == null)
             {
-                GD.PushWarning("Cannot spawn batch: round is not active or _currentRound is null.");
+                this.LogWarning("Cannot spawn batch: round is not active or _currentRound is null.");
                 return false;
             }
 
             if (wave == null)
             {
-                GD.PushWarning("Cannot spawn batch: WaveData is null.");
+                this.LogWarning("Cannot spawn batch: WaveData is null.");
                 return false;
             }
 
             if (roster == null)
             {
-                GD.PushWarning("Cannot spawn batch: roster is null.");
+                this.LogWarning("Cannot spawn batch: roster is null.");
                 return false;
             }
 
             if (startIndex >= roster.Count)
             {
-                GD.PushWarning(
-                    string.Format(
-                        "Cannot spawn batch: startIndex ({0}) is >= roster.Count ({1}).",
-                        startIndex,
-                        roster.Count
-                    )
-                );
+                this.LogWarning($"Cannot spawn batch: startIndex ({startIndex}) is >= roster.Count ({roster.Count}).");
                 return false;
             }
 
@@ -501,7 +516,7 @@ namespace EHE.BoltBusters
                 EnemySpawnEntry entry = roster[rosterIndex];
                 if (entry.Scene == null)
                 {
-                    GD.PushWarning($"{Name}: Null PackedScene in roster at index {rosterIndex}.");
+                    this.LogWarning($"Null PackedScene in roster at index {rosterIndex}.");
                     continue;
                 }
 
@@ -592,7 +607,7 @@ namespace EHE.BoltBusters
 
                 if (!_enemyScenes.TryGetValue(type, out PackedScene scene) || scene == null)
                 {
-                    GD.PushWarning(string.Format("Missing scene mapping for {0}.", type));
+                    this.LogWarning($"Missing scene mapping for {type}.");
                     continue;
                 }
 
@@ -613,9 +628,12 @@ namespace EHE.BoltBusters
                 (roster[i], roster[j]) = (roster[j], roster[i]);
             }
         }
+
         #endregion Spawning
 
+
         #region Area Selection
+
         /// <summary>
         /// Selects spawn areas based on distance to the player.
         /// </summary>
@@ -671,9 +689,12 @@ namespace EHE.BoltBusters
                 (list[i], list[j]) = (list[j], list[i]);
             }
         }
+
         #endregion Area Selection
 
+
         #region Helpers
+
         /// <summary>
         /// Utility random inclusive integer.
         /// </summary>
@@ -689,6 +710,7 @@ namespace EHE.BoltBusters
             int offset = (int)(randomValue % (uint)rangeSize);
             return minInclusive + offset;
         }
+
         #endregion Helpers
     }
 }

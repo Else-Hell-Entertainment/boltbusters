@@ -4,6 +4,7 @@
 
 using System;
 using EHE.BoltBusters.Config;
+using EHE.Common.Godot.Logging;
 using Godot;
 using Godot.Collections;
 
@@ -68,11 +69,11 @@ namespace EHE.BoltBusters.Data
 
         public override void Load(Dictionary data, VideoSettingsData defaults = null)
         {
-            GD.Print("VideoSettingsData] Loading from data dictionary.");
+            this.LogInfo("Loading from data dictionary.");
 
             if (defaults == null)
             {
-                GD.Print("VideoSettingsData] No defaults provided, using new instance as fallback.");
+                this.LogWarning("No defaults provided, using new instance as fallback.");
                 defaults = new VideoSettingsData();
             }
 

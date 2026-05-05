@@ -9,6 +9,7 @@ using EHE.BoltBusters.Config;
 using EHE.BoltBusters.States;
 using EHE.BoltBusters.Systems;
 using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -292,7 +293,7 @@ namespace EHE.BoltBusters
         /// </remarks>
         public void SaveGame()
         {
-            this.PrintDebug("Saving game...");
+            this.LogDebug("Saving game...");
 
             var saveSlot = 0;
             var saveFile = string.Format(SaveConfig.SAVE_FILE_PATH_FORMAT, saveSlot);
@@ -306,11 +307,11 @@ namespace EHE.BoltBusters
 
             if (!_saveManager.WriteToFile(saveFile, saveData))
             {
-                GD.PushError("Failed to save the game.");
+                this.LogError("Failed to save the game.");
                 return;
             }
 
-            this.PrintDebug($"Game saved successfully to '{saveFile}'");
+            this.LogDebug($"Game saved successfully to '{saveFile}'");
         }
 
         /// <summary>
@@ -324,7 +325,7 @@ namespace EHE.BoltBusters
         /// </remarks>
         public void LoadGame()
         {
-            this.PrintDebug("Loading game...");
+            this.LogDebug("Loading game...");
 
             var saveSlot = 0;
             var saveFile = string.Format(SaveConfig.SAVE_FILE_PATH_FORMAT, saveSlot);
@@ -332,13 +333,13 @@ namespace EHE.BoltBusters
 
             if (saveData == null)
             {
-                GD.PushError("Failed to load the game.");
+                this.LogError("Failed to load the game.");
                 return;
             }
 
             if (!saveData.TryGetValue(SaveConfig.KEY_PLAYER_DATA, out var playerData))
             {
-                GD.PushError("Failed to load player data.");
+                this.LogError("Failed to load player data.");
                 return;
             }
 
@@ -348,7 +349,7 @@ namespace EHE.BoltBusters
             CurrentPlayerData ??= (PlayerData)DefaultPlayerData.Duplicate(deep: true);
             CurrentPlayerData.Load((Godot.Collections.Dictionary)playerData);
 
-            this.PrintDebug("Game loaded successfully.");
+            this.LogDebug("Game loaded successfully.");
 
             StartGame();
         }
@@ -362,7 +363,7 @@ namespace EHE.BoltBusters
         public void StartNewGame()
         {
             CurrentPlayerData = (PlayerData)DefaultPlayerData.Duplicate(deep: true);
-            this.PrintDebug("Starting new game...");
+            this.LogDebug("Starting new game...");
             StartGame();
         }
 
@@ -371,7 +372,7 @@ namespace EHE.BoltBusters
         /// </summary>
         public void Quit()
         {
-            this.PrintDebug("Quitting game.");
+            this.LogDebug("Quitting game.");
             GetTree().Quit();
         }
 
@@ -408,7 +409,7 @@ namespace EHE.BoltBusters
         {
             if (!_levelScenes.TryGetValue(levelType, out PackedScene levelResource))
             {
-                GD.PushError($"Cannot switch levels: no level of type '{levelType}' was found.");
+                this.LogError($"Cannot switch levels: no level of type '{levelType}' was found.");
                 return;
             }
 
@@ -416,7 +417,7 @@ namespace EHE.BoltBusters
 
             if (levelScene == null)
             {
-                GD.PushError($"Failed to instantiate level scene from '{levelResource.ResourcePath}'.");
+                this.LogError($"Failed to instantiate level scene from '{levelResource.ResourcePath}'.");
                 return;
             }
 
@@ -526,7 +527,7 @@ namespace EHE.BoltBusters
 
             if (cameraContainerScene == null)
             {
-                GD.PushError($"Could not load camera container scene from '{path}'!");
+                this.LogError($"Could not load camera container scene from '{path}'!");
                 return;
             }
 
@@ -534,12 +535,12 @@ namespace EHE.BoltBusters
 
             if (_cameraContainer == null)
             {
-                GD.PushError($"No valid camera container found at path '{path}'!");
+                this.LogError($"No valid camera container found at path '{path}'!");
                 return;
             }
 
             SceneTree.Root.CallDeferred(Node.MethodName.AddChild, _cameraContainer);
-            this.PrintDebug("Deferred adding camera node to next frame.");
+            this.LogDebug("Deferred adding camera node to next frame.");
         }
 
         /// <summary>
@@ -562,10 +563,10 @@ namespace EHE.BoltBusters
         /// <seealso cref="StartFromShop"/>
         private void StartGame()
         {
-            this.PrintDebug("Starting game...");
+            this.LogDebug("Starting game...");
             StateMachine.TransitionTo(StateType.Round);
 
-            this.PrintDebug($"Start from shop: {CurrentPlayerData.StartFromShop}");
+            this.LogDebug($"Start from shop: {CurrentPlayerData.StartFromShop}");
             if (CurrentPlayerData.StartFromShop)
             {
                 CallDeferred(nameof(StartFromShop));
@@ -624,7 +625,7 @@ namespace EHE.BoltBusters
         /// </summary>
         private void OnLevelInitialized()
         {
-            this.PrintDebug("Level initialized.");
+            this.LogDebug("Level initialized.");
 
             // Deferred call fixes the issue where the UI is not refresher when
             // entering subsequent rounds after the first one.

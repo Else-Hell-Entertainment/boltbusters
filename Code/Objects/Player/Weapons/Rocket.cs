@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 
+using EHE.Common.Godot.Logging;
 using Godot;
 using Godot.Collections;
 
@@ -75,21 +76,21 @@ namespace EHE.BoltBusters
         {
             if (_rocketBody == null)
             {
-                GD.PrintErr("Rocket: No rocket body found.");
+                this.LogError("No rocket body found.");
             }
 
             if (_rocketBodyMeshInstance == null)
             {
-                GD.PrintErr("Rocket: No rocket body mesh instance found.");
+                this.LogError("No rocket body mesh instance found.");
             }
             if (_damageData == null)
             {
-                GD.PrintErr("Rocket: No damage data found.");
+                this.LogError("No damage data found.");
             }
 
             if (_vfxAnimationPlayer == null)
             {
-                GD.PrintErr("Rocket: No animation player found.");
+                this.LogError("No animation player found.");
             }
         }
 

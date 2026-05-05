@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
 
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters.EnemyAI
@@ -80,7 +81,7 @@ namespace EHE.BoltBusters.EnemyAI
                     return p1 + direction * _distanceToPlayer;
 
                 default:
-                    GD.PrintErr("Diamond group attempting to assign position over group size.");
+                    this.LogError("Diamond group attempting to assign position over group size.");
                     return Vector3.Zero;
             }
         }

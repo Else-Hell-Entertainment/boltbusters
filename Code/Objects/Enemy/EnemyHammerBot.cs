@@ -1,4 +1,5 @@
 using System;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -214,7 +215,7 @@ namespace EHE.BoltBusters
 
             if (_agent == null)
             {
-                GD.PushError($"{Name}: Missing NavigationAgent3D child node.");
+                this.LogError($"Missing NavigationAgent3D child node.");
                 SetPhysicsProcess(false);
                 return;
             }

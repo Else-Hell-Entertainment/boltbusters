@@ -125,7 +125,7 @@ namespace EHE.BoltBusters
             }
             else
             {
-                this.LogError("Attempting to remove non-existing salvo size upgrade from rocket launcher " + this);
+                this.LogError("Attempting to remove non-existing salvo size upgrade");
             }
         }
 
@@ -160,7 +160,7 @@ namespace EHE.BoltBusters
                 var rocket = FindNextAvailableRocket();
                 if (rocket == null)
                 {
-                    GD.PushError(
+                    this.LogError(
                         "Rocket launcher did not have available rocket when one was expected. \n"
                             + "Adding new rocket to pool. Please report this error. "
                     );

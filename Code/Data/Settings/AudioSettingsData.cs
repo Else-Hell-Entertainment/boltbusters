@@ -4,6 +4,7 @@
 
 using EHE.BoltBusters.Config;
 using EHE.Common.Godot;
+using EHE.Common.Godot.Logging;
 using Godot;
 using Godot.Collections;
 
@@ -60,11 +61,11 @@ namespace EHE.BoltBusters.Data
 
         public override void Load(Dictionary data, AudioSettingsData defaults = null)
         {
-            GD.Print("[AudioSettingsData] Loading from data dictionary.");
+            this.LogInfo("Loading from data dictionary.");
 
             if (defaults == null)
             {
-                GD.Print("[AudioSettingsData] No defaults provided, using new instance as fallback.");
+                this.LogWarning("No defaults provided, using new instance as fallback.");
                 defaults = new AudioSettingsData();
             }
 
@@ -90,12 +91,11 @@ namespace EHE.BoltBusters.Data
         /// </summary>
         public override void ApplyValues()
         {
-#if DEBUG
-            GD.Print("[AudioSettingsData] Applying audio settings.");
-            GD.Print("[AudioSettingsData] MasterVolume: " + MasterVolume);
-            GD.Print("[AudioSettingsData] MusicVolume: " + MusicVolume);
-            GD.Print("[AudioSettingsData] SfxVolume: " + SfxVolume);
-#endif
+            this.LogDebug("Applying audio settings.");
+            this.LogDebug("MasterVolume: " + MasterVolume);
+            this.LogDebug("MusicVolume: " + MusicVolume);
+            this.LogDebug("SfxVolume: " + SfxVolume);
+
             SetBusVolume(SettingsConfig.Audio.MASTER_BUS_NAME, MasterVolume);
             SetBusVolume(SettingsConfig.Audio.MUSIC_BUS_NAME, MusicVolume);
             SetBusVolume(SettingsConfig.Audio.SFX_BUS_NAME, SfxVolume);
@@ -107,9 +107,7 @@ namespace EHE.BoltBusters.Data
         /// </summary>
         public override void ResetValues()
         {
-#if DEBUG
-            GD.Print("[AudioSettingsData] Resetting audio settings to default values.");
-#endif
+            this.LogDebug("Resetting audio settings to default values.");
             MasterVolume = SettingsConfig.Audio.DEFAULT_MASTER_VOLUME;
             MusicVolume = SettingsConfig.Audio.DEFAULT_MUSIC_VOLUME;
             SfxVolume = SettingsConfig.Audio.DEFAULT_SFX_VOLUME;
@@ -148,18 +146,13 @@ namespace EHE.BoltBusters.Data
 
             if (!validBusIndex)
             {
-                GD.PushError($"Cannot set volume for invalid bus '{busName}'.");
+                this.LogError($"Cannot set volume for invalid bus '{busName}'.");
                 return false;
             }
 
             AudioServer.SetBusVolumeLinear(busIndex, linearVolume);
-#if DEBUG
-            GD.Print($"[AudioSettingsData] Set volume for bus '{busName}' to {linearVolume} (linear).");
-            GD.Print(
-                $"[AudioSettingsData] AudioServer reports volume as {AudioServer.GetBusVolumeLinear(busIndex)} "
-                    + $"(linear)."
-            );
-#endif
+            this.LogDebug($"Set volume for bus '{busName}' to {linearVolume} (linear).");
+            this.LogDebug($"AudioServer reports volume as {AudioServer.GetBusVolumeLinear(busIndex)} " + $"(linear).");
             return true;
         }
 
@@ -187,7 +180,7 @@ namespace EHE.BoltBusters.Data
 
             if (busIndex < 0)
             {
-                GD.PushError($"Cannot fetch volume for invalid bus '{busName}'.");
+                this.LogError($"Cannot fetch volume for invalid bus '{busName}'.");
                 return false;
             }
 
@@ -229,7 +222,7 @@ namespace EHE.BoltBusters.Data
                 return;
             }
 
-            GD.PushError($"Failed to load {key} from data dictionary, using default value ({defaultValue}).");
+            this.LogError($"Failed to load {key} from data dictionary, using default value ({defaultValue}).");
             RefSetVolume(ref fieldRef, defaultValue);
         }
 
@@ -251,7 +244,7 @@ namespace EHE.BoltBusters.Data
                 return;
             }
 
-            GD.PushError(
+            this.LogError(
                 $"Failed to store volume for '{busName}' from the AudioServer, keeping existing value ({fieldRef})."
             );
         }

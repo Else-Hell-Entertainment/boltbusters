@@ -395,13 +395,13 @@ namespace EHE.BoltBusters
         {
             if (!_collectibleCounts.ContainsKey(collectibleType))
             {
-                GD.PushError($"Cannot set collectible count: key '{collectibleType}' not found!");
+                this.LogError($"Cannot set collectible count: key '{collectibleType}' not found!");
                 return false;
             }
 
             if (amount < 0)
             {
-                GD.PushError("Cannot set collectible count: amount cannot be negative!");
+                this.LogError("Cannot set collectible count: amount cannot be negative!");
                 return false;
             }
 
@@ -918,8 +918,7 @@ namespace EHE.BoltBusters
         ///  </para>
         ///  <para>
         ///   If any required data is missing or invalid, this method will use
-        ///   default values and log an error message via
-        ///   <see cref="Godot.GD.PushError(string)"/>.
+        ///   default values and log an error message.
         ///  </para>
         ///  <para>
         ///   This method is part of the <see cref="ISaveable"/> interface

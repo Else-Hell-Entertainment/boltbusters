@@ -133,11 +133,11 @@ namespace EHE.BoltBusters
         /// </returns>
         public bool Initialize(int weaponCount, int secondaryCount)
         {
-            this.PrintDebug($"Initializing {WeaponType} controller");
+            this.LogDebug($"Initializing {WeaponType} controller");
 
             if (weaponCount > MaxWeaponCount)
             {
-                this.LogError($"Cannot initialize controller for {WeaponType}, weapon count exceeded.");
+                this.LogError($"Cannot initialize controller for {WeaponType}: weapon count exceeded.");
                 return false;
             }
 
@@ -199,7 +199,7 @@ namespace EHE.BoltBusters
                 return priceInfo;
             }
 
-            this.LogError($"Cannot get upgrade price for '{upgradeType}': Key not found!");
+            this.LogError($"Cannot get upgrade price for '{upgradeType}': key not found!");
             return null;
         }
 
@@ -212,7 +212,7 @@ namespace EHE.BoltBusters
                 return true;
             }
 
-            this.LogError($"Cannot set upgrade price for '{upgradeType}': Key not found!");
+            this.LogError($"Cannot set upgrade price for '{upgradeType}': key not found!");
             return false;
         }
 

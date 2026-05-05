@@ -3,6 +3,7 @@
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
 using EHE.Common.Godot;
+using EHE.Common.Godot.Logging;
 using Godot;
 using Godot.Collections;
 
@@ -78,7 +79,7 @@ namespace EHE.BoltBusters.Data
                 return obj;
             }
 
-            GD.PrintErr("Cannot serialize object that is not a SettingsResource.");
+            obj.LogError("Cannot serialize object that is not a SettingsResource.");
             return null;
         }
 

@@ -3,6 +3,7 @@
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
 using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters.Ui
@@ -38,12 +39,12 @@ namespace EHE.BoltBusters.Ui
 
             if (_iconRect == null)
             {
-                GD.PushError($"There is no valid node for {nameof(_iconRect)}!");
+                this.LogError($"There is no valid node for {nameof(_iconRect)}!");
             }
 
             if (_valueLabel == null)
             {
-                GD.PushError($"There is no valid node for {nameof(_valueLabel)}!");
+                this.LogError($"There is no valid node for {nameof(_valueLabel)}!");
             }
         }
 

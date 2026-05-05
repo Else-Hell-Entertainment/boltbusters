@@ -4,6 +4,7 @@
 
 using EHE.BoltBusters.Config;
 using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters.Ui
@@ -48,19 +49,19 @@ namespace EHE.BoltBusters.Ui
 
             if (_audioTab == null)
             {
-                GD.PushError($"No suitable node for '{nameof(_audioTab)}' found in the scene!");
+                this.LogError($"No suitable node for '{nameof(_audioTab)}' found in the scene!");
                 isValid = false;
             }
 
             if (_videoTab == null)
             {
-                GD.PushError($"No suitable node for '{nameof(_videoTab)}' found in the scene!");
+                this.LogError($"No suitable node for '{nameof(_videoTab)}' found in the scene!");
                 isValid = false;
             }
 
             if (!isValid)
             {
-                GD.PushError("SettingsMenu encountered errors during Ready and cannot be loaded!");
+                this.LogError("SettingsMenu encountered errors during Ready and cannot be loaded!");
                 return;
             }
 

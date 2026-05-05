@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): TimeForNano tuominen.mika-95@hotmail.com
 
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -42,7 +43,7 @@ namespace EHE.BoltBusters
             }
             else
             {
-                GD.PushWarning($"{Name}: Attempted to set MoveSpeed to a negative value ({newSpeed}).");
+                this.LogWarning($"Attempted to set MoveSpeed to a negative value ({newSpeed}).");
             }
         }
 

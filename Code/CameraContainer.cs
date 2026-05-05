@@ -3,6 +3,7 @@
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
 using EHE.Common.Godot.Extensions;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -34,29 +35,29 @@ namespace EHE.BoltBusters
         {
             if (!SetViewport())
             {
-                GD.PushError(string.Format(NO_SUITABLE_NODE, nameof(Viewport)));
+                this.LogError(string.Format(NO_SUITABLE_NODE, nameof(Viewport)));
                 return;
             }
 
             if (!SetCameraRig())
             {
-                GD.PushError(string.Format(NO_SUITABLE_NODE, nameof(_cameraRig)));
+                this.LogError(string.Format(NO_SUITABLE_NODE, nameof(_cameraRig)));
                 return;
             }
 
             if (!SetCamera())
             {
-                GD.PushError(string.Format(NO_SUITABLE_NODE, nameof(Camera)));
+                this.LogError(string.Format(NO_SUITABLE_NODE, nameof(Camera)));
                 return;
             }
 
             if (!SetListener())
             {
-                GD.PushError(string.Format(NO_SUITABLE_NODE, nameof(_listener)));
+                this.LogError(string.Format(NO_SUITABLE_NODE, nameof(_listener)));
                 return;
             }
 
-            this.PrintDebug("Ready.");
+            this.LogDebug("Ready.");
         }
 
         public override void _Process(double delta)
@@ -79,7 +80,7 @@ namespace EHE.BoltBusters
             // Viewport.Size = (Vector2I)GetViewport().GetWindow().GetVisibleRect().Size;
             Viewport.AudioListenerEnable3D = true;
 
-            this.PrintDebug("Set viewport.");
+            this.LogDebug("Set viewport.");
             return true;
         }
 
@@ -96,21 +97,21 @@ namespace EHE.BoltBusters
             // _cameraRig.HeightAboveGround = 10f;
             // _cameraRig.UseSmoothFollow = false;
 
-            this.PrintDebug("Set camera rig.");
+            this.LogDebug("Set camera rig.");
             return true;
         }
 
         private bool SetCamera()
         {
             Camera = _cameraRig.GetFirstChildOfType<Camera3D>();
-            this.PrintDebug("Set camera.");
+            this.LogDebug("Set camera.");
             return Camera != null;
         }
 
         private bool SetListener()
         {
             _listener = Viewport.GetFirstChildOfType<AudioListener3D>(recurse: true);
-            this.PrintDebug("Set listener.");
+            this.LogDebug("Set listener.");
             return _listener != null;
         }
     }

@@ -3,6 +3,7 @@
 // Author(s): Pekka Heljakka <Pekka.heljakka@tuni.fi>
 
 using EHE.BoltBusters.Config;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -104,7 +105,7 @@ namespace EHE.BoltBusters
                 _camera = GameManager.Instance.Camera;
                 if (!IsInstanceValid(_camera))
                 {
-                    GD.PrintErr("Attempting to Raycast from camera but no camera defined.");
+                    this.LogError("Attempting to Raycast from camera but no camera defined.");
                     return;
                 }
             }

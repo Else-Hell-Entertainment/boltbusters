@@ -2,6 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): TimeForNano tuominen.mika-95@hotmail.com
 
+using EHE.Common.Godot.Logging;
 using Godot;
 using GenSysCollections = System.Collections.Generic;
 
@@ -32,7 +33,7 @@ namespace EHE.BoltBusters
 
             if (_meshes == null || _meshes.Length == 0)
             {
-                GD.PushWarning($"{Name}: ShaderComponent has no meshes assigned. No effects will be visible.");
+                this.LogWarning($"ShaderComponent has no meshes assigned. No effects will be visible.");
                 return;
             }
 
@@ -40,22 +41,20 @@ namespace EHE.BoltBusters
             {
                 if (mesh == null)
                 {
-                    GD.PushWarning($"{Name}: A MeshInstance3D reference in _meshes is null.");
+                    this.LogWarning($"A MeshInstance3D reference in _meshes is null.");
                     continue;
                 }
 
                 if (mesh.MaterialOverlay == null)
                 {
-                    GD.PushWarning(
-                        $"{Name}: MaterialOverlay is NOT assigned on '{mesh.Name}'. Effects shader will not run."
-                    );
+                    this.LogWarning($"MaterialOverlay is NOT assigned on '{mesh.Name}'. Effects shader will not run.");
                     continue;
                 }
 
                 if (mesh.MaterialOverlay is not ShaderMaterial shaderMaterial)
                 {
-                    GD.PushWarning(
-                        $"{Name}: MaterialOverlay on '{mesh.Name}' is NOT a ShaderMaterial. Expected a ShaderMaterial using the effects shader."
+                    this.LogWarning(
+                        $"MaterialOverlay on '{mesh.Name}' is NOT a ShaderMaterial. Expected a ShaderMaterial using the effects shader."
                     );
                     continue;
                 }
@@ -69,8 +68,8 @@ namespace EHE.BoltBusters
 
             if (_materials.Count == 0)
             {
-                GD.PushWarning(
-                    $"{Name}: No valid ShaderMaterials prepared. Check that MaterialOverlay uses the correct effects shader."
+                this.LogWarning(
+                    $"No valid ShaderMaterials prepared. Check that MaterialOverlay uses the correct effects shader."
                 );
             }
         }

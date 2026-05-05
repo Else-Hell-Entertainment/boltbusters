@@ -164,7 +164,7 @@ namespace EHE.BoltBusters
 
                 if (_playerSpawnPosition == null)
                 {
-                    this.LogError("Player Spawn Position node not found in level!");
+                    this.LogError("Player spawn position node not found in level!");
                     hasErrors = true;
                 }
 

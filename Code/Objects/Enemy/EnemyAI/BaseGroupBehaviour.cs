@@ -3,6 +3,7 @@
 // Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
 
 using System.Collections.Generic;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters.EnemyAI
@@ -41,15 +42,12 @@ namespace EHE.BoltBusters.EnemyAI
         {
             if (bot.EnemyType != AcceptedEnemyType || Enemies.Count >= GroupSize || Enemies.Contains(bot))
             {
-#if DEBUG
-                GD.Print("Bot " + bot + " was not accepted to group " + Name);
-#endif
+                this.LogDebug("Bot " + bot + " was not accepted to group " + Name);
                 return false;
             }
+
             Enemies.Add(bot);
-#if DEBUG
-            GD.Print("Bot " + bot + " was accepted to group " + Name);
-#endif
+            this.LogDebug("Bot " + bot + " was accepted to group " + Name);
             return true;
         }
 
@@ -99,9 +97,7 @@ namespace EHE.BoltBusters.EnemyAI
                 if (!IsInstanceValid(Enemies[i]))
                 {
                     Enemies.RemoveAt(i);
-#if DEBUG
-                    GD.Print("Removing invalid enemy entry from " + Name);
-#endif
+                    this.LogDebug("Removing invalid enemy entry from " + Name);
                 }
             }
         }
