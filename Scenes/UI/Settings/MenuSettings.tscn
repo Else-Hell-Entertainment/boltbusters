@@ -20,10 +20,12 @@ _btnBack = NodePath("MarginContainer/VBoxContainer/Button")
 
 [node name="MarginContainer" type="MarginContainer" parent="MenuSettings"]
 layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MenuSettings/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 15
+theme_override_constants/separation = 7
 
 [node name="Label" type="Label" parent="MenuSettings/MarginContainer/VBoxContainer"]
 layout_mode = 2

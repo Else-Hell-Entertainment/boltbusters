@@ -2,9 +2,7 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
-using System;
 using EHE.BoltBusters.States;
-using EHE.BoltBusters.Ui;
 using EHE.Common.Godot.Logging;
 using Godot;
 
@@ -55,6 +53,8 @@ namespace EHE.BoltBusters.Ui
         {
             base._EnterTree();
 
+            MusicManager.Instance.KillAllMusic();
+            MusicManager.Instance.PlayMusic(MusicManager.Instance.EndThemePlayer, MusicManager.Song.EndTheme);
             // _btnCredits.Pressed += OnBtnCreditsPressed;
             _btnMainMenu.Pressed += OnBtnMainMenuPressed;
             _btnQuit.Pressed += OnBtnQuitPressed;
@@ -67,11 +67,11 @@ namespace EHE.BoltBusters.Ui
             _btnQuit.Pressed -= OnBtnQuitPressed;
         }
 
-        private void OnBtnCreditsPressed()
-        {
-            MusicManager.Instance.ButtonSoundPlayer.Play();
-            throw new NotImplementedException("No credits window implemented.");
-        }
+        // private void OnBtnCreditsPressed()
+        // {
+        //     MusicManager.Instance.ButtonSoundPlayer.Play();
+        //     throw new NotImplementedException("No credits window implemented.");
+        // }
 
         private void OnBtnMainMenuPressed()
         {

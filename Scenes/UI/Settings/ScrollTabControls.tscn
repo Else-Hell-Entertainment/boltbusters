@@ -17,11 +17,9 @@ layout_mode = 2
 text = "Aim"
 
 [node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Aim" index="1"]
-disabled = true
 text = "MOUSE"
 
 [node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Aim" index="2"]
-disabled = true
 text = "R STICK"
 
 [node name="Chaingun" parent="MarginContainer/VBoxContainer" index="2" instance=ExtResource("2_gq3ie")]
@@ -31,11 +29,9 @@ layout_mode = 2
 text = "Chaingun"
 
 [node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Chaingun" index="1"]
-disabled = true
 text = "LMB"
 
 [node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Chaingun" index="2"]
-disabled = true
 text = "RB"
 
 [node name="Railgun" parent="MarginContainer/VBoxContainer" index="3" instance=ExtResource("2_gq3ie")]
@@ -45,11 +41,9 @@ layout_mode = 2
 text = "Railgun"
 
 [node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Railgun" index="1"]
-disabled = true
 text = "RMB"
 
 [node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Railgun" index="2"]
-disabled = true
 text = "LB"
 
 [node name="Rocket Launcher" parent="MarginContainer/VBoxContainer" index="4" instance=ExtResource("2_gq3ie")]
@@ -59,11 +53,9 @@ layout_mode = 2
 text = "Rocket Launcher"
 
 [node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Rocket Launcher" index="1"]
-disabled = true
 text = "SPACE"
 
 [node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Rocket Launcher" index="2"]
-disabled = true
 text = "RT"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" index="5"]
@@ -81,11 +73,9 @@ layout_mode = 2
 text = "Up"
 
 [node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Up" index="1"]
-disabled = true
 text = "W"
 
 [node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Up" index="2"]
-disabled = true
 text = "L STICK"
 
 [node name="Left" parent="MarginContainer/VBoxContainer" index="8" instance=ExtResource("2_gq3ie")]
@@ -95,11 +85,9 @@ layout_mode = 2
 text = "Left"
 
 [node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Left" index="1"]
-disabled = true
 text = "A"
 
 [node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Left" index="2"]
-disabled = true
 text = "L STICK"
 
 [node name="Down" parent="MarginContainer/VBoxContainer" index="9" instance=ExtResource("2_gq3ie")]
@@ -109,11 +97,9 @@ layout_mode = 2
 text = "Down"
 
 [node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Down" index="1"]
-disabled = true
 text = "S"
 
 [node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Down" index="2"]
-disabled = true
 text = "L STICK"
 
 [node name="Right" parent="MarginContainer/VBoxContainer" index="10" instance=ExtResource("2_gq3ie")]
@@ -123,11 +109,9 @@ layout_mode = 2
 text = "Right"
 
 [node name="KeyboardControlSelection" parent="MarginContainer/VBoxContainer/Right" index="1"]
-disabled = true
 text = "D"
 
 [node name="ControllerControlSelection" parent="MarginContainer/VBoxContainer/Right" index="2"]
-disabled = true
 text = "L STICK"
 
 [editable path="MarginContainer/VBoxContainer/Aim"]
