@@ -239,10 +239,14 @@ namespace EHE.BoltBusters
             this.LogInfo($"Initializing level {roundIndex}.");
 
             // Load new round data.
-            if (!LoadRoundData(roundIndex))
+            _roundData = LoadRoundData(roundIndex);
+            if (_roundData == null)
             {
+                this.LogError($"Cannot initialize level: could not load round data for round {roundIndex}.");
                 return;
             }
+
+            _enemySpawnManager.Initialize(_roundData);
 
             DespawnLevelObjects();
             ResetRoundTimer();
@@ -301,7 +305,6 @@ namespace EHE.BoltBusters
             EmitSignal(SignalName.RoundStarting);
             await Task.Delay(6500);
             _roundTimer.Start();
-            _enemySpawnManager.StartRound(_roundData);
             GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, RoundInProgress);
 
             UpdateMusicForRound(GameManager.Instance.RoundIndex);
@@ -396,7 +399,7 @@ namespace EHE.BoltBusters
 
         /// <summary>
         ///  Loads the round data from a resource file defined by the round
-        ///  index. Saved to the <seealso cref="_roundData"/> variable.
+        ///  index and returns the result.
         /// </summary>
         ///
         /// <param name="roundIndex">
@@ -405,22 +408,14 @@ namespace EHE.BoltBusters
         /// </param>
         ///
         /// <returns>
-        ///  <c>true</c> if round data was loaded successfully,
-        ///  <c>false</c> otherwise.
+        ///  A <see cref="RoundData"/> object representing the information
+        ///  about the round or <c>null</c> if file could not be loaded.
         /// </returns>
-        private bool LoadRoundData(int roundIndex)
+        private RoundData LoadRoundData(int roundIndex)
         {
             var roundDataPath = string.Format(FilePathConfig.ROUND_DATA_FILE_PATH_FORMAT, roundIndex);
             this.LogInfo($"Loading data from '{roundDataPath}'");
-            _roundData = GD.Load<RoundData>(roundDataPath);
-
-            if (_roundData != null)
-            {
-                return true;
-            }
-
-            this.LogError($"Failed to load round data from path '{roundDataPath}'!");
-            return false;
+            return GD.Load<RoundData>(roundDataPath);
         }
 
         /// <summary>

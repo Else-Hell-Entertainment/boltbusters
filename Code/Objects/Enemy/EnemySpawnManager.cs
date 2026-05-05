@@ -1,8 +1,12 @@
 // EnemySpawnManager.cs
 // (c) 2026 Else Hell Entertainment
 // License: MIT License (see LICENSE in project root for details)
+// Author(s): TimeForNano <tuominen.mika-95@hotmail.com>
+//            Miska Rihu <miska.rihu@tuni.fi>
 
+using System;
 using System.Collections.Generic;
+using EHE.Common.Godot.Logging;
 using Godot;
 
 namespace EHE.BoltBusters
@@ -74,13 +78,13 @@ namespace EHE.BoltBusters
         #endregion Exported fields
 
         #region Runtime state
+
+        private Queue<WaveData> _waveQueue = new Queue<WaveData>();
         private readonly List<SpawnAreaInfo> _spawnAreasList = new List<SpawnAreaInfo>();
         private Dictionary<EnemyType, PackedScene> _enemyScenes = new Dictionary<EnemyType, PackedScene>();
 
         private RoundData _currentRound = null;
-        private double _roundLength = 0.0;
-        private bool _roundActive = false;
-
+        private double _timePassedSinceRoundStart = 0.0;
         private CollectibleSpawnManager _collectibleSpawnManager = null;
         #endregion Runtime state
 
@@ -118,41 +122,81 @@ namespace EHE.BoltBusters
                 GD.PushError("One or more exported references are not assigned OR resource not found.");
             }
         }
+
+        /// <summary>
+        ///  Determines when enemy waves are spawned.
+        /// </summary>
+        /// <param name="delta">Time in seconds since the last frame.</param>
+        public override void _Process(double delta)
+        {
+            if (LevelManager.Active == null || !LevelManager.Active.RoundInProgress)
+            {
+                return;
+            }
+
+            if (_waveQueue.Count == 0)
+            {
+                return;
+            }
+
+            _timePassedSinceRoundStart += delta;
+
+            if (_timePassedSinceRoundStart >= _waveQueue.Peek().SpawnTimeAfterStart)
+            {
+                OnWaveTimerTimeout(_waveQueue.Dequeue());
+            }
+        }
+
         #endregion Godot lifecycle
 
         #region Public Round API
         /// <summary>
-        /// Begins a round using the provided round data and starts scheduling waves.
+        ///  Initializes the
         /// </summary>
-        /// <param name="round">The round that defines wave timings and enemy counts.</param>
-        public void StartRound(RoundData round)
+        /// <param name="roundData"></param>
+        public void Initialize(RoundData roundData)
         {
-            if (round == null)
+            _timePassedSinceRoundStart = 0.0;
+            _waveQueue = new Queue<WaveData>();
+            this.LogDebug("Cleared wave queue.");
+
+            if (roundData == null)
             {
-                GD.PushError("StartRound called with null RoundData.");
+                this.LogError($"Cannot initialize enemy spawner with null {typeof(RoundData)}!");
                 return;
             }
 
-            _currentRound = round;
-            _roundActive = true;
+            _currentRound = roundData;
 
-            StartWaveTimers();
+            if (_currentRound.Waves == null)
+            {
+                this.LogError($"Round {_currentRound.ResourcePath} contains no waves!");
+                return;
+            }
 
-            GD.Print(
-                string.Format("[{0}] Round started. Length={1}s, Waves={2}", Name, round.RoundLength, round.Waves.Count)
-            );
+            // Queue waves.
+            this.LogInfo("Queueing waves.");
+            for (var i = 0; i < _currentRound.Waves.Count; ++i)
+            {
+                var wave = _currentRound.Waves[i];
+
+                if (wave == null)
+                {
+                    this.LogError($"Cannot queue a wave that is null!");
+                    continue;
+                }
+
+                if (wave.SpawnTimeAfterStart > _currentRound.RoundLength)
+                {
+                    this.LogError($"Start time for wave {i} exceeds round length. Excluding this wave.");
+                    continue;
+                }
+
+                _waveQueue.Enqueue(wave);
+                this.LogInfo($"Queued wave {i} to start at {wave.SpawnTimeAfterStart} s after round start.");
+            }
         }
 
-        /// <summary>
-        /// Stops the current round and cancels further wave spawning.
-        /// </summary>
-        public void StopRound()
-        {
-            _roundActive = false;
-            _currentRound = null;
-
-            GD.Print(string.Format("[{0}] Round stopped by RoundManager.", Name));
-        }
         #endregion Public Round API
 
         #region Validation & Setup
@@ -244,73 +288,10 @@ namespace EHE.BoltBusters
         #endregion Validation & Setup
 
         #region Wave Scheduling
-        /// <summary>
-        /// Creates timers for each wave so they spawn at the correct times.
-        /// </summary>
-        private void StartWaveTimers()
-        {
-            if (_currentRound.Waves == null || _currentRound.Waves.Count == 0)
-            {
-                GD.PushError("_currentRound.Waves is null OR _currentRound.Waves.Count is 0.");
-                return;
-            }
-
-            _roundLength = Mathf.Max(0.0, _currentRound.RoundLength);
-
-            for (int i = 0; i < _currentRound.Waves.Count; i++)
-            {
-                WaveData wave = _currentRound.Waves[i];
-                if (wave == null)
-                {
-                    continue;
-                }
-
-                double time = Mathf.Max(0.0, wave.SpawnTimeAfterStart);
-
-                if (time > _roundLength)
-                {
-                    GD.PushWarning(
-                        string.Format(
-                            "Wave {0} spawn time {1:F2}s exceeds round length {2:F2}s. Clamping to round length.",
-                            i,
-                            time,
-                            _roundLength
-                        )
-                    );
-                    time = _roundLength;
-                }
-
-                // Old timer system
-                // SceneTreeTimer timer = GetTree().CreateTimer((float)time, false);
-                // timer.Timeout += () => OnWaveTimerTimeout(wave);
-
-                // New timer system
-                if (time > 0)
-                {
-                    Timer timer = new Timer();
-                    timer.OneShot = true;
-                    timer.WaitTime = time;
-
-                    AddChild(timer);
-
-                    timer.Timeout += () =>
-                    {
-                        OnWaveTimerTimeout(wave);
-                        timer.QueueFree();
-                    };
-
-                    timer.Start();
-                }
-                else if (time == 0)
-                {
-                    OnWaveTimerTimeout(wave);
-                }
-            }
-        }
 
         private void OnWaveTimerTimeout(WaveData wave)
         {
-            if (!_roundActive)
+            if (LevelManager.Active != null && !LevelManager.Active.RoundInProgress)
             {
                 GD.PushWarning("Wave timer ran out while round was set to stop.");
                 return;
@@ -409,7 +390,7 @@ namespace EHE.BoltBusters
 
         private bool CanSpawnBatch(WaveData wave, List<EnemySpawnEntry> roster, int startIndex)
         {
-            if (!_roundActive || _currentRound == null)
+            if ((LevelManager.Active != null && !LevelManager.Active.RoundInProgress) || _currentRound == null)
             {
                 GD.PushWarning("Cannot spawn batch: round is not active or _currentRound is null.");
                 return false;
@@ -551,7 +532,7 @@ namespace EHE.BoltBusters
         )
         {
             int nextStartIndex = startIndex + spawnedCount;
-            if (!_roundActive)
+            if (LevelManager.Active != null && !LevelManager.Active.RoundInProgress)
             {
                 return;
             }
@@ -561,12 +542,6 @@ namespace EHE.BoltBusters
                 return;
             }
 
-            // Old timer system
-            // SceneTreeTimer timer = GetTree().CreateTimer(WAVE_SPAWN_OVERFLOW_DELAY, false);
-            // int capturedNextStartIndex = nextStartIndex;
-            // timer.Timeout += () => SpawnWaveBatch(wave, roster, capturedNextStartIndex);
-
-            // New timer system
             if (WAVE_SPAWN_OVERFLOW_DELAY > 0)
             {
                 Timer timer = new Timer();
@@ -579,8 +554,19 @@ namespace EHE.BoltBusters
 
                 timer.Timeout += () =>
                 {
-                    SpawnWaveBatch(wave, roster, capturedNextStartIndex);
-                    timer.QueueFree();
+                    try
+                    {
+                        SpawnWaveBatch(wave, roster, capturedNextStartIndex);
+                        timer.QueueFree();
+                    }
+                    catch (ObjectDisposedException e)
+                    {
+                        this.LogWarning($"Spawn overflow timer expired after being disposed: {e}");
+                    }
+                    catch (Exception e)
+                    {
+                        this.LogWarning($"An unexpected exception was raised when spawn overflow timer expired: {e}");
+                    }
                 };
 
                 timer.Start();
