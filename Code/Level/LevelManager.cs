@@ -246,6 +246,8 @@ namespace EHE.BoltBusters
                 return;
             }
 
+            _enemySpawnManager.Initialize(_roundData);
+
             DespawnLevelObjects();
             ResetRoundTimer();
 
@@ -303,7 +305,6 @@ namespace EHE.BoltBusters
             EmitSignal(SignalName.RoundStarting);
             await Task.Delay(6500);
             _roundTimer.Start();
-            _enemySpawnManager.StartRound(_roundData);
             GameManager.Instance.EmitSignal(GameManager.SignalName.RoundStateChanged, RoundInProgress);
 
             UpdateMusicForRound(GameManager.Instance.RoundIndex);
