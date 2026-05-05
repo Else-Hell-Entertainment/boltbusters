@@ -1,8 +1,8 @@
-[gd_scene load_steps=0 format=3 uid="uid://4aokyi2vqwpn"]
+[gd_scene format=3 uid="uid://4aokyi2vqwpn"]
 
 [node name="ControlDisplay" type="GridContainer"]
-offset_right = 48.0
-offset_bottom = 31.0
+offset_right = 308.0
+offset_bottom = 25.0
 size_flags_horizontal = 3
 columns = 3
 
@@ -15,10 +15,18 @@ size_flags_horizontal = 3
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
+theme_override_colors/font_disabled_color = Color(1, 0.8745098, 0.46666667, 1)
+theme_override_font_sizes/font_size = 14
+disabled = true
 text = "Q"
 
 [node name="ControllerControlSelection" type="Button" parent="."]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
+theme_override_colors/font_disabled_color = Color(1, 0.8745098, 0.46666667, 1)
+theme_override_font_sizes/font_size = 14
+disabled = true
 text = "X"
