@@ -55,6 +55,8 @@ namespace EHE.BoltBusters.Ui
         {
             base._EnterTree();
 
+            MusicManager.Instance.KillAllMusic();
+            MusicManager.Instance.PlayMusic(MusicManager.Instance.EndThemePlayer, MusicManager.Song.EndTheme);
             _btnCredits.Pressed += OnBtnCreditsPressed;
             _btnMainMenu.Pressed += OnBtnMainMenuPressed;
             _btnQuit.Pressed += OnBtnQuitPressed;
