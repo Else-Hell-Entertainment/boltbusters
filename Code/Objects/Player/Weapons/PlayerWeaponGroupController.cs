@@ -154,6 +154,7 @@ namespace EHE.BoltBusters
                 AddWeapon();
             }
 
+            SecondaryUpgradeCount = 0; // Makes sure that the counter is reset before initialization.
             InitializeSecondaryUpgrades(secondaryCount);
 
             UpdatePlayerData();
