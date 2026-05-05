@@ -27,11 +27,11 @@ namespace EHE.BoltBusters.Ui
 
             var isValid = true;
 
-            if (_btnCredits == null)
-            {
-                this.LogErrorNoStackTrace($"{nameof(_btnCredits)} not assigned!");
-                isValid = false;
-            }
+            // if (_btnCredits == null)
+            // {
+            //     this.LogErrorNoStackTrace($"{nameof(_btnCredits)} not assigned!");
+            //     isValid = false;
+            // }
 
             if (_btnMainMenu == null)
             {
@@ -57,14 +57,14 @@ namespace EHE.BoltBusters.Ui
 
             MusicManager.Instance.KillAllMusic();
             MusicManager.Instance.PlayMusic(MusicManager.Instance.EndThemePlayer, MusicManager.Song.EndTheme);
-            _btnCredits.Pressed += OnBtnCreditsPressed;
+            // _btnCredits.Pressed += OnBtnCreditsPressed;
             _btnMainMenu.Pressed += OnBtnMainMenuPressed;
             _btnQuit.Pressed += OnBtnQuitPressed;
         }
 
         public override void _ExitTree()
         {
-            _btnCredits.Pressed -= OnBtnCreditsPressed;
+            // _btnCredits.Pressed -= OnBtnCreditsPressed;
             _btnMainMenu.Pressed -= OnBtnMainMenuPressed;
             _btnQuit.Pressed -= OnBtnQuitPressed;
         }
