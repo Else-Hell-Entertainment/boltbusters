@@ -3,14 +3,12 @@
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 //            Pekka Heljakka <pekka.heljakka@tuni.fi>
 
-using System;
-using System.Collections.Generic;
 using EHE.BoltBusters.Config;
 using EHE.BoltBusters.States;
 using EHE.BoltBusters.Systems;
-using EHE.Common.Godot.Extensions;
 using EHE.Common.Godot.Logging;
 using Godot;
+using Godot.Collections;
 
 namespace EHE.BoltBusters
 {
@@ -129,7 +127,7 @@ namespace EHE.BoltBusters
         private LevelManager _backgroundLevel;
         private LevelManager _gameplayLevel;
         private SaveManager _saveManager;
-        private Dictionary<LevelType, PackedScene> _levelScenes;
+        private System.Collections.Generic.Dictionary<LevelType, PackedScene> _levelScenes;
 
         // Camera-related stuff.
         private CameraContainer _cameraContainer;
@@ -298,7 +296,7 @@ namespace EHE.BoltBusters
             var saveSlot = 0;
             var saveFile = string.Format(SaveConfig.SAVE_FILE_PATH_FORMAT, saveSlot);
 
-            var saveData = new Godot.Collections.Dictionary();
+            var saveData = new Dictionary();
             var playerData = CurrentPlayerData.Save();
             //var levelData = LevelManager.Active.Save();
 
@@ -347,7 +345,7 @@ namespace EHE.BoltBusters
             // signal links from other systems break since the reference to the
             // original object is "lost".
             CurrentPlayerData ??= (PlayerData)DefaultPlayerData.Duplicate(deep: true);
-            CurrentPlayerData.Load((Godot.Collections.Dictionary)playerData);
+            CurrentPlayerData.Load((Dictionary)playerData);
 
             this.LogDebug("Game loaded successfully.");
 
@@ -482,7 +480,7 @@ namespace EHE.BoltBusters
         {
             _backgroundLevelScene = GD.Load<PackedScene>(SceneFileConfig.BACKGROUND_LEVEL_PATH);
             _gameplayLevelScene = GD.Load<PackedScene>(SceneFileConfig.GAMEPLAY_LEVEL_PATH);
-            _levelScenes = new Dictionary<LevelType, PackedScene>
+            _levelScenes = new System.Collections.Generic.Dictionary<LevelType, PackedScene>
             {
                 { LevelType.Background, _backgroundLevelScene },
                 { LevelType.Gameplay, _gameplayLevelScene },

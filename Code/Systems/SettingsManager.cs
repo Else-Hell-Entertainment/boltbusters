@@ -158,7 +158,7 @@ namespace EHE.BoltBusters
         /// </summary>
         public void ResetSettings()
         {
-            CurrentSettingsData = (SettingsData)DefaultSettingsData.Duplicate(deep: true);
+            CurrentSettingsData = (SettingsData)DefaultSettingsData.Duplicate(true);
         }
 
         /// <summary>

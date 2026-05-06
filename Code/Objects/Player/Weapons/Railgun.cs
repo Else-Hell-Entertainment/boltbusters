@@ -3,7 +3,6 @@
 // Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
 
 using Godot;
-using Godot.Collections;
 
 namespace EHE.BoltBusters
 {

@@ -2,8 +2,6 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): TimeForNano <tuominen.mika-95@hotmail.com>
 
-using Godot;
-
 namespace EHE.BoltBusters
 {
     public abstract partial class ShaderComponent

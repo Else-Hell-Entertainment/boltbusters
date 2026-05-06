@@ -2,7 +2,6 @@
 // License: MIT License (see LICENSE in project root for details)
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
-using System;
 using EHE.Common.Godot;
 using EHE.Common.Godot.Logging;
 using Godot;

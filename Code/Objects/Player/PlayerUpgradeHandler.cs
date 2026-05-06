@@ -3,7 +3,6 @@
 // Author(s): Miska Rihu <miska.rihu@tuni.fi>
 
 using EHE.Common.Godot.Logging;
-using Godot;
 using GDCollections = Godot.Collections;
 using GenSysCollections = System.Collections.Generic;
 

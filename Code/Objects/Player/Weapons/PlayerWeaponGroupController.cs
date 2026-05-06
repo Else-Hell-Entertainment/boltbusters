@@ -4,7 +4,6 @@
 //            Miska Rihu <miska.rihu@tuni.fi>
 
 using System.Collections.Generic;
-using EHE.Common.Godot.Extensions;
 using EHE.Common.Godot.Logging;
 using Godot;
 

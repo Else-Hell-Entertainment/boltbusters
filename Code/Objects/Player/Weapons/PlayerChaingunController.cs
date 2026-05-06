@@ -3,7 +3,6 @@
 // Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
 //            Miska Rihu <miska.rihu@tuni.fi>
 
-using EHE.Common.Godot.Extensions;
 using EHE.Common.Godot.Logging;
 using Godot;
 

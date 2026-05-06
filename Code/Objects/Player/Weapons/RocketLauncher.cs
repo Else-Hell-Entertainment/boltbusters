@@ -3,7 +3,6 @@
 // Author(s): Pekka Heljakka <pekka.heljakka@tuni.fi>
 
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using EHE.Common.Godot.Logging;
 using Godot;
 
