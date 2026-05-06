@@ -1,3 +1,9 @@
+// (c) 2026 Else Hell Entertainment
+// License: MIT License (see LICENSE in project root for details)
+// Author(s): Miska Rihu <miska.rihu@tuni.fi>
+//            Pekka Heljakka <pekka.heljakka@tuni.fi>
+//            TimeForNanu <tuominen.mika-95@hotmail.com>
+
 using Godot;
 
 namespace EHE.BoltBusters
