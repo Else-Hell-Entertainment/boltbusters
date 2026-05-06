@@ -7,13 +7,13 @@ This game was produced as a project work for Tampere University of Applied Scien
 Game was made in Godot 4.5.1
 
 ## Description
-Bolt Busters is a 3D twin stick shooter where the player takes the role of a robot trapped in a gladiator arena, fighting against increasingly difficult waves or robotic enemies during the course of 20 rounds until they either survive of end up as scrap metal. 
+Bolt Busters is a 3D twin stick shooter where the player takes the role of a robot trapped in a gladiator arena, fighting against increasingly difficult waves of robotic enemies during the course of 20 rounds until they either survive or end up as scrap metal. 
 
 ## Notable Features
-- Three upgradeable weapons
+- 3 upgradeable weapons
 - 3 types of enemies
 - 20 rounds of intense combat
-- 4 original music tracks
+- 6 original music tracks
 
 Player weapons:
 - Chaingun: Simple, fast firing weapon which can overheat if fired too long
